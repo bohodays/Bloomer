@@ -3,7 +3,6 @@ package com.exmaple.flory.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "member")
@@ -19,10 +18,10 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "nickname", length = 50)
+    @Column(name = "nickname", length = 20, nullable = false)
     private String nickname;
 
-    @Column(name = "password", length = 100)
+    @Column(name = "password", length = 50, nullable = false)
     private String password;
 
     @Column(name = "img")

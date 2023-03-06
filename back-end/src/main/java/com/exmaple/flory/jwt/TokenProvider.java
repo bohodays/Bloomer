@@ -1,6 +1,6 @@
 package com.exmaple.flory.jwt;
 
-import com.exmaple.flory.dto.TokenDto;
+import com.exmaple.flory.dto.member.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

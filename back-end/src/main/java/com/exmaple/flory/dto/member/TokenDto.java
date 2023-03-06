@@ -1,4 +1,4 @@
-package com.exmaple.flory.dto;
+package com.exmaple.flory.dto.member;
 
 import lombok.*;
 
