@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class Member extends BaseTime {
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -21,7 +21,7 @@ public class Member {
     @Column(name = "nickname", length = 20, nullable = false)
     private String nickname;
 
-    @Column(name = "password", length = 50, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "img")

@@ -3,9 +3,11 @@ package com.exmaple.flory.service;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -19,6 +21,7 @@ public class MemberService {
     }
 
     public MemberResponseDto findMemberInfoByEmail(String email) {
+        log.info(memberRepository.findByEmail((email)).toString());
         return memberRepository.findByEmail(email)
                 .map(MemberResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));

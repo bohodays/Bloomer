@@ -3,12 +3,14 @@ package com.exmaple.flory.controller;
 import com.exmaple.flory.dto.member.*;
 import com.exmaple.flory.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto memberRequestDto) {
+        log.info("회원가입 요청");
         return ResponseEntity.ok(authService.signup(memberRequestDto));
     }
 

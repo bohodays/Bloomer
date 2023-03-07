@@ -18,7 +18,7 @@ public class LoginDto {
     private String email;
 
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 2, max = 50)
     private String password;
 
     public UsernamePasswordAuthenticationToken toAuthentication() {

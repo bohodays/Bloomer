@@ -21,14 +21,14 @@ public class MemberRequestDto {
     private String nickname;
 
     @NotNull
-    @Size(min = 5, max = 50)
+    @Size(min = 2, max = 50)
     private String password;
 
     @NotNull
     private String img;
 
     @NotNull
-    @Size(min = 10, max = 100)
+    @Size(min = 5, max = 100)
     private String email;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
