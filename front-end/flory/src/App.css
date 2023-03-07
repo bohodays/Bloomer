@@ -1,6 +1,16 @@
 .app {
+  position: relative;
   margin: auto;
-  width: 480px;
+  max-width: 480px;
   height: 100%;
-  background-color: yellow;
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: #e1e1e1;
+}
+
+@media (max-width: 480px) {
+  .app {
+    max-width: none;
+    width: 100%;
+  }
 }

@@ -1,7 +1,8 @@
 import React from "react";
+import { SMain } from "./styles";
 
 const Main = () => {
-  return <div>Main</div>;
+  return <SMain></SMain>;
 };
 
 export default Main;

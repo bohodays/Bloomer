@@ -1,22 +1,31 @@
-import React, { FC } from "react";
+import React from "react";
 import { SButton } from "./styles";
 
-export interface ButtonProps {
-  content?: string;
-  backgroundColor?: string;
-  width?: string;
-  height?: string;
-  borderRadius?: string;
+export interface IProps {
+  type?: string;
+  addStyle?: {
+    fontSize?: string;
+    width?: string;
+    height?: string;
+    backgroundColor?: string;
+    background1?: string;
+    background2?: string;
+    color?: string;
+    borderRadius?: string;
+    boxShadow?: string;
+  };
+  contents: string;
+  onClick?: () => void;
 }
 
-const Button: FC<ButtonProps> = ({
-  content,
-  backgroundColor,
-  width,
-  height,
-  borderRadius,
-}) => {
-  return <SButton backgroundColor={backgroundColor}>{content}</SButton>;
+const Button = (props: IProps) => {
+  const { type, addStyle = {}, contents, onClick } = props;
+
+  return (
+    <SButton type={type} addStyle={addStyle} onClick={onClick}>
+      {contents}
+    </SButton>
+  );
 };
 
 export default Button;

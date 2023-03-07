@@ -1,10 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-interface props {
-  backgroundColor: string;
-}
-
-export const SButton = styled.button<props>`
-  background-color: ${(props) => props.backgroundColor};
-  height: 3rem;
+export const SButton = styled.button<any>`
+  ${(props) => {
+    return css`
+      font-size: ${props.addStyle.fontSize};
+      width: ${props.addStyle.width};
+      height: ${props.addStyle.height};
+      background-color: ${props.addStyle.backgroundColor};
+      background: ${props.addStyle.background1};
+      background: ${props.addStyle.background2};
+      color: ${props.addStyle.color};
+      border-radius: ${props.addStyle.borderRadius};
+      box-shadow: ${props.addStyle.boxShadow};
+    `;
+  }}
 `;
