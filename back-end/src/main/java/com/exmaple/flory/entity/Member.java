@@ -30,6 +30,9 @@ public class Member extends BaseTime {
     @Column(name="email", nullable = false)
     private String email;
 
+    @Column(name="refresh_token")
+    private String refreshToken;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
