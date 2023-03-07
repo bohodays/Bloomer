@@ -2,6 +2,7 @@ package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.repository.MemberRepository;
+import com.exmaple.flory.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public MemberResponseDto findMemberInfoByUserId(Long userId) {
         return memberRepository.findById(userId)
@@ -21,9 +23,13 @@ public class MemberService {
     }
 
     public MemberResponseDto findMemberInfoByEmail(String email) {
-        log.info(memberRepository.findByEmail((email)).toString());
         return memberRepository.findByEmail(email)
                 .map(MemberResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+    }
+
+    @Transactional
+    public void logout(String key){
+        refreshTokenRepository.deleteByKey(key);
     }
 }
