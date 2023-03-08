@@ -36,7 +36,7 @@ public class MemberController {
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
-        memberService.logout(SecurityUtil.getCurrentMemberId().toString()); // SecurityContext에 저장된 id값을 가져온다.
+        memberService.logout(SecurityUtil.getCurrentMemberId()); // SecurityContext에 저장된 id값을 가져온다.
         return new ResponseEntity<>("로그아웃 성공", HttpStatus.OK);
     }
 }

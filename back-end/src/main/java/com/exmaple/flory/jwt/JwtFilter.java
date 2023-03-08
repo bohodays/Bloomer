@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     private final TokenProvider tokenProvider;
 
-    // 토큰의 인증정보를 SecurityContext에 저장하는 역할
+    // 토큰의 인증 정보를 SecurityContext에 저장하는 역할
     // 실제 필터링 로직은 doFilterInternal 에 들어감
     // JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할 수행
     @Override

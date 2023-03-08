@@ -16,7 +16,7 @@ public class Member extends BaseTime {
     @Id
     @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private int userId;
 
     @Column(name = "nickname", length = 20, nullable = false)
     private String nickname;
@@ -30,7 +30,15 @@ public class Member extends BaseTime {
     @Column(name="email", nullable = false)
     private String email;
 
+    @Column(name="refresh_token")
+    private String refreshToken;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    public Member updateToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
 
 }
