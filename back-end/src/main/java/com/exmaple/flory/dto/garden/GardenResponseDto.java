@@ -1,7 +1,5 @@
 package com.exmaple.flory.dto.garden;
 
-import com.exmaple.flory.entity.Member;
-import com.exmaple.flory.entity.Music;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,8 +12,9 @@ import java.time.LocalDateTime;
 public class GardenResponseDto {
 
     private Long id;
-    private String path;
-    private Member member;
-    private Music music;
+    private String gardenPath;
+    private String nickname;
+    private String artist;
+    private String title; //노래 제목
     private LocalDateTime deadline;
 }

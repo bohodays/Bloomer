@@ -38,10 +38,10 @@ public class Garden extends BaseTime {
     public GardenResponseDto toResponseDto() {
         return GardenResponseDto
                 .builder()
-                .path(path)
+                .id(id)
+                .gardenPath(path)
                 .deadline(deadLine)
-                .music(music)
-                .member(member)
+                .nickname(member.getNickname())
                 .build();
     }
 }

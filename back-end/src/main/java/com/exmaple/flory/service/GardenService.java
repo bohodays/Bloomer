@@ -9,12 +9,12 @@ import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.GardenRepository;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class GardenService {
@@ -33,18 +33,35 @@ public class GardenService {
 
         Long memberId = gardenRequestDto.getUserId();
 
-        Optional<Member> member = memberRepository.findById(memberId);
+        Optional<Member> result = memberRepository.findById(memberId);
 
         //계정이 없다면
-        if(!member.isPresent()) throw new CustomException(ErrorCode.NO_USER);
+        if(!result.isPresent()) {
+            throw new CustomException(ErrorCode.NO_USER);
+        }
 
         LocalDateTime today = LocalDateTime.now();
 
         Garden garden = new Garden();
-        garden.setMember(member.get());
+        garden.setMember(result.get());
         //1개월뒤 마감날짜
         garden.setDeadLine(today.plusMonths(1));
+        Garden res = gardenRepository.save(garden);
 
-        return gardenRepository.save(garden).toResponseDto();
+        return res.toResponseDto();
+    }
+
+    public GardenResponseDto update(GardenRequestDto gardenRequestDto) {
+
+        log.info(" user id  {}",gardenRequestDto.getUserId());
+
+        return gardenRepository.findById(gardenRequestDto.getGardenId())
+                .map(g -> {
+                    g.setPath(gardenRequestDto.getImgSrc());
+                    return g;
+                })
+                .map(gardenRepository::save)
+                .map(Garden::toResponseDto)
+                .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }
 }

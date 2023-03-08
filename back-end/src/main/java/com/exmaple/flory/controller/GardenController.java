@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -39,6 +40,17 @@ public class GardenController {
             return new ResponseEntity<>(new SuccessResponse(gardenService.insert(gardenRequestDto)), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateGarden(@RequestBody GardenRequestDto gardenRequestDto) {
+        log.info("gardenController - update 호출");
+
+        try {
+            return new ResponseEntity<>(new SuccessResponse(gardenService.update(gardenRequestDto)),HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
 }
