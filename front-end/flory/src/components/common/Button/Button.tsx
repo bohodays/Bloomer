@@ -4,6 +4,7 @@ import { SButton } from "./styles";
 export interface IProps {
   type?: string;
   addStyle?: {
+    margin?: string;
     fontSize?: string;
     width?: string;
     height?: string;

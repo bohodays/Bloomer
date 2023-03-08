@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 export const SButton = styled.button<any>`
   ${(props) => {
     return css`
+      margin: ${props.addStyle.margin};
       font-size: ${props.addStyle.fontSize};
       width: ${props.addStyle.width};
       height: ${props.addStyle.height};

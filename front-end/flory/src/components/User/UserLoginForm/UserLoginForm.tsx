@@ -39,19 +39,20 @@ const UserLoginForm = () => {
             placeholder="비밀번호"
           />
         </div>
-        <p>비밀번호 찾기</p>
+        <p>아직 계정이 없으신가요?</p>
         <Button
           type="submit"
           addStyle={{
-            fontSize: "1.1rem",
-            width: "100%",
-            height: "4rem",
+            margin: "auto",
+            fontSize: "1rem",
+            width: "50%",
+            height: "3rem",
             color: "#ffffff",
-            background1: "rgb(132,120,185)",
+            background1: "rgb(101,182,255)",
             background2:
-              "linear-gradient(140deg, rgba(132,120,185,0.9523) 0%, rgba(11,8,27,1) 100%)",
-            borderRadius: "16px",
-            boxShadow: "5px 5px 5px #3737372d",
+              "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
+            borderRadius: "24px",
+            boxShadow: "5px 5px 5px 0px rgb(158 158 158)",
           }}
           contents="로그인"
         />
