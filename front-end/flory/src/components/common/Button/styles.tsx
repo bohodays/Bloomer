@@ -3,6 +3,10 @@ import styled, { css } from "styled-components";
 export const SButton = styled.button<any>`
   ${(props) => {
     return css`
+      position: ${props.addStyle.position};
+      top: ${props.addStyle.top};
+      right: ${props.addStyle.right};
+      padding: ${props.addStyle.padding};
       margin: ${props.addStyle.margin};
       font-size: ${props.addStyle.fontSize};
       width: ${props.addStyle.width};

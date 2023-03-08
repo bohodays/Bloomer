@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../components/common/Button/Button";
 import UserLoginForm from "../../components/User/UserLoginForm/UserLoginForm";
 import { SButton, SMain } from "./styles";
 import headLine from "../../assets/imgs/head_line.png";
