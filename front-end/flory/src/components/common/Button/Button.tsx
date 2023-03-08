@@ -4,6 +4,10 @@ import { SButton } from "./styles";
 export interface IProps {
   type?: string;
   addStyle?: {
+    position?: string;
+    top?: string;
+    right?: string;
+    padding?: string;
     margin?: string;
     fontSize?: string;
     width?: string;
@@ -15,7 +19,7 @@ export interface IProps {
     borderRadius?: string;
     boxShadow?: string;
   };
-  contents: string;
+  contents?: string;
   onClick?: () => void;
 }
 
