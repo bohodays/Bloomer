@@ -7,12 +7,19 @@ import kakaoLogoImg from "../../assets/imgs/login/kakao_logo.svg";
 import googleLogoImg from "../../assets/imgs/login/google_logo.svg";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ReactComponent as Wave } from "../../assets/imgs/wave.svg";
 
 const Login = () => {
   const onClick = () => {};
 
   return (
     <SMain>
+      <div className="header">
+        <div className="inner-header flex"></div>
+        <div>
+          <Wave />
+        </div>
+      </div>
       {/* 뒤로 가기 아이콘 */}
       <FontAwesomeIcon
         className="back-icon"
@@ -20,23 +27,10 @@ const Login = () => {
         icon={faArrowLeft}
       />
       <div className="login__title">
-        <h1>로그인</h1>
+        <h1>Hello!</h1>
       </div>
-      {/* Login Form 컴포넌트 */}
       <UserLoginForm />
-      <Button
-        addStyle={{
-          fontSize: "1.1rem",
-          width: "80%",
-          height: "4rem",
-          backgroundColor: "#F2F2FC",
-          color: "#B0B0B0",
-          borderRadius: "16px",
-          boxShadow: "5px 5px 5px #3737372d",
-        }}
-        contents={"새로운 계정 만들기"}
-        onClick={onClick}
-      />
+      {/* Login Form 컴포넌트 */}
       <div className="sns-title-wrapper">
         <img src={headLine} alt="hr" />
         <span>SNS로 시작하기</span>
