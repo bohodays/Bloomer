@@ -1,31 +1,26 @@
 package com.exmaple.flory.entity;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_group")
+@Table(name = "user_team")
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGroup {
+public class UserTeam {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userGroupId;
+    private Long userTeamId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name="id")
-    private Group gid;
+    @JoinColumn(name="tid") //외래키
+    private Team tid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="uid")
     private Member uid;
 }

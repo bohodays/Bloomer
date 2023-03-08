@@ -63,7 +63,7 @@ public class AuthService {
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        Member member = memberRepository.findById(Integer.parseInt(authentication.getName())).get();
+        Member member = memberRepository.findById(Long.parseLong(authentication.getName())).get();
 //                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
         if(member.getRefreshToken() == null){

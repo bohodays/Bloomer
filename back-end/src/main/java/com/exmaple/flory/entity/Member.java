@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "member")
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +15,7 @@ public class Member extends BaseTime {
     @Id
     @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Long userId;
 
     @Column(name = "nickname", length = 20, nullable = false)
     private String nickname;
