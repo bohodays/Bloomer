@@ -64,4 +64,10 @@ public class GardenService {
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }
+
+    public void delete(Long garden_id) {
+
+        gardenRepository.findById(garden_id).orElseThrow(() -> new CustomException(ErrorCode.INVALID_GARDEN));
+        gardenRepository.deleteById(garden_id);
+    }
 }

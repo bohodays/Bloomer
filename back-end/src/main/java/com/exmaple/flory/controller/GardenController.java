@@ -53,4 +53,17 @@ public class GardenController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{garden_id}")
+    public ResponseEntity<?> deleteGarden(@PathVariable Long garden_id) {
+
+        log.info("gardenController - delete 호출");
+
+        try {
+            gardenService.delete(garden_id);
+            return new ResponseEntity<>(new SuccessResponse("삭제성공"),HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
+        }
+    }
 }
