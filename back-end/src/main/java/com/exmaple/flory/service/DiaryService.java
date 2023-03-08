@@ -1,8 +1,13 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
+import com.exmaple.flory.entity.Comment;
+import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.repository.CommentRepository;
 import com.exmaple.flory.repository.DiaryRepository;
 import com.exmaple.flory.entity.Diary;
+import com.exmaple.flory.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +20,45 @@ import java.util.Optional;
 @Slf4j
 public class DiaryService {
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     DiaryRepository diaryRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    CommentService commentService;
 
     public DiaryDto insertDiary(DiaryDto diaryDto){
         return diaryRepository.save(diaryDto.toEntity()).toDto();
     }
 
-    public DiaryDto getDiary(Long diary_id) throws Exception {
-        Optional<Diary> diary = diaryRepository.findById(diary_id);
+    public DiaryDto getDiary(Long diaryId) throws Exception {
+        Optional<Diary> diary = diaryRepository.findById(diaryId);
 
         if(diary.isEmpty()){
             throw new Exception();
         }
+        List<CommentDto> commentDtoList = new ArrayList<>();
+        List<Comment> commentList = commentRepository.findByDid(diaryId);
 
-        return diary.get().toDto();
+        for(int i=0;i<commentList.size();i++){
+            CommentDto commentDto = commentList.get(i).toDto();
+            Optional<Member> member = memberRepository.findById(commentDto.getUid());
+
+            if(member.isEmpty()) throw new Exception();
+
+            commentDto.setMember(member.get());
+            commentDtoList.add(commentDto);
+        }
+
+        DiaryDto result = diary.get().toDto();
+
+        result.setCommentList(commentDtoList);
+
+        return result;
     }
 
     public int deleteDiary(Long diary_id){
@@ -69,7 +99,12 @@ public class DiaryService {
 //        return diaryDtoList;
 //    }
 
-    public DiaryDto getDiaryByLocation(String x, String y, String z){
-        return diaryRepository.findByXAndYAndZ(x,y,z).toDto();
+    public DiaryDto getDiaryByLocation(String x, String y, String z) throws Exception {
+        DiaryDto diaryDto = diaryRepository.findByXAndYAndZ(x,y,z).toDto();
+        List<CommentDto> commentDtoList = commentService.getCommentList(diaryDto.getId());
+
+        diaryDto.setCommentList(commentDtoList);
+
+        return diaryDto;
     }
 }

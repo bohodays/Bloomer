@@ -2,6 +2,7 @@ package com.exmaple.flory.entity;
 
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name="Diary")
 @AllArgsConstructor
@@ -67,8 +70,13 @@ public class Diary {
     @ManyToOne
     private Garden garden;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+    List<Comment> commentList = new ArrayList<>();
+
     public DiaryDto toDto() {
         return DiaryDto.builder()
-                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime).build();
+                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
+                .garden(garden).music(music).build();
     }
 }

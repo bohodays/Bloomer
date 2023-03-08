@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/diary")
@@ -24,6 +23,8 @@ public class DiaryController {
     public ResponseEntity<?> insert(@RequestBody DiaryDto diaryDto){
         try{
             DiaryDto result = diaryService.insertDiary(diaryDto);
+
+            log.info("Diary 생성: {}",diaryDto);
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -35,6 +36,8 @@ public class DiaryController {
     public ResponseEntity<?> getDiary(@PathVariable Long diaryId){
         try{
             DiaryDto diaryDto = diaryService.getDiary(diaryId);
+
+            log.info("Diary 가져오기: {}",diaryDto);
             return new ResponseEntity<>(new SuccessResponse(diaryDto),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -47,6 +50,7 @@ public class DiaryController {
         try{
             int result = diaryService.deleteDiary(diaryId);
 
+            log.info("diary 삭제: {}",diaryId);
             if(result==1) return new ResponseEntity<>(new SuccessResponse("삭제가 완료되었습니다."),HttpStatus.OK);
             else throw new Exception();
         }catch (Exception e){

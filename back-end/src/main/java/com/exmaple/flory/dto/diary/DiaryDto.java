@@ -1,9 +1,15 @@
 package com.exmaple.flory.dto.diary;
 
+import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.entity.Diary;
+import com.exmaple.flory.entity.Garden;
+import com.exmaple.flory.entity.Music;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,11 +39,20 @@ public class DiaryDto {
 
     private Date createdTime;
 
+    private Garden garden;
 
+    private Music music;
+
+    private List<CommentDto> commentList= new ArrayList<>();
 
     public Diary toEntity(){
         return Diary.builder()
-                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime).build();
+                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
+                .garden(garden).music(music).build();
+    }
+
+    public void setCommentList(List<CommentDto> commentList){
+        this.commentList = commentList;
     }
 
 }
