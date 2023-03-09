@@ -1,39 +1,47 @@
 package com.exmaple.flory.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.DynamicUpdate;
+import com.exmaple.flory.dto.garden.GardenResponseDto;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Entity(name="garden")
+
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Builder
-@DynamicUpdate //Update 시에 변경된 필드만 대응
-@Slf4j
-public class Garden {
+@Table(name = "garden")
+@Entity
+public class Garden extends BaseTime {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "img_src")
-    private String imgSrc;
+    @Column(name = "path")
+    private String path;
 
     @Column(name = "deadline")
-    private Date deadline;
+    private LocalDateTime deadLine;
 
-    @Column(name = "created_time")
-    private Date CreatedTime;
-
-    @JoinColumn(name = "mid")
     @ManyToOne
+    @JoinColumn(name="uid")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name="mid")
     private Music music;
+
+    public GardenResponseDto toResponseDto() {
+        return GardenResponseDto
+                .builder()
+                .id(id)
+                .gardenPath(path)
+                .deadline(deadLine)
+                .nickname(member.getNickname())
+                .build();
+    }
 }

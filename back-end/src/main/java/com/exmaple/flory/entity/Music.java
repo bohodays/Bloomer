@@ -1,39 +1,28 @@
 package com.exmaple.flory.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity(name = "music")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Builder
-@Slf4j
-public class Music {
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Music extends BaseTime{
+
     @Id
-    @Column(name = "id")
+    @Column(name="id",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "path")
+    @Column(name = "path",nullable = false)
     private String path;
 
-    @Column(name = "title")
+    @Column(name="title",nullable = false)
     private String title;
 
-    @Column(name = "artist")
+    @Column(name="artist",nullable = false)
     private String artist;
-
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
-    private List<Diary> diaryList = new ArrayList<>();
 }
