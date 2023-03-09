@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -76,5 +78,13 @@ public class GardenService {
         return gardenRepository.findByMonth(month)
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
+    }
+
+    public List<GardenResponseDto> getAllGardenByUserId(Long userId) {
+
+        return gardenRepository.findAllByUserId(userId)
+                .stream()
+                .map(Garden::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

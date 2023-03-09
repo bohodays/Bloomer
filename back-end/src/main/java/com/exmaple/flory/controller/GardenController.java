@@ -77,4 +77,16 @@ public class GardenController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/list/{user_id}")
+    public ResponseEntity<?> getAllGardenByUserId(@PathVariable Long user_id) {
+
+        log.info("GardenController - get all garden by userId 호출");
+
+        try {
+            return new ResponseEntity<>(new SuccessResponse(gardenService.getAllGardenByUserId(user_id)), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
+        }
+    }
 }
