@@ -66,4 +66,15 @@ public class GardenController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/date/{month}")
+    public ResponseEntity<?> getGardenDetailByMonth(@PathVariable Integer month) {
+        log.info("GardenController - garden detail by month 호출");
+
+        try {
+            return new ResponseEntity<>(new SuccessResponse(gardenService.getGardenByMonth(month)), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
+        }
+    }
 }

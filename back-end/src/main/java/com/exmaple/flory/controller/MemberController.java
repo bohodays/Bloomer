@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @PreAuthorize("isAuthenticated()") //로그인이 된 상태에서만 사용가능하다.
 public class MemberController {
     private final MemberService memberService;

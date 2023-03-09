@@ -70,4 +70,11 @@ public class GardenService {
         gardenRepository.findById(garden_id).orElseThrow(() -> new CustomException(ErrorCode.INVALID_GARDEN));
         gardenRepository.deleteById(garden_id);
     }
+
+    public GardenResponseDto getGardenByMonth(Integer month) {
+
+        return gardenRepository.findByMonth(month)
+                .map(Garden::toResponseDto)
+                .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
+    }
 }
