@@ -1,5 +1,6 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.dto.team.TeamInsertRequestDto;
 import com.exmaple.flory.dto.team.TeamMemberRequestDto;
@@ -40,6 +41,7 @@ public class TeamService {
 
         Team team = teamRepository.save(teamInsertRequestDto.toGroup());
 
+        List<MemberResponseDto> memberList = new ArrayList<>();
         for(Long memberId : teamInsertRequestDto.getParticipant()){
             Member member = memberRepository.findById(memberId)
                     .orElseThrow(() -> new RuntimeException("멤버 정보가 없습니다."));
@@ -48,22 +50,20 @@ public class TeamService {
                     .tid(team)
                     .uid(member)
                     .build();
-            userTeamRepository.save(userTeam);
+            memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
         }
 
-        return teamRepository.findById(team.getTeamId())
-                .map(TeamDto::of)
-                .orElseThrow(() -> new RuntimeException("해당 그룹 정보가 없습니다."));
+//        return teamRepository.findById(team.getTeamId())
+//                .map(TeamDto::of)
+//                .orElseThrow(() -> new RuntimeException("해당 그룹 정보가 없습니다."));
+        return TeamDto.toTeam(team,memberList);
     }
 
     @Transactional
-    public int deleteTeam(Long teamId){
-        if(teamRepository.existsById(teamId)){
-            teamRepository.deleteById(teamId);
-            return 1;
-        }else{
-            throw new RuntimeException("해당 그룹이 존재하지 않습니다.");
-        }
+    public void deleteTeam(Long teamId){
+        teamRepository.delete(
+                teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("해당 그룹이 존재하지 않습니다."))
+        );
     }
 
     @Transactional

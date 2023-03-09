@@ -1,6 +1,7 @@
 package com.exmaple.flory.entity;
 
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -37,6 +38,13 @@ public class Member extends BaseTime {
 
     public Member updateToken(String refreshToken) {
         this.refreshToken = refreshToken;
+        return this;
+    }
+
+    public Member updateMember(String nickname,  String img, String password, PasswordEncoder passwordEncoder){
+        this.nickname = nickname;
+        this.password = passwordEncoder.encode(password);
+        this.img = img;
         return this;
     }
 

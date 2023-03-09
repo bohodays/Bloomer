@@ -49,9 +49,8 @@ public class TeamController {
     @DeleteMapping("/{teamId}")
     public ResponseEntity<?> deleteTeam(@PathVariable Long teamId){
         try{
-            int result = teamService.deleteTeam(teamId);
-            if(result == 1) return new ResponseEntity<>(new SuccessResponse("그룹 삭제 되었습니다."),HttpStatus.OK);
-            else throw new Exception();
+            teamService.deleteTeam(teamId);
+            return new ResponseEntity<>(new SuccessResponse("그룹 삭제 되었습니다."),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,9 +94,8 @@ public class TeamController {
     @DeleteMapping("/member")
     public ResponseEntity<?> deleteTeamMember(@RequestBody TeamMemberRequestDto teamMemberRequestDto){
         try{
-            int result = teamService.deleteTeamMember(teamMemberRequestDto);
-            if(result == 1) return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
-            else throw new Exception();
+            teamService.deleteTeamMember(teamMemberRequestDto);
+            return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);

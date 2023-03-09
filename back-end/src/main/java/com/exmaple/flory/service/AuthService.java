@@ -43,7 +43,9 @@ public class AuthService {
         TokenDto tokenDto = tokenProvider.createTokenDto(authentication);
 
         // 4. RefreshToken 저장
-        Member member = memberRepository.findByEmail(LoginDto.getEmail()).get();
+        Member member = memberRepository.findByEmail(LoginDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+
         member.updateToken(tokenDto.getRefreshToken());
 
         memberRepository.save(member); // 토큰 업데이트
@@ -63,12 +65,9 @@ public class AuthService {
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        Member member = memberRepository.findById(Long.parseLong(authentication.getName())).get();
-//                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+        Member member = memberRepository.findById(Long.parseLong(authentication.getName()))
+                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
-        if(member.getRefreshToken() == null){
-            throw new RuntimeException("로그아웃 된 사용자입니다.");
-        }
         // 4. Refresh Token 일치하는지 검사
         if (!member.getRefreshToken().equals(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");

@@ -1,6 +1,7 @@
 package com.exmaple.flory.dto.team;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
+import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.Team;
 import com.exmaple.flory.entity.UserTeam;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class TeamDto {
             memberList.add(MemberResponseDto.of(userTeam.getUid()));
         }
         return new TeamDto(team.getTeamId(), team.getName(), memberList);
+    }
+
+    public static TeamDto toTeam(Team team, List<MemberResponseDto> memberList){
+        return new TeamDto(team.getTeamId(),team.getName(), memberList);
     }
 
 }
