@@ -1,6 +1,7 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.comment.CommentDto;
+import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
 import com.exmaple.flory.response.SuccessResponse;
@@ -24,9 +25,9 @@ public class CommentController {
     @GetMapping("/{diaryId}")
     public ResponseEntity<?> getCommentList(@PathVariable Long diaryId){
         try{
-            List<CommentDto> commentDtoList = commentService.getCommentList(diaryId);
+            List<CommentListDto> comments = commentService.getCommentList(diaryId);
 
-            return new ResponseEntity(new SuccessResponse(commentDtoList), HttpStatus.OK);
+            return new ResponseEntity(new SuccessResponse(comments), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);

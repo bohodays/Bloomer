@@ -1,6 +1,7 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
+import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Member;
@@ -41,7 +42,7 @@ public class DiaryService {
         if(diary.isEmpty()){
             throw new Exception();
         }
-        List<CommentDto> commentDtoList = new ArrayList<>();
+        List<CommentListDto> comments = new ArrayList<>();
         List<Comment> commentList = commentRepository.findByDid(diaryId);
 
         for(int i=0;i<commentList.size();i++){
@@ -51,12 +52,15 @@ public class DiaryService {
             if(member.isEmpty()) throw new Exception();
 
             commentDto.setMember(member.get());
-            commentDtoList.add(commentDto);
+            CommentListDto commentListDto = CommentListDto.builder()
+                    .id(commentDto.getId()).member(commentDto.getMember()).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
+
+            comments.add(commentListDto);
         }
 
         DiaryDto result = diary.get().toDto();
 
-        result.setCommentList(commentDtoList);
+        result.setCommentList(comments);
 
         return result;
     }
@@ -101,9 +105,9 @@ public class DiaryService {
 
     public DiaryDto getDiaryByLocation(String x, String y, String z) throws Exception {
         DiaryDto diaryDto = diaryRepository.findByXAndYAndZ(x,y,z).toDto();
-        List<CommentDto> commentDtoList = commentService.getCommentList(diaryDto.getId());
+        List<CommentListDto> comments = commentService.getCommentList(diaryDto.getId());
 
-        diaryDto.setCommentList(commentDtoList);
+        diaryDto.setCommentList(comments);
 
         return diaryDto;
     }

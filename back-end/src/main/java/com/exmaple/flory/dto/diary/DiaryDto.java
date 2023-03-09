@@ -1,6 +1,6 @@
 package com.exmaple.flory.dto.diary;
 
-import com.exmaple.flory.dto.comment.CommentDto;
+import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Garden;
 import com.exmaple.flory.entity.Music;
@@ -43,7 +43,7 @@ public class DiaryDto {
 
     private Music music;
 
-    private List<CommentDto> commentList= new ArrayList<>();
+    private List<CommentListDto> commentList= new ArrayList<>();
 
     public Diary toEntity(){
         return Diary.builder()
@@ -51,7 +51,7 @@ public class DiaryDto {
                 .garden(garden).music(music).build();
     }
 
-    public void setCommentList(List<CommentDto> commentList){
+    public void setCommentList(List<CommentListDto> commentList){
         this.commentList = commentList;
     }
 

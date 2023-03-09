@@ -45,4 +45,5 @@ public class Comment {
         return CommentDto.builder()
                 .id(id).content(content).createdTime(createdTime).did(diary.getId()).uid(member.getUserId()).diary(diary).member(member).build();
     }
+
 }

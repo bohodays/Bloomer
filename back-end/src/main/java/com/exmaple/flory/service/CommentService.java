@@ -1,6 +1,7 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
+import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Member;
@@ -44,9 +45,9 @@ public class CommentService {
         return result;
     }
 
-    public List<CommentDto> getCommentList(Long diaryId) throws Exception {
+    public List<CommentListDto> getCommentList(Long diaryId) throws Exception {
         List<Comment> commentList = commentRepository.findByDid(diaryId);
-        List<CommentDto> commentDtoList = new ArrayList<>();
+        List<CommentListDto> comments = new ArrayList<>();
         log.info("comment 목록: {}, {}", diaryId, commentList.size());
 
         for(int i=0;i<commentList.size();i++){
@@ -56,15 +57,18 @@ public class CommentService {
             if(member.isEmpty()) throw new Exception();
             commentDto.setMember(member.get());
 
-            commentDtoList.add(commentDto);
+            CommentListDto commentListDto = CommentListDto.builder()
+                    .id(commentDto.getId()).member(commentDto.getMember()).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
+
+            comments.add(commentListDto);
         }
 
-        return commentDtoList;
+        return comments;
     }
 
     public CommentDto updateComment(Map<String,String> updateInfo) throws Exception{
         Long id =  Long.parseLong(updateInfo.get("id"));
-        String content = (String) updateInfo.get("content");
+        String content = updateInfo.get("content");
 
         Optional<Comment> comment = commentRepository.findById(id);
 
@@ -75,6 +79,9 @@ public class CommentService {
         Optional<Diary> diary = diaryRepository.findById(commentDto.getDid());
 
         commentDto.setContent(content);
+
+        if(member.isEmpty() || diary.isEmpty()) throw new Exception();
+
         commentDto.setMember(member.get());
         commentDto.setDiary(diary.get());
 
