@@ -49,7 +49,7 @@ def analysis(request):
     if request.method == 'POST':
         data = request.POST['text']
 
-        result = predict(model, vocab, data)
+        result = predict(data)
         # results = calc_result(result)
 
         return JsonResponse({"result":result.tolist()})
@@ -57,7 +57,7 @@ def analysis(request):
         return JsonResponse({"result":"POST로 요청하시오"})
     
 
-def predict(model, vocab, text):
+def predict(text):
     multiprocessing.freeze_support()
     max_len = 64
     batch_size = 64
