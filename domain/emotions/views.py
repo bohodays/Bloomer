@@ -22,7 +22,6 @@ from kobert.pytorch_kobert import get_pytorch_kobert_model
 from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
 
-import multiprocessing
 
 max_len = 64
 batch_size = 64
@@ -45,7 +44,7 @@ tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 #===============================
 
 def analysis(request):
-    multiprocessing.freeze_support()
+
     if request.method == 'POST':
         data = request.POST['text']
 
@@ -58,7 +57,6 @@ def analysis(request):
     
 
 def predict(text):
-    multiprocessing.freeze_support()
 
     data = [text, '0']
     dataset_another = [data]
