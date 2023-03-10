@@ -1,6 +1,10 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
+import com.exmaple.flory.exception.error.ErrorCode;
+import com.exmaple.flory.response.ErrorResponse;
+import com.exmaple.flory.response.SuccessResponse;
 import com.exmaple.flory.service.MemberService;
 import com.exmaple.flory.util.ResponseHandler;
 import com.exmaple.flory.util.SecurityUtil;
@@ -8,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,20 +24,58 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/me")
-    public ResponseEntity findMemberInfoById() {
-        MemberResponseDto memberResponseDto = memberService.findMemberInfoByUserId(SecurityUtil.getCurrentMemberId());
-        return ResponseHandler.generateResponse("회원정보가 조회되었습니다.", HttpStatus.OK,"member",memberResponseDto);
+    public ResponseEntity<?> findMemberInfoById() {
+        try{
+            MemberResponseDto memberResponseDto = memberService.findMemberInfoByUserId(SecurityUtil.getCurrentMemberId());
+            return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity findMemberInfoByEmail(@PathVariable String email) {
-        MemberResponseDto memberResponseDto = memberService.findMemberInfoByEmail(email);
-        return ResponseHandler.generateResponse("회원정보가 조회되었습니다.", HttpStatus.OK,"member",memberResponseDto);
+    public ResponseEntity<?> findMemberInfoByEmail(@PathVariable String email) {
+        try{
+            MemberResponseDto memberResponseDto = memberService.findMemberInfoByEmail(email);
+            return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<String> logout() {
-        memberService.logout(SecurityUtil.getCurrentMemberId().toString()); // SecurityContext에 저장된 id값을 가져온다.
-        return new ResponseEntity<>("로그아웃 성공", HttpStatus.OK);
+    public ResponseEntity<?> logout() {
+        try{
+            memberService.logout(SecurityUtil.getCurrentMemberId()); // SecurityContext에 저장된 id값을 가져온다.
+            return new ResponseEntity<>(new SuccessResponse("로그아웃"), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+    @PutMapping
+    public ResponseEntity<?> updateMember(@RequestBody MemberRequestDto memberRequestDto){
+        try{
+            MemberResponseDto memberResponseDto = memberService.updateMember(memberRequestDto);
+            return new ResponseEntity<>(new SuccessResponse(memberResponseDto),HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<?> deleteMember(@PathVariable String email){ // 회원 탈퇴
+        try{
+            memberService.deleteMember(email);
+            return new ResponseEntity<>(new SuccessResponse("멤버 삭제 되었습니다."),HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

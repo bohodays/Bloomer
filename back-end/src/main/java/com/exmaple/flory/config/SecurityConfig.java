@@ -73,9 +73,11 @@ public class SecurityConfig {
                 // JwtFilter를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
+
                 // cors 설정 적용
                 .and()
                 .cors().configurationSource(corsConfigurationSource())
+
                 //oauth2 관련 설정
                 .and()
                 .oauth2Login()

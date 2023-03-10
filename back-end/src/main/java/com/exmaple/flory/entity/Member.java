@@ -2,6 +2,7 @@ package com.exmaple.flory.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "member")
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +38,18 @@ public class Member extends BaseTime {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    public Member updateToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
+
+    public Member updateMember(String nickname,  String img, String password, PasswordEncoder passwordEncoder){
+        this.nickname = nickname;
+        this.password = passwordEncoder.encode(password);
+        this.img = img;
+        return this;
+    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
