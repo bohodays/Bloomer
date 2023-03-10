@@ -1,9 +1,12 @@
 package com.exmaple.flory.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -48,4 +51,7 @@ public class Member extends BaseTime {
         return this;
     }
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> commentList= new ArrayList<>();
 }
