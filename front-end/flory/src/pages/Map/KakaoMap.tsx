@@ -27,6 +27,10 @@ const KakaoMap = () => {
 
     let map = new window.kakao.maps.Map(mapContainer, mapOptions); //지도 생성 및 객체 리턴
 
+    // 지도 범위 가져오기
+    var bounds = map.getBounds();
+    bounds.toString(); // "((33.44843745687413, 126.56798357402302), (33.452964008206735, 126.57333898904454))"
+
     // 마커를 표시할 위치와 title 객체 배열입니다
     var positions = [
       {
