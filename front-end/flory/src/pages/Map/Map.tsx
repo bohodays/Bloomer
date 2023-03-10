@@ -3,6 +3,7 @@ import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import KakaoMap from "./KakaoMap";
+import DiaryList from "./DiaryList";
 
 const Map = () => {
   const onClick = () => {};
@@ -18,9 +19,14 @@ const Map = () => {
         icon={faArrowLeft}
       />
       <div className="login__title">
-        <h1>내 주변에 피어난 꽃</h1>
+        <h3>내 주변에 피어난 꽃</h3>
       </div>
-      <KakaoMap />
+      <div className="container-box">
+        <KakaoMap />
+      </div>
+      <div className="container-box">
+        <DiaryList />
+      </div>
     </SMain>
   );
 };
