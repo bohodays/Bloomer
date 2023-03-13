@@ -28,10 +28,12 @@ export const Puller = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: 16,
   bottom: 16,
-  left: "calc(50% - 15px)",
 }));
 
 export const SModalContent = styled(Box)`
   width: 100%;
   padding: 30px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

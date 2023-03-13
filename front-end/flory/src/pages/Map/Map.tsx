@@ -6,6 +6,7 @@ import KakaoMap from "../../components/Map/KakaoMap";
 import DiaryList from "../../components/Diary/DiaryList";
 import BasicModal from "../../components/common/Modal/BasicModal";
 import Button from "@mui/material/Button";
+import MapFilterModal from "../../components/Map/MapFilterModal";
 
 const Map = () => {
   const onClick = () => {};
@@ -30,16 +31,8 @@ const Map = () => {
       <div className="container-box">
         <DiaryList />
       </div>
-      <BasicModal modalButton={<Button>bottom!!</Button>}>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-        <div>우가우가</div>
-      </BasicModal>
+
+      <MapFilterModal />
     </SMain>
   );
 };
