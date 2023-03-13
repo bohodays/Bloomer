@@ -2,8 +2,8 @@ import React from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import KakaoMap from "./KakaoMap";
-import DiaryList from "./DiaryList";
+import KakaoMap from "../../components/Map/KakaoMap";
+import DiaryList from "../../components/Diary/DiaryList";
 
 const Map = () => {
   const onClick = () => {};
