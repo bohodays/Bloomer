@@ -30,7 +30,7 @@ class TeamRepositoryTest {
     @Test
     void save(){
         //given
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder().name("name").build();
 
         //when
         Team result = teamRepository.save(team);
@@ -43,11 +43,12 @@ class TeamRepositoryTest {
     @Test
     void findById(){
         //given
-        Team team = Team.builder().teamId(1L).name("name").build();
-        teamRepository.save(team);
+        Team team = Team.builder().name("name").build();
+        Team entity = teamRepository.save(team);
 
         //when
-        Team result = teamRepository.findById(team.getTeamId()).get();
+        Team result = teamRepository.findById(entity.getTeamId())
+                .orElseThrow(() -> new RuntimeException("팀 정보가 없습니다."));
 
         //then
         assertThat(result.getName()).isEqualTo(team.getName());
@@ -58,12 +59,12 @@ class TeamRepositoryTest {
     @Test
     void delete(){
         //given
-        Team team = Team.builder().teamId(1L).name("name").build();
-        teamRepository.save(team);
+        Team team = Team.builder().name("name").build();
+        Team entity = teamRepository.save(team);
 
         //when
         teamRepository.delete(team);
-        Optional<Team> result = teamRepository.findById(team.getTeamId());
+        Optional<Team> result = teamRepository.findById(entity.getTeamId());
 
         //then
         assertThat(result).isEqualTo(Optional.empty());

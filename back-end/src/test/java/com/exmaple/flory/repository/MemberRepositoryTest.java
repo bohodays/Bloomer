@@ -31,7 +31,7 @@ class MemberRepositoryTest {
     void save(){
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         //when
         Member result = memberRepository.save(member);
@@ -45,7 +45,7 @@ class MemberRepositoryTest {
     void findByEmail() {
         //given
         Member member = Member.builder()
-                .userId(2L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         memberRepository.save(member);
 
@@ -62,12 +62,12 @@ class MemberRepositoryTest {
     void findById() {
         //given
         Member member = Member.builder()
-                .userId(2L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
-        memberRepository.save(member);
+        Member entity = memberRepository.save(member);
 
         //when
-        Member result = memberRepository.findById(member.getUserId())
+        Member result = memberRepository.findById(entity.getUserId())
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
 
         //then
@@ -79,7 +79,7 @@ class MemberRepositoryTest {
     void delete(){
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         memberRepository.save(member);
 
@@ -96,7 +96,7 @@ class MemberRepositoryTest {
     void existsByEmail() {
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         memberRepository.save(member);
 
@@ -112,12 +112,12 @@ class MemberRepositoryTest {
     void existsById() {
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
-        memberRepository.save(member);
+        Member entity = memberRepository.save(member);
 
         //when
-        boolean result = memberRepository.existsById(member.getUserId());
+        boolean result = memberRepository.existsById(entity.getUserId());
 
         //then
         assertThat(result).isTrue();
