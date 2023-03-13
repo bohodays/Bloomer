@@ -12,6 +12,7 @@ const KakaoMap = () => {
   const geolocation = useGeolocation();
   console.log(geolocation.latitude);
   console.log(geolocation.longitude);
+  let isGeolocation = geolocation.latitude != null;
 
   useEffect(() => {
     // 좌표 가져오기
@@ -73,7 +74,7 @@ const KakaoMap = () => {
         image: markerImage, // 마커 이미지
       });
     }
-  }, [geolocation]);
+  }, [isGeolocation]);
 
   return <SMap id="map" />;
 };
