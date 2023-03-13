@@ -24,7 +24,8 @@ export const checkDupEmailAction = createAsyncThunk(
   async (email: string, { rejectWithValue }) => {
     try {
       const axios = axiosInitializer();
-      const { data } = await axios.get(`/api/users/check-email/${email}`);
+      const { data } = await axios.get(`/api/user/check-email/${email}`);
+      console.log(data);
 
       return data;
     } catch (e) {

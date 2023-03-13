@@ -8,12 +8,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import Button from "../../common/Button/Button";
 import { SForm, SInput } from "./styles";
+import { checkDupEmailAction } from "../../../redux/modules/user";
+import { useAppDispatch } from "../../../redux/store.hooks";
 
 const UserSignupForm = () => {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+
+  const dispatch = useAppDispatch();
+
+  const onCheckEmail = (e: any) => {
+    e.preventDefault();
+    // console.log("이메일 체크");
+    dispatch(checkDupEmailAction(email));
+  };
 
   return (
     <SForm>
@@ -36,7 +46,9 @@ const UserSignupForm = () => {
           className={email ? "icon active" : "icon"}
           icon={faEnvelope}
         />
+
         <Button
+          onClick={onCheckEmail}
           contents="중복 검사"
           addStyle={{
             position: "absolute",
