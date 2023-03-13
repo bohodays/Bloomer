@@ -1,9 +1,14 @@
 package com.exmaple.flory.repository;
 
 import com.exmaple.flory.entity.Diary;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import java.util.List;
+
+import static com.exmaple.flory.entity.QDiary.diary;
+import static com.exmaple.flory.entity.QGarden.garden;
+
 
 public class QDiaryRepositoryImpl implements QDiaryRepository{
 
@@ -15,10 +20,23 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
 
     @Override
     public List<Diary> findByGardenId(Long gardenId) {
-//        return jpaQueryFactory
-//                .selectFrom(diary)
-//                .innerJoin(garden.member, garden.member)
-        return null;
+        return jpaQueryFactory
+                .selectFrom(diary)
+                .leftJoin(diary.garden, garden)
+                .on(garden.id.eq(gardenId))
+                .fetch();
+    }
 
+    @Override
+    public List<Diary> findByMemberId(Long memberId) {
+        return jpaQueryFactory
+                .selectFrom(diary)
+                .where(diary.garden.id.in(
+                        JPAExpressions
+                                .select(garden.id)
+                                .from(garden)
+                                .where(garden.member.userId.eq(memberId))
+                ))
+                .fetch();
     }
 }

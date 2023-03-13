@@ -9,4 +9,6 @@ import java.util.List;
 public interface QDiaryRepository {
 
     List<Diary> findByGardenId(Long gardenId);
+
+    List<Diary> findByMemberId(Long memberId);
 }
