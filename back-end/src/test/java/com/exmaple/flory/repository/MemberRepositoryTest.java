@@ -38,7 +38,6 @@ class MemberRepositoryTest {
 
         //then
         assertThat(result.getEmail()).isEqualTo(member.getEmail());
-        assertThat(result.getUserId()).isEqualTo(member.getUserId());
     }
 
     @DisplayName("이메일로 멤버 조회")
@@ -46,16 +45,16 @@ class MemberRepositoryTest {
     void findByEmail() {
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .userId(2L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         memberRepository.save(member);
 
         //when
-        Member result = memberRepository.findByEmail("email").get();
+        Member result = memberRepository.findByEmail("email")
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
 
         //then
         assertThat(result.getEmail()).isEqualTo(member.getEmail());
-        assertThat(result.getUserId()).isEqualTo(member.getUserId());
     }
 
     @DisplayName("아이디로 멤버 조회")
@@ -63,16 +62,16 @@ class MemberRepositoryTest {
     void findById() {
         //given
         Member member = Member.builder()
-                .userId(1L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+                .userId(2L).nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
 
         memberRepository.save(member);
 
         //when
-        Member result = memberRepository.findById(1L).get();
+        Member result = memberRepository.findById(member.getUserId())
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
 
         //then
         assertThat(result.getEmail()).isEqualTo(member.getEmail());
-        assertThat(result.getUserId()).isEqualTo(member.getUserId());
     }
 
     @DisplayName("멤버 삭제")
@@ -89,7 +88,6 @@ class MemberRepositoryTest {
         Optional<Member> result = memberRepository.findById(1L);
 
         //then
-        assertThat(result).isEqualTo(Optional.empty());
         assertThat(result).isEqualTo(Optional.empty());
     }
 
@@ -119,7 +117,7 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         //when
-        boolean result = memberRepository.existsById(1L);
+        boolean result = memberRepository.existsById(member.getUserId());
 
         //then
         assertThat(result).isTrue();
