@@ -8,6 +8,7 @@ const Main = React.lazy(() => import("./pages/Main/Main"));
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Signup = React.lazy(() => import("./pages/Signup/Signup"));
 const Map = React.lazy(() => import("./pages/Map/Map"));
+const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
 
 function App() {
@@ -22,7 +23,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
+
           </Routes>
         </BrowserRouter>
       </Suspense>

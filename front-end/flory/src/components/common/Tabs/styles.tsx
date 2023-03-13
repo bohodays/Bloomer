@@ -20,6 +20,5 @@ export const STabItem = styled.div<any>`
   background-color: ${(props) =>
     props.isValue ? "#ffffff" : "rgba( 255, 255, 255, 0 )"};
   color: ${(props) => (props.isValue ? "#000000" : "#612FAB")};
-
   border-radius: 4px;
 `;

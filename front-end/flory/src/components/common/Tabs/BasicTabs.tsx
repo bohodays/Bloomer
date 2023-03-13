@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TabList from "./TabList";
-
+import { TabType } from "../../../models/common/tabType";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -27,7 +27,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const BasicTabs: React.FC<{ nth: number; tabs: any }> = (props) => {
+const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
   const [value, setValue] = React.useState(0);
 
   const switchTab = (newValue: number) => {
@@ -39,7 +39,7 @@ const BasicTabs: React.FC<{ nth: number; tabs: any }> = (props) => {
       <Box>
         <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
       </Box>
-      {props.tabs.map((tab: any, idx: number) => (
+      {props.tabs.map((tab, idx) => (
         <TabPanel value={value} index={idx}>
           {tab.panel}
         </TabPanel>

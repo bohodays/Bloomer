@@ -12,6 +12,18 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 const Map = () => {
   const onClick = () => {};
 
+  // 내 주변 보기
+  const mapPanel = (
+    <div>
+      <div>
+        <KakaoMap />
+      </div>
+      <div>
+        <DiaryList />
+      </div>
+    </div>
+  );
+
   return (
     <SMain>
       <div className="header">
@@ -28,22 +40,12 @@ const Map = () => {
       </div>
 
       <BasicTabs
-        nth={3}
         tabs={[
           {
             label: "내 주변 보기",
-            panel: (
-              <div>
-                <div>
-                  <KakaoMap />
-                </div>
-                <div>
-                  <DiaryList />
-                </div>
-              </div>
-            ),
+            panel: mapPanel,
           },
-          { label: "모든 감정 보기", panel: <div>야호2</div> },
+          { label: "모든 감정 보기", panel: <div>야호</div> },
           {
             label: "그룹 감정 보기",
             panel: (
