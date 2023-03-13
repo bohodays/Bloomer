@@ -1,5 +1,6 @@
-import React from "react";
-import DiaryListItem from "../DiaryListItem/DiaryListItem";
+import React from "react"
+import DiaryListItem from "../DiaryListItem/DiaryListItem"
+import { SMain } from "./styles"
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -62,11 +63,11 @@ const SAMPLE_DIARY_LIST = [
     emotion: "슬픔",
     commentList: ["Dddd"],
   },
-];
+]
 
 const DiaryTotalList = () => {
   return (
-    <div>
+    <SMain>
       {SAMPLE_DIARY_LIST.length !== 0 ? (
         SAMPLE_DIARY_LIST.map((diary) => (
           <DiaryListItem diary={diary} key={diary.id} page={"diary"} />
@@ -74,8 +75,8 @@ const DiaryTotalList = () => {
       ) : (
         <div>피드가 없습니다.</div>
       )}
-    </div>
-  );
-};
+    </SMain>
+  )
+}
 
-export default DiaryTotalList;
+export default DiaryTotalList

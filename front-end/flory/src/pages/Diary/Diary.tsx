@@ -1,11 +1,11 @@
-import React from "react";
-import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate";
-import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList";
-import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather";
-import dayBackground from "../../assets/imgs/day_background.png";
-import nightBackground from "../../assets/imgs/night_background.png";
+import React from "react"
+import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate"
+import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList"
+import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather"
+import dayBackground from "../../assets/imgs/day_background.png"
+import nightBackground from "../../assets/imgs/night_background.png"
 
-import { SMain } from "./styles";
+import { SMain } from "./styles"
 
 const Diary = () => {
   return (
@@ -14,10 +14,12 @@ const Diary = () => {
       <DiaryWeather />
       <div className="content-container">
         <DiaryDate />
-        <DiaryTotalList />
+        <div className="diary-section">
+          <DiaryTotalList />
+        </div>
       </div>
     </SMain>
-  );
-};
+  )
+}
 
-export default Diary;
+export default Diary
