@@ -11,8 +11,8 @@ const Diary = () => {
   return (
     <SMain>
       <img src={dayBackground} alt="background" className="background-image" />
-      <DiaryWeather />
       <div className="content-container">
+        <DiaryWeather />
         <DiaryDate />
         <div className="diary-section">
           <DiaryTotalList />

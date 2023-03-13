@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const SContainer = styled.div`
   position: fixed;
-  top: 130px;
+  top: 21vh;
 
   display: flex;
   flex-direction: row;

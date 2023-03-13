@@ -11,6 +11,9 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
   const isDiaryPage = props.page === "diary"
 
+  const isPrivate = props.diary.publicStatus === "나만공개"
+  const isContainImage = props.diary.imgSrc !== ""
+
   return (
     <SMain>
       {isDiaryPage && (
@@ -25,12 +28,12 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
         )}
         <div>
           <div className="title-container">
-            <SIcon icon={faLock} />
+            {isPrivate && <SIcon icon={faLock} />}
             {props.diary.emotion}했던 순간
           </div>
           <div className="content-container">{props.diary.content}</div>
           <div className="info-container">
-            <SIcon icon={faImage} />
+            {isContainImage && <SIcon icon={faImage} />}
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
               <span>{props.diary.commentList.length}</span>
