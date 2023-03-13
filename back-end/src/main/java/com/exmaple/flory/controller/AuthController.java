@@ -20,9 +20,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity<?> signup(@RequestBody SignUpRequestDto signUpRequestDto) {
         try{
-            MemberResponseDto memberResponseDto = authService.signup(memberRequestDto);
+            MemberResponseDto memberResponseDto = authService.signup(signUpRequestDto);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
