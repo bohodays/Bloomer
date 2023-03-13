@@ -81,8 +81,11 @@ public class DiaryRepositoryTest {
     @DisplayName("해당 정원의 일기 목록 조회 테스트")
     @Test
     public void getDiaryByGardenTest(){
-        memberRepository.save(member);
+        Member member1 = memberRepository.save(member);
+        garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
+        diaryDto.setGarden(garden1);
+
         diaryRepository.save(diaryDto.toEntity());
         List<DiaryDto> diaryDtoList = new ArrayList<>();
 

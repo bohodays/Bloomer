@@ -63,13 +63,12 @@ public class CommentRepositoryTest {
                 .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
                 .build();
 
-        commentDto.setDiary(diaryDto.toEntity());
-
         List<Comment> comments = new ArrayList<>();
         comments.add(commentDto.toEntity());
 
         Diary diary = diaryRepository.save(diaryDto.toEntity());
-        Comment comment = commentRepository.save(commentDto.toEntity());
+        commentDto.setDiary(diary);
+        commentRepository.save(commentDto.toEntity());
 
         List<Comment> result = commentRepository.findByDid(diary.getId());
 
