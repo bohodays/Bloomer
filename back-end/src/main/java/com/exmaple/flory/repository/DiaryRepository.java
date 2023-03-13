@@ -4,12 +4,9 @@ import com.exmaple.flory.entity.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
-public interface DiaryRepository extends JpaRepository <Diary, Long>{
-
-//    List<Diary> findByGarden_Id(Long gardenId);
+public interface DiaryRepository extends JpaRepository <Diary, Long>, QDiaryRepository{
 
 //    List<Diary> findByUserId(Long userId);
 

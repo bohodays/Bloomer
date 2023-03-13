@@ -3,7 +3,6 @@ package com.exmaple.flory.dto.diary;
 import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Garden;
-import com.exmaple.flory.entity.Music;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,14 +40,14 @@ public class DiaryDto {
 
     private Garden garden;
 
-    private Music music;
+//    private Music music;
 
     private List<CommentListDto> commentList= new ArrayList<>();
 
     public Diary toEntity(){
         return Diary.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
-                .garden(garden).music(music).build();
+                .garden(garden).build();
     }
 
     public void setCommentList(List<CommentListDto> commentList){
