@@ -14,6 +14,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -128,6 +131,54 @@ public class DiaryControllerTest {
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
 
+    }
+
+    @DisplayName("해당 정원의 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryByGardenTest() throws Exception{
+        List<DiaryDto> diaryDtoList = new ArrayList<>();
+
+        diaryDtoList.add(diaryDto);
+
+        when(diaryService.getDiaryListGarden(any())).thenReturn(diaryDtoList);
+
+        mockMvc.perform(get("/api/diary/list/{gardenId}",1))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("해당 정원의 일기 목록 조회 오류 테스트")
+    @Test
+    public void getDiaryByGardenExceptionTest() throws Exception{
+        when(diaryService.getDiaryListGarden(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/list/{gardenId}",1))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("유저의 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryByUserTest() throws Exception{
+        List<DiaryDto> diaryDtoList = new ArrayList<>();
+
+        diaryDtoList.add(diaryDto);
+
+        when(diaryService.getDiaryListByUser(any())).thenReturn(diaryDtoList);
+
+        mockMvc.perform(get("/api/diary/diary-list/{userId}",1))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("유저의 일기 목록 조회 오류 테스트")
+    @Test
+    public void getDiaryByUserExceptionTest() throws Exception{
+        when(diaryService.getDiaryListByUser(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/diary-list/{userId}",1))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
     }
 
     @DisplayName("좌표값으로 일기 조회 테스트")

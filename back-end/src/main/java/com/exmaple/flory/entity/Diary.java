@@ -3,16 +3,12 @@ package com.exmaple.flory.entity;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 @DynamicUpdate //Update 시에 변경된 필드만 대응
 @Slf4j
@@ -62,9 +59,9 @@ public class Diary {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTime;
 
-    @JoinColumn(name = "mid")
-    @ManyToOne
-    private Music music;
+//    @JoinColumn(name = "mid")
+//    @ManyToOne
+//    private Music music;
 
     @JoinColumn(name = "gid")
     @ManyToOne
@@ -72,11 +69,11 @@ public class Diary {
 
     @JsonIgnore
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
-    List<Comment> commentList = new ArrayList<>();
+    List<Comment> commentList;
 
     public DiaryDto toDto() {
         return DiaryDto.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
-                .garden(garden).music(music).build();
+                .garden(garden).build();
     }
 }
