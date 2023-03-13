@@ -38,6 +38,30 @@ const SAMPLE_DIARY_LIST = [
     emotion: "슬픔",
     commentList: ["Dddd"],
   },
+  {
+    id: 1,
+    content:
+      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
+    imgSrc: "",
+    lat: 32,
+    lng: 127,
+    publicStatus: "전체공개",
+    createdTime: "12시간 전",
+    emotion: "슬픔",
+    commentList: ["Dddd"],
+  },
+  {
+    id: 1,
+    content:
+      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
+    imgSrc: "",
+    lat: 32,
+    lng: 127,
+    publicStatus: "전체공개",
+    createdTime: "12시간 전",
+    emotion: "슬픔",
+    commentList: ["Dddd"],
+  },
 ];
 
 const DiaryTotalList = () => {
