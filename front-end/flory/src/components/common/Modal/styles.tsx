@@ -5,6 +5,7 @@ import { grey } from "@mui/material/colors";
 
 export const SDrawer = styled(SwipeableDrawer)`
   width: 100%;
+  border-radius: 50px 50px 0px 0px;
   .MuiBackdrop-root {
     position: relative;
     margin: auto;
@@ -29,3 +30,8 @@ export const Puller = styled(Box)(({ theme }) => ({
   bottom: 16,
   left: "calc(50% - 15px)",
 }));
+
+export const SModalContent = styled(Box)`
+  width: 100%;
+  padding: 30px 16px 16px;
+`;

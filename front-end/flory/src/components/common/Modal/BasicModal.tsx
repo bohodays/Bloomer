@@ -1,9 +1,9 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { SDrawer, Puller } from "./styles";
+import { SDrawer, Puller, SModalContent } from "./styles";
 
-function BasicModal({ children }: any): JSX.Element {
+function BasicModal({ children, modalButton }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer =
@@ -21,15 +21,15 @@ function BasicModal({ children }: any): JSX.Element {
     };
 
   const ModalContent = (
-    <Box sx={{ width: "100%", paddingTop: "30px" }} role="presentation">
+    <SModalContent role="presentation">
       <Puller />
       {children}
-    </Box>
+    </SModalContent>
   );
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>bottom</Button>
+      <div onClick={toggleDrawer(true)}>{modalButton}</div>
       <SDrawer
         anchor="bottom"
         open={open}
