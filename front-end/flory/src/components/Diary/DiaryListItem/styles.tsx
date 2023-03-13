@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-export const SMain = styled.main`
+export const SMain = styled.main<any>`
   display: flex;
   gap: 12px;
 
@@ -14,12 +14,12 @@ export const SMain = styled.main`
   }
 `;
 
-export const SItem = styled.div`
+export const SItem = styled.div<any>`
   display: flex;
   gap: 15px;
   align-items: center;
 
-  background-color: #f6f2ff;
+  background-color: ${(props) => (props.isDiaryPage ? "#f6f2ff" : "white")};
   margin-bottom: 17px;
   border-radius: 18px;
   padding: 0.9rem;

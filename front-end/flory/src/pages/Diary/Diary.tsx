@@ -1,18 +1,22 @@
 import React from "react";
-import DiaryBackground from "../../components/Diary/DiaryBackground/DiaryBackground";
 import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate";
-import DiaryListItem from "../../components/Diary/DiaryListItem/DiaryListItem";
 import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList";
 import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather";
+import dayBackground from "../../assets/imgs/day_background.png";
+import nightBackground from "../../assets/imgs/night_background.png";
+
+import { SMain } from "./styles";
 
 const Diary = () => {
   return (
-    <>
-      <DiaryBackground />
+    <SMain>
+      <img src={dayBackground} alt="background" className="background-image" />
       <DiaryWeather />
-      <DiaryDate />
-      <DiaryTotalList />
-    </>
+      <div className="content-container">
+        <DiaryDate />
+        <DiaryTotalList />
+      </div>
+    </SMain>
   );
 };
 

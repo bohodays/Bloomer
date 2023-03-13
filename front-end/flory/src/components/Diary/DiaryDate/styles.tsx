@@ -4,6 +4,8 @@ export const SContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.625rem;
+  margin-top: -30px;
+  margin-bottom: 20px;
 `;
 
 export const SMain = styled.div`

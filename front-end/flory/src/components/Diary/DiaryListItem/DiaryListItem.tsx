@@ -8,14 +8,16 @@ import testFlower from "../../../assets/imgs/flower_icon/Violet Flower.png";
 // "기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"
 
 const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
+  // 다이어리 페이지 / 커뮤니티페이지 구분
+  const isDiaryPage = props.page === "diary";
+
   return (
-    // <SMain page={props.page}>
     <SMain>
-      {props.page === "diary" && (
+      {isDiaryPage && (
         <img src={testFlower} alt="flower" className="flower-image-border" />
       )}
-      <SItem>
-        {props.page === "total" && (
+      <SItem isDiaryPage={isDiaryPage}>
+        {!isDiaryPage && (
           <img src={testFlower} alt="flower" className="flower-image" />
         )}
         <div>
