@@ -4,6 +4,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import KakaoMap from "../../components/Map/KakaoMap";
 import DiaryList from "../../components/Diary/DiaryList";
+import BasicModal from "../../components/common/Modal/BasicModal";
 
 const Map = () => {
   const onClick = () => {};
@@ -27,6 +28,9 @@ const Map = () => {
       <div className="container-box">
         <DiaryList />
       </div>
+      <BasicModal>
+        <div>우가우가</div>
+      </BasicModal>
     </SMain>
   );
 };
