@@ -17,12 +17,6 @@ export const SMain = styled.main`
     margin-bottom: 2rem;
   }
 
-  .container-box {
-    width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-
   .back-icon {
     cursor: pointer;
     color: var(--color-white);
