@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name="Diary")
+@Entity(name="diary")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -41,9 +41,6 @@ public class Diary {
     @Column(name = "public_status")
     private String publicStatus;
 
-    @Column(name = "fid")
-    private Long fid;
-
     @Column(name = "x")
     private String x;
 
@@ -66,6 +63,10 @@ public class Diary {
     @JoinColumn(name = "gid")
     @ManyToOne
     private Garden garden;
+
+    @JoinColumn(name = "fid")
+    @ManyToOne
+    private Flower flower;
 
     @JsonIgnore
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)

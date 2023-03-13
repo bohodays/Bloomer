@@ -4,14 +4,9 @@ import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
-import com.exmaple.flory.entity.Comment;
-import com.exmaple.flory.entity.Garden;
-import com.exmaple.flory.entity.Member;
-import com.exmaple.flory.repository.CommentRepository;
-import com.exmaple.flory.repository.DiaryRepository;
-import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.repository.GardenRepository;
-import com.exmaple.flory.repository.MemberRepository;
+import com.exmaple.flory.dto.flower.FlowerEmotionDto;
+import com.exmaple.flory.entity.*;
+import com.exmaple.flory.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +18,10 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class DiaryService {
+    @Autowired
+    private EmotionRepository emotionRepository;
+    @Autowired
+    private FlowerRepository flowerRepository;
     @Autowired
     private GardenRepository gardenRepository;
     @Autowired
@@ -40,12 +39,19 @@ public class DiaryService {
     public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto) throws Exception {
         Diary diary = diaryRequestDto.toEntity();
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
+        Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
 
-        if(garden.isEmpty()) throw new Exception();
+        if(garden.isEmpty() || flower.isEmpty()) throw new Exception();
+
+        Flower flowerData = flower.get();
 
         diary.setGarden(garden.get());
+        diary.setFlower(flowerData);
 
-        return diaryRepository.save(diary).toDto();
+        DiaryDto result = diaryRepository.save(diary).toDto();
+        result.setFlowerEmotion(getFlowerEmotion(flowerData));
+
+        return result;
     }
 
     public DiaryDto getDiary(Long diaryId) throws Exception {
@@ -56,7 +62,7 @@ public class DiaryService {
         }
 
         DiaryDto result = diary.get().toDto();
-
+        result.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
         result.setCommentList(getCommentList(result));
 
         return result;
@@ -84,6 +90,7 @@ public class DiaryService {
 
         for(int i=0;i<diaryList.size();i++){
             DiaryDto diaryDto = diaryList.get(i).toDto();
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diaryList.get(i).getFlower()));
             diaryDto.setCommentList(getCommentList(diaryDto));
             diaryDtoList.add(diaryDto);
         }
@@ -131,5 +138,19 @@ public class DiaryService {
         }
 
         return comments;
+    }
+
+    public FlowerEmotionDto getFlowerEmotion(Flower flowerData) throws Exception{
+        Long emotionId = flowerRepository.getEmotionKey(flowerData.getId()).get(0);
+
+        Optional<Emotion> emotion = emotionRepository.findById(emotionId);
+
+        if(emotion.isEmpty()) throw new Exception();
+
+        FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
+                .fid(flowerData.getId()).eid(emotionId).flowerName(flowerData.getName()).language(flowerData.getLanguage())
+                .emotion(emotion.get().getType()).build();
+
+        return flowerEmotionDto;
     }
 }
