@@ -7,9 +7,22 @@ import DiaryList from "../../components/Diary/DiaryList";
 import BasicModal from "../../components/common/Modal/BasicModal";
 import Button from "@mui/material/Button";
 import MapFilterModal from "../../components/Map/MapFilterModal";
+import BasicTabs from "../../components/common/Tabs/BasicTabs";
 
 const Map = () => {
   const onClick = () => {};
+
+  // 내 주변 보기
+  const mapPanel = (
+    <div>
+      <div>
+        <KakaoMap />
+      </div>
+      <div>
+        <DiaryList />
+      </div>
+    </div>
+  );
 
   return (
     <SMain>
@@ -25,14 +38,24 @@ const Map = () => {
       <div className="login__title">
         <h3>내 주변에 피어난 꽃</h3>
       </div>
-      <div className="container-box">
-        <KakaoMap />
-      </div>
-      <div className="container-box">
-        <DiaryList />
-      </div>
 
-      <MapFilterModal />
+      <BasicTabs
+        tabs={[
+          {
+            label: "내 주변 보기",
+            panel: mapPanel,
+          },
+          { label: "모든 감정 보기", panel: <div>야호</div> },
+          {
+            label: "그룹 감정 보기",
+            panel: (
+              <div>
+                <MapFilterModal />
+              </div>
+            ),
+          },
+        ]}
+      />
     </SMain>
   );
 };
