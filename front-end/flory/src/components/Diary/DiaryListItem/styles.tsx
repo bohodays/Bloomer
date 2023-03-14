@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   display: flex;
@@ -23,7 +23,7 @@ export const SMain = styled.main<any>`
     left: 45px;
     overflow-y: hidden;
   }
-`
+`;
 
 export const SItem = styled.div<any>`
   display: flex;
@@ -55,7 +55,9 @@ export const SItem = styled.div<any>`
   .content-container {
     font-size: 0.5rem;
     line-height: 20px;
-    margin-bottom: 7px;
+    /* margin-left: 0 !important;
+    margin-right: 0 !important; */
+    /* margin-bottom: 7px; */
   }
 
   .info-container {
@@ -65,16 +67,17 @@ export const SItem = styled.div<any>`
     align-items: center;
     color: #8a8a8a;
     font-size: 0.4rem;
+
     .comment-section {
       display: flex;
       gap: 0.3rem;
       align-items: center;
     }
   }
-`
+`;
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`
+`;
