@@ -120,7 +120,8 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         position={[-0.3, 0.15, 0.19]}
         rotation={[Math.PI, 0, Math.PI]}
       />
-      {/* <mesh
+
+      <mesh
         geometry={nodes.Tree001.geometry}
         material={materials.Tree}
         position={[-1.9, 0.07, -3.45]}
@@ -135,7 +136,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           scale={0.65}
         />
         <mesh
-          geometry={nodes.Cube001_1.geometry}
+          geometry={nodes.Cube002.geometry}
           material={materials.leaf2}
           position={[0.57, 2.04, 0.04]}
           rotation={[3.11, 0.12, -1.32]}
@@ -177,7 +178,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           scale={0.63}
         />
         <mesh
-          geometry={nodes.Cube007_1.geometry}
+          geometry={nodes.Cube002.geometry}
           material={materials.leaf2}
           position={[0.16, 1.28, 0.6]}
           rotation={[2.51, -0.88, 3]}
@@ -197,7 +198,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           rotation={[-0.32, 0.62, 1.81]}
           scale={0.53}
         />
-      </mesh> */}
+      </mesh>
       <mesh
         geometry={nodes.Bench.geometry}
         material={materials.Wood}
