@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/common/Navbar/Navbar";
 import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput";
 import { SMain, SSection } from "./styles";
@@ -16,6 +16,7 @@ import BasicModal from "../../components/common/Modal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 const DiaryCreate = () => {
+  const [place, setPlace] = useState("서울 강남구 테헤란로 212");
   const fileInput = React.useRef<HTMLInputElement>(null);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -54,8 +55,8 @@ const DiaryCreate = () => {
         <GroupTagWrapper />
         <div className="location__wrapper">
           <div>기록 위치</div>
-          <div className="location">서울 강남구 테헤란로 212</div>
-          <DiaryLocationModal />
+          <div className="location">{place}</div>
+          <DiaryLocationModal place={place} setPlace={setPlace} />
         </div>
       </SSection>
       <div className="bottom__wrapper">

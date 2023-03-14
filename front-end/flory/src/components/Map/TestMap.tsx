@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-function TestMap({ place, setPlace }: any): JSX.Element {
+function TestMap({ func }: any): JSX.Element {
   const geolocation = useGeolocation();
   console.log(geolocation.latitude);
   console.log(geolocation.longitude);
@@ -68,12 +68,12 @@ function TestMap({ place, setPlace }: any): JSX.Element {
             "</div>"
         );
         console.log(place);
-        setPlace(place.place_name);
+        func.setPlace(place.place_name);
         infowindow.open(map, marker);
       });
     }
 
-    ps.keywordSearch("광교중앙역", placesSearchCB);
+    ps.keywordSearch(func.keyword, placesSearchCB);
 
     // ========================================================================
     // 주소-좌표 변환 객체를 생성합니다
@@ -95,7 +95,7 @@ function TestMap({ place, setPlace }: any): JSX.Element {
                 "</div>"
               : "";
 
-            setPlace(result[0].road_address.address_name);
+            func.setPlace(result[0].road_address.address_name);
             console.log(result[0]);
             var content = '<div class="bAddr">' + detailAddr + "</div>";
 
@@ -157,7 +157,7 @@ function TestMap({ place, setPlace }: any): JSX.Element {
         image: markerImage, // 마커 이미지
       });
     }
-  }, [isGeolocation]);
+  }, [isGeolocation, func.keyword]);
 
   return <SMap id="map" />;
 }

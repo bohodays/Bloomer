@@ -1,10 +1,22 @@
 import BasicModal from "../../common/Modal/BasicModal";
 import KakaoMap from "../../Map/KakaoMap";
 import TestMap from "../../Map/TestMap";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-function DiaryLocationModal({ children, modalButton }: any): JSX.Element {
-  const [place, setPlace] = useState("최초 위치");
+function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
+  //   const [place, setPlace] = useState("최초 위치");
+  const [keyword, setKeyword] = useState<any>();
+
+  const func = {
+    place,
+    setPlace,
+    keyword,
+    setKeyword,
+  };
+
+  const keywordInput = useRef<HTMLInputElement>(null);
+  const onSearch = (e: any) => setKeyword(keywordInput.current?.value);
+
   return (
     <BasicModal
       modalButton={
@@ -12,8 +24,8 @@ function DiaryLocationModal({ children, modalButton }: any): JSX.Element {
       }
     >
       <h3>위치 설정</h3>
-      <input /> <button>검색 버튼</button>
-      <TestMap place={place} setPlace={setPlace} />
+      <input ref={keywordInput} /> <button onClick={onSearch}>검색 버튼</button>
+      <TestMap func={func} />
       <p>{place}</p>
     </BasicModal>
   );
