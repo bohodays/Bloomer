@@ -19,6 +19,20 @@ export const SDrawer = styled(SwipeableDrawer)`
     max-width: 480px;
     border-radius: 50px 50px 0 0;
   }
+
+  .radio__wrapper {
+    width: 90%;
+    padding: 0.2rem 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #c3c3c3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .last__radio {
+    border: none;
+  }
 `;
 
 export const Puller = styled(Box)(({ theme }) => ({
