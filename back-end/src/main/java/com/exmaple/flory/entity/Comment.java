@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 @ToString
 @DynamicUpdate //Update 시에 변경된 필드만 대응
@@ -43,7 +44,7 @@ public class Comment {
 
     public CommentDto toDto(){
         return CommentDto.builder()
-                .id(id).content(content).createdTime(createdTime).did(diary.getId()).uid(member.getUserId()).diary(diary).member(member).build();
+                .id(id).content(content).createdTime(createdTime).did(diary.getId()).uid(member.getUserId()).diary(diary).build();
     }
 
 }

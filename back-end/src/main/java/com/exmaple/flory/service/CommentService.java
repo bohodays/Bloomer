@@ -36,11 +36,15 @@ public class CommentService {
         if(diary.isEmpty() || member.isEmpty()) throw new Exception();
 
         commentDto.setDiary(diary.get());
-        commentDto.setMember(member.get());
+        Comment comment = commentDto.toEntity();
+        comment.setMember(member.get());
+
         log.info("insert 요청: {}",commentDto);
-        log.info("insert 요청: {}",commentDto.toEntity());
-        log.info("insert 요청: {}",commentDto.toEntity().toDto());
-        CommentDto result = commentRepository.save(commentDto.toEntity()).toDto();
+        log.info("insert 요청: {}",comment);
+
+        CommentDto result = commentRepository.save(comment).toDto();
+
+        log.info("insert 요청: {}",result);
 
         return result;
     }
@@ -55,10 +59,9 @@ public class CommentService {
             Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
             if(member.isEmpty()) throw new Exception();
-            commentDto.setMember(member.get());
 
             CommentListDto commentListDto = CommentListDto.builder()
-                    .id(commentDto.getId()).member(commentDto.getMember()).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
+                    .id(commentDto.getId()).member(member.get()).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
 
             comments.add(commentListDto);
         }
@@ -82,10 +85,12 @@ public class CommentService {
 
         if(member.isEmpty() || diary.isEmpty()) throw new Exception();
 
-        commentDto.setMember(member.get());
         commentDto.setDiary(diary.get());
 
-        return commentRepository.save((commentDto.toEntity())).toDto();
+        Comment comment1 = commentDto.toEntity();
+        comment1.setMember(member.get());
+
+        return commentRepository.save(comment1).toDto();
     }
 
     public int deleteComment(Long commentId){
