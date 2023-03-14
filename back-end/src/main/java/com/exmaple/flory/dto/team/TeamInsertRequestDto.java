@@ -1,13 +1,17 @@
 package com.exmaple.flory.dto.team;
 
 import com.exmaple.flory.entity.Team;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TeamInsertRequestDto {
 
     private String name; //그룹 이름
