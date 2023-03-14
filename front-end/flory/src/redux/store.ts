@@ -4,7 +4,9 @@ import diary from "./modules/diary";
 import garden from "./modules/garden";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    user,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

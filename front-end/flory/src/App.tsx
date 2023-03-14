@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import "./App.css";
 
 // 코드 스플리팅 (Code Splitting)
@@ -15,20 +17,21 @@ function App() {
   return (
     <div className="app">
       {/* // fallback 추가하기 */}
-      <Suspense>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            {/* 로그인 되어있으면 메인페이지로 보내기 */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/map" element={<Map />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/diary" element={<Diary />} />
-
-          </Routes>
-        </BrowserRouter>
-      </Suspense>
+      <Provider store={store}>
+        <Suspense>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              {/* 로그인 되어있으면 메인페이지로 보내기 */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/map" element={<Map />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/diary" element={<Diary />} />
+            </Routes>
+          </BrowserRouter>
+        </Suspense>
+      </Provider>
     </div>
   );
 }
