@@ -87,7 +87,7 @@ class MemberServiceTest {
         when(memberRepository.findById(anyLong())).thenReturn(Optional.ofNullable(member));
 
         member.updateToken(null);
-//        when(memberRepository.save(any())).thenReturn(Optional.ofNullable(member));
+//        when(memberRepository.save(any())).thenReturn(member);
 
         //when
         memberService.logout(userId);
@@ -100,26 +100,43 @@ class MemberServiceTest {
     @DisplayName("회원 정보 수정")
     @Test
     void updateMember() {
-//        //given
-//        MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-//                .nickname("rename").password("password").img("img").build();
-//
-//        Member member = Member.builder()
-//                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
-//
-//        when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
-//        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getImg(), memberRequestDto.getPassword(), passwordEncoder);
-//        when(memberRepository.save(any())).thenReturn(Optional.ofNullable(member));
-//
-//        //when
-//        MemberResponseDto result = memberService.updateMember(memberRequestDto);
-//
-//        //then
-//        assertEquals(result.getNickname(),memberResponseDto.getNickname());
+        //given
+        MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                .nickname("rename").password("password").img("img").email("email").build();
+
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        MemberResponseDto responseDto = MemberResponseDto.builder().
+                userId(1L).nickname("rename").img("img").email("email").build();
+
+        when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
+        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getImg(), memberRequestDto.getPassword(), passwordEncoder);
+        when(memberRepository.save(any())).thenReturn(member);
+
+        //when
+        MemberResponseDto result = memberService.updateMember(memberRequestDto);
+
+        //then
+        assertEquals(result.getNickname(),responseDto.getNickname());
     }
 
     @DisplayName("회원 탈퇴")
     @Test
     void deleteMember() {
+        //given
+        String email = "email";
+
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
+
+        //when
+        memberService.deleteMember(email);
+
+        //then
+        verify(memberRepository, times(1)).findByEmail(anyString());
+        verify(memberRepository, times(1)).delete(any());
     }
 }
