@@ -36,7 +36,6 @@ public class GardenRepositoryTest {
 
         Member member = Member
                 .builder()
-                .userId(1L)
                 .email("cksgnlcjswoo@naver.ocm")
                 .password("1234")
                 .nickname("abcd")
