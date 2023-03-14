@@ -1,6 +1,6 @@
-import React from "react";
-import DiaryListItem from "../DiaryListItem/DiaryListItem";
-import { SMain } from "./styles";
+import React from "react"
+import DiaryListItem from "../DiaryListItem/DiaryListItem"
+import { SMain } from "./styles"
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -42,7 +42,7 @@ const SAMPLE_DIARY_LIST = [
   {
     id: 4,
     content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
+      "김 팀장님이 일을 잔뜩 주셔서 야근을했다dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
     imgSrc: "",
     lat: 32,
     lng: 127,
@@ -63,15 +63,15 @@ const SAMPLE_DIARY_LIST = [
     emotion: "슬픔",
     commentList: ["Dddd"],
   },
-];
+]
 
 function groupBy<T>(arr: T[], fn: (item: T) => any) {
   return arr.reduce<Record<string, T[]>>((prev, curr) => {
-    const groupKey = fn(curr);
-    const group = prev[groupKey] || [];
-    group.push(curr);
-    return { ...prev, [groupKey]: group };
-  }, {});
+    const groupKey = fn(curr)
+    const group = prev[groupKey] || []
+    group.push(curr)
+    return { ...prev, [groupKey]: group }
+  }, {})
 }
 
 const DiaryTotalList = () => {
@@ -85,7 +85,7 @@ const DiaryTotalList = () => {
         <div>피드가 없습니다.</div>
       )}
     </SMain>
-  );
-};
+  )
+}
 
-export default DiaryTotalList;
+export default DiaryTotalList
