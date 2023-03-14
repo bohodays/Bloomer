@@ -13,6 +13,7 @@ import Switch from "@mui/material/Switch";
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
+import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 const DiaryCreate = () => {
   const fileInput = React.useRef<HTMLInputElement>(null);
@@ -54,13 +55,7 @@ const DiaryCreate = () => {
         <div className="location__wrapper">
           <div>기록 위치</div>
           <div className="location">서울 강남구 테헤란로 212</div>
-          <BasicModal
-            modalButton={
-              <button className="location-switch__button">위치 변경</button>
-            }
-          >
-            <h3>위치 설정</h3>
-          </BasicModal>
+          <DiaryLocationModal />
         </div>
       </SSection>
       <div className="bottom__wrapper">
