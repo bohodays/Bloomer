@@ -4,8 +4,7 @@ import TestMap from "../../Map/TestMap";
 import React, { useState, useEffect, useRef } from "react";
 
 function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
-  //   const [place, setPlace] = useState("최초 위치");
-  const [keyword, setKeyword] = useState<any>();
+  const [keyword, setKeyword] = useState<any>(place);
 
   const func = {
     place,
