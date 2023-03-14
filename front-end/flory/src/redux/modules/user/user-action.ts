@@ -25,7 +25,6 @@ export const checkDupEmailAction = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const { data } = await axios.get(`/api/user/check-email/${email}`);
-      console.log(data);
 
       return data;
     } catch (e) {
