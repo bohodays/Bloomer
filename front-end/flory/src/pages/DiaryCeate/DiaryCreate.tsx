@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/common/Navbar/Navbar";
 import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput";
 import { SMain, SSection } from "./styles";
@@ -14,9 +14,12 @@ import Radio from "@mui/material/Radio";
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
+import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 const DiaryCreate = () => {
+  const [place, setPlace] = useState("서울 강남구 테헤란로 212");
   const [selectedValue, setSelectedValue] = React.useState("a");
+
   const fileInput = React.useRef<HTMLInputElement>(null);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -86,14 +89,8 @@ const DiaryCreate = () => {
         <GroupTagWrapper />
         <div className="location__wrapper">
           <div>기록 위치</div>
-          <div className="location">서울 강남구 테헤란로 212</div>
-          <BasicModal
-            modalButton={
-              <button className="location-switch__button">위치 변경</button>
-            }
-          >
-            <h3>위치 설정</h3>
-          </BasicModal>
+          <div className="location">{place}</div>
+          <DiaryLocationModal place={place} setPlace={setPlace} />
         </div>
       </SSection>
       <div className="bottom__wrapper">

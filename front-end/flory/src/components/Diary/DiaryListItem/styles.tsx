@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   display: flex;
@@ -23,7 +23,7 @@ export const SMain = styled.main<any>`
     left: 45px;
     overflow-y: hidden;
   }
-`
+`;
 
 export const SItem = styled.div<any>`
   display: flex;
@@ -31,7 +31,9 @@ export const SItem = styled.div<any>`
   align-items: center;
   z-index: -2;
 
-  background-color: ${(props) => (props.isDiaryPage ? "#f6f2ff" : "white")};
+  background-color: #f6f2ff;
+  /* background-color: ${(props) =>
+    props.isDiaryPage ? "#f6f2ff" : "white"}; */
   margin-bottom: 17px;
   border-radius: 18px;
   padding: 0.9rem;
@@ -71,10 +73,10 @@ export const SItem = styled.div<any>`
       align-items: center;
     }
   }
-`
+`;
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`
+`;

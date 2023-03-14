@@ -22,7 +22,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box>{children}</Box>}
+      {value === index && <div>{children}</div>}
     </div>
   );
 }
@@ -35,16 +35,16 @@ const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
   };
 
   return (
-    <Box sx={{ width: "90%" }}>
-      <Box>
+    <div style={{ width: "90%" }}>
+      <div>
         <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
-      </Box>
+      </div>
       {props.tabs.map((tab, idx) => (
         <TabPanel value={value} index={idx}>
           {tab.panel}
         </TabPanel>
       ))}
-    </Box>
+    </div>
   );
 };
 
