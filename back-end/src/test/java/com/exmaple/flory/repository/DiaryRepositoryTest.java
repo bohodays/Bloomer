@@ -124,7 +124,7 @@ public class DiaryRepositoryTest {
 
         Diary diary = diaryRepository.save(diaryDto.toEntity());
 
-        Diary result = diaryRepository.findByXAndYAndZ("x","y","z");
+        Diary result = diaryRepository.findByXAndYAndZInGarden(garden1.getId(), "x","y","z");
 
         assertEquals(diary.getContent(),result.getContent());
     }

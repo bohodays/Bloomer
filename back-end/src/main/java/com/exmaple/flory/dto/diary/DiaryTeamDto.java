@@ -1,6 +1,6 @@
 package com.exmaple.flory.dto.diary;
 
-import com.exmaple.flory.entity.DiaryGroup;
+import com.exmaple.flory.entity.DiaryTeam;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,15 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @Builder
 @Slf4j
-public class DiaryGroupDto {
+public class DiaryTeamDto {
     private Long id;
 
     private Long diaryId;
 
     private Long groupId;
 
-    public DiaryGroup toEntity(){
-        return DiaryGroup.builder()
+    public DiaryTeam toEntity(){
+        return DiaryTeam.builder()
                 .id(id).diaryId(diaryId).groupId(groupId).build();
     }
 }

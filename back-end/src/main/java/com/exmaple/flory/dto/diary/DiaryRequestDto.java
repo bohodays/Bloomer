@@ -4,6 +4,8 @@ import com.exmaple.flory.entity.Diary;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -28,6 +30,8 @@ public class DiaryRequestDto {
     private String lng;
 
     private String publicStatus;
+
+    private List<Long> groupList;
 
     private String x;
 

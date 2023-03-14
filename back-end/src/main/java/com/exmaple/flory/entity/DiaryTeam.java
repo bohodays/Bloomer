@@ -1,6 +1,5 @@
 package com.exmaple.flory.entity;
 
-import com.exmaple.flory.dto.diary.DiaryGroupDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Slf4j
-public class DiaryGroup {
+public class DiaryTeam {
 
     @Id
     @Column(name = "id")
@@ -28,8 +27,8 @@ public class DiaryGroup {
     @Column(name = "gid")
     private Long groupId;
 
-    public DiaryGroupDto toDto(){
-        return DiaryGroupDto.builder()
-                .id(id).diaryId(diaryId).groupId(groupId).build();
-    }
+//    public DiaryTeamDto toDto(){
+//        return DiaryTeamDto.builder()
+//                .id(id).diaryId(diaryId).groupId(groupId).build();
+//    }
 }

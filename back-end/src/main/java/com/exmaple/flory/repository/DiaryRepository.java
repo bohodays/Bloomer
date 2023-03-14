@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DiaryRepository extends JpaRepository <Diary, Long>, QDiaryRepository{
-    Diary findByXAndYAndZ(String x, String y, String z);
+
 }

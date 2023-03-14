@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -63,7 +64,7 @@ public class DiaryController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateDiary(@RequestBody DiaryDto diaryDto){
+    public ResponseEntity<?> updateDiary(@RequestBody DiaryRequestDto diaryDto){
         try{
             DiaryDto result = diaryService.updateDiary(diaryDto);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
@@ -73,10 +74,10 @@ public class DiaryController {
         }
     }
 
-    @GetMapping("/list/{gardenId}")
-    public ResponseEntity<?> getDiaryListGarden(@PathVariable Long gardenId){
+    @GetMapping("/list/{gardenId}/{requestId}")
+    public ResponseEntity<?> getDiaryListGarden(@PathVariable Long gardenId, @PathVariable Long requestId){
         try{
-            List<DiaryDto> result = diaryService.getDiaryListGarden(gardenId);
+            List<DiaryDto> result = diaryService.getDiaryListByGarden(gardenId, requestId);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -84,10 +85,10 @@ public class DiaryController {
         }
     }
 
-    @GetMapping("/diary-list/{userId}")
-    public ResponseEntity<?> getDiaryListUser(@PathVariable Long userId){
+    @GetMapping("/diary-list/{memberId}/{requestId}")
+    public ResponseEntity<?> getDiaryListUser(@PathVariable Long memberId, @PathVariable Long requestId){
         try{
-            List<DiaryDto> result = diaryService.getDiaryListByUser(userId);
+            List<DiaryDto> result = diaryService.getDiaryListByUser(memberId, requestId);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -95,10 +96,21 @@ public class DiaryController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<?> getDiaryByLocation(@RequestParam String x, @RequestParam String y,@RequestParam String z){
+    @PostMapping("/map")
+    public ResponseEntity<?> getDiaryListInMap(@RequestBody Map<String,String> mapInfo){
+        try {
+            List<DiaryDto> result = diaryService.getDiaryListInMap(mapInfo);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/location")
+    public ResponseEntity<?> getDiaryByLocation(@RequestBody Map<String,String> info){
         try{
-            DiaryDto diaryDto = diaryService.getDiaryByLocation(x,y,z);
+            DiaryDto diaryDto = diaryService.getDiaryByLocation(info);
             return new ResponseEntity<>(new SuccessResponse(diaryDto),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
