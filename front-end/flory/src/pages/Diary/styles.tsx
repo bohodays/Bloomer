@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 export const SMain = styled.main`
+  max-width: 480px;
   .background-image {
     position: fixed;
     object-fit: cover;
@@ -15,12 +16,10 @@ export const SMain = styled.main`
   }
 
   .content-container {
-    max-width: 480px;
-
     width: 90%;
     height: 100%;
     margin: 0 auto;
-    z-index: -1;
+    z-index: -100;
     overflow-y: auto;
 
     .diary-section {
