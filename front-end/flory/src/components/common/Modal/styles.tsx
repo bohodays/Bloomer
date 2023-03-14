@@ -17,6 +17,7 @@ export const SDrawer = styled(SwipeableDrawer)`
     margin: auto;
     width: 100%;
     max-width: 480px;
+    border-radius: 50px 50px 0 0;
   }
 `;
 
