@@ -6,6 +6,10 @@ import React, { useState, useEffect, useRef } from "react";
 function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
   const [keyword, setKeyword] = useState<any>(place);
 
+  const onClickHere = () => {
+    setKeyword("");
+  };
+
   const func = {
     place,
     setPlace,
@@ -24,6 +28,7 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
     >
       <h3>위치 설정</h3>
       <input ref={keywordInput} /> <button onClick={onSearch}>검색 버튼</button>
+      <button onClick={onClickHere}>현재 위치로</button>
       <TestMap func={func} />
       <p>{place}</p>
     </BasicModal>

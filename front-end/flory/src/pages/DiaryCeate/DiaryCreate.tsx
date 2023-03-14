@@ -16,7 +16,7 @@ import BasicModal from "../../components/common/Modal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 const DiaryCreate = () => {
-  const [place, setPlace] = useState("서울 강남구 테헤란로 212");
+  const [place, setPlace] = useState("");
   const fileInput = React.useRef<HTMLInputElement>(null);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {

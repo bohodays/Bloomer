@@ -76,8 +76,22 @@ function TestMap({ func }: any): JSX.Element {
     ps.keywordSearch(func.keyword, placesSearchCB);
 
     // ========================================================================
+
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
+    // 마커 이미지의 이미지 크기 입니다
+    var imageSize = new kakao.maps.Size(24, 35);
+    var imageSrc =
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    // 마커 이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    // 마커를 생성합니다
+    var yellowMarker = new kakao.maps.Marker({
+      map: map, // 마커를 표시할 지도
+      position: map.getCenter(), // 마커를 표시할 위치
+      image: markerImage, // 마커 이미지
+    });
 
     function searchDetailAddrFromCoords(coords: any, callback: any) {
       // 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -100,12 +114,12 @@ function TestMap({ func }: any): JSX.Element {
             var content = '<div class="bAddr">' + detailAddr + "</div>";
 
             // 마커를 클릭한 위치에 표시합니다
-            marker.setPosition(mouseEvent.latLng);
-            marker.setMap(map);
+            yellowMarker.setPosition(mouseEvent.latLng);
+            yellowMarker.setMap(map);
 
             // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
             infowindow.setContent(content);
-            infowindow.open(map, marker);
+            infowindow.open(map, yellowMarker);
           }
         }
       );
@@ -114,49 +128,6 @@ function TestMap({ func }: any): JSX.Element {
     // 지도 범위 가져오기
     let bounds = map.getBounds();
     bounds.toString(); // "((33.44843745687413, 126.56798357402302), (33.452964008206735, 126.57333898904454))"
-
-    // 마커를 표시할 위치와 title 객체 배열입니다
-    var positions = [
-      {
-        title: "현 위치",
-        latlng: new kakao.maps.LatLng(
-          geolocation.latitude,
-          geolocation.longitude
-        ),
-      },
-      {
-        title: "멀티캠퍼스",
-        latlng: new kakao.maps.LatLng(37.50119059031505, 127.03959330427779),
-      },
-      {
-        title: "한국은행",
-        latlng: new kakao.maps.LatLng(37.50059645381534, 127.03798710525825),
-      },
-      {
-        title: "근린공원",
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
-      },
-    ];
-
-    // 마커 이미지의 이미지 주소입니다
-    var imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-    for (var i = 0; i < positions.length; i++) {
-      // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35);
-
-      // 마커 이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-      // 마커를 생성합니다
-      var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: positions[i].latlng, // 마커를 표시할 위치
-        title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image: markerImage, // 마커 이미지
-      });
-    }
   }, [isGeolocation, func.keyword]);
 
   return <SMap id="map" />;
