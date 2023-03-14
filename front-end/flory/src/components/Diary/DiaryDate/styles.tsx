@@ -5,10 +5,13 @@ export const SContainer = styled.div`
   top: 21vh;
 
   display: flex;
-  flex-direction: row;
   gap: 0.625rem;
   /* margin-top: -30px; */
   /* margin-bottom: 20px; */
+
+  .date-picker {
+    cursor: pointer;
+  }
 `
 
 export const SMain = styled.div`

@@ -21,6 +21,7 @@ export const SMain = styled.main`
     height: 100%;
     margin: 0 auto;
     z-index: -1;
+    overflow-y: auto;
 
     .diary-section {
       margin-top: 30vh;
