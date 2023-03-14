@@ -23,7 +23,7 @@ const DiaryCreate = () => {
   return (
     <SMain>
       <SSection>
-        {/* 전체 공개인 경우 height 60% 올리는 로직 추가하기 */}
+        {/* 전체 공개인 경우 height 60% 올리는 로직 추가하기! */}
         <DiaryCreateInput />
         <div className="input__wrapper">
           <button className="image__button">
