@@ -9,6 +9,7 @@ import { SMain, SSection } from "./styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
@@ -53,23 +54,12 @@ const DiaryCreate = () => {
         <div className="location__wrapper">
           <div>기록 위치</div>
           <div className="location">서울 강남구 테헤란로 212</div>
-          <BasicModal modalButton={<button>위치 변경</button>}>
-            <h3>그룹 설정</h3>
-            <Button
-              type="submit"
-              addStyle={{
-                margin: "auto",
-                fontSize: "1rem",
-                width: "320px",
-                height: "3rem",
-                color: "#ffffff",
-                background1: "rgb(101,182,255)",
-                background2:
-                  "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
-                borderRadius: "24px",
-              }}
-              contents="확인"
-            />
+          <BasicModal
+            modalButton={
+              <button className="location-switch__button">위치 변경</button>
+            }
+          >
+            <h3>위치 설정</h3>
           </BasicModal>
         </div>
       </SSection>
