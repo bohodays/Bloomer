@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import Garden from "./pages/Garden/Garden";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -23,6 +24,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/map" element={<Map />} />
             <Route path="/diary" element={<Diary />} />
+            <Route path="/home" element={<Garden />} />
           </Routes>
         </BrowserRouter>
       </Suspense>
