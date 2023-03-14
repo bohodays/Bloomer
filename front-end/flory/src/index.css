@@ -39,8 +39,17 @@ html {
   height: 100%;
 }
 
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: "GmarketSansMedium";
   height: 100%;
   margin: 0;
   /* 글씨에 커서를 가까이해도 원형 유지 */

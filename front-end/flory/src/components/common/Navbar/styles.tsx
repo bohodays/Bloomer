@@ -19,8 +19,8 @@ export const SNavbar = styled.menu`
   border-radius: 16px;
 
   .button__wrapper {
-    border: 3px solid #2e2162;
-    border-radius: 50%;
+    /* border: 3px solid #2e2162;
+    border-radius: 50%; */
   }
 
   .wrapper__active {
@@ -29,10 +29,14 @@ export const SNavbar = styled.menu`
 
   /* 아이콘을 감싸는 버튼 */
   button {
-    width: 4rem;
-    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
-    border: 5px solid #2e2162;
+    border: 7px solid #2e2162;
   }
 
   .button__active {
@@ -41,8 +45,8 @@ export const SNavbar = styled.menu`
 
   .nav__item {
     color: var(--color-white);
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1rem;
+    height: 1rem;
     padding: 1rem 0;
   }
 

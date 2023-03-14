@@ -13,6 +13,8 @@ const Signup = React.lazy(() => import("./pages/Signup/Signup"));
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
+const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
+const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/diary/" element={<Diary />} />
+            <Route path="/diary/create" element={<DiaryCreate />} />
+            <Route path="/diary/select" element={<DiarySelect />} />
+            <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
             <Route path="/home" element={<Garden />} />
           </Routes>
