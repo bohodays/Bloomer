@@ -12,6 +12,9 @@ import {
   Stars,
 } from "@react-three/drei";
 import Base_map from "../../components/Garden/Base_map";
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
+import Navbar from "../../components/common/Navbar/Navbar";
+import { SMain } from "./styles";
 
 const Scene = () => {
   return (
@@ -30,12 +33,16 @@ const Scene = () => {
 
 const Garden = () => {
   return (
-    <Canvas shadows={true}>
-      {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
-      <OrbitControls maxPolarAngle={Math.PI / 2.8} />
+    <SMain>
+      <ToggleButton />
+      <Canvas shadows={true}>
+        {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
+        <OrbitControls maxPolarAngle={Math.PI / 2.8} />
 
-      <Scene></Scene>
-    </Canvas>
+        <Scene></Scene>
+      </Canvas>
+      <Navbar />
+    </SMain>
   );
 };
 
