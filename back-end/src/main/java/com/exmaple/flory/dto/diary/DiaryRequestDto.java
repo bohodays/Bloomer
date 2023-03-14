@@ -15,6 +15,8 @@ import java.util.List;
 @Slf4j
 public class DiaryRequestDto {
 
+    private Long id;
+
     private Long gid;
 
 //    private Long mid;

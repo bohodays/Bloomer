@@ -98,7 +98,11 @@ public class DiaryService {
     }
 
     public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
-        Diary diary = diaryDto.toEntity();
+        Optional<Diary> d = diaryRepository.findById(diaryDto.getId());
+        if(d.isEmpty()) throw new Exception();
+
+        Diary diary = d.get();
+        log.info("수정: {}",diary);
         Optional<Garden> garden = gardenRepository.findById(diaryDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryDto.getFid());
 
@@ -128,8 +132,10 @@ public class DiaryService {
         else{ //정원 생성자와 요청한 사람이 다르다면
             diaryList = diaryRepository.findPublicByGardenId(gardenId);//먼저 전체공개로 설정한 일기 목록을 가져온다
             List<Diary> diaries = diaryRepository.findTeamByGardenId(gardenId);//그룹공개로 설정한 일기 목록을 우선 가져온다
+            log.info("diaries: {}",diaries);
 
             for(int i=0;i<diaries.size();i++){
+                log.info("result: {}",isInTeam(diaries.get(i).getId(),requestId));
                 if(isInTeam(diaries.get(i).getId(),requestId)){ //요청한 사람이 그룹 내에 있는 사람이라면
                     diaryList.add(diaries.get(i));
                 }
@@ -162,19 +168,27 @@ public class DiaryService {
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
+    public List<DiaryDto> getDiaryListInMap(Map<String, String> info) throws Exception {
         String lat1 = info.get("lat1");
         String lng1 = info.get("lng1");
         String lat2 = info.get("lat2");
         String lng2 = info.get("lng2");
+        Long requestId = Long.parseLong(info.get("requestId"));
 
         List<Diary> diaryList = diaryRepository.findDiaryInMap(lat1,lng1,lat2,lng2);
         List<DiaryDto> result= new ArrayList<>();
 
         for(int i=0;i<diaryList.size();i++){
-            DiaryDto diaryDto = diaryList.get(i).toDto();
-
-            result.add(diaryDto);
+            if(diaryList.get(i).getPublicStatus().equals("전체공개")){
+                DiaryDto diaryDto = diaryList.get(i).toDto();
+                result.add(diaryDto);
+            }
+            else if(diaryList.get(i).getPublicStatus().equals("그룹공개")){
+                if(isInTeam(diaryList.get(i).getId(),requestId)){
+                    DiaryDto diaryDto = diaryList.get(i).toDto();
+                    result.add(diaryDto);
+                }
+            }
         }
 
         return result;
@@ -235,14 +249,14 @@ public class DiaryService {
 
     public boolean isInTeam(Long diaryId, Long memberId){
         List<Long> groupList = diaryTeamRepository.getGroup(diaryId);
-
+        log.info("groupList: {}",groupList);
         Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) return false;
 
         List<UserTeam> teamList = userTeamRepository.findAllByUid(member.get());
 
         for(int i=0;i<teamList.size();i++) {
-            if(groupList.contains(teamList.get(i).getUserTeamId())){
+            if(groupList.contains(teamList.get(i).getTid().getTeamId())){
                 return true;
             }
         }

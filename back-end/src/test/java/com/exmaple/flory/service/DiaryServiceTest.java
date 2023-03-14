@@ -146,6 +146,7 @@ public class DiaryServiceTest {
         List<Long> emotions = new ArrayList<>();
         emotions.add(emotion.getId());
 
+        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diaryDto.toEntity()));
         when(diaryRepository.save(any())).thenReturn(diaryDto.toEntity());
         when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
         when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
@@ -196,7 +197,7 @@ public class DiaryServiceTest {
 
     @DisplayName("지도 범위 내의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryInMapTest(){
+    public void getDiaryInMapTest() throws Exception {
         List<Diary> diaries = new ArrayList<>();
         Map<String,String> info = new HashMap<>();
 
@@ -204,6 +205,7 @@ public class DiaryServiceTest {
         info.put("lng1","1");
         info.put("lat2","1");
         info.put("lng2","1");
+        info.put("requestId","1");
 
         diaries.add(diaryDto.toEntity());
 
@@ -266,7 +268,7 @@ public class DiaryServiceTest {
 
     @DisplayName("사용자의 일기 목록 가져오기 테스트")
     @Test
-    public void getDiaryListInUserTest() throws Exception{
+    public void getDiaryListInUserTest(){
         List<Diary> diaries = new ArrayList<>();
         diaries.add(diaryDto.toEntity());
 

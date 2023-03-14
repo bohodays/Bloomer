@@ -214,6 +214,7 @@ public class DiaryControllerTest {
         info.put("lng1","1");
         info.put("lat2","1");
         info.put("lng2","1");
+        info.put("requestId","1");
 
         when(diaryService.getDiaryListInMap(any())).thenThrow(new RuntimeException());
 
