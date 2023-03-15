@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-function TestMap({ func }: any): JSX.Element {
+function SearchMap({ func }: any): JSX.Element {
   const geolocation = useGeolocation();
   let isGeolocation = geolocation.latitude != null;
 
@@ -104,10 +104,8 @@ function TestMap({ func }: any): JSX.Element {
         function (result: any, status: any) {
           if (status === kakao.maps.services.Status.OK) {
             var detailAddr = !!result[0].road_address
-              ? "<div>도로명주소 : " +
-                result[0].road_address.address_name +
-                "</div>"
-              : "";
+              ? result[0].road_address.address_name
+              : result[0].address.address_name;
 
             var content = '<div class="bAddr">' + detailAddr + "</div>";
 
@@ -122,7 +120,7 @@ function TestMap({ func }: any): JSX.Element {
             // 위치 정보 저장
             func.setPlace({
               placeName: "",
-              address: result[0].road_address.address_name,
+              address: detailAddr,
               x: mouseEvent.latLng.getLng(),
               y: mouseEvent.latLng.getLat(),
             });
@@ -135,4 +133,4 @@ function TestMap({ func }: any): JSX.Element {
   return <SMap id="map" />;
 }
 
-export default TestMap;
+export default SearchMap;

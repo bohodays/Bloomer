@@ -17,7 +17,7 @@ import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
-import { LocationType } from "../../models/map/locationType";
+import { PlaceType } from "../../models/map/placeType";
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ declare global {
 }
 
 const DiaryCreate = () => {
-  const [place, setPlace] = useState<LocationType>({
+  const [place, setPlace] = useState<PlaceType>({
     placeName: "",
     address: "",
     x: 0,

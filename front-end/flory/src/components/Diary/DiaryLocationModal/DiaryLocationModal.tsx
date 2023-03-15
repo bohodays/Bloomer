@@ -1,6 +1,6 @@
 import BasicModal from "../../common/Modal/BasicModal";
 import KakaoMap from "../../Map/KakaoMap";
-import TestMap from "../../Map/TestMap";
+import SearchMap from "../../Map/SearchMap";
 import React, { useState, useEffect, useRef } from "react";
 import LocaList from "../../common/List/LocaList";
 
@@ -37,7 +37,7 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
       <h3>위치 설정</h3>
       <input ref={keywordInput} /> <button onClick={onSearch}>검색 버튼</button>
       <button onClick={onClickHere}>현재 위치로</button>
-      <TestMap func={func} />
+      <SearchMap func={func} />
       <p>{place.placeName ? place.placeName : place.address}</p>
       <div style={{ width: "100%", height: "200px", overflowY: "auto" }}>
         <LocaList func={func} />
