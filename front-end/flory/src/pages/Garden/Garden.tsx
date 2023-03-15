@@ -35,10 +35,13 @@ const Garden = () => {
   return (
     <SMain>
       <ToggleButton />
-      <Canvas shadows={true}>
+      <Canvas shadows={true} className={"canvas__backgroundColor"}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
-        <OrbitControls maxPolarAngle={Math.PI / 2.8} />
-
+        <OrbitControls
+          maxPolarAngle={Math.PI / 2.8}
+          minZoom={30}
+          maxZoom={200}
+        />
         <Scene></Scene>
       </Canvas>
       <Navbar />

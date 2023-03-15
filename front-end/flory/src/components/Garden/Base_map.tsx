@@ -67,6 +67,10 @@ type GLTFResult = GLTF & {
   };
 };
 
+const onClick = () => {
+  console.log(11);
+};
+
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/base_map.glb") as GLTFResult;
   return (
@@ -113,6 +117,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         position={[-0.39, 0.23, 5.45]}
         rotation={[Math.PI, 0, Math.PI]}
         receiveShadow={true}
+        onClick={onClick}
       />
       <mesh
         geometry={nodes.Base_Ground.geometry}
