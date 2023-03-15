@@ -2,75 +2,85 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 export const SMain = styled.main<any>`
+  width: 100%;
   display: flex;
-  gap: 12px;
+  gap: 0.3rem;
 
   .flower-image-border {
     background-color: #ffe897;
     border-radius: 50%;
-    height: 50px;
-    padding: 7px;
+    height: 2.3rem;
+    padding: 0.4rem;
     border: 3px solid #ececec;
     position: relative;
     z-index: -1;
   }
 
-  .line {
+  /* .line {
     position: absolute;
     border-left: 3px solid #ececec;
     height: 130px;
     z-index: -4;
     left: 45px;
     overflow-y: hidden;
-  }
+  } */
 `;
 
 export const SItem = styled.div<any>`
+  flex: auto;
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   align-items: center;
   z-index: -2;
 
   background-color: #f6f2ff;
-  /* background-color: ${(props) =>
-    props.isDiaryPage ? "#f6f2ff" : "white"}; */
-  margin-bottom: 17px;
+  margin-bottom: 1.2rem;
   border-radius: 18px;
   padding: 0.9rem;
 
   .flower-image {
     background-color: #ffe897;
     border-radius: 50%;
-    height: 40px;
+    height: 3rem;
     padding: 7px;
   }
 
   .title-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
     font-size: 0.8rem;
     font-weight: bold;
-    margin-bottom: 7px;
+    margin-bottom: 0.4rem;
   }
 
   .content-container {
+    width: 100%;
+    margin-bottom: 0.4rem;
+
     font-size: 0.5rem;
-    line-height: 20px;
-    margin-bottom: 7px;
+    line-height: 1.25rem;
+    /* 줄바꿈 관련 */
+    /* word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; */
+    margin: 0;
   }
 
   .info-container {
     display: flex;
     justify-content: flex-end;
-    gap: 20px;
+    gap: 1rem;
     align-items: center;
     color: #8a8a8a;
     font-size: 0.4rem;
+
     .comment-section {
       display: flex;
-      gap: 0.3rem;
-      align-items: center;
+      gap: 0.2rem;
     }
   }
 `;
