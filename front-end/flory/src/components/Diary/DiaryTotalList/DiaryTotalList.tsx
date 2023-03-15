@@ -5,74 +5,227 @@ import { SMain } from "./styles";
 
 const SAMPLE_DIARY_LIST = [
   {
-    d14: [
+    day: "13",
+    diaryList: [
       {
         id: 1,
-        content:
-          "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-        imgSrc: "아아아ㅇㅇㅇㅇ",
-        lat: 32,
-        lng: 127,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
         publicStatus: "그룹공개",
-        createdTime: "2023-03-14T13:00",
-        emotion: "슬픔",
-        commentList: ["Dddd", "hghggh", "Dddd", "hghggh"],
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+        },
       },
+    ],
+  },
+  {
+    day: "15",
+    diaryList: [
       {
         id: 2,
-        content:
-          "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-        imgSrc: "",
-        lat: 32,
-        lng: 127,
-        publicStatus: "전체공개",
-        createdTime: "2023-03-14T01:00",
-        emotion: "슬픔",
-        commentList: [],
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-15 04:20:35",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+        },
       },
-    ],
-  },
-  {
-    d13: [
       {
         id: 3,
-        content:
-          "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-        imgSrc: "",
-        lat: 32,
-        lng: 127,
-        publicStatus: "전체공개",
-        createdTime: "2023-03-13T17:00",
-        emotion: "슬픔",
-        commentList: ["Dddd"],
-      },
-      {
-        id: 4,
-        content:
-          "김 팀장님이 일을 잔뜩 주셔서 야근을했다dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-        imgSrc: "",
-        lat: 32,
-        lng: 127,
-        publicStatus: "비공개",
-        createdTime: "2023-03-13T10:00",
-        emotion: "슬픔",
-        commentList: ["Dddd"],
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-15 04:21:58",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+        },
       },
     ],
   },
   {
-    d10: [
+    day: "17",
+    diaryList: [
       {
-        id: 5,
-        content:
-          "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-        imgSrc: "ㅇㅇㅇㅇㅇㅇ",
-        lat: 32,
-        lng: 127,
-        publicStatus: "비공개",
-        createdTime: "2023-03-10T17:00",
-        emotion: "슬픔",
-        commentList: ["Dddd"],
+        id: 1,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+        },
+      },
+    ],
+  },
+  {
+    day: "19",
+    diaryList: [
+      {
+        id: 1,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+        },
       },
     ],
   },
@@ -89,25 +242,22 @@ const SAMPLE_DIARY_LIST = [
 
 const DiaryTotalList = () => {
   return (
-    <SMain>
+    <>
       {SAMPLE_DIARY_LIST.length !== 0 ? (
         SAMPLE_DIARY_LIST.map((diaries, idx) => {
           return (
-            <div>
-              <h1>
-                {Object.keys(diaries)[0]} {1}
-              </h1>
-              <DiaryList
-                SAMPLE_DIARY_LIST={Object.values(diaries)[0]}
-                key={idx}
-              />
-            </div>
+            <SMain>
+              <div className="date">{diaries.day}</div>
+              <div className="diary-content">
+                <DiaryList DIARY_LIST={diaries.diaryList} key={idx} />
+              </div>
+            </SMain>
           );
         })
       ) : (
         <div>피드가 없습니다.</div>
       )}
-    </SMain>
+    </>
   );
 };
 

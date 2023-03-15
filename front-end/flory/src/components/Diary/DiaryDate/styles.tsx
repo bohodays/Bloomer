@@ -16,13 +16,12 @@ export const SMain = styled.div`
   justify-content: center;
   align-items: center;
 
-  font-weight: bolder;
-  font-size: 0.625rem;
-
+  font-size: 0.1rem;
+  font-weight: bold;
   color: #000000;
   background-color: white;
-  width: 3rem;
-  height: 3rem;
+  height: 2.3rem;
+  width: 2.3rem;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 `;

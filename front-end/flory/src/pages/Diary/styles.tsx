@@ -16,7 +16,7 @@ export const SMain = styled.main`
     right: 0;
     max-width: 480px;
     width: 100%;
-    height: 24vh;
+    /* height: 24vh; */
     margin: 0 auto;
   }
 

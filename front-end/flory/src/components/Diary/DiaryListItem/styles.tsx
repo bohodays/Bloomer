@@ -1,15 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   width: 100%;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.3rem;
 
   .flower-image-border {
     background-color: #ffe897;
     border-radius: 50%;
-    height: 3.2rem;
+    height: 2.3rem;
     padding: 0.4rem;
     border: 3px solid #ececec;
     position: relative;
@@ -24,9 +24,10 @@ export const SMain = styled.main<any>`
     left: 45px;
     overflow-y: hidden;
   } */
-`
+`;
 
 export const SItem = styled.div<any>`
+  flex: auto;
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -60,12 +61,13 @@ export const SItem = styled.div<any>`
     font-size: 0.5rem;
     line-height: 1.25rem;
     /* 줄바꿈 관련 */
-    word-break: break-all;
+    /* word-break: break-all;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; */
+    margin: 0;
   }
 
   .info-container {
@@ -81,10 +83,10 @@ export const SItem = styled.div<any>`
       gap: 0.2rem;
     }
   }
-`
+`;
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`
+`;
