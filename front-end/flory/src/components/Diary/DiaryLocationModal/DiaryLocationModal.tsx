@@ -1,7 +1,6 @@
 import BasicModal from "../../common/Modal/BasicModal";
-import KakaoMap from "../../Map/KakaoMap";
-import SearchMap from "../../Map/SearchMap";
-import React, { useState, useEffect, useRef } from "react";
+import SearchMap from "../../Map/SearchMap/SearchMap";
+import { useState, useRef } from "react";
 import LocaList from "../../common/List/LocaList";
 
 function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
