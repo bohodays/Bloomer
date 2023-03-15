@@ -10,6 +10,7 @@ import useGeolocation from "react-hook-geolocation";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import Radio from "@mui/material/Radio";
 
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
@@ -28,6 +29,9 @@ const DiaryCreate = () => {
     x: 0,
     y: 0,
   });
+
+  const [selectedValue, setSelectedValue] = React.useState("a");
+
   const fileInput = React.useRef<HTMLInputElement>(null);
 
   const geolocation = useGeolocation();
@@ -72,6 +76,18 @@ const DiaryCreate = () => {
     fileInput.current!.click();
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const controlProps = (item: string) => ({
+    checked: selectedValue === item,
+    onChange: handleChange,
+    value: item,
+    name: "color-radio-button-demo",
+    inputProps: { "aria-label": item },
+  });
+
   return (
     <SMain>
       <SSection>
@@ -92,12 +108,31 @@ const DiaryCreate = () => {
             // 가능한 업로드 파일 형식 제한
             accept="image/jpg, image/jpeg, image/png"
           />
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch defaultChecked />}
-              label="전체 공개"
-            />
-          </FormGroup>
+
+          <BasicModal
+            modalButton={
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch defaultChecked />}
+                  label="전체 공개"
+                />
+              </FormGroup>
+            }
+          >
+            <h3>공개 설정</h3>
+            <div className="radio__wrapper">
+              <p>전체 공개</p>
+              <Radio {...controlProps("a")} />
+            </div>
+            <div className="radio__wrapper">
+              <p>그룹 공개</p>
+              <Radio {...controlProps("b")} />
+            </div>
+            <div className="radio__wrapper last__radio">
+              <p>나만 공개</p>
+              <Radio {...controlProps("c")} />
+            </div>
+          </BasicModal>
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
         {/* 그룹 태그 */}
