@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react"
-import DatePicker from "react-mobile-datepicker"
+import React, { useCallback, useEffect, useState } from "react";
+import DatePicker from "react-mobile-datepicker";
+import { SDatePicker } from "./styles";
 
 const DiaryDatePicker = ({
   year,
@@ -9,7 +10,7 @@ const DiaryDatePicker = ({
   open,
   handleClose,
 }) => {
-  const [time, setTime] = useState(new Date(year, month - 1))
+  const [time, setTime] = useState(new Date(year, month - 1));
 
   const dateConfig = {
     year: {
@@ -25,16 +26,17 @@ const DiaryDatePicker = ({
       caption: "월",
       step: 1,
     },
-  }
+  };
 
   const handleSelect = useCallback((time) => {
-    setYear(time.getFullYear())
-    setMonth(time.getMonth() + 1)
-    handleClose()
-  })
+    setTime(time);
+    setYear(time.getFullYear());
+    setMonth(time.getMonth() + 1);
+    handleClose();
+  });
 
   return (
-    <div>
+    <SDatePicker>
       <DatePicker
         value={time}
         isOpen={open}
@@ -52,8 +54,8 @@ const DiaryDatePicker = ({
         confirmText="확인"
         cancelText="취소"
       />
-    </div>
-  )
-}
+    </SDatePicker>
+  );
+};
 
-export default DiaryDatePicker
+export default DiaryDatePicker;
