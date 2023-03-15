@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,9 +58,9 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateMember(@RequestBody MemberRequestDto memberRequestDto){
+    public ResponseEntity<?> updateMember(@RequestPart MemberRequestDto memberRequestDto, @RequestPart(value = "img", required = false) final MultipartFile multipartFile){
         try{
-            MemberResponseDto memberResponseDto = memberService.updateMember(memberRequestDto);
+            MemberResponseDto memberResponseDto = memberService.updateMember(memberRequestDto, multipartFile);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
