@@ -171,7 +171,7 @@ public class DiaryService {
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListInMap(Map<String, String> info) throws Exception {
+    public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
         String lat1 = info.get("lat1");
         String lng1 = info.get("lng1");
         String lat2 = info.get("lat2");
@@ -210,6 +210,7 @@ public class DiaryService {
             List<CommentListDto> comments = commentService.getCommentList(diaryDto.getId());
 
             diaryDto.setCommentList(comments);
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
 
             return diaryDto;
         }
@@ -312,7 +313,7 @@ public class DiaryService {
 
         FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
                 .fid(flowerData.getId()).eid(emotionId).flowerName(flowerData.getName()).language(flowerData.getLanguage())
-                .emotion(emotion.get().getType()).build();
+                .largeCategory(emotion.get().getLargeCategory()).smallCategory(emotion.get().getSmallCategory()).build();
 
         return flowerEmotionDto;
     }

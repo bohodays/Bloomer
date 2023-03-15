@@ -69,13 +69,13 @@ public class DiaryServiceTest {
             .build();
 
     private final Emotion emotion = Emotion.builder()
-            .id(1L).type("type").build();
+            .id(1L).largeCategory("large").smallCategory("small").build();
 
     private final Flower flower = Flower.builder()
             .id(1L).name("flower").language("language").emotion(emotion).build();
 
     private final FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
-            .fid(1L).eid(1L).emotion(emotion.getType()).flowerName(flower.getName()).language(flower.getLanguage()).build();
+            .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(emotion.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
@@ -220,8 +220,20 @@ public class DiaryServiceTest {
     @DisplayName("좌표값으로 일기 조회 테스트")
     @Test
     public void getDiaryByLocationTest() throws Exception{
-        when(diaryRepository.findByXAndYAndZInGarden(any(),any(),any(),any())).thenReturn(diaryDto.toEntity());
+        Diary diary = diaryDto.toEntity();
+        diary.setFlower(flower);
+        garden.setMember(member);
+        diary.setGarden(garden);
+
+
+        List<Long> emotionList = new ArrayList<>();
+        emotionList.add(1L);
+
+        when(diaryRepository.findByXAndYAndZInGarden(any(),any(),any(),any())).thenReturn(diary);
         when(commentService.getCommentList(any())).thenReturn(new ArrayList<>());
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotionList);
+        when(emotionRepository.findById(any())).thenReturn(Optional.ofNullable(emotion));
+
 
         Map<String,String> info = new HashMap<>();
 
@@ -294,13 +306,16 @@ public class DiaryServiceTest {
         diary.setGarden(garden);
 
         diaryList.add(diary);
+        diaryList.add(diary);
 
         when(diaryRepository.findDiaryInMonth(any(),any(),any())).thenReturn(diaryList);
         when(flowerRepository.getEmotionKey(any())).thenReturn(emotionList);
         when(emotionRepository.findById(any())).thenReturn(Optional.ofNullable(emotion));
 
         List<DiaryDayDto> diaryDayDtoList = diaryService.getDiaryInMonth(1L,"2023","3");
+        List<DiaryDayDto> diaryDayDtoList1 = diaryService.getDiaryInMonth(1L,"2023","3");
 
-        assertEquals(diaryList.size(),diaryDayDtoList.size());
+
+        assertEquals(diaryList.size(),diaryDayDtoList.size()+diaryDayDtoList1.size());
     }
 }

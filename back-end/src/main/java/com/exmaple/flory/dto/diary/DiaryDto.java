@@ -7,7 +7,6 @@ import com.exmaple.flory.entity.Garden;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class DiaryDto {
 
 //    private Music music;
 
-    private List<CommentListDto> commentList= new ArrayList<>();
+    private List<CommentListDto> commentList;
 
     public Diary toEntity(){
         return Diary.builder()

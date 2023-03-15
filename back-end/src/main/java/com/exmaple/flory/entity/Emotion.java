@@ -19,8 +19,11 @@ public class Emotion {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "large_category")
+    private String largeCategory;
+
+    @Column(name = "small_category")
+    private String smallCategory;
 
     @JsonIgnore
     @OneToMany(mappedBy = "emotion", cascade = CascadeType.ALL)

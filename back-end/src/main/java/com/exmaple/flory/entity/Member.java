@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,5 +52,5 @@ public class Member extends BaseTime {
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Comment> commentList= new ArrayList<>();
+    private List<Comment> commentList;
 }
