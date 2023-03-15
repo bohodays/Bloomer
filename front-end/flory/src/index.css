@@ -40,6 +40,14 @@ html {
 }
 
 @font-face {
+  font-family: "GangwonEdu_OTFBoldA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "GmarketSansMedium";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
     format("woff");
@@ -47,9 +55,21 @@ html {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "S-CoreDream-3Light";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
+  position: relative;
   /* font-family: "Open Sans", sans-serif; */
-  font-family: "GmarketSansMedium";
+  /* font-family: "GangwonEdu_OTFBoldA"; */
+  font-family: "S-CoreDream-3Light";
+  /* font-family: "GmarketSansMedium"; */
+
   height: 100%;
   margin: 0;
   /* 글씨에 커서를 가까이해도 원형 유지 */
@@ -107,4 +127,32 @@ p {
   font-weight: var(--font-regular);
   color: var(--color-black);
   margin: 4px 0;
+}
+
+.modal__wrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 30%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+}
+
+#modal-modal-title {
+  font-size: 1rem;
+  color: #ff003e;
+}
+
+.datepicker-modal {
+  max-width: 480px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.datepicker.default {
+  margin: auto;
+  width: 100%;
+  max-width: 480px;
 }

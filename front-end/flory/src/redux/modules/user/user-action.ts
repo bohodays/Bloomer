@@ -1,6 +1,44 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { LoginType } from "../../../models/user/loginType";
 import { SignupType } from "../../../models/user/signUpType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
+
+// 로그인
+export const loginAction = createAsyncThunk(
+  "LOGIN",
+  async (userData: LoginType, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const { data } = await axios.post(`/api/user/login`, userData);
+      return data;
+    } catch (e: any) {
+      // alert(e.response.data.message);
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 로그아웃
+export const logoutAction = createAsyncThunk(
+  "LOGOUT",
+  // 토큰 타입 지정해줘야 됨!!!
+  async (userData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      console.log(userData);
+
+      await axios.get(`/api/user/logout`, {
+        headers: {
+          Authorization: `Bearer ${userData}`,
+        },
+      });
+      // return data;
+    } catch (e: any) {
+      alert(e.response.data.message);
+      return rejectWithValue(e);
+    }
+  }
+);
 
 // 회원가입
 export const signupAction = createAsyncThunk(
