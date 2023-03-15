@@ -4,6 +4,7 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
@@ -15,27 +16,21 @@ import org.springframework.context.annotation.DependsOn;
 @Slf4j
 @Configuration
 public class S3Config {
-    @Value("${cloud.aws.credentials.accessKey}")
+    @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 
-    @Value("${cloud.aws.credentials.secretKey}")
+    @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
 
     @Value("${cloud.aws.region.static}")
     private String region;
 
     @Bean
-    @DependsOn(value={"jasyptStringEncryptor"})
-    public AmazonS3 amazonS3Client() {
-//        log.info("amazon :{}",accessKey);
-//        log.info("amazon :{}",secretKey);
-//        log.info("region : {}",region);
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-
-        return AmazonS3ClientBuilder
-                .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+    public AmazonS3Client amazonS3Client() {
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
+        return (AmazonS3Client) AmazonS3ClientBuilder.standard()
                 .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
 
