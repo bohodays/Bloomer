@@ -16,6 +16,9 @@ import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrap
 import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
+
+import { LocationType } from "../../models/map/locationType";
+
 declare global {
   interface Window {
     kakao: any;
@@ -23,7 +26,7 @@ declare global {
 }
 
 const DiaryCreate = () => {
-  const [place, setPlace] = useState({
+  const [place, setPlace] = useState<LocationType>({
     placeName: "",
     address: "",
     x: 0,
