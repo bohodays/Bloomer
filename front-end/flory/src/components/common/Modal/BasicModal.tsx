@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import Button from "../Button/Button";
 import { SDrawer, Puller, SModalContent } from "./styles";
 
 function BasicModal({ children, modalButton }: any): JSX.Element {
@@ -24,6 +25,22 @@ function BasicModal({ children, modalButton }: any): JSX.Element {
     <SModalContent role="presentation">
       <Puller />
       {children}
+      <Button
+        // type="submit"
+        onClick={toggleDrawer(false)}
+        addStyle={{
+          margin: "auto",
+          fontSize: "1rem",
+          width: "320px",
+          height: "3rem",
+          color: "#ffffff",
+          background1: "rgb(101,182,255)",
+          background2:
+            "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
+          borderRadius: "24px",
+        }}
+        contents="확인"
+      />
     </SModalContent>
   );
 

@@ -90,7 +90,7 @@ export const SSection = styled.section`
       text-align: left;
     }
 
-    & > button {
+    .location-switch__button {
       float: right;
       background-color: #dec5fd;
       color: #ffffff;

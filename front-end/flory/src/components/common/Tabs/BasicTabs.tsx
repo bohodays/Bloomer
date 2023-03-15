@@ -1,10 +1,10 @@
-import * as React from "react"
-import Tabs from "@mui/material/Tabs"
-import Tab from "@mui/material/Tab"
-import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
-import TabList from "./TabList"
-import { TabType } from "../../../models/common/tabType"
+import * as React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import TabList from "./TabList";
+import { TabType } from "../../../models/common/tabType";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -12,7 +12,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -22,30 +22,30 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box>{children}</Box>}
+      {value === index && <div>{children}</div>}
     </div>
-  )
+  );
 }
 
 const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = React.useState(0);
 
   const switchTab = (newValue: number) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
 
   return (
-    <Box sx={{ width: "90%" }}>
-      <Box>
+    <div style={{ width: "90%" }}>
+      <div>
         <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
-      </Box>
+      </div>
       {props.tabs.map((tab, idx) => (
         <TabPanel value={value} index={idx}>
           {tab.panel}
         </TabPanel>
       ))}
-    </Box>
-  )
-}
+    </div>
+  );
+};
 
-export default BasicTabs
+export default BasicTabs;
