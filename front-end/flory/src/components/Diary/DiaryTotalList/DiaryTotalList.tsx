@@ -46,6 +46,7 @@ const SAMPLE_DIARY_LIST = [
             id: 1,
             type: "기쁨",
           },
+          commentList: [],
         },
       },
     ],
@@ -92,6 +93,7 @@ const SAMPLE_DIARY_LIST = [
             id: 1,
             type: "기쁨",
           },
+          commentList: ["2222", "2222"],
         },
       },
       {
@@ -133,6 +135,7 @@ const SAMPLE_DIARY_LIST = [
             id: 1,
             type: "기쁨",
           },
+          commentList: ["2222", "2222", "d"],
         },
       },
     ],
@@ -179,6 +182,7 @@ const SAMPLE_DIARY_LIST = [
             id: 1,
             type: "기쁨",
           },
+          commentList: [],
         },
       },
     ],
@@ -225,6 +229,7 @@ const SAMPLE_DIARY_LIST = [
             id: 1,
             type: "기쁨",
           },
+          commentList: ["2222", "2222"],
         },
       },
     ],
@@ -249,7 +254,11 @@ const DiaryTotalList = () => {
             <SMain>
               <div className="date">{diaries.day}</div>
               <div className="diary-content">
-                <DiaryList DIARY_LIST={diaries.diaryList} key={idx} />
+                <DiaryList
+                  DIARY_LIST={diaries.diaryList}
+                  page="diary"
+                  key={idx}
+                />
               </div>
             </SMain>
           );

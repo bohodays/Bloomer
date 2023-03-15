@@ -1,12 +1,12 @@
 import DiaryListItem from "../DiaryListItem/DiaryListItem";
 
-const DiaryList = ({ DIARY_LIST }: any): JSX.Element => {
+const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
   return (
     <div>
       {
         // SAMPLE_DIARY_LIST.length !== 0 ? (
         DIARY_LIST.map((diary: any) => (
-          <DiaryListItem diary={diary} key={diary.id} page="diary" />
+          <DiaryListItem diary={diary} key={diary.id} page={page} />
         ))
         // )
         // : (

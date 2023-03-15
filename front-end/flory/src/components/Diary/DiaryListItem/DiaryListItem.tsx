@@ -6,6 +6,25 @@ import { SIcon, SItem, SMain } from "./styles";
 import testFlower from "../../../assets/imgs/flower_icon/Violet Flower.png";
 
 // "기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"
+const convertEmotionFormat = (emotion: string) => {
+  switch (emotion) {
+    case "기쁨":
+      return "기뻤던";
+    case "안정":
+      return "안정되었던";
+    case "당황":
+      return "당황했던";
+    case "분노":
+      return "분노했던";
+    case "불안":
+      return "불안했던";
+    case "상처":
+      return "상처 받았던";
+    case "슬픔":
+      return "슬펐던";
+  }
+};
+
 const convertTimeFormat = (date: Date) => {
   const target = new Date(date);
   const hour = target.getHours();
@@ -29,7 +48,7 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
   const isPrivate = props.diary.publicStatus === "비공개";
   const isContainImage = props.diary.imgSrc !== "";
   const time = convertTimeFormat(props.diary.createdTime);
-
+  const emotion = convertEmotionFormat(props.diary.flower.emotion.type);
   const content = contentContentToMaxLength(props.diary.content);
 
   return (
@@ -47,14 +66,14 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
         <div>
           <div className="title-container">
             {isPrivate && <SIcon icon={faLock} />}
-            {props.diary.flower.emotion.type}했던 순간
+            {emotion} 순간
           </div>
           <div className="content-container">{content}</div>
           <div className="info-container">
             <div>{isContainImage && <SIcon icon={faImage} />}</div>
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
-              {/* <span>{props.diary.commentList.length}</span> */}
+              <span>{props.diary.flower.commentList.length}</span>
             </span>
             <div>{time}</div>
           </div>

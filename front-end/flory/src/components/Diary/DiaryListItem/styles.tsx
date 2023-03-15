@@ -33,7 +33,7 @@ export const SItem = styled.div<any>`
   align-items: center;
   z-index: -2;
 
-  background-color: ${(props) => (props.isDiaryPage ? "#f6f2ff" : "white")};
+  background-color: #f6f2ff;
   margin-bottom: 1.2rem;
   border-radius: 18px;
   padding: 0.9rem;
