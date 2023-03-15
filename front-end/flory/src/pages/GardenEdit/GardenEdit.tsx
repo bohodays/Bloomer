@@ -1,32 +1,20 @@
 import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Sky,
-  Cloud,
-  Bvh,
-  OrbitControls,
-  Environment,
-  Lightformer,
-  Float,
-  Sparkles,
-  Stars,
-} from "@react-three/drei";
-import Base_map from "../../components/Garden/Base_map";
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
-import Navbar from "../../components/common/Navbar/Navbar";
+import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
 
 import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
   return (
     <>
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
-        <Base_map_new />
+        {/* <Base_map_new /> */}
+        <Base_map_new_test />
 
         {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
@@ -38,12 +26,9 @@ const Scene = () => {
   );
 };
 
-const Garden = () => {
-  const navigate = useNavigate();
-
+const GardenEdit = () => {
   return (
     <SMain>
-      <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
@@ -55,14 +40,8 @@ const Garden = () => {
         />
         <Scene></Scene>
       </Canvas>
-      {/* 정원 편집 모드 버튼 */}
-      <button onClick={() => navigate("/garden/edit")} className="moveToEdit">
-        <FontAwesomeIcon icon={faPaintRoller} />
-      </button>
-      {/* 네브바 */}
-      <Navbar />
     </SMain>
   );
 };
 
-export default Garden;
+export default GardenEdit;

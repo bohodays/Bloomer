@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./App.css";
-import Garden from "./pages/Garden/Garden";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -15,6 +14,8 @@ const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
 const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
 const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
+const Garden = React.lazy(() => import("./pages/Garden/Garden"));
+const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
             <Route path="/diary/select" element={<DiarySelect />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
-            <Route path="/home" element={<Garden />} />
+            <Route path="/garden" element={<Garden />} />
+            <Route path="/garden/edit" element={<GardenEdit />} />
           </Routes>
         </BrowserRouter>
       </Suspense>
