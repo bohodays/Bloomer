@@ -2,11 +2,9 @@ import React from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import KakaoMap from "../../components/Map/KakaoMap";
-import DiaryList from "../../components/Diary/DiaryList/DiaryList";
-import BasicModal from "../../components/common/Modal/BasicModal";
-import Button from "@mui/material/Button";
-import MapFilterModal from "../../components/Map/MapFilterModal";
+import BasicMap from "../../components/Map/BasicMap/BasicMap";
+import DiaryList from "../../components/Diary/DiaryList";
+import MapFilterModal from "../../components/Map/MapFilterModal/MapFilterModal";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 
 const DIARY_LIST = [
@@ -145,7 +143,7 @@ const Map = () => {
   const mapPanel = (
     <div>
       <div>
-        <KakaoMap />
+        <BasicMap />
       </div>
       <div>
         <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
