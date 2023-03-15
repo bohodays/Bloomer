@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/common/Navbar/Navbar";
 import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput";
 import { SMain, SSection } from "./styles";
+import useGeolocation from "react-hook-geolocation";
 
 // mui
 import FormGroup from "@mui/material/FormGroup";
@@ -16,11 +17,63 @@ import Button from "../../components/common/Button/Button";
 import BasicModal from "../../components/common/Modal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
+import { PlaceType } from "../../models/map/placeType";
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const DiaryCreate = () => {
-  const [place, setPlace] = useState("서울 강남구 테헤란로 212");
+  const [place, setPlace] = useState<PlaceType>({
+    placeName: "",
+    address: "",
+    x: 0,
+    y: 0,
+  });
+
   const [selectedValue, setSelectedValue] = React.useState("a");
 
   const fileInput = React.useRef<HTMLInputElement>(null);
+
+  const geolocation = useGeolocation();
+  let isGeolocation = geolocation.latitude != null;
+  let geocoder = new kakao.maps.services.Geocoder();
+
+  function searchDetailAddrFromCoords(callback: any) {
+    // 좌표로 법정동 상세 주소 정보를 요청합니다
+
+    geocoder.coord2Address(
+      geolocation.longitude,
+      geolocation.latitude,
+      callback
+    );
+  }
+
+  // 현재 위치 반환
+  const getGeo = () => {
+    if (isGeolocation) {
+      searchDetailAddrFromCoords(function (result: any, status: any) {
+        if (status === kakao.maps.services.Status.OK) {
+          var detailAddr = !!result[0].road_address
+            ? result[0].road_address.address_name
+            : "";
+
+          setPlace({
+            placeName: "",
+            address: detailAddr,
+            x: geolocation.longitude,
+            y: geolocation.latitude,
+          });
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    getGeo();
+  }, [isGeolocation]);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
     fileInput.current!.click();
@@ -89,7 +142,10 @@ const DiaryCreate = () => {
         <GroupTagWrapper />
         <div className="location__wrapper">
           <div>기록 위치</div>
-          <div className="location">{place}</div>
+          <div className="location">
+            {place.placeName ? place.placeName : place.address}
+          </div>
+
           <DiaryLocationModal place={place} setPlace={setPlace} />
         </div>
       </SSection>

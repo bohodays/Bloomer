@@ -64,6 +64,7 @@ html {
 }
 
 body {
+  position: relative;
   /* font-family: "Open Sans", sans-serif; */
   /* font-family: "GangwonEdu_OTFBoldA"; */
   font-family: "S-CoreDream-3Light";
@@ -142,4 +143,16 @@ p {
 #modal-modal-title {
   font-size: 1rem;
   color: #ff003e;
+}
+
+.datepicker-modal {
+  max-width: 480px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.datepicker.default {
+  margin: auto;
+  width: 100%;
+  max-width: 480px;
 }

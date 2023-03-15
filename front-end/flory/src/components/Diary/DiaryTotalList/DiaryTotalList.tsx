@@ -1,82 +1,273 @@
-import React from "react"
-import DiaryListItem from "../DiaryListItem/DiaryListItem"
-import { SMain } from "./styles"
+import React from "react";
+import DiaryList from "../DiaryList/DiaryList";
+import DiaryListItem from "../DiaryListItem/DiaryListItem";
+import { SMain } from "./styles";
 
 const SAMPLE_DIARY_LIST = [
   {
-    id: 1,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-    imgSrc: "아아아ㅇㅇㅇㅇ",
-    lat: 32,
-    lng: 127,
-    publicStatus: "나만공개",
-    createdTime: "9시간 전",
-    emotion: "슬픔",
-    commentList: ["Dddd", "hghggh", "Dddd", "hghggh"],
+    day: "13",
+    diaryList: [
+      {
+        id: 1,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+          commentList: [],
+        },
+      },
+    ],
   },
   {
-    id: 2,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-    imgSrc: "",
-    lat: 32,
-    lng: 127,
-    publicStatus: "전체공개",
-    createdTime: "10시간 전",
-    emotion: "슬픔",
-    commentList: [],
+    day: "15",
+    diaryList: [
+      {
+        id: 2,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-15 04:20:35",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+          commentList: ["2222", "2222"],
+        },
+      },
+      {
+        id: 3,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-15 04:21:58",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+          commentList: ["2222", "2222", "d"],
+        },
+      },
+    ],
   },
   {
-    id: 1,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-    imgSrc: "",
-    lat: 32,
-    lng: 127,
-    publicStatus: "전체공개",
-    createdTime: "12시간 전",
-    emotion: "슬픔",
-    commentList: ["Dddd"],
+    day: "17",
+    diaryList: [
+      {
+        id: 1,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+          commentList: [],
+        },
+      },
+    ],
   },
   {
-    id: 1,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-    imgSrc: "",
-    lat: 32,
-    lng: 127,
-    publicStatus: "나만공개",
-    createdTime: "12시간 전",
-    emotion: "슬픔",
-    commentList: ["Dddd"],
+    day: "19",
+    diaryList: [
+      {
+        id: 1,
+        content: "내용111",
+        imgSrc: "path",
+        lat: "37.195",
+        lng: "128.5",
+        publicStatus: "그룹공개",
+        x: "10",
+        y: "10",
+        z: "10",
+        createdTime: "2023-03-13 04:23:16",
+        garden: {
+          createdDate: "2023-03-15T13:20:26.98129",
+          modifiedDate: "2023-03-15T13:20:26.98129",
+          id: 1,
+          path: null,
+          deadLine: "2023-04-15T13:20:26.97729",
+          member: {
+            createdDate: "2023-03-15T13:20:13.840834",
+            modifiedDate: "2023-03-15T13:20:13.840834",
+            userId: 1,
+            nickname: "jisoo",
+            password:
+              "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
+            img: "기본",
+            email: "user1",
+            refreshToken: null,
+            authority: "ROLE_USER",
+          },
+          music: null,
+        },
+        flower: {
+          id: 1,
+          name: "크로커스",
+          language: "믿는 기쁨",
+          emotion: {
+            id: 1,
+            type: "기쁨",
+          },
+          commentList: ["2222", "2222"],
+        },
+      },
+    ],
   },
-  {
-    id: 1,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을했다 ㅠㅠ 야근해서 슬펐지만 집가는 길에 본 노을...",
-    imgSrc: "ㅇㅇㅇㅇㅇㅇ",
-    lat: 32,
-    lng: 127,
-    publicStatus: "전체공개",
-    createdTime: "12시간 전",
-    emotion: "슬픔",
-    commentList: ["Dddd"],
-  },
-]
+];
+
+// function groupBy<T>(arr: T[], fn: (item: T) => any) {
+//   return arr.reduce<Record<string, T[]>>((prev, curr) => {
+//     const groupKey = fn(curr)
+//     const group = prev[groupKey] || []
+//     group.push(curr)
+//     return { ...prev, [groupKey]: group }
+//   }, {})
+// }
 
 const DiaryTotalList = () => {
   return (
-    <SMain>
+    <>
       {SAMPLE_DIARY_LIST.length !== 0 ? (
-        SAMPLE_DIARY_LIST.map((diary) => (
-          <DiaryListItem diary={diary} key={diary.id} page={"diary"} />
-        ))
+        SAMPLE_DIARY_LIST.map((diaries, idx) => {
+          return (
+            <SMain>
+              <div className="date">{diaries.day}</div>
+              <div className="diary-content">
+                <DiaryList
+                  DIARY_LIST={diaries.diaryList}
+                  page="diary"
+                  key={idx}
+                />
+              </div>
+            </SMain>
+          );
+        })
       ) : (
         <div>피드가 없습니다.</div>
       )}
-    </SMain>
-  )
-}
+    </>
+  );
+};
 
-export default DiaryTotalList
+export default DiaryTotalList;
