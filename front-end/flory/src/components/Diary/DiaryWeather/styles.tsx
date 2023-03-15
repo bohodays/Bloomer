@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
-export const SMain = styled.main`
+export const SMain = styled.div`
+  position: absolute;
+  width: 4rem;
   background-color: rgba(0, 0, 0, 0.18);
   border-radius: 10px;
   padding: 0.3rem;
   text-align: center;
-  position: fixed;
-  top: 11vh;
+  top: 12vh;
+  right: 5%;
   z-index: 100;
 
   .weather-icon {

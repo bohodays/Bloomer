@@ -3,10 +3,14 @@ import styled from "styled-components";
 export const SMain = styled.main`
   max-width: 480px;
   width: 100%;
-  .background-image {
+  height: 100%;
+
+  .header-container {
     position: fixed;
+  }
+
+  .background-image {
     object-fit: cover;
-    /* z-index: 0; */
     top: 0;
     left: 0;
     right: 0;
@@ -17,15 +21,18 @@ export const SMain = styled.main`
   }
 
   .content-container {
-    /* position: relative; */
     width: 90%;
     height: 100%;
     margin: 0 auto;
     z-index: -100;
     overflow-y: auto;
-
+    -ms-overflow-style: none;
     .diary-section {
-      margin-top: 30vh;
+      margin-top: 28vh;
     }
+  }
+
+  .content-container::-webkit-scrollbar {
+    display: none;
   }
 `;

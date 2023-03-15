@@ -7,18 +7,26 @@ import nightBackground from "../../assets/imgs/night_background.png";
 
 import { SMain } from "./styles";
 import DiaryDatePicker from "../../components/Diary/DiaryDatePicker/DiaryDatePicker";
+import Navbar from "../../components/common/Navbar/Navbar";
 
 const Diary = () => {
   return (
     <SMain>
-      <img src={dayBackground} alt="background" className="background-image" />
-      <div className="content-container">
+      <div className="header-container">
+        <img
+          src={dayBackground}
+          alt="background"
+          className="background-image"
+        />
         <DiaryWeather />
         <DiaryDate />
+      </div>
+      <div className="content-container">
         <div className="diary-section">
           <DiaryTotalList />
         </div>
       </div>
+      <Navbar />
     </SMain>
   );
 };
