@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   background-color: rgba(0, 0, 0, 0.18);
@@ -7,6 +7,7 @@ export const SMain = styled.main`
   text-align: center;
   position: fixed;
   top: 11vh;
+  z-index: 100;
 
   .weather-icon {
     height: 1.7rem;
@@ -18,4 +19,4 @@ export const SMain = styled.main`
     flex-direction: column;
     font-size: 0.2rem;
   }
-`
+`;

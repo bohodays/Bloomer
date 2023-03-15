@@ -1,6 +1,7 @@
-import React from "react"
-import DiaryListItem from "../DiaryListItem/DiaryListItem"
-import { SMain } from "./styles"
+import React from "react";
+import DiaryList from "../DiaryList/DiaryList";
+import DiaryListItem from "../DiaryListItem/DiaryListItem";
+import { SMain } from "./styles";
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -75,7 +76,7 @@ const SAMPLE_DIARY_LIST = [
       },
     ],
   },
-]
+];
 
 // function groupBy<T>(arr: T[], fn: (item: T) => any) {
 //   return arr.reduce<Record<string, T[]>>((prev, curr) => {
@@ -87,28 +88,27 @@ const SAMPLE_DIARY_LIST = [
 // }
 
 const DiaryTotalList = () => {
-  // SAMPLE_DIARY_LIST.map((diaries) => {
-  //   Object.values(diaries)[0].map((diary: object, idx: number) => {
-  //     console.log(Object.keys(diaries)[0], idx, diary)
-  //   })
-  // })
-
   return (
     <SMain>
       {SAMPLE_DIARY_LIST.length !== 0 ? (
-        SAMPLE_DIARY_LIST.map(
-          (diaries) =>
-            Object.values(diaries)[0].map((diary: object, idx: number) => (
-              <DiaryListItem diary={diary} key={idx} page={"diary"} />
-            ))
-          // diaries..map((diary, idx) => {
-          // })
-        )
+        SAMPLE_DIARY_LIST.map((diaries, idx) => {
+          return (
+            <div>
+              <h1>
+                {Object.keys(diaries)[0]} {1}
+              </h1>
+              <DiaryList
+                SAMPLE_DIARY_LIST={Object.values(diaries)[0]}
+                key={idx}
+              />
+            </div>
+          );
+        })
       ) : (
         <div>피드가 없습니다.</div>
       )}
     </SMain>
-  )
-}
+  );
+};
 
-export default DiaryTotalList
+export default DiaryTotalList;

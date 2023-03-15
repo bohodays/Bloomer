@@ -1,4 +1,4 @@
-import DiaryListItem from "./DiaryListItem";
+import DiaryListItem from "../DiaryListItem/DiaryListItem";
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -36,16 +36,19 @@ const SAMPLE_DIARY_LIST = [
   },
 ];
 
-const DiaryList = () => {
+const DiaryList = ({ SAMPLE_DIARY_LIST }: any): JSX.Element => {
   return (
     <div>
-      {SAMPLE_DIARY_LIST.length !== 0 ? (
-        SAMPLE_DIARY_LIST.map((diary) => (
-          <DiaryListItem diary={diary} key={diary.id} />
+      {
+        // SAMPLE_DIARY_LIST.length !== 0 ? (
+        SAMPLE_DIARY_LIST.map((diary: any) => (
+          <DiaryListItem diary={diary} key={diary.id} page="diary" />
         ))
-      ) : (
-        <div>피드가 없습니다.</div>
-      )}
+        // )
+        // : (
+        //   <div>피드가 없습니다.</div>
+        // )
+      }
     </div>
   );
 };

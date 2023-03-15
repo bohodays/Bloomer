@@ -1,7 +1,8 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   max-width: 480px;
+  width: 100%;
   .background-image {
     position: fixed;
     object-fit: cover;
@@ -16,6 +17,7 @@ export const SMain = styled.main`
   }
 
   .content-container {
+    /* position: relative; */
     width: 90%;
     height: 100%;
     margin: 0 auto;
@@ -26,4 +28,4 @@ export const SMain = styled.main`
       margin-top: 30vh;
     }
   }
-`
+`;
