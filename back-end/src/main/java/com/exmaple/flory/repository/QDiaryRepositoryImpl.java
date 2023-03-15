@@ -4,6 +4,7 @@ import com.exmaple.flory.entity.Diary;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.exmaple.flory.entity.QDiary.diary;
@@ -102,6 +103,14 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
         return jpaQueryFactory
                 .selectFrom(diary)
                 .where(diary.lat.between(lat2,lat1).and(diary.lng.between(lng1,lng2)))
+                .fetch();
+    }
+
+    @Override
+    public List<Diary> findDiaryInMonth(Long memberId, Date firstDay, Date lastDay) {
+        return jpaQueryFactory
+                .selectFrom(diary)
+                .where(diary.garden.member.userId.eq(memberId). and(diary.createdTime.between(firstDay, lastDay)))
                 .fetch();
     }
 

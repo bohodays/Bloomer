@@ -1,5 +1,6 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.service.DiaryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -258,6 +259,35 @@ public class DiaryControllerTest {
         mockMvc.perform(post("/api/diary/location").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(info)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("유저의 연 월 일기 조회")
+    @Test
+    public void getDiaryInMonthTest() throws Exception{
+        List<DiaryDayDto> diaryDayDtoList = new ArrayList<>();
+        List<DiaryDto> diaryDtoList = new ArrayList<>();
+
+        diaryDtoList.add(diaryDto);
+        DiaryDayDto diaryDayDto = DiaryDayDto.builder()
+                .day("1").diaryList(diaryDtoList).build();
+
+        diaryDayDtoList.add(diaryDayDto);
+
+        when(diaryService.getDiaryInMonth(any(),any(),any())).thenReturn(diaryDayDtoList);
+
+        mockMvc.perform(get("/api/diary?id={id}&year={year}&month={month}",1L,"2023","3"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("유저의 연 월 일기 조회")
+    @Test
+    public void getDiaryInMonthExceptionTest() throws Exception{
+        when(diaryService.getDiaryInMonth(any(),any(),any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary?id={id}&year={year}&month={month}",1L,"2023","3"))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }

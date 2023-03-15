@@ -1,6 +1,7 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
@@ -78,7 +79,7 @@ public class DiaryServiceTest {
 
     private final DiaryDto diaryDto = DiaryDto.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
-            .flowerEmotion(flowerEmotionDto).build();
+            .flowerEmotion(flowerEmotionDto).createdTime(new Date()).build();
 
     private final Comment comment = Comment.builder()
             .id(1L).diary(diaryDto.toEntity()).member(member).content("content").build();
@@ -278,5 +279,28 @@ public class DiaryServiceTest {
         List<Diary> result = diaryService.getDiaryListInUser(1L,2L);
 
         assertEquals(result.size(),diaries.size());
+    }
+
+    @DisplayName("사용자의 이번달 일기 목록 가져오기 테스트")
+    @Test
+    public void getDiaryInMonthTest() throws Exception {
+        List<Diary> diaryList = new ArrayList<>();
+        List<Long> emotionList = new ArrayList<>();
+        emotionList.add(1L);
+
+        Diary diary = diaryDto.toEntity();
+        diary.setFlower(flower);
+        garden.setMember(member);
+        diary.setGarden(garden);
+
+        diaryList.add(diary);
+
+        when(diaryRepository.findDiaryInMonth(any(),any(),any())).thenReturn(diaryList);
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotionList);
+        when(emotionRepository.findById(any())).thenReturn(Optional.ofNullable(emotion));
+
+        List<DiaryDayDto> diaryDayDtoList = diaryService.getDiaryInMonth(1L,"2023","3");
+
+        assertEquals(diaryList.size(),diaryDayDtoList.size());
     }
 }

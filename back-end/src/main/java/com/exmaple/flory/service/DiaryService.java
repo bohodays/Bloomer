@@ -2,6 +2,7 @@ package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
@@ -11,10 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,6 +42,7 @@ public class DiaryService {
     @Autowired
     private UserTeamRepository userTeamRepository;
 
+    @Transactional
     public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto) throws Exception {
         Diary diary = diaryRequestDto.toEntity();
 
@@ -85,6 +86,7 @@ public class DiaryService {
         return result;
     }
 
+    @Transactional
     public int deleteDiary(Long diary_id){
         Optional<Diary> diary = diaryRepository.findById(diary_id);
 
@@ -97,6 +99,7 @@ public class DiaryService {
         }
     }
 
+    @Transactional
     public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
         Optional<Diary> d = diaryRepository.findById(diaryDto.getId());
         if(d.isEmpty()) throw new Exception();
@@ -212,6 +215,73 @@ public class DiaryService {
         }
 
         return null;
+    }
+
+    public List<DiaryDayDto> getDiaryInMonth(Long memberId, String year, String month) throws Exception{
+        List<DiaryDayDto> diaryDayDtoList = new ArrayList<>();
+
+        String first = year.concat("-"+month+"-01 00:00:00");
+        String last;
+        switch (month){
+            case "1":
+            case "3":
+            case "5":
+            case "7":
+            case "8":
+            case "10":
+            case "12":
+                last = year.concat("-"+month+"-31 23:59:59");
+                break;
+            case "2":
+                last = year.concat("-"+month+"-28 23:59:59");
+                break;
+            default:
+                last = year.concat("-"+month+"-30 23:59:59");
+                break;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date firstDay = formatter.parse(first);
+        Date lastDay = formatter.parse(last);
+
+        List<Diary> diaryList = diaryRepository.findDiaryInMonth(memberId, firstDay,lastDay);
+
+        for(Diary diary : diaryList){
+            Date createdTime = diary.getCreatedTime();
+            boolean flag = true;
+
+            String day = formatter.format(createdTime);
+            day = day.substring(8,10);
+
+            for(DiaryDayDto diaryDayDto: diaryDayDtoList){
+                if(diaryDayDto.getDay().equals(day)){
+                    flag = false;
+                    List<DiaryDto> diaries = diaryDayDto.getDiaryList();
+                    DiaryDto diaryDto = diary.toDto();
+                    diaryDto.setCommentList(getCommentList(diaryDto));
+                    diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                    diaries.add(diaryDto);
+
+                    diaryDayDto.setDiaryList(diaries);
+                    break;
+                }
+            }
+
+            if(flag){
+                List<DiaryDto> diaryList1 = new ArrayList<>();
+                DiaryDto diaryDto = diary.toDto();
+                diaryDto.setCommentList(getCommentList(diaryDto));
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                diaryList1.add(diaryDto);
+                DiaryDayDto data = DiaryDayDto.builder()
+                        .day(day).diaryList(diaryList1).build();
+
+                diaryDayDtoList.add(data);
+            }
+        }
+
+        return diaryDayDtoList;
     }
 
     public List<CommentListDto> getCommentList(DiaryDto diaryDto) throws Exception{
