@@ -6,24 +6,28 @@ export const SMain = styled.main<any>`
   display: flex;
   gap: 0.3rem;
 
+  /* .page-flower__wrapper {
+    position: relative;
+    z-index: -10;
+  } */
+
   .flower-image-border {
     background-color: #ffe897;
     border-radius: 50%;
     height: 2.3rem;
     padding: 0.4rem;
     border: 3px solid #ececec;
-    position: relative;
     z-index: -1;
   }
 
-  .line {
-    position: absolute;
-    border-left: 10px solid #ececec;
-    height: 130px;
-    z-index: -4;
-    left: 50px;
-    overflow-y: hidden;
-  }
+  /* & .line { */
+  /* position: absolute; */
+  /* border-left: 4px solid #ececec; */
+  /* height: 130px; */
+  /* z-index: -4; */
+  /* left: 1.15rem; */
+  /* overflow-y: hidden; */
+  /* } */
 `
 
 export const SItem = styled.div<any>`

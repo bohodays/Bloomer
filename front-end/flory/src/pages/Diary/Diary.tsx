@@ -78,6 +78,7 @@ const Diary = () => {
         <DiaryDate />
       </div>
       <div className="content-container">
+        <div className="line"></div>
         <div className="diary-section">
           <DiaryTotalList />
         </div>

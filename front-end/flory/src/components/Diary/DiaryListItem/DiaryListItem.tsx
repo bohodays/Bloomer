@@ -54,10 +54,10 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
   return (
     <SMain>
       {isDiaryPage && (
-        <>
-          <img src={testFlower} alt="flower" className="flower-image-border" />
-          <div className="line" />
-        </>
+        // <div className="page-flower__wrapper">
+        <img src={testFlower} alt="flower" className="flower-image-border" />
+        // <div className="line" />
+        // </div>
       )}
       <SItem isDiaryPage={isDiaryPage}>
         {!isDiaryPage && (
