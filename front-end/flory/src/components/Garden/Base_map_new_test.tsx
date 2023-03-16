@@ -7,7 +7,7 @@ import * as THREE from "three";
 import React, { useRef } from "react";
 import { useGLTF, OrthographicCamera } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -68,12 +68,113 @@ type GLTFResult = GLTF & {
 };
 
 export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
-  const { camera } = useThree();
-  console.log(camera);
-
   const { nodes, materials } = useGLTF(
     "/models/base_map_new.glb"
   ) as GLTFResult;
+
+  const { scene, camera, gl } = useThree();
+
+  const raycaster = new THREE.Raycaster();
+  const clickMouse = new THREE.Vector2();
+  const moveMouse = new THREE.Vector2();
+
+  let draggable: THREE.Object3D;
+
+  function intersect(pos: THREE.Vector2) {
+    raycaster.setFromCamera(pos, camera);
+    return raycaster.intersectObjects(scene.children);
+  }
+
+  window.addEventListener("click", (event) => {
+    if (draggable != null) {
+      console.log(`dropping draggable ${draggable.userData.name}`);
+      draggable = null as any;
+      return;
+    }
+
+    const rect = gl.domElement.getBoundingClientRect();
+
+    // 1
+    // clickMouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    // clickMouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    console.log(rect.right - rect.left, "제발");
+
+    // 2
+    // THREE RAYCASTER
+    // clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    // clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // 3 이론상 이게 되야 됨....
+    clickMouse.x =
+      ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+    clickMouse.y = -(event.clientY / rect.height) * 2 + 1;
+
+    console.log(event.clientX, event.clientX - rect.left, "비교");
+    console.log(clickMouse.x, clickMouse.y);
+
+    const found = intersect(clickMouse);
+    if (found.length > 0) {
+      if (found[0].object.userData.draggable) {
+        draggable = found[0].object;
+        console.log(`found draggable ${draggable.userData.name}`);
+      }
+    }
+  });
+
+  const app = document.querySelector(".app");
+  console.log(app?.getBoundingClientRect().width);
+  let a = app?.getBoundingClientRect().width;
+  let b = app?.getBoundingClientRect().height;
+
+  window.addEventListener("mousemove", (event) => {
+    moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // console.log(event.clientX, window.innerWidth, "가로");
+    // console.log(event.clientY, window.innerHeight, "세로");
+    // console.log(moveMouse.x, moveMouse.y);
+  });
+
+  window.addEventListener("touchmove", (event) => {
+    moveMouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+    moveMouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+  });
+
+  function dragObject() {
+    if (draggable != null) {
+      const found = intersect(moveMouse);
+      if (found.length > 0) {
+        for (let i = 0; i < found.length; i++) {
+          if (!found[i].object.userData.ground) continue;
+
+          let target = found[i].point;
+          draggable.position.x = target.x;
+          draggable.position.z = target.z;
+        }
+      }
+    }
+  }
+
+  function animate() {
+    dragObject();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // window.addEventListener("click", (event) => {
+  //   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  // });
+
+  const ref = useRef(null);
+
+  // const handlePointerDown = (event: any) => {
+  //   event.stopPropagation();
+  //   ref.current.userData.draggable = true;
+  // };
+
   return (
     <group {...props} dispose={null}>
       <OrthographicCamera
@@ -125,6 +226,7 @@ export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
         position={[-0.3, 0.15, 0.19]}
         rotation={[Math.PI, 0, Math.PI]}
       />
+
       <mesh
         geometry={nodes.Tree2.geometry}
         material={materials.Tree}
@@ -241,6 +343,8 @@ export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
         scale={0.79}
         castShadow={true}
         receiveShadow={true}
+        ref={ref}
+        userData={{ draggable: true, name: "bench" }}
       >
         <mesh
           geometry={nodes.Cube033.geometry}
@@ -394,6 +498,7 @@ export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
         scale={[1, 1, 2.09]}
         // castShadow={true}
         receiveShadow={true}
+        userData={{ ground: true }}
       />
       <mesh
         geometry={nodes.Rock006.geometry}
@@ -445,14 +550,3 @@ function Base_map_new_test() {
 }
 
 export default Base_map_new_test;
-
-const raycaster = new THREE.Raycaster();
-const clickMouse = new THREE.Vector2();
-const moveMouse = new THREE.Vector2();
-
-let draggable: THREE.Object3D;
-
-window.addEventListener("click", (event) => {
-  clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
