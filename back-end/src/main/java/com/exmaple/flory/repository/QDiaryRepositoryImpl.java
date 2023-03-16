@@ -3,6 +3,7 @@ package com.exmaple.flory.repository;
 import com.exmaple.flory.entity.Diary;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import static com.exmaple.flory.entity.QGarden.garden;
 import static com.exmaple.flory.entity.QMember.member;
 
 
+@Slf4j
 public class QDiaryRepositoryImpl implements QDiaryRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
@@ -99,7 +101,8 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
     }
 
     @Override
-    public List<Diary> findDiaryInMap(String lat1, String lng1, String lat2, String lng2) {
+    public List<Diary> findDiaryInMap(double lat1, double lng1, double lat2, double lng2) {
+
         return jpaQueryFactory
                 .selectFrom(diary)
                 .where(diary.lat.between(lat2,lat1).and(diary.lng.between(lng1,lng2)))

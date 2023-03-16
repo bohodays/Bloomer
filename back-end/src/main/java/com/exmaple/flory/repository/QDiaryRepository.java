@@ -23,7 +23,7 @@ public interface QDiaryRepository {
 
     Diary findByXAndYAndZInGarden(Long gardenId, String x, String y, String z);
 
-    List<Diary> findDiaryInMap(String lat1, String lng1, String lat2, String lng2);
+    List<Diary> findDiaryInMap(double lat1, double lng1, double lat2, double lng2);
 
     List<Diary> findDiaryInMonth(Long memberId, Date firstDay, Date lastDay);
 }

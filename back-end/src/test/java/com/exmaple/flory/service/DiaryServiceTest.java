@@ -19,6 +19,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -78,7 +79,7 @@ public class DiaryServiceTest {
             .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(emotion.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
-            .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
+            .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z")
             .flowerEmotion(flowerEmotionDto).createdTime(new Date()).build();
 
     private final Comment comment = Comment.builder()
@@ -198,19 +199,21 @@ public class DiaryServiceTest {
 
     @DisplayName("지도 범위 내의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryInMapTest() throws Exception {
+    public void getDiaryInMapTest(){
         List<Diary> diaries = new ArrayList<>();
         Map<String,String> info = new HashMap<>();
+        Diary diary = diaryDto.toEntity();
+        garden.setMember(member);
+        diary.setGarden(garden);
 
-        info.put("lat1","1");
+        info.put("lat1","11");
         info.put("lng1","1");
         info.put("lat2","1");
-        info.put("lng2","1");
+        info.put("lng2","11");
         info.put("requestId","1");
 
-        diaries.add(diaryDto.toEntity());
-
-        when(diaryRepository.findDiaryInMap(any(),any(),any(),any())).thenReturn(diaries);
+        diaries.add(diary);
+        when(diaryRepository.findDiaryInMap(anyDouble(),anyDouble(),anyDouble(),anyDouble())).thenReturn(diaries);
 
         List<DiaryDto> result = diaryService.getDiaryListInMap(info);
 

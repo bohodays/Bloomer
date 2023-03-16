@@ -33,10 +33,10 @@ public class Diary {
     private String imgSrc;
 
     @Column(name = "lat")
-    private String lat;
+    private double lat;
 
     @Column(name = "lng")
-    private String lng;
+    private double lng;
 
     @Column(name = "public_status")
     private String publicStatus;

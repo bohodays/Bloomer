@@ -172,24 +172,33 @@ public class DiaryService {
     }
 
     public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
-        String lat1 = info.get("lat1");
-        String lng1 = info.get("lng1");
-        String lat2 = info.get("lat2");
-        String lng2 = info.get("lng2");
+        double lat1 = Double.parseDouble(info.get("lat1"));
+        double lng1 = Double.parseDouble(info.get("lng1"));
+        double lat2 = Double.parseDouble(info.get("lat2"));
+        double lng2 = Double.parseDouble(info.get("lng2"));
         Long requestId = Long.parseLong(info.get("requestId"));
+
 
         List<Diary> diaryList = diaryRepository.findDiaryInMap(lat1,lng1,lat2,lng2);
         List<DiaryDto> result= new ArrayList<>();
 
         for(int i=0;i<diaryList.size();i++){
-            if(diaryList.get(i).getPublicStatus().equals("전체공개")){
-                DiaryDto diaryDto = diaryList.get(i).toDto();
-                result.add(diaryDto);
+            Diary diary = diaryList.get(i);
+
+            if(diary.getGarden().getMember().getUserId().equals(requestId)){
+                result.add(diary.toDto());
             }
-            else if(diaryList.get(i).getPublicStatus().equals("그룹공개")){
-                if(isInTeam(diaryList.get(i).getId(),requestId)){
+
+            else{
+                if(diaryList.get(i).getPublicStatus().equals("전체공개")){
                     DiaryDto diaryDto = diaryList.get(i).toDto();
                     result.add(diaryDto);
+                }
+                else if(diaryList.get(i).getPublicStatus().equals("그룹공개")){
+                    if(isInTeam(diaryList.get(i).getId(),requestId)){
+                        DiaryDto diaryDto = diaryList.get(i).toDto();
+                        result.add(diaryDto);
+                    }
                 }
             }
         }

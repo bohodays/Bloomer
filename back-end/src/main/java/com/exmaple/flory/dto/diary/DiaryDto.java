@@ -24,9 +24,9 @@ public class DiaryDto {
 
     private String imgSrc;
 
-    private String lat;
+    private double lat;
 
-    private String lng;
+    private double lng;
 
     private String publicStatus;
 
