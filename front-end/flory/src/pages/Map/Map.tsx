@@ -3,7 +3,7 @@ import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BasicMap from "../../components/Map/BasicMap/BasicMap";
-import DiaryList from "../../components/Diary/DiaryList";
+import DiaryList from "../../components/Diary/DiaryList/DiaryList";
 import MapFilterModal from "../../components/Map/MapFilterModal/MapFilterModal";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 
