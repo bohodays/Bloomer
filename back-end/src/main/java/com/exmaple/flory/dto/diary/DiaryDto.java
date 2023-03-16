@@ -36,6 +36,8 @@ public class DiaryDto {
 
     private String z;
 
+    private String address;
+
     private Date createdTime;
 
     private Garden garden;
@@ -49,7 +51,7 @@ public class DiaryDto {
     public Diary toEntity(){
         return Diary.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
-                .garden(garden).build();
+                .garden(garden).address(address).build();
     }
 
     public void setCommentList(List<CommentListDto> commentList){
