@@ -2,10 +2,11 @@ import { useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/84142-gradient-background.json";
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-
+import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
+import { SMain } from "./styles";
 const DiaryDetail = () => {
   const { diaryId } = useParams() as { diaryId: string };
   const [mapView, setMapView] = useState<boolean>(false);
@@ -66,17 +67,57 @@ const DiaryDetail = () => {
   };
 
   return (
-    <div>
-      <Lottie options={defaultOptions} height={200} width="100%" />
-      <div onClick={onClickLocation}>
-        <FontAwesomeIcon
-          className="nav__item item__active"
-          icon={faLocationDot}
+    <SMain>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "200px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ color: "white", marginBottom: 7 }}>
+          <FontAwesomeIcon icon={faMusic} />
+          옥상 달빛 - 수고했어 오늘도
+        </div>
+        <div
+          className="circle"
+          style={{
+            zIndex: -2,
+            width: "200px",
+            height: "160px",
+            borderRadius: "200px 200px 0 0",
+          }}
+        ></div>
+
+        <Lottie
+          style={{ position: "absolute", zIndex: -3 }}
+          options={defaultOptions}
+          height={200}
+          width="100%"
         />
-        {diary.address}
+      </div>
+      <DiaryFlower />
+      <div className="header" style={{ height: "200px" }}></div>
+      <div>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <p>으아아악</p>
+        <div onClick={onClickLocation}>
+          <FontAwesomeIcon icon={faLocationDot} />
+          {diary.address}
+        </div>
       </div>
       {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
-    </div>
+    </SMain>
   );
 };
 export default DiaryDetail;
