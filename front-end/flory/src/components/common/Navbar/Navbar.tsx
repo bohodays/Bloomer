@@ -6,43 +6,158 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SNavbar, SNavWrapper } from "./styles";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const handleMove = (target: string) => {
     navigate(target);
+  };
+
+  // url을 통해 현재 위치를 인식해서 해당 아이콘을 엑티브시키는 함수
+  const currentLocationIconActive = (pathname: string) => {
+    if (pathname === "/diary/create") return "diaryCreate";
+    else if (pathname === "/diary/select") return "diaryCreate";
+    else if (pathname === "/diary") return "diaryList";
+    else if (pathname === "/garden") return "garden";
+    else if (pathname === "/map") return "map";
+    else if (pathname === "/profile") return "profile";
   };
 
   return (
     <SNavWrapper>
       <SNavbar>
         {/* 클래스 부여; 선택된 버튼 wrapper에 wrapper__active, 버튼에 button__active, 아이콘에 item__active 주기 */}
-        <div className="button__wrapper wrapper__active">
+        <div
+          className={
+            currentLocationIconActive(location.pathname) === "diaryCreate"
+              ? "button__wrapper wrapper__active"
+              : "button__wrapper"
+          }
+        >
           <button
             onClick={() => handleMove("/diary/create")}
-            className="button__active"
+            className={
+              currentLocationIconActive(location.pathname) === "diaryCreate"
+                ? "button__active"
+                : ""
+            }
+            // className="button__active"
           >
             <FontAwesomeIcon
-              className="nav__item item__active"
+              className={
+                currentLocationIconActive(location.pathname) === "diaryCreate"
+                  ? "nav__item item__active"
+                  : "nav__item"
+              }
               icon={faPenToSquare}
             />
           </button>
         </div>
-        <button>
-          <FontAwesomeIcon className="nav__item" icon={faListUl} />
-        </button>
-        <button>
-          <FontAwesomeIcon className="nav__item" icon={faHome} />
-        </button>
-        <button>
-          <FontAwesomeIcon className="nav__item" icon={faLocationDot} />
-        </button>
-        <button>
-          <FontAwesomeIcon className="nav__item" icon={faUser} />
-        </button>
+        <div
+          className={
+            currentLocationIconActive(location.pathname) === "diaryList"
+              ? "button__wrapper wrapper__active"
+              : "button__wrapper"
+          }
+        >
+          <button
+            onClick={() => handleMove("/diary")}
+            className={
+              currentLocationIconActive(location.pathname) === "diaryList"
+                ? "button__active"
+                : ""
+            }
+          >
+            <FontAwesomeIcon
+              className={
+                currentLocationIconActive(location.pathname) === "diaryList"
+                  ? "nav__item item__active"
+                  : "nav__item"
+              }
+              icon={faListUl}
+            />
+          </button>
+        </div>
+
+        <div
+          className={
+            currentLocationIconActive(location.pathname) === "garden"
+              ? "button__wrapper wrapper__active"
+              : "button__wrapper"
+          }
+        >
+          <button
+            onClick={() => handleMove("/garden")}
+            className={
+              currentLocationIconActive(location.pathname) === "garden"
+                ? "button__active"
+                : ""
+            }
+          >
+            <FontAwesomeIcon
+              className={
+                currentLocationIconActive(location.pathname) === "garden"
+                  ? "nav__item item__active"
+                  : "nav__item"
+              }
+              icon={faHome}
+            />
+          </button>
+        </div>
+        <div
+          className={
+            currentLocationIconActive(location.pathname) === "map"
+              ? "button__wrapper wrapper__active"
+              : "button__wrapper"
+          }
+        >
+          <button
+            onClick={() => handleMove("/map")}
+            className={
+              currentLocationIconActive(location.pathname) === "map"
+                ? "button__active"
+                : ""
+            }
+          >
+            <FontAwesomeIcon
+              className={
+                currentLocationIconActive(location.pathname) === "map"
+                  ? "nav__item item__active"
+                  : "nav__item"
+              }
+              icon={faLocationDot}
+            />
+          </button>
+        </div>
+        <div
+          className={
+            currentLocationIconActive(location.pathname) === "profile"
+              ? "button__wrapper wrapper__active"
+              : "button__wrapper"
+          }
+        >
+          <button
+            className={
+              currentLocationIconActive(location.pathname) === "profile"
+                ? "button__active"
+                : ""
+            }
+          >
+            <FontAwesomeIcon
+              className={
+                currentLocationIconActive(location.pathname) === "profile"
+                  ? "nav__item item__active"
+                  : "nav__item"
+              }
+              icon={faUser}
+            />
+          </button>
+        </div>
       </SNavbar>
     </SNavWrapper>
   );

@@ -16,11 +16,12 @@ const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
 const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
 const Garden = React.lazy(() => import("./pages/Garden/Garden"));
 const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
+const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
 
 function App() {
   return (
     <div className="app">
-      {/* // fallback 추가하기 */}
+      {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>
           <Routes>
@@ -36,6 +37,8 @@ function App() {
             <Route path="/diary" element={<Diary />} />
             <Route path="/garden" element={<Garden />} />
             <Route path="/garden/edit" element={<GardenEdit />} />
+            <Route path="/garden/list" element={<GardenList />} />
+            {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>
       </Suspense>

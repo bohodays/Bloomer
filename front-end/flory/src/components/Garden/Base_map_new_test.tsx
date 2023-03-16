@@ -98,14 +98,12 @@ export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
     // clickMouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     // clickMouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-    console.log(rect.right - rect.left, "제발");
-
     // 2
     // THREE RAYCASTER
     // clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     // clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // 3 이론상 이게 되야 됨....
+    // 3 이론상 이게 맞을 것 같은데...
     clickMouse.x =
       ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
     clickMouse.y = -(event.clientY / rect.height) * 2 + 1;

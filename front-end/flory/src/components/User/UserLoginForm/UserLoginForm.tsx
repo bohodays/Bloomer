@@ -42,9 +42,9 @@ const UserLoginForm = () => {
       dispatch(loginAction(loginData)).then((response) => {
         console.log(response);
         if (response.type === "LOGIN/fulfilled") {
-          localData.set("accessToken", response.payload.response.accessToken);
-          localData.set("refreshToken", response.payload.response.refreshToken);
-          navigate("/home");
+          localData.setAccessToken(response.payload.response.accessToken);
+          localData.setRefreshToken(response.payload.response.refreshToken);
+          navigate("/garden");
         } else if (response.type === "LOGIN/rejected") {
           setErrorInfo(
             "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
