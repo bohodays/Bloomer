@@ -2,7 +2,6 @@ package com.exmaple.flory.dto.comment;
 
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.entity.Member;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,12 +26,10 @@ public class CommentDto {
 
     private Date createdTime;
 
-    private Member member;
-
     private Diary diary;
 
     public Comment toEntity(){
         return Comment.builder()
-                .id(id).content(content).createdTime(createdTime).member(member).diary(diary).build();
+                .id(id).content(content).createdTime(createdTime).diary(diary).build();
     }
 }

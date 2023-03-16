@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name="Diary")
+@Entity(name="diary")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,16 +33,13 @@ public class Diary {
     private String imgSrc;
 
     @Column(name = "lat")
-    private String lat;
+    private double lat;
 
     @Column(name = "lng")
-    private String lng;
+    private double lng;
 
     @Column(name = "public_status")
     private String publicStatus;
-
-    @Column(name = "fid")
-    private Long fid;
 
     @Column(name = "x")
     private String x;
@@ -52,6 +49,9 @@ public class Diary {
 
     @Column(name = "z")
     private String z;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "created_time")
     @CreationTimestamp
@@ -67,6 +67,10 @@ public class Diary {
     @ManyToOne
     private Garden garden;
 
+    @JoinColumn(name = "fid")
+    @ManyToOne
+    private Flower flower;
+
     @JsonIgnore
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
     List<Comment> commentList;
@@ -74,6 +78,6 @@ public class Diary {
     public DiaryDto toDto() {
         return DiaryDto.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
-                .garden(garden).build();
+                .garden(garden).address(address).build();
     }
 }
