@@ -81,7 +81,7 @@ const DiaryDetail = () => {
       >
         <div style={{ color: "white", marginBottom: 7 }}>
           <FontAwesomeIcon icon={faMusic} />
-          옥상 달빛 - 수고했어 오늘도
+          abstract world
         </div>
         <div
           className="circle"

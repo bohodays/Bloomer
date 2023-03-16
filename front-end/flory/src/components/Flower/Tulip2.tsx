@@ -10,6 +10,8 @@ import {
   OrthographicCamera,
 } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import React, { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -34,6 +36,26 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
 
   const num = 6;
+
+  // 회전 관련 함수
+  const modelRef1 = useRef<any>();
+  const modelRef2 = useRef<any>();
+  const modelRef3 = useRef<any>();
+  const modelRef4 = useRef<any>();
+  const modelRef5 = useRef<any>();
+  const modelRef6 = useRef<any>();
+  const modelRef7 = useRef<any>();
+  const modelRef8 = useRef<any>();
+  useFrame(() => {
+    modelRef1.current!.rotation.y += 0.01;
+    modelRef2.current!.rotation.y += 0.01;
+    modelRef3.current!.rotation.y += 0.01;
+    modelRef4.current!.rotation.y += 0.01;
+    // modelRef5.current!.rotation.y += 0.01;
+    // modelRef6.current!.rotation.y += 0.01;
+    modelRef7.current!.rotation.y += 0.01;
+    modelRef8.current!.rotation.y += 0.01;
+  });
   return (
     <group {...props} dispose={null}>
       <OrthographicCamera
@@ -84,6 +106,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       />
 
       <mesh
+        ref={modelRef1}
         geometry={nodes.Sphere002.geometry}
         material={materials["Material.001"]}
         position={[0.06, 7.37 - num, 0.13]}
@@ -91,6 +114,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         scale={[0.75, 1.12, 0.75]}
       />
       <mesh
+        ref={modelRef2}
         geometry={nodes.Sphere003.geometry}
         material={materials["Material.001"]}
         position={[-0.06, 7.38 - num, 0.02]}
@@ -98,6 +122,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         scale={[0.75, 1.12, 0.75]}
       />
       <mesh
+        ref={modelRef3}
         geometry={nodes.Sphere004.geometry}
         material={materials["Material.001"]}
         position={[0.06, 7.37 - num, 0.03]}
@@ -105,12 +130,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         scale={[0.75, 1.12, 0.75]}
       />
       <mesh
+        ref={modelRef4}
         geometry={nodes.Cylinder.geometry}
         material={materials["Material.002"]}
         position={[0, 3.22 - num, 0]}
         scale={[0.11, 3.18, 0.11]}
       />
       <mesh
+        ref={modelRef5}
         geometry={nodes.Plane.geometry}
         material={materials["Material.002"]}
         position={[-0.28, 2.96 - num, 0.76]}
@@ -118,6 +145,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         scale={[0.71, 0.71, 3.03]}
       />
       <mesh
+        ref={modelRef6}
         geometry={nodes.Plane001.geometry}
         material={materials["Material.002"]}
         position={[-0.14, 2.32 - num, -0.61]}
@@ -125,12 +153,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         scale={[0.71, 0.69, 2.41]}
       />
       <mesh
+        ref={modelRef7}
         geometry={nodes.Sphere.geometry}
         material={nodes.Sphere.material}
         position={[-0.01, 6.15 - num, 0]}
         rotation={[0, 0, -0.06]}
       />
       <mesh
+        ref={modelRef8}
         geometry={nodes.Sphere001.geometry}
         material={materials["Material.001"]}
         position={[-0.01, 6.15 - num, 0]}
