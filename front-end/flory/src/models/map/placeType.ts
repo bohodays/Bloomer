@@ -1,6 +1,6 @@
 export type PlaceType = {
   placeName: string;
   address: string;
-  x: number;
-  y: number;
+  lng: number;
+  lat: number;
 };

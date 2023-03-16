@@ -32,9 +32,9 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
     >
       <h3>위치 설정</h3>
       <MapSearchInput setKeyword={setKeyword} onClickHere={onClickHere} />
-
       <SearchMap func={func} />
       <p>{place.placeName ? place.placeName : place.address}</p>
+
       <div style={{ width: "100%", height: "200px", overflowY: "auto" }}>
         <LocaList func={func} />
       </div>

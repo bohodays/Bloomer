@@ -29,8 +29,8 @@ const DiaryCreate = () => {
   const [place, setPlace] = useState<PlaceType>({
     placeName: "",
     address: "",
-    x: 0,
-    y: 0,
+    lng: 0,
+    lat: 0,
   });
 
   const [selectedValue, setSelectedValue] = React.useState("a");
@@ -63,8 +63,8 @@ const DiaryCreate = () => {
           setPlace({
             placeName: "",
             address: detailAddr,
-            x: geolocation.longitude,
-            y: geolocation.latitude,
+            lng: geolocation.longitude,
+            lat: geolocation.latitude,
           });
         }
       });
