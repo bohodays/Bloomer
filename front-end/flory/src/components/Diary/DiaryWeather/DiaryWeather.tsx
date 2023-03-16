@@ -1,5 +1,5 @@
 import React from "react"
-import Sun from "../../../assets/imgs/weather_icon/Sun.png"
+import { WeatherStateType } from "../../../models/weather/weatherStateType"
 import { SMain } from "./styles"
 
 // 요일 매핑 함수
@@ -8,20 +8,27 @@ const convertDayIdx = (idx: number) => {
   return dayLst[idx]
 }
 
-const DiaryWeather = () => {
+const DiaryWeather = ({ weatherData }: any): JSX.Element => {
   const today = new Date()
   const year = today.getFullYear().toString().substring(2)
   const month = (today.getMonth() + 1).toString().padStart(2, "0")
   const date = today.getDate().toString().padStart(2, "0")
   const day = convertDayIdx(today.getDay())
-  const temp = "18°C"
+  console.log(weatherData.description)
 
   return (
     <SMain>
-      <img src={Sun} alt="weather" className="weather-icon" />
+      <img
+        src={
+          require(`../../../assets/imgs/weather_icon/${weatherData.description}.png`)
+            .default
+        }
+        alt="weather"
+        className="weather-icon"
+      />
       <div className="info-container">
         <div>
-          {day} {temp}
+          {day} {weatherData.temp}°C
         </div>
         <div>
           {year}/{month}/{date}
