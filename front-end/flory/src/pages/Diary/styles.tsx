@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   max-width: 480px;
@@ -6,18 +6,9 @@ export const SMain = styled.main`
   height: 100%;
 
   .header-container {
-    position: fixed;
-  }
-
-  .background-image {
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    right: 0;
-    max-width: 480px;
     width: 100%;
-    /* height: 24vh; */
-    margin: 0 auto;
+    max-width: 480px;
+    position: fixed;
   }
 
   .content-container {
@@ -35,4 +26,4 @@ export const SMain = styled.main`
   .content-container::-webkit-scrollbar {
     display: none;
   }
-`;
+`
