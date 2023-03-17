@@ -4,7 +4,7 @@ import Avatar from "../../common/Avatar/Avatar";
 function DiaryComment({}: any): JSX.Element {
   return (
     <div>
-      <Avatar size="small" />
+      <Avatar />
     </div>
   );
 }
