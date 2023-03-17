@@ -2,7 +2,10 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAction } from "../../../redux/modules/user";
+import {
+  getUserDataToTokenAction,
+  loginAction,
+} from "../../../redux/modules/user";
 import { localData } from "../../../redux/modules/user/token";
 import { useAppDispatch } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
@@ -39,19 +42,25 @@ const UserLoginForm = () => {
         email,
         password,
       };
-      dispatch(loginAction(loginData)).then((response) => {
-        console.log(response);
-        if (response.type === "LOGIN/fulfilled") {
-          localData.setAccessToken(response.payload.response.accessToken);
-          localData.setRefreshToken(response.payload.response.refreshToken);
-          navigate("/garden");
-        } else if (response.type === "LOGIN/rejected") {
-          setErrorInfo(
-            "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
-          );
-          handleOpen();
-        }
-      });
+      dispatch(loginAction(loginData))
+        .then((response) => {
+          if (response.type === "LOGIN/rejected") {
+            setErrorInfo(
+              "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
+            );
+            handleOpen();
+            return false;
+          } else {
+            return true;
+          }
+        })
+        .then((response) => {
+          if (response) {
+            dispatch(getUserDataToTokenAction());
+            navigate("/garden");
+          }
+        })
+        .catch((e) => console.log(e));
     }
   };
 

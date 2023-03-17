@@ -11,7 +11,6 @@ import {
   Sparkles,
   Stars,
 } from "@react-three/drei";
-import Base_map from "../../components/Garden/Base_map";
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { SMain } from "./styles";
@@ -28,7 +27,6 @@ const Scene = () => {
         <ambientLight intensity={0.4} />
         <Base_map_new />
 
-        {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
         {/* </EffectComposer> */}
