@@ -22,6 +22,7 @@ export const SSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 
   text-align: center;
   margin-top: 1rem;

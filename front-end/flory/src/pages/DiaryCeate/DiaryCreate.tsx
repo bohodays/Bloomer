@@ -166,7 +166,11 @@ const DiaryCreate = () => {
         </div>
         <div className="preview-image__wrapper">
           {selectedImg.preview_URL && (
-            <img className="preview-image" src={selectedImg.preview_URL} />
+            <img
+              className="preview-image"
+              alt="미리보기"
+              src={selectedImg.preview_URL}
+            />
           )}
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
