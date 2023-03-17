@@ -4,6 +4,7 @@ export const SForm = styled.form`
   width: 80%;
   display: flex;
   flex-direction: column;
+
   p {
     text-align: right;
     margin-top: 0.7rem;
@@ -11,11 +12,13 @@ export const SForm = styled.form`
     color: #7b7b7b;
     font-size: 0.7rem;
   }
+
   .input-wrapper {
     text-align: center;
     width: 100%;
     position: relative;
   }
+
   .icon {
     position: absolute;
     font-size: 1rem;
@@ -24,8 +27,17 @@ export const SForm = styled.form`
     top: 50%;
     transform: translateY(-50%);
   }
+
   .active {
     color: #2e2162;
+  }
+
+  .moveToSignup {
+    cursor: pointer;
+  }
+
+  .moveToSignup:hover {
+    color: rgb(133, 138, 235);
   }
 `;
 
