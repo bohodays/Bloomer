@@ -16,6 +16,7 @@ const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
 const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
 const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
+const Setting = React.lazy(() => import("./pages/Setting/Setting"));
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/diary" element={<Diary />} />
             <Route path="/home" element={<Garden />} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />
+            <Route path="/setting" element={<Setting/>} />
           </Routes>
         </BrowserRouter>
       </Suspense>
