@@ -108,8 +108,8 @@ export function Model_new_test(props: JSX.IntrinsicElements["group"]) {
       ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
     clickMouse.y = -(event.clientY / rect.height) * 2 + 1;
 
-    console.log(event.clientX, event.clientX - rect.left, "비교");
-    console.log(clickMouse.x, clickMouse.y);
+    // console.log(event.clientX, event.clientX - rect.left, "비교");
+    console.log(clickMouse.x, clickMouse.y, "비교");
 
     const found = intersect(clickMouse);
     if (found.length > 0) {
