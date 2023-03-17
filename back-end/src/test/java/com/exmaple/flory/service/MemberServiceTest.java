@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -99,10 +100,10 @@ class MemberServiceTest {
 
     @DisplayName("회원 정보 수정")
     @Test
-    void updateMember() {
+    void updateMember() throws IOException {
         //given
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("rename").password("password").img("img").email("email").build();
+                .nickname("rename").password("password").email("email").build();
 
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
@@ -111,11 +112,11 @@ class MemberServiceTest {
                 userId(1L).nickname("rename").img("img").email("email").build();
 
         when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
-        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getImg(), memberRequestDto.getPassword(), passwordEncoder);
+        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getPassword(), passwordEncoder);
         when(memberRepository.save(any())).thenReturn(member);
 
         //when
-        MemberResponseDto result = memberService.updateMember(memberRequestDto);
+        MemberResponseDto result = memberService.updateMember(memberRequestDto,null);
 
         //then
         assertEquals(result.getNickname(),responseDto.getNickname());
