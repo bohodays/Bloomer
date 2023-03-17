@@ -1,59 +1,59 @@
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { loginAction } from "../../../redux/modules/user"
-import { localData } from "../../../redux/modules/user/token"
-import { useAppDispatch } from "../../../redux/store.hooks"
-import Button from "../../common/Button/Button"
-import { SForm, SInput } from "./styles"
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginAction } from "../../../redux/modules/user";
+import { localData } from "../../../redux/modules/user/token";
+import { useAppDispatch } from "../../../redux/store.hooks";
+import Button from "../../common/Button/Button";
+import { SForm, SInput } from "./styles";
 
 // mui
-import Typography from "@mui/material/Typography"
-import Modal from "@mui/material/Modal"
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const UserLoginForm = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // 모달 상태 관리
-  const [open, setOpen] = React.useState(false)
-  const [errorInfo, setErrorInfo] = useState("")
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [open, setOpen] = React.useState(false);
+  const [errorInfo, setErrorInfo] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // 로그인
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     // 이메일을 입력하지 않았으면
     if (!email.trim().length) {
-      setErrorInfo("이메일을 입력해주세요.")
-      handleOpen()
+      setErrorInfo("이메일을 입력해주세요.");
+      handleOpen();
     } else if (!password.trim().length) {
-      setErrorInfo("비밀번호를 입력해주세요.")
-      handleOpen()
+      setErrorInfo("비밀번호를 입력해주세요.");
+      handleOpen();
     } else {
       const loginData = {
         email,
         password,
-      }
+      };
       dispatch(loginAction(loginData)).then((response) => {
-        console.log(response)
+        console.log(response);
         if (response.type === "LOGIN/fulfilled") {
-          localData.set("accessToken", response.payload.response.accessToken)
-          localData.set("refreshToken", response.payload.response.refreshToken)
-          navigate("/home")
+          localData.setAccessToken(response.payload.response.accessToken);
+          localData.setRefreshToken(response.payload.response.refreshToken);
+          navigate("/garden");
         } else if (response.type === "LOGIN/rejected") {
           setErrorInfo(
             "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
-          )
-          handleOpen()
+          );
+          handleOpen();
         }
-      })
+      });
     }
-  }
+  };
 
   const style: any = {
     position: "absolute" as "absolute",
@@ -64,7 +64,7 @@ const UserLoginForm = () => {
     bgcolor: "#ffffff",
     boxShadow: 24,
     // p: 3,
-  }
+  };
 
   return (
     <>
@@ -143,7 +143,7 @@ const UserLoginForm = () => {
         </Modal>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserLoginForm
+export default UserLoginForm;

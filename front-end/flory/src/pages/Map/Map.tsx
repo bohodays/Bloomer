@@ -6,6 +6,7 @@ import BasicMap from "../../components/Map/BasicMap/BasicMap";
 import DiaryList from "../../components/Diary/DiaryList/DiaryList";
 import MapFilterModal from "../../components/Map/MapFilterModal/MapFilterModal";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
+import { useNavigate } from "react-router-dom";
 
 const DIARY_LIST = [
   {
@@ -137,7 +138,11 @@ const DIARY_LIST = [
 ];
 
 const Map = () => {
-  const onClick = () => {};
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate("/garden");
+  };
 
   // 내 주변 보기
   const mapPanel = (
@@ -160,7 +165,7 @@ const Map = () => {
       {/* 뒤로 가기 아이콘 */}
       <FontAwesomeIcon
         className="back-icon"
-        onClick={onClick}
+        onClick={handleBack}
         icon={faArrowLeft}
       />
       <div className="login__title">
