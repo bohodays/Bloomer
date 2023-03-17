@@ -3,6 +3,7 @@ package com.exmaple.flory.repository;
 import com.exmaple.flory.entity.Diary;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,5 +23,7 @@ public interface QDiaryRepository {
 
     Diary findByXAndYAndZInGarden(Long gardenId, String x, String y, String z);
 
-    List<Diary> findDiaryInMap(String lat1, String lng1, String lat2, String lng2);
+    List<Diary> findDiaryInMap(double lat1, double lng1, double lat2, double lng2);
+
+    List<Diary> findDiaryInMonth(Long memberId, Date firstDay, Date lastDay);
 }

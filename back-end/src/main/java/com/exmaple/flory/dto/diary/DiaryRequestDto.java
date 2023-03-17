@@ -19,7 +19,7 @@ public class DiaryRequestDto {
 
     private Long gid;
 
-//    private Long mid;
+    private Long mid;
 
     private Long fid;
 
@@ -27,9 +27,9 @@ public class DiaryRequestDto {
 
     private String imgSrc;
 
-    private String lat;
+    private double lat;
 
-    private String lng;
+    private double lng;
 
     private String publicStatus;
 
@@ -41,8 +41,10 @@ public class DiaryRequestDto {
 
     private String z;
 
+    private String address;
+
     public Diary toEntity(){
         return Diary.builder()
-                .content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).build();
+                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).address(address).build();
     }
 }

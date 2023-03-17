@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,14 +43,18 @@ public class Member extends BaseTime {
         return this;
     }
 
-    public Member updateMember(String nickname,  String img, String password, PasswordEncoder passwordEncoder){
+    public Member updateMember(String nickname, String password, PasswordEncoder passwordEncoder){
         this.nickname = nickname;
         this.password = passwordEncoder.encode(password);
+        return this;
+    }
+
+    public Member updateImg(String img){
         this.img = img;
         return this;
     }
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Comment> commentList= new ArrayList<>();
+    private List<Comment> commentList;
 }
