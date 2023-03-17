@@ -18,6 +18,7 @@ const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
 const Garden = React.lazy(() => import("./pages/Garden/Garden"));
 const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
 const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
+const Setting = React.lazy(() => import("./pages/Setting/Setting"));
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/garden" element={<Garden />} />
             <Route path="/garden/edit" element={<GardenEdit />} />
             <Route path="/garden/list" element={<GardenList />} />
+            <Route path="/setting" element={<Setting/>} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

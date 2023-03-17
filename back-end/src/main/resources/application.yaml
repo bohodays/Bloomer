@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: test
+
+server:
+  port: 8080
+
+---
+## test profile ##
+spring:
+  profiles: test
+
+  h2:
+    console:
+      enabled: true
+      path: /test_db                  # h2 console url 에 접근하기 위한 값. : `localhost:8080/test_db` 로 접근 가능
+
+  datasource:
+    driver-class-name: org.h2.Driver  # h2 드라이버 설정
+    url: jdbc:h2:mem:testdb           # jdbc url 설정 (in-memory db 설정)
+    username: sa
+    password:
+    initialization-mode: always       # datasource 를 타입(h2, mysql, oracle, ...) 에 상관없이 항상 초기화한다.
+    platform: h2                      # datasource 타입 플랫폼 정의
+
+    # .sql 파일을 classpath 하위로 두고, 특정 디렉토리 아래에서 실행시킬 수 있다.
+    #schema: classpath:db/h2/schema.sql  # spring boot startup 시, 특정 경로의 schema.sql 실행
+    data: classpath:db/h2/data.sql      # spring boot startup 시, 특정 경로의 data.sql 실행
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none                            # ddl 옵션을 무엇으로 할 것인지 (none | create-drop | create | update | validate)
+    generate-ddl: true                          # true 설정 시, 해당 데이터를 근거로 서버 시작 시점에 DDL 문 생성하여 DB 에 적용 (ddl 생성옵션 링크)
+    show-sql: true                              # true 설정 시, 콘솔에 JPA 쿼리를 보여준다.
+    properties.hibernate.format_sql: true       # true 설정 시, 콘솔에 표시되는 쿼리를 가독성있게 보여준다.
+    properties.hibernate.use_sql_comments: false # true 설정 시, 콘솔에 표시되는 쿼리문 위에 어떤 실행을 하려는지 hint 를 보여준다.
