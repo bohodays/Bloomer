@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SMain = styled.main`
   position: absolute;
   width: 100%;
-  height: 500px;
+  /* height: 500px; */
   .header_back {
     position: absolute;
     width: 100%;
