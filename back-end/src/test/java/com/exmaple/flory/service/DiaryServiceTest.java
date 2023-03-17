@@ -55,6 +55,9 @@ public class DiaryServiceTest {
     @Mock
     UserTeamRepository userTeamRepository;
 
+    @Mock
+    MusicRepository musicRepository;
+
     private final Member member = Member
             .builder()
             .userId(1L)
@@ -90,6 +93,9 @@ public class DiaryServiceTest {
 
     private final UserTeam userTeam = UserTeam.builder()
             .userTeamId(1L).tid(team).uid(member).build();
+
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
     @DisplayName("일기 등록하기 테스트")
     @Test
     public void insertDiaryTest() throws Exception {
@@ -101,6 +107,7 @@ public class DiaryServiceTest {
         when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
         when(flowerRepository.getEmotionKey(any())).thenReturn(info);
         when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+        when(musicRepository.findById(any())).thenReturn(Optional.of(music));
 
         DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
                 .content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).publicStatus("전체공개").build();
@@ -144,7 +151,7 @@ public class DiaryServiceTest {
     @Test
     public void updateDiaryTest() throws Exception {
         DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
-                .content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).build();
+                .publicStatus("전체공개").address("address").content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).build();
         List<Long> emotions = new ArrayList<>();
         emotions.add(emotion.getId());
 
@@ -154,6 +161,7 @@ public class DiaryServiceTest {
         when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
         when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
         when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+        when(musicRepository.findById(any())).thenReturn(Optional.of(music));
 
         DiaryDto result = diaryService.updateDiary(diaryRequestDto);
 
@@ -188,9 +196,17 @@ public class DiaryServiceTest {
     @Test
     public void getDiaryByMemberTest() throws Exception{
         List<Diary> diaryDtoList = new ArrayList<>();
+        List<Long> emotions = new ArrayList<>();
 
-        diaryDtoList.add(diaryDto.toEntity());
+        emotions.add(1L);
+
+        Diary diary = diaryDto.toEntity();
+        diary.setFlower(flower);
+
+        diaryDtoList.add(diary);
         when(diaryRepository.findByMemberId(any())).thenReturn(diaryDtoList);
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
 
         List<DiaryDto> result = diaryService.getDiaryListByUser(1L,1L);
 
@@ -199,12 +215,14 @@ public class DiaryServiceTest {
 
     @DisplayName("지도 범위 내의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryInMapTest(){
+    public void getDiaryInMapTest() throws Exception {
         List<Diary> diaries = new ArrayList<>();
         Map<String,String> info = new HashMap<>();
+        List<Long> emotions = new ArrayList<>();
         Diary diary = diaryDto.toEntity();
         garden.setMember(member);
         diary.setGarden(garden);
+        diary.setFlower(flower);
 
         info.put("lat1","11");
         info.put("lng1","1");
@@ -213,7 +231,11 @@ public class DiaryServiceTest {
         info.put("requestId","1");
 
         diaries.add(diary);
+        emotions.add(1L);
+
         when(diaryRepository.findDiaryInMap(anyDouble(),anyDouble(),anyDouble(),anyDouble())).thenReturn(diaries);
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
 
         List<DiaryDto> result = diaryService.getDiaryListInMap(info);
 

@@ -22,4 +22,13 @@ public class QDiaryTeamRepositoryImpl implements QDiaryTeamRepository {
                 .where(diaryTeam.diaryId.eq(diaryId))
                 .fetch();
     }
+
+    @Override
+    public void deleteByDid(Long diaryId) {
+        jpaQueryFactory
+                .delete(diaryTeam)
+                .where(diaryTeam.diaryId.eq(diaryId))
+                .execute();
+
+    }
 }

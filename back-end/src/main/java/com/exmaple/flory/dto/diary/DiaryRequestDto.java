@@ -19,7 +19,7 @@ public class DiaryRequestDto {
 
     private Long gid;
 
-//    private Long mid;
+    private Long mid;
 
     private Long fid;
 
@@ -45,6 +45,6 @@ public class DiaryRequestDto {
 
     public Diary toEntity(){
         return Diary.builder()
-                .content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).address(address).build();
+                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).address(address).build();
     }
 }

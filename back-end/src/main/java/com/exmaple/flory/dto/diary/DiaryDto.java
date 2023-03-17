@@ -4,6 +4,8 @@ import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Garden;
+import com.exmaple.flory.entity.Music;
+import com.exmaple.flory.entity.Team;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +46,9 @@ public class DiaryDto {
 
     private FlowerEmotionDto flowerEmotion;
 
-//    private Music music;
+    private List<Team> groupList;
+
+    private Music music;
 
     private List<CommentListDto> commentList;
 
@@ -52,10 +56,6 @@ public class DiaryDto {
         return Diary.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
                 .garden(garden).address(address).build();
-    }
-
-    public void setCommentList(List<CommentListDto> commentList){
-        this.commentList = commentList;
     }
 
 }
