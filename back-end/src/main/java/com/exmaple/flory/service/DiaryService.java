@@ -20,6 +20,10 @@ import java.util.*;
 @Slf4j
 public class DiaryService {
     @Autowired
+    private MusicRepository musicRepository;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
     private DiaryTeamRepository diaryTeamRepository;
     @Autowired
     private EmotionRepository emotionRepository;
@@ -48,16 +52,19 @@ public class DiaryService {
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
+        Optional<Music> music = musicRepository.findById(diaryRequestDto.getMid());
 
-        if(garden.isEmpty() || flower.isEmpty()) throw new Exception();
+        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
 
         Flower flowerData = flower.get();
 
         diary.setGarden(garden.get());
         diary.setFlower(flowerData);
+        diary.setMusic(music.get());
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         result.setFlowerEmotion(getFlowerEmotion(flowerData));
+        result.setMusic(music.get());
 
         if(diaryRequestDto.getPublicStatus().equals("그룹공개")){
             List<Long> groups = diaryRequestDto.getGroupList();
@@ -67,6 +74,18 @@ public class DiaryService {
                         .groupId(groups.get(i)).diaryId(result.getId()).build();
                 diaryTeamRepository.save(diaryTeam);
             }
+
+            List<Team> groupList = new ArrayList<>();
+
+            for(Long id: diaryRequestDto.getGroupList()){
+                Optional<Team> team = teamRepository.findById(id);
+
+                if(team.isEmpty()) throw new Exception();
+
+                groupList.add(team.get());
+            }
+
+            result.setGroupList(groupList);
         }
 
         return result;
@@ -82,6 +101,11 @@ public class DiaryService {
         DiaryDto result = diary.get().toDto();
         result.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
         result.setCommentList(getCommentList(result));
+        result.setMusic(diary.get().getMusic());
+
+        if(result.getPublicStatus().equals("그룹공개")){
+            setGroupList(result);
+        }
 
         return result;
     }
@@ -101,22 +125,51 @@ public class DiaryService {
 
     @Transactional
     public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
-        Optional<Diary> d = diaryRepository.findById(diaryDto.getId());
-        if(d.isEmpty()) throw new Exception();
+        Optional<Diary> dir = diaryRepository.findById(diaryDto.getId());
 
-        Diary diary = d.get();
-        log.info("수정: {}",diary);
+        if(dir.isEmpty()) throw new Exception();
+
         Optional<Garden> garden = gardenRepository.findById(diaryDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryDto.getFid());
+        Optional<Music> music = musicRepository.findById(diaryDto.getMid());
 
-        if(garden.isEmpty() || flower.isEmpty()) throw new Exception();
+        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
+
+        Diary diary = dir.get();
+        log.info("Diary: {}",diary);
+
+        setUpdateDiary(diaryDto,diary);
+
 
         diary.setGarden(garden.get());
         diary.setFlower(flower.get());
+        diary.setMusic(music.get());
+
+        log.info("Update Diary: {}",diary);
+
+        if(diary.getPublicStatus().equals("그룹공개")){
+            diaryTeamRepository.deleteByDid(diaryDto.getId());
+            log.info("삭제");
+
+            List<Long> groups = diaryDto.getGroupList();
+
+            for(int i=0;i<groups.size();i++){
+                log.info("{}",groups.get(i));
+                DiaryTeam diaryTeam = DiaryTeam.builder()
+                        .groupId(groups.get(i)).diaryId(diary.getId()).build();
+                diaryTeamRepository.save(diaryTeam);
+            }
+        }
 
         DiaryDto result = diaryRepository.save(diary).toDto();
+        log.info("update: {}",result);
+        log.info("createTime: {}",dir.get());
+
+        result.setCreatedTime(dir.get().getCreatedTime());
         result.setCommentList(getCommentList(result));
         result.setFlowerEmotion(getFlowerEmotion(flower.get()));
+        result.setMusic(music.get());
+        setGroupList(result);
 
         return result;
     }
@@ -148,9 +201,18 @@ public class DiaryService {
         List<DiaryDto> diaryDtoList = new ArrayList<>();
 
         for(int i=0;i<diaryList.size();i++){
-            DiaryDto diaryDto = diaryList.get(i).toDto();
-            diaryDto.setFlowerEmotion(getFlowerEmotion(diaryList.get(i).getFlower()));
+            Diary diary = diaryList.get(i);
+
+            DiaryDto diaryDto = diary.toDto();
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
             diaryDto.setCommentList(getCommentList(diaryDto));
+            diaryDto.setMusic(diary.getMusic());
+            setGroupList(diaryDto);
+
+            if(diary.getPublicStatus().equals("그룹공개")){
+                setGroupList(diaryDto);
+            }
+
             diaryDtoList.add(diaryDto);
         }
 
@@ -165,38 +227,55 @@ public class DiaryService {
         for(int i=0;i<diaryList.size();i++){
             DiaryDto diaryDto = diaryList.get(i).toDto();
             diaryDto.setCommentList(getCommentList(diaryDto));
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diaryList.get(i).getFlower()));
+            setGroupList(diaryDto);
+            diaryDto.setMusic(diaryList.get(i).getMusic());
             diaryDtoList.add(diaryDto);
         }
 
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
+    public List<DiaryDto> getDiaryListInMap(Map<String, String> info) throws Exception {
         double lat1 = Double.parseDouble(info.get("lat1"));
         double lng1 = Double.parseDouble(info.get("lng1"));
         double lat2 = Double.parseDouble(info.get("lat2"));
         double lng2 = Double.parseDouble(info.get("lng2"));
         Long requestId = Long.parseLong(info.get("requestId"));
 
-
         List<Diary> diaryList = diaryRepository.findDiaryInMap(lat1,lng1,lat2,lng2);
         List<DiaryDto> result= new ArrayList<>();
 
-        for(int i=0;i<diaryList.size();i++){
-            Diary diary = diaryList.get(i);
-
+        for(Diary diary: diaryList){
+            log.info("{}",diary);
             if(diary.getGarden().getMember().getUserId().equals(requestId)){
-                result.add(diary.toDto());
+                DiaryDto diaryDto = diary.toDto();
+
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                diaryDto.setMusic(diary.getMusic());
+                setGroupList(diaryDto);
+                diaryDto.setCommentList(getCommentList(diaryDto));
+                result.add(diaryDto);
             }
 
             else{
-                if(diaryList.get(i).getPublicStatus().equals("전체공개")){
-                    DiaryDto diaryDto = diaryList.get(i).toDto();
+                if(diary.getPublicStatus().equals("전체공개")){
+                    DiaryDto diaryDto = diary.toDto();
+
+                    diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                    diaryDto.setMusic(diary.getMusic());
+                    setGroupList(diaryDto);
+
                     result.add(diaryDto);
                 }
-                else if(diaryList.get(i).getPublicStatus().equals("그룹공개")){
-                    if(isInTeam(diaryList.get(i).getId(),requestId)){
-                        DiaryDto diaryDto = diaryList.get(i).toDto();
+                else if(diary.getPublicStatus().equals("그룹공개")){
+                    if(isInTeam(diary.getId(),requestId)){
+                        DiaryDto diaryDto = diary.toDto();
+
+                        diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                        diaryDto.setMusic(diary.getMusic());
+                        setGroupList(diaryDto);
+
                         result.add(diaryDto);
                     }
                 }
@@ -220,6 +299,8 @@ public class DiaryService {
 
             diaryDto.setCommentList(comments);
             diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+            diaryDto.setMusic(diary.getMusic());
+            setGroupList(diaryDto);
 
             return diaryDto;
         }
@@ -270,7 +351,9 @@ public class DiaryService {
                     List<DiaryDto> diaries = diaryDayDto.getDiaryList();
                     DiaryDto diaryDto = diary.toDto();
                     diaryDto.setCommentList(getCommentList(diaryDto));
+                    diaryDto.setMusic(diary.getMusic());
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                    setGroupList(diaryDto);
                     diaries.add(diaryDto);
 
                     diaryDayDto.setDiaryList(diaries);
@@ -282,7 +365,9 @@ public class DiaryService {
                 List<DiaryDto> diaryList1 = new ArrayList<>();
                 DiaryDto diaryDto = diary.toDto();
                 diaryDto.setCommentList(getCommentList(diaryDto));
+                diaryDto.setMusic(diary.getMusic());
                 diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                setGroupList(diaryDto);
                 diaryList1.add(diaryDto);
                 DiaryDayDto data = DiaryDayDto.builder()
                         .day(day).diaryList(diaryList1).build();
@@ -362,5 +447,34 @@ public class DiaryService {
         }
 
         return diaryList;
+    }
+
+    public void setGroupList(DiaryDto diaryDto){
+        List<Long> groupIdList = diaryTeamRepository.getGroup(diaryDto.getId());
+
+        List<Team> groupList = new ArrayList<>();
+
+        for(Long id: groupIdList){
+            Optional<Team> team = teamRepository.findById(id);
+
+            if(team.isEmpty()) continue;
+
+            groupList.add(team.get());
+        }
+
+        diaryDto.setGroupList(groupList);
+    }
+
+    public void setUpdateDiary(DiaryRequestDto diaryRequestDto, Diary diary){
+        diary.setPublicStatus(diaryRequestDto.getPublicStatus());
+        diary.setX(diaryRequestDto.getX());
+        diary.setY(diaryRequestDto.getY());
+        diary.setZ(diaryRequestDto.getZ());
+        diary.setLat(diaryRequestDto.getLat());
+        diary.setLng(diaryRequestDto.getLng());
+        diary.setContent(diaryRequestDto.getContent());
+        diary.setImgSrc(diaryRequestDto.getImgSrc());
+        diary.setAddress(diaryRequestDto.getAddress());
+
     }
 }

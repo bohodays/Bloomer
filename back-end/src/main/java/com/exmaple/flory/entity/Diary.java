@@ -59,9 +59,9 @@ public class Diary {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTime;
 
-//    @JoinColumn(name = "mid")
-//    @ManyToOne
-//    private Music music;
+    @JoinColumn(name = "mid")
+    @ManyToOne
+    private Music music;
 
     @JoinColumn(name = "gid")
     @ManyToOne
