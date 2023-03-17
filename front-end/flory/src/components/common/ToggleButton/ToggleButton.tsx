@@ -8,11 +8,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SNav } from "./styles";
 
 const ToggleButton = () => {
   const [toggleOnOff, setToggleOnOff] = useState(false);
   const [volumeMute, setVolumeMute] = useState(false);
+  const navigate = useNavigate();
 
   // 토글 핸들러 함수
   const handleToggleOnOff = () => {
@@ -22,6 +24,10 @@ const ToggleButton = () => {
   // 소리 음소거 핸들러 함수
   const handleVolumeOnOff = () => {
     setVolumeMute(!volumeMute);
+  };
+
+  const handleMoveToGardenList = () => {
+    navigate("/garden/list");
   };
 
   return (
@@ -44,7 +50,7 @@ const ToggleButton = () => {
           <FontAwesomeIcon className="lines" icon={faBars} />
         )}
       </label>
-      <button className="menu-item gardenList">
+      <button className="menu-item gardenList" onClick={handleMoveToGardenList}>
         <FontAwesomeIcon icon={faLayerGroup} />
       </button>
       <button className="menu-item volume" onClick={handleVolumeOnOff}>

@@ -35,7 +35,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     "/models/flowers/tulip2.gltf"
   ) as GLTFResult;
 
-  const num = 6;
+  const num = 6.5;
 
   // 회전 관련 함수
   const modelRef1 = useRef<any>();

@@ -43,8 +43,8 @@ export const SMain = styled.main`
     color: var(--color-white);
     position: absolute;
     font-size: 1.8rem;
-    left: 16px;
-    top: 16px;
+    left: 1rem;
+    top: 1rem;
   }
 
   /* 테스트 */
