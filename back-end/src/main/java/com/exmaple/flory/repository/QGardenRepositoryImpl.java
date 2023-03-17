@@ -25,7 +25,7 @@ public class QGardenRepositoryImpl implements QGardenRepository {
         return Optional.of(
                 jpaQueryFactory
                         .selectFrom(garden)
-                        .where(garden.createdDate.month().eq(month))
+                        .where(garden.createdDate.month().castToNum(Integer.class).eq(month))
                         .fetchOne());
     }
 
