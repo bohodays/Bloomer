@@ -1,8 +1,8 @@
 import BasicModal from "../../common/Modal/BasicModal";
-import KakaoMap from "../../Map/KakaoMap";
-import SearchMap from "../../Map/SearchMap";
-import React, { useState, useEffect, useRef } from "react";
+import SearchMap from "../../Map/SearchMap/SearchMap";
+import { useState, useRef } from "react";
 import LocaList from "../../common/List/LocaList";
+import MapSearchInput from "../../Map/MapSearchInput/MapSearchInput";
 
 function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
   const [keyword, setKeyword] = useState<any>({
@@ -24,10 +24,6 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
     setLocations,
   };
 
-  const keywordInput = useRef<HTMLInputElement>(null);
-  const onSearch = (e: any) =>
-    setKeyword({ word: keywordInput.current?.value, new: true });
-
   return (
     <BasicModal
       modalButton={
@@ -35,10 +31,10 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
       }
     >
       <h3>위치 설정</h3>
-      <input ref={keywordInput} /> <button onClick={onSearch}>검색 버튼</button>
-      <button onClick={onClickHere}>현재 위치로</button>
+      <MapSearchInput setKeyword={setKeyword} onClickHere={onClickHere} />
       <SearchMap func={func} />
       <p>{place.placeName ? place.placeName : place.address}</p>
+
       <div style={{ width: "100%", height: "200px", overflowY: "auto" }}>
         <LocaList func={func} />
       </div>

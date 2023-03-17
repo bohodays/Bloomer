@@ -83,8 +83,8 @@ function SearchMap({ func }: any): JSX.Element {
         func.setPlace({
           placeName: data[0].place_name,
           address: data[0].road_address_name,
-          x: data[0].x,
-          y: data[0].y,
+          lng: data[0].x,
+          lat: data[0].y,
         });
       }
     }
@@ -121,8 +121,8 @@ function SearchMap({ func }: any): JSX.Element {
             func.setPlace({
               placeName: "",
               address: detailAddr,
-              x: mouseEvent.latLng.getLng(),
-              y: mouseEvent.latLng.getLat(),
+              lng: mouseEvent.latLng.getLng(),
+              lat: mouseEvent.latLng.getLat(),
             });
           }
         }

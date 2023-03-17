@@ -32,6 +32,7 @@
     "react-hook-geolocation": "^1.1.0",
     "react-icons": "^4.8.0",
     "react-kakao-maps-sdk": "^1.1.6",
+    "react-lottie": "^1.2.3",
     "react-mobile-datepicker": "^4.0.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
@@ -70,6 +71,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-lottie": "^1.2.6",
     "@types/three": "^0.149.0"
   }
 }

@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const KakaoMap = () => {
+const BasicMap = () => {
   const geolocation = useGeolocation();
   console.log(geolocation.latitude);
   console.log(geolocation.longitude);
@@ -79,4 +79,4 @@ const KakaoMap = () => {
   return <SMap id="map" />;
 };
 
-export default KakaoMap;
+export default BasicMap;

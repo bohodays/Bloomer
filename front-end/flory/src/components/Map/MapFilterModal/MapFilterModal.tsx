@@ -1,5 +1,5 @@
-import Button from "../common/Button/Button";
-import BasicModal from "../common/Modal/BasicModal";
+import Button from "../../common/Button/Button";
+import BasicModal from "../../common/Modal/BasicModal";
 
 const MapFilterModal = () => {
   return (

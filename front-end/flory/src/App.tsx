@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./App.css";
+import DiaryDetail from "./pages/DiaryDetail/DiaryDetail";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -35,6 +36,7 @@ function App() {
             <Route path="/diary/select" element={<DiarySelect />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
+            <Route path="/diary/:diaryId" element={<DiaryDetail />} />
             <Route path="/garden" element={<Garden />} />
             <Route path="/garden/edit" element={<GardenEdit />} />
             <Route path="/garden/list" element={<GardenList />} />
