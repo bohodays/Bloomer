@@ -8,5 +8,5 @@ import java.util.List;
 public interface QDiaryTeamRepository {
     List<Long> getGroup(Long diaryId);
 
-
+    void deleteByDid(Long diaryId);
 }

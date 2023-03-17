@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 
@@ -119,9 +120,9 @@ class MemberControllerTest {
     @Test
     void updateMember() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").img("img").email("email").build();
+                .nickname("name").password("password").email("email").build();
 
-        when(memberService.updateMember(any())).thenReturn(memberResponseDto);
+        when(memberService.updateMember(any(),any())).thenReturn(memberResponseDto);
 
         MvcResult mvcResult = mockMvc.perform(put("/api/user").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -139,9 +140,9 @@ class MemberControllerTest {
     @Test
     void updateMemberException() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").img("img").email("email").build();
+                .nickname("name").password("password").email("email").build();
 
-        when(memberService.updateMember(any())).thenThrow(new RuntimeException());
+        when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(put("/api/user").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)

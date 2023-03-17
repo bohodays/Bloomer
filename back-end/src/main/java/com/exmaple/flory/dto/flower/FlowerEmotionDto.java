@@ -19,5 +19,7 @@ public class FlowerEmotionDto {
 
     private String language;
 
-    private String emotion;
+    private String largeCategory;
+
+    private String smallCategory;
 }

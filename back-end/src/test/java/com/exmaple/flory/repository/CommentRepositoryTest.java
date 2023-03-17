@@ -60,7 +60,7 @@ public class CommentRepositoryTest {
     @Test
     public void getCommentInDiaryTest(){
         DiaryDto diaryDto = DiaryDto.builder()
-                .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
+                .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z")
                 .build();
 
         List<Comment> comments = new ArrayList<>();
