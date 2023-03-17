@@ -3,11 +3,13 @@ import user from "./modules/user";
 import diary from "./modules/diary";
 import garden from "./modules/garden";
 import map from "./modules/map";
+import weather from "./modules/weather";
 
 const store = configureStore({
   reducer: {
     user,
     map,
+    weather,
   },
 });
 
