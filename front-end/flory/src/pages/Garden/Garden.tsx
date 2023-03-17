@@ -41,7 +41,9 @@ const Scene = () => {
 const Garden = () => {
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.user.userData);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
   console.log(loggedUser);
+  console.log(gardenId, "정원 id");
 
   return (
     <SMain>

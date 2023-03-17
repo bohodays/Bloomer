@@ -7,4 +7,5 @@ import map from "./modules/map";
 export const reducer = combineReducers({
   user,
   map,
+  garden,
 });

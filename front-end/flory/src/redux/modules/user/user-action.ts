@@ -31,8 +31,6 @@ export const getUserDataToTokenAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(data, "데이터");
-
       return data;
     } catch (e: any) {
       return rejectWithValue(e);

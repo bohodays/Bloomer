@@ -11,7 +11,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "map", "garden"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
