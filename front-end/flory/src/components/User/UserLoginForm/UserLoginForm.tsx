@@ -1,15 +1,78 @@
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  getUserDataToTokenAction,
+  loginAction,
+} from "../../../redux/modules/user";
+import { localData } from "../../../redux/modules/user/token";
+import { useAppDispatch } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
 import { SForm, SInput } from "./styles";
+
+// mui
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const UserLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  // 모달 상태 관리
+  const [open, setOpen] = React.useState(false);
+  const [errorInfo, setErrorInfo] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  // 로그인
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // 이메일을 입력하지 않았으면
+    if (!email.trim().length) {
+      setErrorInfo("이메일을 입력해주세요.");
+      handleOpen();
+    } else if (!password.trim().length) {
+      setErrorInfo("비밀번호를 입력해주세요.");
+      handleOpen();
+    } else {
+      const loginData = {
+        email,
+        password,
+      };
+      dispatch(loginAction(loginData))
+        .then((response) => {
+          if (response.type === "LOGIN/rejected") {
+            setErrorInfo(
+              "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
+            );
+            handleOpen();
+            return false;
+          } else {
+            return true;
+          }
+        })
+        .then((response) => {
+          if (response) {
+            dispatch(getUserDataToTokenAction());
+            navigate("/garden");
+          }
+        })
+        .catch((e) => console.log(e));
+    }
+  };
+
+  const style: any = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "#ffffff",
+    boxShadow: 24,
+    // p: 3,
   };
 
   return (
@@ -39,7 +102,9 @@ const UserLoginForm = () => {
             placeholder="비밀번호"
           />
         </div>
-        <p>아직 계정이 없으신가요?</p>
+        <p className="moveToSignup" onClick={() => navigate("/signup")}>
+          아직 계정이 없으신가요?
+        </p>
         <Button
           type="submit"
           addStyle={{
@@ -55,8 +120,37 @@ const UserLoginForm = () => {
             boxShadow: "5px 5px 5px 0px rgb(158 158 158)",
           }}
           contents="로그인"
+          onClick={onSubmit}
         />
       </SForm>
+      <div>
+        {/* <div onClick={handleOpen}>Open modal</div> */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="modal__wrapper" style={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {errorInfo}
+            </Typography>
+            <Button
+              addStyle={{
+                // margin: "auto",
+                fontSize: "1rem",
+                width: "40%",
+                height: "2.5rem",
+                color: "#ffffff",
+                background1: "#ff003e",
+                borderRadius: "24px",
+              }}
+              contents="확인"
+              onClick={handleClose}
+            />
+          </div>
+        </Modal>
+      </div>
     </>
   );
 };

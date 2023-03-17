@@ -20,7 +20,7 @@ export interface IProps {
     boxShadow?: string;
   };
   contents?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
 }
 
 const Button = (props: IProps) => {
