@@ -11,6 +11,7 @@ import { borderRadius } from "@mui/system";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../components/common/Avatar/Avatar";
 import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
+
 const DiaryDetail = () => {
   const { diaryId } = useParams() as { diaryId: string };
   const [mapView, setMapView] = useState<boolean>(false);
@@ -138,6 +139,8 @@ const DiaryDetail = () => {
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
+
+        {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
@@ -147,20 +150,19 @@ const DiaryDetail = () => {
               diary.createdTime.slice(11, 16)}
           </p>
         </div>
-
         <div className="content-diary">{diary.content}</div>
 
+        {/* 지도 영역 */}
         <div className="location-tag" onClick={onClickLocation}>
           <FontAwesomeIcon icon={faLocationDot} />
           <p>{diary.address}</p>
         </div>
         {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
 
-        <div>
-          {diary.commentList.map((comment) => {
-            return <DiaryComment />;
-          })}
-        </div>
+        {/* 덧글 영역 */}
+        {diary.commentList.map((comment) => {
+          return <DiaryComment comment={comment} />;
+        })}
       </div>
     </SMain>
   );
