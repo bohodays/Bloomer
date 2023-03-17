@@ -1,8 +1,6 @@
-import React from "react"
-import { diaryListDateType } from "../../../models/diary/diaryListDateType"
-import DiaryList from "../DiaryList/DiaryList"
-import DiaryListItem from "../DiaryListItem/DiaryListItem"
-import { SMain } from "./styles"
+import React from "react";
+import DiaryList from "../DiaryList/DiaryList";
+import { SMain } from "./styles";
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -277,7 +275,7 @@ const SAMPLE_DIARY_LIST = [
       },
     ],
   },
-]
+];
 
 // function groupBy<T>(arr: T[], fn: (item: T) => any) {
 //   return arr.reduce<Record<string, T[]>>((prev, curr) => {
@@ -304,13 +302,13 @@ const DiaryTotalList = () => {
                 />
               </div>
             </SMain>
-          )
+          );
         })
       ) : (
         <div>피드가 없습니다.</div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DiaryTotalList
+export default DiaryTotalList;

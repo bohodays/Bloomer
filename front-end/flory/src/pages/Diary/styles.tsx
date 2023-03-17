@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   max-width: 480px;
@@ -9,6 +9,9 @@ export const SMain = styled.main`
     width: 100%;
     max-width: 480px;
     position: fixed;
+  }
+  svg {
+    transform: translate3d(0px, 0px, 0px) scaleX(-1) !important;
   }
 
   .content-container {
@@ -44,4 +47,4 @@ export const SMain = styled.main`
   .content-container::-webkit-scrollbar {
     display: none;
   }
-`
+`;

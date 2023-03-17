@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ReduxStateType } from "../../../models/reduxStateType";
 import { WeatherStateType } from "../../../models/weather/weatherStateType";
 import { getWeatherAction } from "./weather-action";
 
