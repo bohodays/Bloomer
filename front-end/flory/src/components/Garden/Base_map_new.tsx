@@ -7,6 +7,7 @@ import * as THREE from "three";
 import React, { useRef } from "react";
 import { useGLTF, OrthographicCamera } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+// import { F11 } from "../Flowers/F11";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -63,6 +64,21 @@ type GLTFResult = GLTF & {
     ["Grass.001"]: THREE.MeshStandardMaterial;
     Bg: THREE.MeshStandardMaterial;
     Grass: THREE.MeshStandardMaterial;
+  };
+};
+
+type GLTFResult1 = GLTF & {
+  nodes: {
+    Cylinder073: THREE.Mesh;
+    Cylinder073_1: THREE.Mesh;
+    Cylinder073_2: THREE.Mesh;
+    Cylinder073_3: THREE.Mesh;
+  };
+  materials: {
+    ["Material.020"]: THREE.MeshStandardMaterial;
+    ["Material.017"]: THREE.MeshStandardMaterial;
+    stem: THREE.MeshStandardMaterial;
+    ["Material.019"]: THREE.MeshStandardMaterial;
   };
 };
 
@@ -431,12 +447,53 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
+export function Model(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF("/models/test.gltf") as GLTFResult1;
+  return (
+    <group {...props} dispose={null}>
+      <group position={[2, 3, 0.3]} rotation={[-0.97, -0.39, -1.42]}>
+        <mesh
+          geometry={nodes.Cylinder073.geometry}
+          material={materials["Material.020"]}
+        />
+        <mesh
+          geometry={nodes.Cylinder073_1.geometry}
+          material={materials["Material.017"]}
+        />
+        <mesh
+          geometry={nodes.Cylinder073_2.geometry}
+          material={materials.stem}
+        />
+        <mesh
+          geometry={nodes.Cylinder073_3.geometry}
+          material={materials["Material.019"]}
+        />
+      </group>
+    </group>
+  );
+}
 // useGLTF.preload("/base_map_new.glb");
+
+// const testNums = [
+//   { x: 2, z: 3, y: 0.3 },
+//   { x: 2, z: -3, y: 0.3 },
+// ];
+
+// const Test: any = () => {
+//   testNums.map((item) => (
+//     <F11 flowerPosition={{ x: item.x, z: item.z, y: item.y }} />
+//   ));
+//   // return <F11 flowerPosition={{ x: 2, z: 3, y: 0.3 }} />;
+// };
 
 function Base_map_new() {
   return (
     // object3D: 빈 지역 공간
-    <Model_new />
+    <>
+      <Model_new />
+      {/* <F11 flowerPosition={{ x: 2, z: 3, y: 0.3 }} /> */}
+      {/* <Test /> */}
+    </>
   );
 }
 
