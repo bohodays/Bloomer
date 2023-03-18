@@ -35,7 +35,13 @@ const DiaryCreate = () => {
 
   const [selectedValue, setSelectedValue] = React.useState("a");
 
+  // ============이미지 삽입 관련 변수=============
+  const [selectedImg, setSelectedImg] = useState({
+    image_file: "",
+    preview_URL: "",
+  });
   const fileInput = React.useRef<HTMLInputElement>(null);
+  // ============================================
 
   const geolocation = useGeolocation();
   let isGeolocation = geolocation.latitude != null;
@@ -79,6 +85,23 @@ const DiaryCreate = () => {
     fileInput.current!.click();
   };
 
+  const handleImgChange = (e: any) => {
+    const imgFile = e.target.files[0];
+    let reader = new FileReader();
+    if (imgFile) {
+      reader.readAsDataURL(imgFile);
+    }
+    reader.onloadend = () => {
+      const previewImgUrl = reader.result as string;
+      if (previewImgUrl) {
+        setSelectedImg({
+          image_file: imgFile,
+          preview_URL: previewImgUrl,
+        });
+      }
+    };
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   };
@@ -110,7 +133,11 @@ const DiaryCreate = () => {
             ref={fileInput}
             // 가능한 업로드 파일 형식 제한
             accept="image/jpg, image/jpeg, image/png"
+            onChange={handleImgChange}
           />
+          {/* {selectedImg.preview_URL && (
+            <img className="preview-image" src={selectedImg.preview_URL} />
+          )} */}
 
           <BasicModal
             modalButton={
@@ -136,6 +163,15 @@ const DiaryCreate = () => {
               <Radio {...controlProps("c")} />
             </div>
           </BasicModal>
+        </div>
+        <div className="preview-image__wrapper">
+          {selectedImg.preview_URL && (
+            <img
+              className="preview-image"
+              alt="미리보기"
+              src={selectedImg.preview_URL}
+            />
+          )}
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
         {/* 그룹 태그 */}

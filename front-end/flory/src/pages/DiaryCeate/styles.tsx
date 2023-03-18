@@ -22,6 +22,7 @@ export const SSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 
   text-align: center;
   margin-top: 1rem;
@@ -37,9 +38,19 @@ export const SSection = styled.section`
     width: 90%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0.8rem 0;
     margin-bottom: 0;
     /* margin-left: 5%; */
+  }
+
+  .preview-image__wrapper {
+    .preview-image {
+      left: 5.5vh;
+      width: 90%;
+      margin: auto;
+      margin-top: 0.8rem;
+    }
   }
 
   .image__button {
