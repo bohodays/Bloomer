@@ -57,6 +57,8 @@ const Diary = () => {
     }
   }, [lat])
 
+  console.log(weatherState.sunrise)
+
   return (
     <SMain>
       <div className="header-container">
