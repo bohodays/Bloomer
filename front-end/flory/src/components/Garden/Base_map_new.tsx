@@ -7,6 +7,10 @@ import * as THREE from "three";
 import React, { useRef } from "react";
 import { useGLTF, OrthographicCamera } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import F01 from "../Flowers/F01";
+import FlowersWrapper from "../Flowers/FlowersWrapper";
+import CameraAndLight from "./CameraAndLight";
+import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
 // import { F11 } from "../Flowers/F11";
 
 type GLTFResult = GLTF & {
@@ -88,43 +92,6 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <OrthographicCamera
-        makeDefault={true}
-        far={1000}
-        near={0.1}
-        position={[30.37, 31.24, 30.16]}
-        rotation={[-0.79, 0.62, 0.52]}
-        zoom={50}
-      />
-
-      <pointLight
-        intensity={5}
-        decay={2}
-        color="#ff6728"
-        position={[-3.77, 2.82, -1.77]}
-        rotation={[-Math.PI / 2, 0, -Math.PI]}
-      />
-      <pointLight
-        intensity={5}
-        decay={2}
-        color="#ff6728"
-        position={[3.14, 2.92, -3.19]}
-        rotation={[-Math.PI / 2, 0, -Math.PI]}
-      />
-      <directionalLight
-        // ref={directionalLightRef1}
-        position={[0, 10, -1]}
-        intensity={0.1}
-        color="#53288f"
-        castShadow
-      />
-      <directionalLight
-        // ref={directionalLightRef2}
-        position={[-7, 3, 10]}
-        intensity={0.4}
-        color="#6a00ff"
-      />
-
       <mesh
         geometry={nodes.Water.geometry}
         material={materials.Water}
@@ -398,7 +365,7 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
         // castShadow={true}
         receiveShadow={true}
       />
-      <mesh
+      {/* <mesh
         geometry={nodes.Base_Grass.geometry}
         material={materials.Grass}
         position={[-0.31, -0.15, 4.52]}
@@ -406,7 +373,7 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
         scale={[1, 1, 2.09]}
         // castShadow={true}
         receiveShadow={true}
-      />
+      /> */}
       <mesh
         geometry={nodes.Rock006.geometry}
         material={materials.Rock}
@@ -472,27 +439,17 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     </group>
   );
 }
-// useGLTF.preload("/base_map_new.glb");
-
-// const testNums = [
-//   { x: 2, z: 3, y: 0.3 },
-//   { x: 2, z: -3, y: 0.3 },
-// ];
-
-// const Test: any = () => {
-//   testNums.map((item) => (
-//     <F11 flowerPosition={{ x: item.x, z: item.z, y: item.y }} />
-//   ));
-//   // return <F11 flowerPosition={{ x: 2, z: 3, y: 0.3 }} />;
-// };
 
 function Base_map_new() {
   return (
     // object3D: 빈 지역 공간
     <>
+      {/* 카메라, 빛 */}
+      <CameraAndLight />
+      {/* Base Grass와 Flowers를 제외한 나머지 objects */}
       <Model_new />
-      {/* <F11 flowerPosition={{ x: 2, z: 3, y: 0.3 }} /> */}
-      {/* <Test /> */}
+      {/* Base Grass와 Flowers */}
+      <BaseGrassAndFlowers />
     </>
   );
 }

@@ -14,7 +14,7 @@ import { SForm, SInput } from "./styles";
 // mui
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { gardenCreateAction } from "../../../redux/modules/garden";
+import { createGardenAction } from "../../../redux/modules/garden";
 import { GardenStateType } from "../../../models/garden/gardenStateType";
 import { gardenType } from "../../../models/garden/gardenType";
 
@@ -68,7 +68,7 @@ const UserLoginForm = () => {
                 if (!gardenId) {
                   // userId로 정원 정보 업데이트
                   dispatch(
-                    gardenCreateAction(response.payload.response.userId)
+                    createGardenAction(response.payload.response.userId)
                   );
                 }
               })

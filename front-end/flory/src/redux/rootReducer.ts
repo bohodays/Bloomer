@@ -8,4 +8,5 @@ export const reducer = combineReducers({
   user,
   map,
   garden,
+  diary,
 });

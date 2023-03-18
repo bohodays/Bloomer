@@ -19,7 +19,6 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
 import { useAppSelector } from "../../redux/store.hooks";
 
 const Scene = () => {
@@ -42,8 +41,6 @@ const Garden = () => {
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.user.userData);
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
-  console.log(loggedUser);
-  console.log(gardenId, "정원 id");
 
   return (
     <SMain>

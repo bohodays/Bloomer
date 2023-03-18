@@ -6,7 +6,7 @@ import { localData } from "../user/token";
 export default {};
 
 // 정원 생성
-export const gardenCreateAction = createAsyncThunk(
+export const createGardenAction = createAsyncThunk(
   "CREATE",
   async (userId: string, { rejectWithValue }) => {
     try {

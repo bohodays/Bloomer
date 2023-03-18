@@ -6,3 +6,11 @@ export type gardenType = {
   title: string | null;
   deadline: string | null;
 };
+
+export type PositionType = {
+  flowerPosition: {
+    x: number;
+    y: number;
+    z: number;
+  };
+};

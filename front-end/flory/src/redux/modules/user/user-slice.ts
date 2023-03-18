@@ -16,11 +16,13 @@ const initialState: UserStateType = {
     email: "",
     img: "",
   },
+  getUserData: { loading: false, data: null, error: null },
   login: { loading: false, data: null, error: null },
   logout: { loading: false, data: null, error: null },
   signup: { loading: false, data: null, error: null },
   checkDupEmail: { loading: false, data: null, error: null },
 };
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -46,15 +48,24 @@ const userSlice = createSlice({
         state.login.error = payload;
       })
       // 토큰으로 유저 정보 얻기
-      .addCase(getUserDataToTokenAction.pending, (state) => {})
+      .addCase(getUserDataToTokenAction.pending, (state) => {
+        state.getUserData.loading = true;
+        state.getUserData.data = null;
+        state.getUserData.error = null;
+      })
       .addCase(getUserDataToTokenAction.fulfilled, (state, { payload }) => {
+        state.getUserData.loading = false;
+        state.getUserData.data = payload;
+        state.getUserData.error = null;
         state.userData.userId = payload.response.userId;
         state.userData.nickname = payload.response.nickname;
         state.userData.email = payload.response.email;
         state.userData.img = payload.response.img;
       })
       .addCase(getUserDataToTokenAction.rejected, (state, { payload }) => {
-        console.log("실패");
+        state.getUserData.loading = false;
+        state.getUserData.data = null;
+        state.getUserData.error = payload;
       })
       // 로그아웃
       .addCase(logoutAction.pending, (state) => {
