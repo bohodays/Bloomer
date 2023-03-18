@@ -33,19 +33,11 @@ const DiaryWeather = ({ weatherData }: any): JSX.Element => {
   const month = (today.getMonth() + 1).toString().padStart(2, "0")
   const date = today.getDate().toString().padStart(2, "0")
   const day = convertDayIdx(today.getDay())
-  const weatherDescription = convertWeatherDescription(weatherData.description)
-  console.log(weatherDescription)
+  const weatherSrc = require(`../../../assets/imgs/weather_icon/${weatherData.description}.png`)
 
   return (
     <SMain>
-      <img
-        src={
-          require(`../../../assets/imgs/weather_icon/${weatherDescription}.png`)
-          // .default
-        }
-        alt="weather"
-        className="weather-icon"
-      />
+      <img src={weatherSrc} alt="weather" className="weather-icon" />
       <div className="info-container">
         <div>
           {day} {weatherData.temp}°C

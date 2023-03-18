@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.div`
   position: absolute;
@@ -8,7 +8,7 @@ export const SMain = styled.div`
   padding: 0.3rem;
   text-align: center;
   bottom: 2.5rem;
-  left: 5%;
+  right: 5%;
   z-index: 100;
 
   .weather-icon {
@@ -21,4 +21,4 @@ export const SMain = styled.div`
     flex-direction: column;
     font-size: 0.2rem;
   }
-`
+`;
