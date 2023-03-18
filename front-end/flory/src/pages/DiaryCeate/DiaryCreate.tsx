@@ -1,27 +1,27 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
-import Navbar from "../../components/common/Navbar/Navbar";
-import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput";
-import { SMain, SSection } from "./styles";
-import useGeolocation from "react-hook-geolocation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons"
+import React, { useEffect, useState } from "react"
+import Navbar from "../../components/common/Navbar/Navbar"
+import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput"
+import { SMain, SSection } from "./styles"
+import useGeolocation from "react-hook-geolocation"
 
 // mui
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import Radio from "@mui/material/Radio";
+import FormGroup from "@mui/material/FormGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Switch from "@mui/material/Switch"
+import Radio from "@mui/material/Radio"
 
-import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
-import Button from "../../components/common/Button/Button";
-import BasicModal from "../../components/common/Modal/BasicModal";
-import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
+import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper"
+import Button from "../../components/common/Button/Button"
+import BasicModal from "../../components/common/Modal/BasicModal"
+import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal"
 
-import { PlaceType } from "../../models/map/placeType";
+import { PlaceType } from "../../models/map/placeType"
 
 declare global {
   interface Window {
-    kakao: any;
+    kakao: any
   }
 }
 
@@ -31,21 +31,21 @@ const DiaryCreate = () => {
     address: "",
     lng: 0,
     lat: 0,
-  });
+  })
 
-  const [selectedValue, setSelectedValue] = React.useState("a");
+  const [selectedValue, setSelectedValue] = React.useState("a")
 
   // ============이미지 삽입 관련 변수=============
   const [selectedImg, setSelectedImg] = useState({
     image_file: "",
     preview_URL: "",
-  });
-  const fileInput = React.useRef<HTMLInputElement>(null);
+  })
+  const fileInput = React.useRef<HTMLInputElement>(null)
   // ============================================
 
-  const geolocation = useGeolocation();
-  let isGeolocation = geolocation.latitude != null;
-  let geocoder = new kakao.maps.services.Geocoder();
+  const geolocation = useGeolocation()
+  let isGeolocation = geolocation.latitude != null
+  let geocoder = new kakao.maps.services.Geocoder()
 
   function searchDetailAddrFromCoords(callback: any) {
     // 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -54,7 +54,7 @@ const DiaryCreate = () => {
       geolocation.longitude,
       geolocation.latitude,
       callback
-    );
+    )
   }
 
   // 현재 위치 반환
@@ -64,47 +64,54 @@ const DiaryCreate = () => {
         if (status === kakao.maps.services.Status.OK) {
           var detailAddr = !!result[0].road_address
             ? result[0].road_address.address_name
-            : "";
+            : ""
 
           setPlace({
             placeName: "",
             address: detailAddr,
             lng: geolocation.longitude,
             lat: geolocation.latitude,
-          });
+          })
         }
-      });
+      })
     }
-  };
+  }
 
   useEffect(() => {
-    getGeo();
-  }, [isGeolocation]);
+    getGeo()
+  }, [isGeolocation])
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
-    fileInput.current!.click();
-  };
+    fileInput.current!.click()
+  }
 
   const handleImgChange = (e: any) => {
-    const imgFile = e.target.files[0];
-    let reader = new FileReader();
+    const imgFile = e.target.files[0]
+    let reader = new FileReader()
     if (imgFile) {
-      reader.readAsDataURL(imgFile);
+      reader.readAsDataURL(imgFile)
     }
     reader.onloadend = () => {
-      const previewImgUrl = reader.result as string;
+      const previewImgUrl = reader.result as string
       if (previewImgUrl) {
         setSelectedImg({
           image_file: imgFile,
           preview_URL: previewImgUrl,
-        });
+        })
       }
-    };
-  };
+    }
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
+    setSelectedValue(event.target.value)
+  }
+
+  const handleDeletePreviewImg = () => {
+    setSelectedImg({
+      image_file: "",
+      preview_URL: "",
+    })
+  }
 
   const controlProps = (item: string) => ({
     checked: selectedValue === item,
@@ -112,7 +119,7 @@ const DiaryCreate = () => {
     value: item,
     name: "color-radio-button-demo",
     inputProps: { "aria-label": item },
-  });
+  })
 
   return (
     <SMain>
@@ -166,11 +173,18 @@ const DiaryCreate = () => {
         </div>
         <div className="preview-image__wrapper">
           {selectedImg.preview_URL && (
-            <img
-              className="preview-image"
-              alt="미리보기"
-              src={selectedImg.preview_URL}
-            />
+            <>
+              <img
+                className="preview-image"
+                alt="미리보기"
+                src={selectedImg.preview_URL}
+              />
+              <FontAwesomeIcon
+                className="cancleBtn"
+                icon={faXmark}
+                onClick={handleDeletePreviewImg}
+              />
+            </>
           )}
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
@@ -203,7 +217,7 @@ const DiaryCreate = () => {
       </div>
       <Navbar />
     </SMain>
-  );
-};
+  )
+}
 
-export default DiaryCreate;
+export default DiaryCreate
