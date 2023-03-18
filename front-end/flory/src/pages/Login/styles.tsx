@@ -43,8 +43,8 @@ export const SMain = styled.main`
     color: var(--color-white);
     position: absolute;
     font-size: 1.8rem;
-    left: 16px;
-    top: 16px;
+    left: 1rem;
+    top: 1rem;
   }
 
   /* 테스트 */
@@ -79,7 +79,7 @@ export const SMain = styled.main`
     position: relative;
     width: 100%;
     height: 15vh;
-    margin-bottom: -7px; /*Fix for safari gap*/
+    margin-bottom: -8px; /*Fix for safari gap*/
     min-height: 100px;
     max-height: 150px;
   }

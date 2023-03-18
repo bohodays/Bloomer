@@ -44,7 +44,7 @@ public class CommentServiceTest {
             .build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
-            .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
+            .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z")
             .build();
 
     private final Comment comment = Comment.builder()
@@ -60,7 +60,7 @@ public class CommentServiceTest {
         Member member = Member.builder()
                 .userId(1L).email("email").nickname("name").build();
         DiaryDto diaryDto = DiaryDto.builder()
-                .id(1L).content("content").imgSrc("imgSrc").lat("lat").lng("lng").publicStatus("전체공개").x("x").y("y").z("z")
+                .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z")
                 .build();
 
         info.put("id","1");

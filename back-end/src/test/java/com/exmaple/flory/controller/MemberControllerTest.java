@@ -18,7 +18,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +31,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -119,13 +123,14 @@ class MemberControllerTest {
     @Test
     void updateMember() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").img("img").email("email").build();
+                .nickname("name").password("password").email("email").build();
 
-        when(memberService.updateMember(any())).thenReturn(memberResponseDto);
+        when(memberService.updateMember(any(),any())).thenReturn(memberResponseDto);
+        String json = new ObjectMapper().writeValueAsString(memberRequestDto);
+        MockMultipartFile dto = new MockMultipartFile("memberRequestDto", "memberRequestDto", "application/json", json.getBytes(StandardCharsets.UTF_8));
 
-        MvcResult mvcResult = mockMvc.perform(put("/api/user").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(memberRequestDto)))
+        MvcResult mvcResult = mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
+                        .file(dto).with(csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -139,13 +144,14 @@ class MemberControllerTest {
     @Test
     void updateMemberException() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").img("img").email("email").build();
+                .nickname("name").password("password").email("email").build();
 
-        when(memberService.updateMember(any())).thenThrow(new RuntimeException());
+        when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
+        String json = new ObjectMapper().writeValueAsString(memberRequestDto);
+        MockMultipartFile dto = new MockMultipartFile("memberRequestDto", "memberRequestDto", "application/json", json.getBytes(StandardCharsets.UTF_8));
 
-        mockMvc.perform(put("/api/user").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(memberRequestDto)))
+        mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
+                        .file(dto).with(csrf()))
                 .andExpect(status().isInternalServerError())
                 .andReturn();
     }

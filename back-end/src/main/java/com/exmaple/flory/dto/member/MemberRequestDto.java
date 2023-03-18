@@ -25,16 +25,12 @@ public class MemberRequestDto {
     private String password;
 
     @NotNull
-    private String img;
-
-    @NotNull
     @Size(min = 5, max = 100)
     private String email;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .nickname(nickname)
-                .img(img)
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
