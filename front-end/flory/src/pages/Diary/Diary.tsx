@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate"
 import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList"
 import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather"
@@ -6,35 +7,36 @@ import dayBackground from "../../assets/imgs/lotties/day-background.json"
 import nightBackground from "../../assets/imgs/lotties/night-background.json"
 
 import { SMain } from "./styles"
-import DiaryDatePicker from "../../components/Diary/DiaryDatePicker/DiaryDatePicker"
 import Navbar from "../../components/common/Navbar/Navbar"
 import Lottie from "react-lottie"
 import useGeolocation from "react-hook-geolocation"
 import { useAppDispatch } from "../../redux/store.hooks"
 import { getWeatherAction } from "../../redux/modules/weather/weather-action"
-import { WeatherStateType } from "../../models/weather/weatherStateType"
 import { WeatherRequiredType } from "../../models/weather/weatherRequiredType"
-import weather from "../../redux/modules/weather"
 
-const dayDefaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: dayBackground,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
+const createLottieOptions = (type: string | null) => {
+  return {
+    loop: true,
+    autoplay: true,
+    animationData: type === "day" ? dayBackground : nightBackground,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  }
 }
 
 const Diary = () => {
   const geoLocation = useGeolocation()
   const lat = geoLocation.latitude
   const lon = geoLocation.longitude
-  const [weatherState, setWeatherState] = useState<WeatherStateType>({
-    description: null,
-    temp: null,
-    sunrise: null,
-    sunset: null,
-  })
+  const weatherData = useSelector((state: any) => state.weather.weatherData)
+  const [backoption, setBackOption] = useState(
+    createLottieOptions(
+      weatherData.sunset <= new Date() && weatherData.sunrise > new Date()
+        ? "day"
+        : "night"
+    )
+  )
 
   const dispatch = useAppDispatch()
 
@@ -44,16 +46,7 @@ const Diary = () => {
         lat,
         lon,
       }
-      dispatch(getWeatherAction(weatherData)).then((res) => {
-        if (res.type === "GET_WEATHER/fulfilled") {
-          setWeatherState({
-            description: res.payload.weather[0].main,
-            temp: Math.ceil(res.payload.main.temp),
-            sunrise: new Date(res.payload.sys.sunrise * 1000).toTimeString(),
-            sunset: new Date(res.payload.sys.sunset * 1000).toTimeString(),
-          })
-        }
-      })
+      dispatch(getWeatherAction(weatherData))
     }
   }, [lat])
 
@@ -64,14 +57,14 @@ const Diary = () => {
           style={{
             position: "relative",
           }}
-          options={dayDefaultOptions}
+          options={backoption}
           width="100%"
         />
-        {weatherState.description && (
+        {weatherData.description && (
           <DiaryWeather
             weatherData={{
-              description: weatherState.description,
-              temp: weatherState.temp,
+              description: weatherData.description,
+              temp: weatherData.temp,
             }}
           />
         )}
@@ -83,7 +76,7 @@ const Diary = () => {
           <DiaryTotalList />
         </div>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </SMain>
   )
 }

@@ -10,6 +10,9 @@ export const SMain = styled.main`
     max-width: 480px;
     position: fixed;
   }
+  svg {
+    transform: translate3d(0px, 0px, 0px) scaleX(-1) !important;
+  }
 
   .content-container {
     /* position: relative; */
@@ -37,7 +40,7 @@ export const SMain = styled.main`
     /* } */
 
     .diary-section {
-      margin-top: 28vh;
+      margin-top: 50%;
     }
   }
 
