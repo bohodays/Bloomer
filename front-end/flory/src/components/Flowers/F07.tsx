@@ -8,6 +8,8 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
+import { useLocation } from "react-router-dom";
+import { useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -26,6 +28,14 @@ type GLTFResult = GLTF & {
 
 export function F07(props: JSX.IntrinsicElements["group"] & PositionType) {
   const { x, y, z } = props.flowerPosition;
+  const location = useLocation();
+  const modelRef = useRef<any>();
+  useFrame(() => {
+    if (!location.pathname.includes("garden")) {
+      const worldYAxis = new THREE.Vector3(0, 1, 0);
+      modelRef.current!.rotateOnWorldAxis(worldYAxis, 0.01);
+    }
+  });
 
   const { nodes, materials } = useGLTF("/models/flowers/f07.glb") as GLTFResult;
   return (
@@ -34,6 +44,7 @@ export function F07(props: JSX.IntrinsicElements["group"] & PositionType) {
         position={[x, y, z]}
         rotation={[2.54, 1.46, -2.25]}
         scale={[0.03, 0.01, 0.03]}
+        ref={location.pathname.includes("garden") ? undefined : modelRef}
       >
         <mesh geometry={nodes.f07_1.geometry} material={materials.bammoo2} />
         <mesh geometry={nodes.f07_2.geometry} material={materials.bammoo3} />

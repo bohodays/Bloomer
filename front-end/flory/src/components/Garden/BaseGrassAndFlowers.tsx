@@ -96,6 +96,7 @@ export function BaseGrass(props: JSX.IntrinsicElements["group"]) {
         scale={[1, 1, 2.09]}
         // castShadow={true}
         receiveShadow={true}
+        userData={{ ground: true }}
       />
     </group>
   );

@@ -8,6 +8,8 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
+import { useLocation } from "react-router-dom";
+import { useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,11 +26,24 @@ type GLTFResult = GLTF & {
 
 export function F18(props: JSX.IntrinsicElements["group"] & PositionType) {
   const { x, y, z } = props.flowerPosition;
+  const location = useLocation();
+  const modelRef = useRef<any>();
+  useFrame(() => {
+    if (!location.pathname.includes("garden")) {
+      const worldYAxis = new THREE.Vector3(0, 1, 0);
+      modelRef.current!.rotateOnWorldAxis(worldYAxis, 0.01);
+    }
+  });
 
   const { nodes, materials } = useGLTF("/models/flowers/f18.glb") as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <group position={[x, y, z]} rotation={[1.95, -1.22, -2.12]} scale={0.17}>
+      <group
+        position={[x, y, z]}
+        rotation={[1.95, -1.22, -2.12]}
+        scale={0.17}
+        ref={location.pathname.includes("garden") ? undefined : modelRef}
+      >
         <mesh geometry={nodes.f18_1.geometry} material={materials.stem} />
         <mesh geometry={nodes.f18_2.geometry} material={materials.anemone} />
         <mesh geometry={nodes.f18_3.geometry} material={materials.Material} />

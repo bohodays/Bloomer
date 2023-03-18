@@ -365,15 +365,6 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
         // castShadow={true}
         receiveShadow={true}
       />
-      {/* <mesh
-        geometry={nodes.Base_Grass.geometry}
-        material={materials.Grass}
-        position={[-0.31, -0.15, 4.52]}
-        rotation={[Math.PI, 0, Math.PI]}
-        scale={[1, 1, 2.09]}
-        // castShadow={true}
-        receiveShadow={true}
-      /> */}
       <mesh
         geometry={nodes.Rock006.geometry}
         material={materials.Rock}
@@ -446,10 +437,10 @@ function Base_map_new() {
     <>
       {/* 카메라, 빛 */}
       <CameraAndLight />
-      {/* Base Grass와 Flowers를 제외한 나머지 objects */}
-      <Model_new />
       {/* Base Grass와 Flowers */}
       <BaseGrassAndFlowers />
+      {/* Base Grass와 Flowers를 제외한 나머지 objects */}
+      <Model_new />
     </>
   );
 }
