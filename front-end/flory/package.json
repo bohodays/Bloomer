@@ -74,5 +74,5 @@
     "@types/react-lottie": "^1.2.6",
     "@types/three": "^0.149.0"
   },
-  "homepage": "./"
+  "homepage": "."
 }
