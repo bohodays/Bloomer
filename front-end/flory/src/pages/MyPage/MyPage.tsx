@@ -3,6 +3,7 @@ import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
+import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
 
 const MyPage = () => {
   const onClick = () => {};
@@ -18,6 +19,11 @@ const MyPage = () => {
         onClick={onClick}
         icon={faArrowLeft}
       />
+
+      <BasicModal modalButton={<button>모달 열기</button>}>
+        <h3>그룹 설정</h3>
+      </BasicModal>
+
       <BasicTabs
         tabs={[
           {
