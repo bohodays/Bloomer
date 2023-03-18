@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginType } from "../../../models/user/loginType";
 import { SignupType } from "../../../models/user/signUpType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
+import { localData } from "./token";
 
 // 로그인
 export const loginAction = createAsyncThunk(
@@ -13,6 +14,25 @@ export const loginAction = createAsyncThunk(
       return data;
     } catch (e: any) {
       // alert(e.response.data.message);
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 토큰으로 내 정보 가져오기
+export const getUserDataToTokenAction = createAsyncThunk(
+  "GETINFO",
+  async (_, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(`/api/user/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e: any) {
       return rejectWithValue(e);
     }
   }
