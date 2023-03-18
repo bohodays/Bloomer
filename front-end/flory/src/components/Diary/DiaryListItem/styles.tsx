@@ -1,10 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import styled from "styled-components"
 
 export const SMain = styled.main<any>`
   width: 100%;
   display: flex;
   gap: 0.3rem;
+
+  /* .page-flower__wrapper {
+    position: relative;
+    z-index: -10;
+  } */
 
   .flower-image-border {
     background-color: #ffe897;
@@ -12,19 +17,18 @@ export const SMain = styled.main<any>`
     height: 2.3rem;
     padding: 0.4rem;
     border: 3px solid #ececec;
-    position: relative;
     z-index: -1;
   }
 
-  /* .line {
-    position: absolute;
-    border-left: 3px solid #ececec;
-    height: 130px;
-    z-index: -4;
-    left: 45px;
-    overflow-y: hidden;
-  } */
-`;
+  /* & .line { */
+  /* position: absolute; */
+  /* border-left: 4px solid #ececec; */
+  /* height: 130px; */
+  /* z-index: -4; */
+  /* left: 1.15rem; */
+  /* overflow-y: hidden; */
+  /* } */
+`
 
 export const SItem = styled.div<any>`
   flex: auto;
@@ -83,10 +87,10 @@ export const SItem = styled.div<any>`
       gap: 0.2rem;
     }
   }
-`;
+`
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`;
+`

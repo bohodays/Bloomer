@@ -1,15 +1,16 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SContainer = styled.div`
   position: absolute;
-  top: 21vh;
+  bottom: -0.7rem;
+  /* top: 21vh; */
   left: 5%;
   display: flex;
-  gap: 0.625rem;
+  gap: 1rem;
   .date-picker {
     cursor: pointer;
   }
-`;
+`
 
 export const SMain = styled.div`
   display: flex;
@@ -24,4 +25,4 @@ export const SMain = styled.div`
   width: 2.3rem;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-`;
+`
