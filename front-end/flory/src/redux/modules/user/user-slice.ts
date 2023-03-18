@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserStateType } from "../../../models/user/userStateType";
+import { localData } from "./token";
 import {
   signupAction,
   checkDupEmailAction,
   loginAction,
   logoutAction,
+  getUserDataToTokenAction,
 } from "./user-action";
 
 const initialState: UserStateType = {
@@ -35,11 +37,24 @@ const userSlice = createSlice({
         state.login.loading = false;
         state.login.data = payload;
         state.login.error = null;
+        localData.setAccessToken(payload.response.accessToken);
+        localData.setRefreshToken(payload.response.refreshToken);
       })
       .addCase(loginAction.rejected, (state, { payload }) => {
         state.login.loading = false;
         state.login.data = null;
         state.login.error = payload;
+      })
+      // 토큰으로 유저 정보 얻기
+      .addCase(getUserDataToTokenAction.pending, (state) => {})
+      .addCase(getUserDataToTokenAction.fulfilled, (state, { payload }) => {
+        state.userData.userId = payload.response.userId;
+        state.userData.nickname = payload.response.nickname;
+        state.userData.email = payload.response.email;
+        state.userData.img = payload.response.img;
+      })
+      .addCase(getUserDataToTokenAction.rejected, (state, { payload }) => {
+        console.log("실패");
       })
       // 로그아웃
       .addCase(logoutAction.pending, (state) => {

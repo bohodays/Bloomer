@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./App.css";
-import Garden from "./pages/Garden/Garden";
 import DiaryDetail from "./pages/DiaryDetail/DiaryDetail";
 
 // 코드 스플리팅 (Code Splitting)
@@ -16,11 +15,15 @@ const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
 const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
 const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
+const Garden = React.lazy(() => import("./pages/Garden/Garden"));
+const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
+const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
+const Setting = React.lazy(() => import("./pages/Setting/Setting"));
 
 function App() {
   return (
     <div className="app">
-      {/* // fallback 추가하기 */}
+      {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>
           <Routes>
@@ -34,8 +37,12 @@ function App() {
             <Route path="/diary/select" element={<DiarySelect />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
-            <Route path="/home" element={<Garden />} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />
+            <Route path="/garden" element={<Garden />} />
+            <Route path="/garden/edit" element={<GardenEdit />} />
+            <Route path="/garden/list" element={<GardenList />} />
+            <Route path="/setting" element={<Setting/>} />
+            {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>
       </Suspense>
