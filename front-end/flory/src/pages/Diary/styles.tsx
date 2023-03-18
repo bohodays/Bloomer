@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   max-width: 480px;
@@ -40,11 +40,11 @@ export const SMain = styled.main`
     /* } */
 
     .diary-section {
-      margin-top: 28vh;
+      margin-top: 50%;
     }
   }
 
   .content-container::-webkit-scrollbar {
     display: none;
   }
-`;
+`

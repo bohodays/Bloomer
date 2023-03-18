@@ -33,7 +33,9 @@ const DiaryWeather = ({ weatherData }: any): JSX.Element => {
   const month = (today.getMonth() + 1).toString().padStart(2, "0")
   const date = today.getDate().toString().padStart(2, "0")
   const day = convertDayIdx(today.getDay())
-  const weatherSrc = require(`../../../assets/imgs/weather_icon/${weatherData.description}.png`)
+  const weatherSrc = require(`../../../assets/imgs/weather_icon/${convertWeatherDescription(
+    weatherData.description
+  )}.png`)
 
   return (
     <SMain>
