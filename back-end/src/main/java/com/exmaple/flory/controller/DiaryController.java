@@ -1,5 +1,6 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.exception.error.ErrorCode;
@@ -113,6 +114,17 @@ public class DiaryController {
             DiaryDto diaryDto = diaryService.getDiaryByLocation(info);
             return new ResponseEntity<>(new SuccessResponse(diaryDto),HttpStatus.OK);
         }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getDiaryInMonth(@RequestParam Long id, @RequestParam String year, @RequestParam String month){
+        try{
+            List<DiaryDayDto> result = diaryService.getDiaryInMonth(id,year,month);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
