@@ -2,7 +2,7 @@
   "name": "flory",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://j8a205.p.ssafy.io",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
