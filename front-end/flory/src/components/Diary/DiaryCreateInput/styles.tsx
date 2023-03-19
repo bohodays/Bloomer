@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const STextarea = styled.textarea`
   height: 50%;
@@ -23,4 +23,4 @@ export const STextarea = styled.textarea`
     border-radius: 10px;
     border-left: 3px solid #ffffff;
   }
-`;
+`
