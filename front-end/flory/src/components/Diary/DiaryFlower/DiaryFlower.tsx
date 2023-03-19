@@ -42,7 +42,7 @@ const Scene = (props: any) => {
       return <F01 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
     } else if (flower.flowerName === "은방울꽃") {
       return <F02 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
-    } else if (flower.flowerName === "빨강 튤립") {
+    } else if (flower.flowerName === "빨간 튤립") {
       return <F03 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
     } else if (flower.flowerName === "칼랑코에") {
       return <F04 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
@@ -142,30 +142,6 @@ const Scene = (props: any) => {
         />
 
         <Flower />
-        {/* <F04 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F05 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F06 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F07 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F08 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F09 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F10 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F11 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F12 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F13 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F14 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F15 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F16 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F17 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F18 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F19 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F20 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* 얼리움은 너무 커서 scale 5, y: -1.2로 해야 됨 */}
-        {/* <F21 flowerPosition={{ x: 0, y: -1.2, z: 0 }} scale={5} /> */}
-        {/* <F22 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* <F23 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} /> */}
-        {/* 층꽃나무는 너무 커서 scale 8, y: -0.7 로 해야 됨 */}
-        {/* <F24 flowerPosition={{ x: 0, y: -0.7, z: 0 }} scale={8} /> */}
-        {/* <F25 flowerPosition={{ x: 0, y: -0.7, z: 0 }} scale={8} /> */}
       </Suspense>
     </>
   );

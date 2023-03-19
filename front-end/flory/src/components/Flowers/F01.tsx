@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.1.4 ./public/models/flowers/f01.glb -t
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
@@ -35,13 +35,20 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
     }
   });
 
+  const [position, setPosition] = useState({ x, y, z });
+  console.log(position);
+
   const { nodes, materials } = useGLTF("/models/flowers/f01.glb") as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <group
-        position={[x, y, z]}
+        position={[position.x, position.y, position.z]}
         scale={0.17}
         ref={location.pathname.includes("garden") ? undefined : modelRef}
+        userData={{ draggable: true, name: "f01" }}
+        onClick={() => {
+          setPosition({ x: 0, y: 0, z: 0 });
+        }}
       >
         <mesh geometry={nodes.f01_1.geometry} material={materials.stem} />
         <mesh geometry={nodes.f01_2.geometry} material={materials.crokus} />

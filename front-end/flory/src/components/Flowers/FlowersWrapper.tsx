@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import F01 from "./F01"; // 크로커스
 import F02 from "./F02"; // 은방울꽃
 import F03 from "./F03"; // 빨강 튤립
@@ -2055,6 +2055,7 @@ const FlowersWrapper = () => {
   ];
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleMoveToDetail = (diaryId: number, item?: any) => {
     navigate(`/diary/${diaryId}`, {
@@ -2071,7 +2072,11 @@ const FlowersWrapper = () => {
           return (
             <F01
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "은방울꽃") {
