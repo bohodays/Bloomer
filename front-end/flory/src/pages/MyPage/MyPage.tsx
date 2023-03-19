@@ -1,12 +1,13 @@
-import React from "react";
-import { SMain } from "./styles";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BasicTabs from "../../components/common/Tabs/BasicTabs";
-import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
+import React from "react"
+import { SMain } from "./styles"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import BasicTabs from "../../components/common/Tabs/BasicTabs"
+import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal"
+import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal"
 
 const MyPage = () => {
-  const onClick = () => {};
+  const onClick = () => {}
 
   return (
     <SMain>
@@ -20,9 +21,7 @@ const MyPage = () => {
         icon={faArrowLeft}
       />
 
-      <BasicModal modalButton={<button>모달 열기</button>}>
-        <h3>그룹 설정</h3>
-      </BasicModal>
+      <MyPageEditModal />
 
       <BasicTabs
         tabs={[
@@ -34,7 +33,7 @@ const MyPage = () => {
         ]}
       />
     </SMain>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage
