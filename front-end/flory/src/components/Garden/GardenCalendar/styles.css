@@ -149,7 +149,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1px;
+  /* gap: 1px; */
 }
 .dot {
   height: 8px;
