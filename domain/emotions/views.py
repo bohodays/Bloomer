@@ -23,9 +23,6 @@ from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
 
 
-import multiprocessing
-
-
 max_len = 64
 batch_size = 64
 
@@ -40,31 +37,26 @@ model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device)
 checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
+#토큰화
+tokenizer = get_tokenizer()
+tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #===============================
 
-
 def analysis(request):
-    multiprocessing.freeze_support()
+
     if request.method == 'POST':
         data = request.POST['text']
 
-        result = predict(model, vocab, data)
+        result = predict(data)
         # results = calc_result(result)
 
-        return JsonResponse({"result":result.tolist()})
+        return JsonResponse({"result":result})
     else:
         return JsonResponse({"result":"POST로 요청하시오"})
     
 
-def predict(model, vocab, text):
-    multiprocessing.freeze_support()
-    max_len = 64
-    batch_size = 64
-
-    #토큰화
-    tokenizer = get_tokenizer()
-    tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
+def predict(text):
 
     data = [text, '0']
     dataset_another = [data]
@@ -83,49 +75,29 @@ def predict(model, vocab, text):
 
             token_ids = token_ids.long().to(device)
             segment_ids = segment_ids.long().to(device)
-
             valid_length= valid_length
             label = label.long().to(device)
 
             out = model(token_ids, valid_length, segment_ids)
-            print("out", out)
-            print("softmax out", F.softmax(out))
-            out = F.softmax(out)
+            print("BERT 결과", out)
 
-            test_eval=[]
-            for i in out:
-                logits = i
-                logits = logits.detach().cpu().numpy() # graph에서 분리한 새로운 tensor를 return -> cpu 메모리로 옮기기 -> np list로 만들기
+            # 단순 비율 구하기
+            makeProb(out[0].detach().cpu().numpy().tolist())
 
-                if np.argmax(logits) == 0:
-                    test_eval.append("기쁨이")
-                elif np.argmax(logits) == 1:
-                    test_eval.append("안정이")
-                elif np.argmax(logits) == 2:
-                    test_eval.append("당황이")
-                elif np.argmax(logits) == 3:
-                    test_eval.append("분노가")
-                elif np.argmax(logits) == 4:
-                    test_eval.append("불안이")
-                elif np.argmax(logits) == 5:
-                    test_eval.append("상처가")
-                elif np.argmax(logits) == 6:
-                    test_eval.append("슬픔이")
+            # 소프트맥스 적용 비율 구하기
+            fProb = F.softmax(out, dim=1).detach().cpu().numpy()
+            result = fProb.tolist()[0]
+            print("소프트맥스확률", result)
 
-            print(">> 입력하신 내용에서 " + test_eval[0] + " 느껴집니다.")
-    sm_logits = logits.tolist()
-    print("logits", list(map(lambda x:format(x,'f'), sm_logits)))
-    n_logits = normalize(sm_logits)
-    print(n_logits)
-    return logits
+            emotion = ["기쁨이", "안정이", "당황이", "분노가", "불안이", "상처가", "슬픔이"]
+            print(">> 입력하신 내용에서 " + emotion[np.argmax(out[0])] + " 느껴집니다.")
+
+    return result
 
 
-def normalize(result):
-    s = sum(result)
-    list = []
-    for val in result:
-        val = val/s
-        list.append(round(val,4)*100)
-
-    print(list)
-    return list
+def makeProb(logits):
+    probs = [1/(1+np.exp(-logit)) for logit in logits]
+    rel_probs = [prob/sum(probs) for prob in probs]
+    
+    print("상대확률", rel_probs)
+    return rel_probs
