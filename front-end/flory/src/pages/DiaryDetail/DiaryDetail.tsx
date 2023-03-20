@@ -85,7 +85,7 @@ const DiaryDetail = () => {
         {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
 
         {/* 덧글 영역 */}
-        {diary.commentList.map((comment) => {
+        {diary.commentList.map((comment: any) => {
           return <DiaryComment comment={comment} />;
         })}
       </div>
