@@ -1,11 +1,13 @@
-import styled from "styled-components";
+import styled from "styled-components"
 export const SAvatar = styled.div<any>`
-  width: ${(props) => (props.size === "small" ? "2rem" : "4rem")};
-  height: ${(props) => (props.size === "small" ? "2rem" : "4rem")};
+  width: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
+  height: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
   /* border: 2px solid #dec5fd; */
   border-radius: 50%;
-
-  border: 2px solid transparent;
+  border: ${(props) =>
+    props.size === "small"
+      ? "2px solid transparent"
+      : "3.5px solid transparent"};
   background-image: ${(props) =>
     props.status === "pick"
       ? "linear-gradient(#fff, #fff), linear-gradient(to right, #BD00FF, #FF00D6)"
@@ -17,4 +19,4 @@ export const SAvatar = styled.div<any>`
     width: 100%;
     height: 100%;
   }
-`;
+`
