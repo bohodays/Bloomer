@@ -6,7 +6,8 @@ import { SMain } from "./styles";
 import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
-import Base_map_new_test from "../../components/Garden/Base_map_new_test";
+import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
+// import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
   return (
@@ -14,7 +15,7 @@ const Scene = () => {
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
         {/* <Base_map_new /> */}
-        <Base_map_new_test />
+        <Base_map_new_edit />
 
         {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
