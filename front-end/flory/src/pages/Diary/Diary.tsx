@@ -27,6 +27,7 @@ const createLottieOptions = (type: string | null) => {
 
 const Diary = () => {
   const geoLocation = useGeolocation();
+  const dispatch = useAppDispatch();
   const lat = geoLocation.latitude;
   const lon = geoLocation.longitude;
   const weatherData = useSelector((state: any) => state.weather.weatherData);
@@ -39,16 +40,21 @@ const Diary = () => {
     )
   );
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
+    let requiredData: WeatherRequiredType;
     if (lat !== null) {
-      const weatherData: WeatherRequiredType = {
+      requiredData = {
         lat,
         lon,
       };
-      dispatch(getWeatherAction(weatherData));
+      dispatch(getWeatherAction(requiredData));
     }
+    // else {
+    //   requiredData = {
+    //     lat: 37.5012860931305,
+    //     lon: 127.039604663862,
+    //   };
+    // }
   }, [lat]);
 
   return (
@@ -77,7 +83,7 @@ const Diary = () => {
           <DiaryTotalList />
         </div>
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
     </SMain>
   );
 };
