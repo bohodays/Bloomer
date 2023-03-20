@@ -173,9 +173,9 @@
   width: 350px;
   max-width: 100%;
   margin: auto;
+  transition: all 0.3s linear;
 }
 .calendar__wrapper:hover {
   transform: scale(1.05);
-  transition: ease-out 0.5s;
   cursor: pointer;
 }

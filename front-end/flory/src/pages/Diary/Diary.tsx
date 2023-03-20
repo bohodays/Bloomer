@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate"
-import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList"
-import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather"
-import dayBackground from "../../assets/imgs/lotties/day-background.json"
-import nightBackground from "../../assets/imgs/lotties/night-background.json"
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate";
+import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList";
+import DiaryWeather from "../../components/Diary/DiaryWeather/DiaryWeather";
+import dayBackground from "../../assets/imgs/lotties/day-background.json";
+import nightBackground from "../../assets/imgs/lotties/night-background.json";
 
-import { SMain } from "./styles"
-import Navbar from "../../components/common/Navbar/Navbar"
-import Lottie from "react-lottie"
-import useGeolocation from "react-hook-geolocation"
-import { useAppDispatch } from "../../redux/store.hooks"
-import { getWeatherAction } from "../../redux/modules/weather/weather-action"
-import { WeatherRequiredType } from "../../models/weather/weatherRequiredType"
+import { SMain } from "./styles";
+import Navbar from "../../components/common/Navbar/Navbar";
+import Lottie from "react-lottie";
+import useGeolocation from "react-hook-geolocation";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { getWeatherAction } from "../../redux/modules/weather/weather-action";
+import { WeatherRequiredType } from "../../models/weather/weatherRequiredType";
 
 const createLottieOptions = (type: string | null) => {
   return {
@@ -22,33 +22,34 @@ const createLottieOptions = (type: string | null) => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
-  }
-}
+  };
+};
 
 const Diary = () => {
-  const geoLocation = useGeolocation()
-  const lat = geoLocation.latitude
-  const lon = geoLocation.longitude
-  const weatherData = useSelector((state: any) => state.weather.weatherData)
+  const geoLocation = useGeolocation();
+  const lat = geoLocation.latitude;
+  const lon = geoLocation.longitude;
+  const weatherData = useSelector((state: any) => state.weather.weatherData);
+  const currentTime = new Date().toTimeString();
   const [backoption, setBackOption] = useState(
     createLottieOptions(
-      weatherData.sunset <= new Date() && weatherData.sunrise > new Date()
+      weatherData.sunrise <= currentTime && weatherData.sunset > currentTime
         ? "day"
         : "night"
     )
-  )
+  );
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (lat !== null) {
       const weatherData: WeatherRequiredType = {
         lat,
         lon,
-      }
-      dispatch(getWeatherAction(weatherData))
+      };
+      dispatch(getWeatherAction(weatherData));
     }
-  }, [lat])
+  }, [lat]);
 
   return (
     <SMain>
@@ -78,7 +79,7 @@ const Diary = () => {
       </div>
       {/* <Navbar /> */}
     </SMain>
-  )
-}
+  );
+};
 
-export default Diary
+export default Diary;

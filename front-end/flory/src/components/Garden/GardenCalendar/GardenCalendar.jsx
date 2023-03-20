@@ -1,23 +1,23 @@
-import React from "react"
-import Calendar from "react-calendar"
-import "./styles.css"
-import moment from "moment"
-import { useNavigate } from "react-router"
+import React from "react";
+import Calendar from "react-calendar";
+import "./styles.css";
+import moment from "moment";
+import { useNavigate } from "react-router";
 
 const GardenCalendar = ({ year, month }) => {
-  const navigate = useNavigate()
-  const mark = ["2023-02-02", "2023-02-02", "2023-02-03", "2023-02-10"]
+  const navigate = useNavigate();
+  const mark = ["2023-02-02", "2023-02-02", "2023-02-03", "2023-02-10"];
 
   const handleClickCalendar = () => {
     // 해당 년월 상세 일기 페이지로 이동
     // 데이터 옮기는 방법 생각하기
-    navigate("/diary")
-  }
+    navigate("/diary");
+  };
   const isContained = (ele, date) => {
     if (ele === moment(date).format("YYYY-MM-DD")) {
-      return true
+      return true;
     }
-  }
+  };
 
   return (
     <div className="calendar__wrapper" onClick={handleClickCalendar}>
@@ -27,21 +27,19 @@ const GardenCalendar = ({ year, month }) => {
         showNeighboringMonth={false}
         showNavigation={false}
         tileContent={({ date, view }) => {
-          // let html = []
-          // if (mark.filter((x) => x === moment(date).format("YYYY-MM-DD"))) {
-          //   html.push("jjjj")
-          // }
+          let html = [];
+          if (mark.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+            html.push("jjjj");
+          }
           // console.log("d", html)
-          const html = mark.filter(isContained(date))
-          console.log(html)
-          // return (
-          //   <>
-          //     <div className="mark__wrapper">
-          //       <div className="dot"></div>
-          //       <div className="triangle"></div>
-          //     </div>
-          //   </>
-          // )
+          return (
+            <>
+              <div className="mark__wrapper">
+                <div className="dot"></div>
+                <div className="triangle"></div>
+              </div>
+            </>
+          );
           //   } else {
           //     return (
           //       <>
@@ -55,7 +53,7 @@ const GardenCalendar = ({ year, month }) => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default GardenCalendar
+export default GardenCalendar;
