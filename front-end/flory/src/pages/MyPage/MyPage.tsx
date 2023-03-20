@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { SMyPage } from "./styles";
 import { useNavigate } from "react-router-dom";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
+import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal"
+import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal"
 import Pie from "../../components/common/Pie/Pie";
 import FlowerImg from "./Spring.png";
 import Post from "../../components/common/Post/Post";
@@ -93,6 +95,7 @@ const MyPage = () => {
           icon={faGear}
         />
       </div>
+      <MyPageEditModal />
       <BasicTabs
         tabs={[
           {
