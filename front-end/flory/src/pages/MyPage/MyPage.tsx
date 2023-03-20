@@ -1,11 +1,13 @@
-import React from "react";
-import { SMain } from "./styles";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BasicTabs from "../../components/common/Tabs/BasicTabs";
+import React from "react"
+import { SMain } from "./styles"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import BasicTabs from "../../components/common/Tabs/BasicTabs"
+import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal"
+import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal"
 
 const MyPage = () => {
-  const onClick = () => {};
+  const onClick = () => {}
 
   return (
     <SMain>
@@ -18,6 +20,9 @@ const MyPage = () => {
         onClick={onClick}
         icon={faArrowLeft}
       />
+
+      <MyPageEditModal />
+
       <BasicTabs
         tabs={[
           {
@@ -28,7 +33,7 @@ const MyPage = () => {
         ]}
       />
     </SMain>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage
