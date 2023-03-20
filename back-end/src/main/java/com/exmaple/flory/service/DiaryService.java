@@ -6,6 +6,8 @@ import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
+import com.exmaple.flory.dto.member.MemberResponseDto;
+import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +63,9 @@ public class DiaryService {
         diary.setGarden(garden.get());
         diary.setFlower(flowerData);
         diary.setMusic(music.get());
+        diary.setX("0");
+        diary.setY("0");
+        diary.setZ("0");
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         result.setFlowerEmotion(getFlowerEmotion(flowerData));
@@ -76,6 +81,7 @@ public class DiaryService {
             }
 
             List<Team> groupList = new ArrayList<>();
+            List<TeamDto> groupResult = new ArrayList<>();
 
             for(Long id: diaryRequestDto.getGroupList()){
                 Optional<Team> team = teamRepository.findById(id);
@@ -85,7 +91,11 @@ public class DiaryService {
                 groupList.add(team.get());
             }
 
-            result.setGroupList(groupList);
+            for(Team team: groupList){
+                groupResult.add(TeamDto.of(team));
+            }
+
+            result.setGroupList(groupResult);
         }
 
         return result;
@@ -390,7 +400,7 @@ public class DiaryService {
             if(member.isEmpty()) throw new Exception();
 
             CommentListDto commentListDto = CommentListDto.builder()
-                    .id(commentDto.getId()).member(member.get()).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
+                    .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
 
             comments.add(commentListDto);
         }
@@ -453,6 +463,7 @@ public class DiaryService {
         List<Long> groupIdList = diaryTeamRepository.getGroup(diaryDto.getId());
 
         List<Team> groupList = new ArrayList<>();
+        List<TeamDto> groupResult = new ArrayList<>();
 
         for(Long id: groupIdList){
             Optional<Team> team = teamRepository.findById(id);
@@ -462,7 +473,11 @@ public class DiaryService {
             groupList.add(team.get());
         }
 
-        diaryDto.setGroupList(groupList);
+        for(Team team: groupList){
+            groupResult.add(TeamDto.of(team));
+        }
+
+        diaryDto.setGroupList(groupResult);
     }
 
     public void setUpdateDiary(DiaryRequestDto diaryRequestDto, Diary diary){

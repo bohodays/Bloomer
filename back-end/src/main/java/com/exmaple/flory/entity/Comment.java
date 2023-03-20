@@ -44,7 +44,7 @@ public class Comment {
 
     public CommentDto toDto(){
         return CommentDto.builder()
-                .id(id).content(content).createdTime(createdTime).did(diary.getId()).uid(member.getUserId()).diary(diary).build();
+                .id(id).content(content).createdTime(createdTime).did(diary.getId()).uid(member.getUserId()).diary(diary.toDto()).build();
     }
 
 }

@@ -4,6 +4,8 @@ import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.entity.Comment;
+import com.exmaple.flory.entity.Diary;
+import com.exmaple.flory.entity.Garden;
 import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.repository.CommentRepository;
 import com.exmaple.flory.repository.DiaryRepository;
@@ -43,15 +45,22 @@ public class CommentServiceTest {
             .nickname("abcd")
             .build();
 
-    private final DiaryDto diaryDto = DiaryDto.builder()
-            .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z")
+    private final Garden garden = Garden
+            .builder()
+            .id(1L)
+            .member(member)
+            .path("/usr/app")
             .build();
+
+    private final DiaryDto diaryDto = DiaryDto.builder()
+            .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z").address("address")
+            .garden(garden.toDiaryDto()).build();
 
     private final Comment comment = Comment.builder()
             .id(1L).diary(diaryDto.toEntity()).member(member).content("content").build();
 
     private final CommentDto commentDto = CommentDto.builder()
-            .id(1L).content("content").createdTime(new Date()).did(1L).uid(1L).diary(diaryDto.toEntity()).build();
+            .id(1L).content("content").createdTime(new Date()).did(1L).uid(1L).diary(diaryDto).build();
 
     @DisplayName("댓글 수정 테스트")
     @Test
@@ -59,21 +68,21 @@ public class CommentServiceTest {
         Map<String,String> info = new HashMap<>();
         Member member = Member.builder()
                 .userId(1L).email("email").nickname("name").build();
-        DiaryDto diaryDto = DiaryDto.builder()
-                .id(1L).content("content").imgSrc("imgSrc").lat(10).lng(10).publicStatus("전체공개").x("x").y("y").z("z")
-                .build();
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
 
         info.put("id","1");
         info.put("content","content");
 
-        commentDto.setDiary(diaryDto.toEntity());
+        commentDto.setDiary(diaryDto);
         Comment comment = commentDto.toEntity();
         comment.setMember(member);
+        comment.setDiary(diary);
 
         when(commentRepository.save(any())).thenReturn(comment);
         when(commentRepository.findById(any())).thenReturn(Optional.of(comment));
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
-        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diaryDto.toEntity()));
+        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diary));
 
         CommentDto result = commentService.updateComment(info);
 
@@ -83,9 +92,14 @@ public class CommentServiceTest {
     @DisplayName("댓글 생성 테스트")
     @Test
     public void insertCommentTest() throws Exception {
-        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diaryDto.toEntity()));
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+
+        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diary));
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(commentRepository.save(any())).thenReturn(comment);
+
+        commentDto.setDiary(diaryDto);
 
         CommentDto result = commentService.insertComment(commentDto);
 
@@ -96,7 +110,10 @@ public class CommentServiceTest {
     @Test
     public void getCommentListTest() throws Exception{
         List<Comment> comments = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
 
+        comment.setDiary(diary);
         comments.add(comment);
         when(commentRepository.findByDid(any())).thenReturn(comments);
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
