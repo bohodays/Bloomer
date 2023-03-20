@@ -58,7 +58,7 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateMember(@RequestPart MemberRequestDto memberRequestDto, @RequestPart(value = "img", required = false) final MultipartFile multipartFile){
+    public ResponseEntity<?> updateMember(@RequestPart("memberRequestDto") MemberRequestDto memberRequestDto, @RequestPart(value = "img", required = false) final MultipartFile multipartFile){
         try{
             MemberResponseDto memberResponseDto = memberService.updateMember(memberRequestDto, multipartFile);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto),HttpStatus.OK);
