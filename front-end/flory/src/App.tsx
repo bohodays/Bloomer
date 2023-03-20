@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./App.css";
@@ -25,7 +25,7 @@ function App() {
     <div className="app">
       {/*  fallback 추가해야 됨 */}
       <Suspense>
-        <HashRouter>
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />} />
             {/* 로그인 되어있으면 메인페이지로 보내기 */}
@@ -44,7 +44,7 @@ function App() {
             <Route path="/setting" element={<Setting/>} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </Suspense>
     </div>
   );
