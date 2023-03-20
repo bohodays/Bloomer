@@ -52,7 +52,7 @@ const DiaryDetail = () => {
           width="100%"
         />
       </div>
-      <DiaryFlower />
+      <DiaryFlower flower={diary.flowerEmotion} />
       <div className="header"></div>
       {/* 뒤로 가기 아이콘 */}
       <FontAwesomeIcon
