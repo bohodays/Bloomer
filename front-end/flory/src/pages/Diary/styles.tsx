@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   max-width: 480px;
@@ -41,10 +41,15 @@ export const SMain = styled.main`
 
     .diary-section {
       margin-top: 50%;
+
+      .empty-space {
+        width: 100%;
+        height: 3.75rem;
+      }
     }
   }
 
   .content-container::-webkit-scrollbar {
     display: none;
   }
-`
+`;

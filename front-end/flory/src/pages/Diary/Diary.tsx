@@ -81,6 +81,7 @@ const Diary = () => {
         <div className="line"></div>
         <div className="diary-section">
           <DiaryTotalList />
+          <div className="empty-space"></div>
         </div>
       </div>
       <Navbar />
