@@ -14,11 +14,6 @@ export const SMyPage = styled.div`
   }
 
   .header {   
-    color: linear-gradient(
-      60deg,
-      rgba(84, 58, 183, 1) 0%,
-      rgba(0, 172, 193, 1) 100%
-    );
     height:5%;
     margin-bottom: 1rem;
   }
@@ -61,3 +56,10 @@ export const SMyPage = styled.div`
     margin-bottom:5vh;
   }
 `;
+
+export const ImgIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+`;
+

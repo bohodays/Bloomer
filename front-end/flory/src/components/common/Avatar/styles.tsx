@@ -2,6 +2,8 @@ import styled from "styled-components"
 export const SAvatar = styled.div<any>`
   width: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
   height: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
+  width: ${(props) => (props.size === "big" ? "8rem" : "5rem")};
+  height: ${(props) => (props.size === "big" ? "8rem" : "5rem")};
   /* border: 2px solid #dec5fd; */
   border-radius: 50%;
   border: ${(props) =>
