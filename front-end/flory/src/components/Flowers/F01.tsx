@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
@@ -24,6 +24,8 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
   const location = useLocation();
   const modelRef = useRef<any>();
   const groupRef = useRef<any>();
+  const [position, setPosition] = useState({ x, y, z });
+  const [isDragging, setIsDragging] = useState(false);
 
   const { scene, camera } = useThree();
   const raycaster = new THREE.Raycaster();
@@ -33,16 +35,27 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
     return raycaster.intersectObjects(scene.children);
   }
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [clickFlag, setClickFlag] = useState();
+  useEffect(() => {
+    const handleWindowClick = (e: MouseEvent) => {
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+    if (location.pathname.includes("garden/edit")) {
+      window.addEventListener("click", handleWindowClick);
+    }
+    return () => {
+      if (location.pathname.includes("garden/edit")) {
+        window.removeEventListener("click", handleWindowClick);
+      }
+    };
+  }, [isDragging, location.pathname]);
 
   useFrame(({ mouse }) => {
     if (!location.pathname.includes("garden")) {
       const worldYAxis = new THREE.Vector3(0, 1, 0);
       modelRef.current!.rotateOnWorldAxis(worldYAxis, 0.01);
     }
-
-    // console.log(isDragging);
 
     if (location.pathname.includes("garden/edit")) {
       if (isDragging) {
@@ -60,29 +73,9 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
     }
   });
 
-  if (location.pathname.includes("garden/edit")) {
-    window.addEventListener("click", (e) => {
-      console.log("클릭됨1");
-
-      if (isDragging) {
-        setIsDragging(false);
-      }
-    });
-  }
-
-  // 꽃을 클릭하면 isDragging 상태 변경
-  const handleSetIsDragging = () => {
-    if (location.pathname.includes("garden/edit")) {
-      console.log("클릭됨2");
-      if (!isDragging) {
-        setIsDragging(true);
-      }
-    }
-  };
-
-  const [position, setPosition] = useState({ x, y, z });
-
-  const { nodes, materials } = useGLTF("/models/flowers/f01.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    `${process.env.PUBLIC_URL}/models/flowers/f01.glb`
+  ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <group
@@ -91,7 +84,7 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f01" }}
         onClick={() => {
-          handleSetIsDragging();
+          setIsDragging(!isDragging);
         }}
       >
         <mesh geometry={nodes.f01_1.geometry} material={materials.stem} />

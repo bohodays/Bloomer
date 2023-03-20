@@ -1,19 +1,19 @@
-import React, { useState } from "react"
-import { SMain } from "./styles"
-import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti"
-import testGarden from "../../assets/imgs/test_garden.png"
-import Button from "../../components/common/Button/Button"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate } from "react-router-dom"
-import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar"
+import React, { useState } from "react";
+import { SMain } from "./styles";
+import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti";
+import testGarden from "../../assets/imgs/test_garden.png";
+import Button from "../../components/common/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
 
-const CARDS = 10
-const MAX_VISIBILITY = 3
+const CARDS = 10;
+const MAX_VISIBILITY = 3;
 
 const Carousel = ({ children }: any) => {
-  const [active, setActive] = useState<number>(2)
-  const count = React.Children.count(children)
+  const [active, setActive] = useState<number>(2);
+  const count = React.Children.count(children);
 
   return (
     <div className="carousel">
@@ -46,15 +46,15 @@ const Carousel = ({ children }: any) => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};
 
 const GardenList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/garden")
-  }
+    navigate("/garden");
+  };
 
   return (
     <SMain>
@@ -80,7 +80,7 @@ const GardenList = () => {
         <GardenCalendar year={2023} month={2} />
       </div>
     </SMain>
-  )
-}
+  );
+};
 
-export default GardenList
+export default GardenList;

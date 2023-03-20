@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/84142-gradient-background.json";
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
@@ -18,13 +18,15 @@ const DiaryDetail = () => {
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
   const diary = location.state.diaryData;
+  const navigate = useNavigate();
 
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
     setMapView(!mapView);
   };
-  const onClick = () => {
-    console.log("뒤로가기");
+  const handleGoBack = () => {
+    // 뒤로가기
+    navigate(-1);
   };
 
   const defaultOptions = {
@@ -58,7 +60,7 @@ const DiaryDetail = () => {
       <FontAwesomeIcon
         className="back-icon"
         icon={faArrowLeft}
-        onClick={onClick}
+        onClick={handleGoBack}
       />
       <div className="content-box">
         <div className="flower-title">

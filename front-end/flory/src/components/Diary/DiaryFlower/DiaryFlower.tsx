@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { useGLTF, OrthographicCamera, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import Tulip2 from "../../Flowers/Tulip2";
 import { SMain } from "./styles";
 
 import F01 from "../../Flowers/F01"; // 크로커스

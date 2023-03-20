@@ -4,12 +4,12 @@ Command: npx gltfjsx@6.1.4 ./public/models/flowers/f07.glb -t
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
 import { useLocation } from "react-router-dom";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -30,21 +30,70 @@ export function F07(props: JSX.IntrinsicElements["group"] & PositionType) {
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();
-  useFrame(() => {
+  const groupRef = useRef<any>();
+  const [position, setPosition] = useState({ x, y, z });
+  const [isDragging, setIsDragging] = useState(false);
+
+  const { scene, camera } = useThree();
+  const raycaster = new THREE.Raycaster();
+
+  function intersect(pos: THREE.Vector2) {
+    raycaster.setFromCamera(pos, camera);
+    return raycaster.intersectObjects(scene.children);
+  }
+
+  useEffect(() => {
+    const handleWindowClick = (e: MouseEvent) => {
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+    if (location.pathname.includes("garden/edit")) {
+      window.addEventListener("click", handleWindowClick);
+    }
+    return () => {
+      if (location.pathname.includes("garden/edit")) {
+        window.removeEventListener("click", handleWindowClick);
+      }
+    };
+  }, [isDragging, location.pathname]);
+
+  useFrame(({ mouse }) => {
     if (!location.pathname.includes("garden")) {
       const worldYAxis = new THREE.Vector3(0, 1, 0);
       modelRef.current!.rotateOnWorldAxis(worldYAxis, 0.01);
     }
+
+    if (location.pathname.includes("garden/edit")) {
+      if (isDragging) {
+        const found = intersect(mouse);
+        if (found.length > 0) {
+          for (let i = 0; i < found.length; i++) {
+            if (!found[i].object.userData.ground) continue;
+
+            // 물체가 마우스와 만난 지점으로 위치를 업데이트합니다.
+            const newPosition = found[i].point;
+            setPosition({ x: newPosition.x, y: y, z: newPosition.z });
+          }
+        }
+      }
+    }
   });
 
-  const { nodes, materials } = useGLTF("/models/flowers/f07.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    `${process.env.PUBLIC_URL}/models/flowers/f07.glb`
+  ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <group
-        position={[x, y, z]}
+        position={[position.x, position.y, position.z]}
         rotation={[2.54, 1.46, -2.25]}
         scale={[0.03, 0.01, 0.03]}
-        ref={location.pathname.includes("garden") ? undefined : modelRef}
+        ref={location.pathname.includes("garden") ? groupRef : modelRef}
+        userData={{ draggable: true, name: "f07" }}
+        onClick={() => {
+          setIsDragging(!isDragging);
+        }}
       >
         <mesh geometry={nodes.f07_1.geometry} material={materials.bammoo2} />
         <mesh geometry={nodes.f07_2.geometry} material={materials.bammoo3} />
