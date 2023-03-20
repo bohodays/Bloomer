@@ -37,8 +37,6 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
 
   const rect = gl.domElement.getBoundingClientRect();
 
-  console.log(rect, 333);
-
   function intersect(pos: THREE.Vector2) {
     raycaster.setFromCamera(pos, camera);
     return raycaster.intersectObjects(scene.children);
