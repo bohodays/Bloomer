@@ -8,6 +8,10 @@ import React, { useEffect, useState } from "react";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { SMain } from "./styles";
 import { borderRadius } from "@mui/system";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Avatar from "../../components/common/Avatar/Avatar";
+import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
+
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
   // useNavigate로 일기의 id를 전달한다.
@@ -18,6 +22,9 @@ const DiaryDetail = () => {
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
     setMapView(!mapView);
+  };
+  const onClick = () => {
+    console.log("뒤로가기");
   };
 
   const defaultOptions = {
@@ -31,31 +38,13 @@ const DiaryDetail = () => {
 
   return (
     <SMain>
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "200px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          flexDirection: "column",
-        }}
-      >
-        <div style={{ color: "white", marginBottom: 7, userSelect: "none" }}>
+      {/* 헤더 영역 */}
+      <div className="header_back">
+        <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          abstract world
+          <p>abstract world</p>
         </div>
-        <div
-          className="circle"
-          style={{
-            zIndex: -2,
-            width: "200px",
-            height: "160px",
-            borderRadius: "200px 200px 0 0",
-          }}
-        ></div>
-
+        <div className="header-circle"></div>
         <Lottie
           style={{ position: "absolute", zIndex: -3 }}
           options={defaultOptions}
@@ -64,27 +53,41 @@ const DiaryDetail = () => {
         />
       </div>
       <DiaryFlower flower={diary.flowerEmotion} />
-      <div className="header" style={{ height: "200px" }}></div>
-      <div style={{ margin: "50px 5%" }}>
-        <img
-          style={{ width: "100%", borderRadius: "15px" }}
-          src={diary.imgSrc}
-        />
-        <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
-        <p>{diary.createdTime}</p>
+      <div className="header"></div>
+      {/* 뒤로 가기 아이콘 */}
+      <FontAwesomeIcon
+        className="back-icon"
+        icon={faArrowLeft}
+        onClick={onClick}
+      />
+      <div className="content-box">
+        <div className="flower-title">
+          {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
+        </div>
 
-        <p>{diary.content}</p>
+        {/* 다이어리 내용 영역 */}
+        <img className="diary-img" src={diary.imgSrc} />
+        <div className="content-header">
+          <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
+          <p>
+            {diary.createdTime.slice(0, 10) +
+              " " +
+              diary.createdTime.slice(11, 16)}
+          </p>
+        </div>
+        <div className="content-diary">{diary.content}</div>
 
-        <div onClick={onClickLocation}>
+        {/* 지도 영역 */}
+        <div className="location-tag" onClick={onClickLocation}>
           <FontAwesomeIcon icon={faLocationDot} />
-          {diary.address}
+          <p>{diary.address}</p>
         </div>
         {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
-        <div>
-          {diary.commentList.map((comment: any) => {
-            return <p>{comment.content}</p>;
-          })}
-        </div>
+
+        {/* 덧글 영역 */}
+        {diary.commentList.map((comment: any) => {
+          return <DiaryComment comment={comment} />;
+        })}
       </div>
     </SMain>
   );

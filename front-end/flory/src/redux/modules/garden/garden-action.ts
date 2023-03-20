@@ -3,8 +3,6 @@ import { stringify } from "querystring";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 
-export default {};
-
 // 정원 생성
 export const createGardenAction = createAsyncThunk(
   "CREATE",
