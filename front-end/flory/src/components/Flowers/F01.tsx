@@ -36,6 +36,7 @@ export function F01(props: JSX.IntrinsicElements["group"] & PositionType) {
   });
 
   const [position, setPosition] = useState({ x, y, z });
+  console.log(position);
 
   const { nodes, materials } = useGLTF("/models/flowers/f01.glb") as GLTFResult;
   return (
