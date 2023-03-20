@@ -1,13 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import { SMyPage } from "./styles";
+import { useNavigate } from "react-router-dom";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import Pie from "../../components/common/Pie/Pie";
 import FlowerImg from "./Spring.png";
 import Post from "../../components/common/Post/Post";
+import Navbar from "../../components/common/Navbar/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 const MyPage = () => {
-  const onClick = () => {};
+  const navigate = useNavigate();
+
+  const handleMove = (target: string) => {
+    navigate(target);
+  }
+
+
   const data = [
     {
       "id": "기쁨",
@@ -76,7 +86,12 @@ const MyPage = () => {
   return (
     <SMyPage>
       <div className="header">
-        <div className="inner-header flex"></div>
+        {/* 환경 설정 아이콘 */}
+        <FontAwesomeIcon
+          className="setting-icon"
+          onClick={() => handleMove("/setting")}
+          icon={faGear}
+        />
       </div>
       <BasicTabs
         tabs={[
@@ -87,6 +102,7 @@ const MyPage = () => {
           { label: "그룹 목록 보기", panel: <div>그룹 목록 보기 내용</div> },
         ]}
       />
+      <Navbar />
     </SMyPage>
   );
 };

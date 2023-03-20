@@ -19,15 +19,15 @@ export const SMyPage = styled.div`
       rgba(84, 58, 183, 1) 0%,
       rgba(0, 172, 193, 1) 100%
     );
-
-    margin-bottom: 2rem;
+    height:5%;
+    margin-bottom: 1rem;
   }
 
-  .inner-header {
-    height: 6rem;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  .setting-icon{
+    margin: 0.8vw 1.5vw;
+    font-size: 1.5em;
+    position: absolute;
+    right: 0;
   }
 
   .flex {
