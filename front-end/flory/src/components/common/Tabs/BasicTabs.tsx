@@ -37,10 +37,10 @@ const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
   return (
     <div style={{ width: "90%" }}>
       <div>
-        <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
+        <TabList tabs={props.tabs} handleChange={switchTab} value={value}/>
       </div>
       {props.tabs.map((tab, idx) => (
-        <TabPanel value={value} index={idx}>
+        <TabPanel key={idx} value={value} index={idx}>
           {tab.panel}
         </TabPanel>
       ))}

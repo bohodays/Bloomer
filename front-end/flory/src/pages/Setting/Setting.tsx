@@ -7,12 +7,24 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Accordion from "../../components/common/Accordion/Accordion";
 import { useNavigate } from 'react-router-dom';
+import { logoutAction } from "../../redux/modules/user";
+import { localData } from "../../redux/modules/user/token";
+import { useAppDispatch } from "../../redux/store.hooks";
 
 const Setting = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
     const handleGoBack = () => {
       navigate(-1);
-    };
+  };
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    const accessToken = localData.getAccessToken();
+    dispatch(logoutAction(accessToken)).then(() => {
+      localData.clear();
+    });
+  };
 
   const contents = (
     <div>
@@ -28,19 +40,24 @@ const Setting = () => {
   return (
     <SMain>
       <div className="header">
+        {/* 뒤로 가기 아이콘 */}
+        <FontAwesomeIcon
+          className="back-icon"
+          onClick={handleGoBack}
+          icon={faArrowLeft}
+        />
         <div className="inner-header flex">환경 설정</div>
       </div>
-      {/* 뒤로 가기 아이콘 */}
-      <FontAwesomeIcon
-        className="back-icon"
-        onClick={handleGoBack}
-        icon={faArrowLeft}
-      />
+      
       <div className="box-Accordion">
         <Accordion title="계정" contents={contents} icon={faUser}/>
         <Accordion title="알림" contents={contents} icon={faBell}/>
         <Accordion title="정보" contents={contents} icon={faCircleInfo}/>
-        </div>
+      </div>
+      <div>
+        <button onClick={handleLogout}>로그아웃</button>
+        <button>회원탈퇴</button>
+      </div>
     </SMain>
   );
 };
