@@ -1,5 +1,5 @@
 import React, { Suspense, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
 
@@ -28,9 +28,16 @@ const Scene = () => {
 };
 
 const GardenEdit = () => {
+  const canvasRef = useRef<any>();
+  console.log(canvasRef);
+
+  const handlePositionUpdate = () => {
+    console.log("편집 완료 버튼 클릭");
+  };
+
   return (
     <SMain>
-      <Canvas shadows={true}>
+      <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
           maxPolarAngle={Math.PI / 2.8}
@@ -41,6 +48,11 @@ const GardenEdit = () => {
         />
         <Scene></Scene>
       </Canvas>
+      <div className="info__wrapper">
+        <div className="background" onClick={() => handlePositionUpdate()}>
+          <p>완료</p>
+        </div>
+      </div>
     </SMain>
   );
 };

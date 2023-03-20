@@ -86,20 +86,10 @@ type GLTFResult1 = GLTF & {
 
 export function Model_new_edit(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
-    "/models/base_map_new.glb"
+    `${process.env.PUBLIC_URL}/models/base_map_new.glb`
   ) as GLTFResult;
 
-  // window.addEventListener("click", (event) => {
-  //   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  //   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  // });
-
   const ref = useRef(null);
-
-  // const handlePointerDown = (event: any) => {
-  //   event.stopPropagation();
-  //   ref.current.userData.draggable = true;
-  // };
 
   return (
     <group {...props} dispose={null}>
@@ -420,76 +410,6 @@ export function Model_new_edit(props: JSX.IntrinsicElements["group"]) {
 }
 
 function Base_map_new_edit() {
-  // const { scene, camera, gl } = useThree();
-  // const raycaster = new THREE.Raycaster();
-  // const clickMouse = new THREE.Vector2();
-  // const moveMouse = new THREE.Vector2();
-
-  // let draggable: THREE.Object3D;
-
-  // function intersect(pos: THREE.Vector2) {
-  //   raycaster.setFromCamera(pos, camera);
-  //   return raycaster.intersectObjects(scene.children);
-  // }
-
-  // window.addEventListener("click", (event) => {
-  //   if (draggable != null) {
-  //     console.log(`dropping draggable ${draggable.userData.name}`);
-  //     draggable = null as any;
-  //     return;
-  //   }
-
-  //   const rect = gl.domElement.getBoundingClientRect();
-
-  //   // 3 이론상 이게 맞을 것 같은데...
-  //   clickMouse.x =
-  //     ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  //   clickMouse.y = -(event.clientY / rect.height) * 2 + 1;
-
-  //   const found = intersect(clickMouse);
-  //   if (found.length > 0) {
-  //     if (found[0].object.userData.draggable) {
-  //       draggable = found[0].object;
-  //       console.log(`found draggable ${draggable.userData.name}`);
-  //     }
-  //   }
-  // });
-
-  // window.addEventListener("mousemove", (event) => {
-  //   moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  //   moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  //   // console.log(event.clientX, window.innerWidth, "가로");
-  //   // console.log(event.clientY, window.innerHeight, "세로");
-  //   // console.log(moveMouse.x, moveMouse.y);
-  // });
-
-  // window.addEventListener("touchmove", (event) => {
-  //   moveMouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
-  //   moveMouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
-  // });
-
-  // function dragObject() {
-  //   if (draggable != null) {
-  //     const found = intersect(moveMouse);
-  //     if (found.length > 0) {
-  //       for (let i = 0; i < found.length; i++) {
-  //         if (!found[i].object.userData.ground) continue;
-
-  //         let target = found[i].point;
-  //         draggable.position.x = target.x;
-  //         draggable.position.z = target.z;
-  //       }
-  //     }
-  //   }
-  // }
-
-  // function animate() {
-  //   dragObject();
-  //   requestAnimationFrame(animate);
-  // }
-
-  // animate();
   return (
     <>
       {/* 카메라, 빛 */}
