@@ -75,5 +75,6 @@
     "@types/react-lottie": "^1.2.6",
     "@types/redux-persist": "^4.3.1",
     "@types/three": "^0.149.0"
-  }
+  },
+  "homepage": "./"
 }
