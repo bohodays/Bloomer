@@ -41,6 +41,7 @@
     "react-scripts": "5.0.1",
     "react-window": "^1.8.8",
     "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
     "styled-components": "^5.3.8",
@@ -74,6 +75,7 @@
   },
   "devDependencies": {
     "@types/react-lottie": "^1.2.6",
+    "@types/redux-persist": "^4.3.1",
     "@types/three": "^0.149.0"
   },
   "homepage": "./"
