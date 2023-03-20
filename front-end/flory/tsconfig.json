@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "types": ["kakao.maps.d.ts"]
   },
-  "include": ["src"]
+  "include": ["src", "./node_modules/redux-persist/types"]
 }
