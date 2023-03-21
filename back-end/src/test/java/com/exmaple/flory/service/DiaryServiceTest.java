@@ -74,13 +74,13 @@ public class DiaryServiceTest {
             .build();
 
     private final Emotion emotion = Emotion.builder()
-            .id(1L).largeCategory("large").smallCategory("small").build();
+            .id(1L).largeCategory("large").build();
 
     private final Flower flower = Flower.builder()
-            .id(1L).name("flower").language("language").emotion(emotion).build();
+            .id(1L).name("flower").language("language").smallCategory("small").emotion(emotion).build();
 
     private final FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
-            .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(emotion.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
+            .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z")

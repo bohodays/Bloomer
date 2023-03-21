@@ -417,7 +417,7 @@ public class DiaryService {
 
         FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
                 .fid(flowerData.getId()).eid(emotionId).flowerName(flowerData.getName()).language(flowerData.getLanguage())
-                .largeCategory(emotion.get().getLargeCategory()).smallCategory(emotion.get().getSmallCategory()).build();
+                .largeCategory(emotion.get().getLargeCategory()).smallCategory(flowerData.getSmallCategory()).build();
 
         return flowerEmotionDto;
     }
