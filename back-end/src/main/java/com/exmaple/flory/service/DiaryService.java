@@ -9,6 +9,8 @@ import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.entity.*;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +58,9 @@ public class DiaryService {
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
         Optional<Music> music = musicRepository.findById(diaryRequestDto.getMid());
 
-        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+        if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
+        if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
         Flower flowerData = flower.get();
 
@@ -86,7 +90,7 @@ public class DiaryService {
             for(Long id: diaryRequestDto.getGroupList()){
                 Optional<Team> team = teamRepository.findById(id);
 
-                if(team.isEmpty()) throw new Exception();
+                if(team.isEmpty()) throw new CustomException(ErrorCode.INVALID_TEAM);
 
                 groupList.add(team.get());
             }
@@ -105,7 +109,7 @@ public class DiaryService {
         Optional<Diary> diary = diaryRepository.findById(diaryId);
 
         if(diary.isEmpty()){
-            throw new Exception();
+            throw new CustomException(ErrorCode.NO_DIARY);
         }
 
         DiaryDto result = diary.get().toDto();
@@ -129,7 +133,7 @@ public class DiaryService {
             return 1;
         }
         else{
-            return 0;
+            throw new CustomException(ErrorCode.NO_DIARY);
         }
     }
 
@@ -137,13 +141,15 @@ public class DiaryService {
     public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
         Optional<Diary> dir = diaryRepository.findById(diaryDto.getId());
 
-        if(dir.isEmpty()) throw new Exception();
+        if(dir.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
 
         Optional<Garden> garden = gardenRepository.findById(diaryDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryDto.getFid());
         Optional<Music> music = musicRepository.findById(diaryDto.getMid());
 
-        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+        if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
+        if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
         Diary diary = dir.get();
         log.info("Diary: {}",diary);
@@ -188,7 +194,7 @@ public class DiaryService {
 
         Optional<Garden> garden = gardenRepository.findById(gardenId);
         List<Diary> diaryList;
-        if(garden.isEmpty()) throw new Exception();
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
 
         log.info("생성자:{}, 요청:{}",garden.get().getMember().getUserId(),requestId);
 
@@ -397,7 +403,7 @@ public class DiaryService {
             CommentDto commentDto = commentList.get(i).toDto();
             Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
-            if(member.isEmpty()) throw new Exception();
+            if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
             CommentListDto commentListDto = CommentListDto.builder()
                     .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
@@ -413,7 +419,7 @@ public class DiaryService {
 
         Optional<Emotion> emotion = emotionRepository.findById(emotionId);
 
-        if(emotion.isEmpty()) throw new Exception();
+        if(emotion.isEmpty()) throw new CustomException(ErrorCode.NO_EMOTION);
 
         FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
                 .fid(flowerData.getId()).eid(emotionId).flowerName(flowerData.getName()).language(flowerData.getLanguage())
