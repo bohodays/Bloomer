@@ -83,8 +83,19 @@ const MyPage = () => {
           /> 
         </div>
       } />
-      <Post title="지난주 대비 감정 분포" content="hi"/>
+      <Post title="지난주 대비 감정 분포" content={
+        "hi"
+      }/>
       
+    </div>
+  );
+
+  const groupPanel = (
+    <div>
+      <div className="">그룹 둘러보기</div>
+      <Post title="가입한 그룹 목록" content={
+        "hi"
+      }/>
     </div>
   );
   return (
@@ -116,7 +127,7 @@ const MyPage = () => {
             label: "나의 감정 분포",
             panel: distPanel,
           },
-          { label: "그룹 목록 보기", panel: <div>그룹 목록 보기 내용</div> },
+          { label: "그룹 목록 보기", panel: groupPanel },
         ]}
       />
       <Navbar />
