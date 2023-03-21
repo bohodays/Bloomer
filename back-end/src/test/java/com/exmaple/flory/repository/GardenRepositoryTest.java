@@ -68,8 +68,9 @@ public class GardenRepositoryTest {
         gardenRepository.save(garden);
 
         int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
 
-        Optional<Garden> result = gardenRepository.findByMonth(month);
+        Optional<Garden> result = gardenRepository.findByDate(year,month);
 
         assertThat(result.get().getPath()).isEqualTo(garden.getPath());
     }

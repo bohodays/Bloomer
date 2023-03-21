@@ -29,8 +29,9 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.getTeam(teamId);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -40,9 +41,10 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.insertTeam(teamInsertRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT),HttpStatus.METHOD_NOT_ALLOWED);
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -51,8 +53,9 @@ public class TeamController {
         try{
             teamService.deleteTeam(teamId);
             return new ResponseEntity<>(new SuccessResponse("그룹 삭제 되었습니다."),HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -62,8 +65,9 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.updateTeamName(teamReNameRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto),HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,8 +78,9 @@ public class TeamController {
             // userId : SecurityUtil.getCurrentMemberId()
             List<TeamDto> teamDto = teamService.getUserTeam(SecurityUtil.getCurrentMemberId()); //속한 팀 목록 가져오기
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -85,9 +90,10 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.insertTeamMember(teamMemberRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()).getHttpStatus(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -96,8 +102,9 @@ public class TeamController {
         try{
             teamService.deleteTeamMember(teamMemberRequestDto);
             return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()).getHttpStatus(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

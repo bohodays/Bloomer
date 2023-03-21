@@ -20,12 +20,12 @@ public class QGardenRepositoryImpl implements QGardenRepository {
     }
 
     @Override
-    public Optional<Garden> findByMonth(Integer month) {
+    public Optional<Garden> findByDate(Integer year,Integer month) {
 
         return Optional.of(
                 jpaQueryFactory
                         .selectFrom(garden)
-                        .where(garden.createdDate.month().castToNum(Integer.class).eq(month))
+                        .where(garden.createdDate.month().castToNum(Integer.class).eq(month).and(garden.createdDate.year().castToNum(Integer.class).eq(year)))
                         .fetchOne());
     }
 
