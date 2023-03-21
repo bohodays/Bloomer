@@ -22,6 +22,8 @@ const diarySlice = createSlice({
         state.create.loading = false;
         state.create.data = payload;
         state.create.error = null;
+
+        console.log(state.create.data);
       })
       .addCase(createDiaryAction.rejected, (state, { payload }) => {
         state.create.loading = false;
