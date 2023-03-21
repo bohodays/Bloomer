@@ -78,6 +78,6 @@ public class Diary {
     public DiaryDto toDto() {
         return DiaryDto.builder()
                 .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).createdTime(createdTime)
-                .garden(garden).address(address).build();
+                .garden(garden.toDiaryDto()).address(address).build();
     }
 }

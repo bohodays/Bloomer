@@ -2083,168 +2083,264 @@ const FlowersWrapper = () => {
           return (
             <F02
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "빨간 튤립") {
           return (
             <F03
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "칼랑코에") {
           return (
             <F04
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "분홍 장미") {
           return (
             <F05
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "쑥국화") {
           return (
             <F06
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "뱀무") {
           return (
             <F07
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "잉글리쉬데이지") {
           return (
             <F08
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "함박꽃") {
           return (
             <F09
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "무스카리") {
           return (
             <F10
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "흑종초") {
           return (
             <F11
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "해당화") {
           return (
             <F12
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "봉선화") {
           return (
             <F13
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "노란 장미") {
           return (
             <F14
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "풍접초") {
           return (
             <F15
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "매발톱꽃") {
           return (
             <F16
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "빨강 매발톱꽃") {
           return (
             <F17
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "아네모네") {
           return (
             <F18
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "콜레우스") {
           return (
             <F19
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "시네라리아") {
           return (
             <F20
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "알리움") {
           return (
             <F21
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "찔레꽃") {
           return (
             <F22
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "노란 카네이션") {
           return (
             <F23
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "층꽃나무") {
           return (
             <F24
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         } else if (item.flowerEmotion.flowerName === "제라늄") {
           return (
             <F25
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => handleMoveToDetail(item.id, item)}
+              onClick={() => {
+                if (!location.pathname.includes("garden/edit")) {
+                  handleMoveToDetail(item.id, item);
+                }
+              }}
             />
           );
         }

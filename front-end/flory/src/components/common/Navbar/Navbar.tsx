@@ -25,7 +25,7 @@ const Navbar = () => {
     else if (pathname === "/diary") return "diaryList";
     else if (pathname === "/garden") return "garden";
     else if (pathname === "/map") return "map";
-    else if (pathname === "/profile") return "profile";
+    else if (pathname === "/mypage") return "mypage";
   };
 
   return (
@@ -136,21 +136,22 @@ const Navbar = () => {
         </div>
         <div
           className={
-            currentLocationIconActive(location.pathname) === "profile"
+            currentLocationIconActive(location.pathname) === "mypage"
               ? "button__wrapper wrapper__active"
               : "button__wrapper"
           }
         >
           <button
+            onClick={() => handleMove("/mypage")}
             className={
-              currentLocationIconActive(location.pathname) === "profile"
+              currentLocationIconActive(location.pathname) === "mypage"
                 ? "button__active"
                 : ""
             }
           >
             <FontAwesomeIcon
               className={
-                currentLocationIconActive(location.pathname) === "profile"
+                currentLocationIconActive(location.pathname) === "mypage"
                   ? "nav__item item__active"
                   : "nav__item"
               }
