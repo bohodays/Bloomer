@@ -31,7 +31,11 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
       }
     >
       <h3>위치 설정</h3>
-      <MapSearchInput setKeyword={setKeyword} onClickHere={onClickHere} />
+      <MapSearchInput
+        setKeyword={setKeyword}
+        onClickHere={onClickHere}
+        page="map"
+      />
       <SearchMap func={func} />
       <p>{place.placeName ? place.placeName : place.address}</p>
 

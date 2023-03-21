@@ -11,6 +11,7 @@ import pMinDelay from "p-min-delay";
 import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
+import GroupList from "./pages/GroupList/GroupList";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -58,6 +59,7 @@ function App() {
             <Route path="/garden/edit" element={<GardenEdit />} />
             <Route path="/garden/list" element={<GardenList />} />
             <Route path="/setting" element={<Setting />} />
+            <Route path="/group/list" element={<GroupList />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

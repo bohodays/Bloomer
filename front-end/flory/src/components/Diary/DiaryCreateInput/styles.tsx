@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const STextarea = styled.textarea`
   height: 50%;
@@ -14,6 +14,7 @@ export const STextarea = styled.textarea`
   /* Chrome, Edge, and Safari */
   ::-webkit-scrollbar {
     width: 10px;
+    margin-right: -40px;
   }
   ::-webkit-scrollbar-track {
     background: #ffffff;
@@ -23,4 +24,4 @@ export const STextarea = styled.textarea`
     border-radius: 10px;
     border-left: 3px solid #ffffff;
   }
-`
+`;
