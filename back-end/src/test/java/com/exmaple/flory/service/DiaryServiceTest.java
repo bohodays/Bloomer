@@ -68,6 +68,7 @@ public class DiaryServiceTest {
 
     private final Garden garden = Garden
             .builder()
+            .id(1L)
             .member(member)
             .path("/usr/app")
             .build();
@@ -83,7 +84,7 @@ public class DiaryServiceTest {
 
     private final DiaryDto diaryDto = DiaryDto.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z")
-            .flowerEmotion(flowerEmotionDto).createdTime(new Date()).build();
+            .garden(garden.toDiaryDto()).flowerEmotion(flowerEmotionDto).createdTime(new Date()).build();
 
     private final Comment comment = Comment.builder()
             .id(1L).diary(diaryDto.toEntity()).member(member).content("content").build();
@@ -101,8 +102,10 @@ public class DiaryServiceTest {
     public void insertDiaryTest() throws Exception {
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
 
-        when(diaryRepository.save(any())).thenReturn(diaryDto.toEntity());
+        when(diaryRepository.save(any())).thenReturn(diary);
         when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
         when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
         when(flowerRepository.getEmotionKey(any())).thenReturn(info);
@@ -155,8 +158,11 @@ public class DiaryServiceTest {
         List<Long> emotions = new ArrayList<>();
         emotions.add(emotion.getId());
 
-        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diaryDto.toEntity()));
-        when(diaryRepository.save(any())).thenReturn(diaryDto.toEntity());
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
+        when(diaryRepository.save(any())).thenReturn(diary);
         when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
         when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
         when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
@@ -202,6 +208,7 @@ public class DiaryServiceTest {
 
         Diary diary = diaryDto.toEntity();
         diary.setFlower(flower);
+        diary.setGarden(garden);
 
         diaryDtoList.add(diary);
         when(diaryRepository.findByMemberId(any())).thenReturn(diaryDtoList);
@@ -276,6 +283,10 @@ public class DiaryServiceTest {
     @Test
     public void getCommentListTest() throws Exception {
         List<Comment> comments = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+
+        diary.setGarden(garden);
+        comment.setDiary(diary);
 
         comments.add(comment);
         when(commentRepository.findByDid(any())).thenReturn(comments);
