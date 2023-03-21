@@ -4,6 +4,7 @@ import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti";
 import testFlower from "../../assets/imgs/test_flower.png";
 import Navbar from "../../components/common/Navbar/Navbar";
 import Button from "../../components/common/Button/Button";
+import { useNavigate } from "react-router";
 
 const CARDS = 10;
 const MAX_VISIBILITY = 3;
@@ -54,6 +55,12 @@ const Carousel = ({ children }: any) => {
 };
 
 const DiarySelect = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/diary/select/music");
+  };
+
   return (
     <SMain>
       <div className="info__wrapper">
@@ -77,15 +84,17 @@ const DiarySelect = () => {
       </div>
       <div className="bottom__wrapper">
         <Button
-          contents="감정 선택"
+          onClick={handleNavigate}
+          contents="선택"
           addStyle={{
-            width: "20%",
+            width: "90%",
             // margin: "2rem  0",
             // height: "25%",
-            background1: "rgb(46,33,98)",
+            padding: "0.3rem",
+            background1: "rgb(244,175,255)",
             background2:
-              "linear-gradient(90deg, rgba(132,120,185,1) 0%, rgba(46,33,98,1) 100%)",
-            borderRadius: "16px",
+              "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
+            borderRadius: "12px",
             color: "#ffffff",
             fontSize: "1rem",
           }}

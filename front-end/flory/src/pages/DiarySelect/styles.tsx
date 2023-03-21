@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SMain = styled.main`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,6 +16,10 @@ export const SMain = styled.main`
   overflow: hidden;
 
   .info__wrapper {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     & > p {
       font-size: 0.8rem;
     }
@@ -29,6 +34,8 @@ export const SMain = styled.main`
   }
 
   .bottom__wrapper {
+    position: absolute;
+    bottom: 5rem;
     width: 100%;
     /* height: 25%; */
     display: flex;

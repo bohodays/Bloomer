@@ -4,6 +4,7 @@ export const SForm = styled.form`
   /* width: 90%; */
   /* margin: auto; */
 
+
   .nickname__wrapper {
     display: flex;
     gap: 10px;
@@ -26,9 +27,31 @@ export const SForm = styled.form`
 
     .image__btn {
       cursor: pointer;
+      position: relative;
     }
     .image__btn:hover {
       transform: scale(1.05);
     }
   }
+
+  .cameraButtonImg{
+    width: 2.5vh;
+    position: absolute;
+    left: 6.5vh;
+    bottom: 0.3vh;
+  }
 `
+
+export const ImgIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  postion: relative;
+
+  .modifyButtonImg{
+    width: 6.5vh;
+    position: absolute;
+    left: 55%;
+  }
+`;
+
