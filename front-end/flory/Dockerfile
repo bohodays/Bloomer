@@ -3,7 +3,7 @@ FROM node:18 as build
 WORKDIR /app
 COPY package.json .
 
-RUN npm install --save --legacy-peer-deps
+RUN npm install --force
 COPY . .
 RUN npm run build
 
