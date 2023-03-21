@@ -265,6 +265,7 @@ const diarySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+<<<<<<< HEAD
     // builder
     // 일기 작성
     // .addCase(createDiaryAction.pending, (state) => {
@@ -283,6 +284,27 @@ const diarySlice = createSlice({
     //   state.create.error = payload;
     // });
     // 수정된 꽃 위치 백엔드 API 연결해서 위치 수정시키기
+=======
+    builder
+      // 일기 작성
+      .addCase(createDiaryAction.pending, (state) => {
+        state.create.loading = true;
+        state.create.data = null;
+        state.create.error = null;
+      })
+      .addCase(createDiaryAction.fulfilled, (state, { payload }) => {
+        state.create.loading = false;
+        state.create.data = payload;
+        state.create.error = null;
+
+        console.log(state.create.data);
+      })
+      .addCase(createDiaryAction.rejected, (state, { payload }) => {
+        state.create.loading = false;
+        state.create.data = null;
+        state.create.error = payload;
+      });
+>>>>>>> 93a27bf75eb569e558d86fdf1ee59900f9f5287d
   },
 });
 

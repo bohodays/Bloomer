@@ -1,7 +1,10 @@
 package com.exmaple.flory.controller;
 
-import com.exmaple.flory.dto.comment.CommentDto;
 import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.entity.Comment;
+import com.exmaple.flory.entity.Diary;
+import com.exmaple.flory.entity.Garden;
+import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.service.CommentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -36,8 +39,27 @@ public class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    CommentDto commentDto = CommentDto.builder()
-            .id(1L).content("content").did(1L).uid(1L).build();
+    private final Member member = Member
+            .builder()
+            .userId(1L)
+            .email("ssafy@naver.com")
+            .password("1234")
+            .nickname("abcd")
+            .build();
+
+    private final Garden garden = Garden
+            .builder()
+            .id(1L)
+            .member(member)
+            .path("/usr/app")
+            .build();
+
+    private final Diary diary = Diary.builder()
+            .id(1L).content("content").x("10").y("10").z("10").imgSrc("img").publicStatus("전체공개").address("address").garden(garden).build();
+
+
+    private final Comment comment = Comment.builder()
+            .id(1L).content("content").member(member).diary(diary).build();
 
     @DisplayName("일기에 해당하는 댓글 목록 가져오기 테스트")
     @Test
@@ -66,11 +88,14 @@ public class CommentControllerTest {
     @DisplayName("댓글 수정 테스트")
     @Test
     public void updateCommentTest() throws Exception{
-        when(commentService.updateComment(any())).thenReturn(commentDto);
+        Comment comment1 = Comment.builder()
+                .id(1L).content("content").build();
+
+        when(commentService.updateComment(any())).thenReturn(comment.toDto());
 
         mockMvc.perform(put("/api/comment").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(commentDto.toEntity())))
+                .content(new ObjectMapper().writeValueAsString(comment1)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -78,11 +103,14 @@ public class CommentControllerTest {
     @DisplayName("댓글 수정 오류 테스트")
     @Test
     public void updateCommentExceptionTest() throws Exception{
+        Comment comment1 = Comment.builder()
+                .id(1L).content("content").build();
+
         when(commentService.updateComment(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(put("/api/comment").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(commentDto.toEntity())))
+                        .content(new ObjectMapper().writeValueAsString(comment1)))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
@@ -90,11 +118,11 @@ public class CommentControllerTest {
     @DisplayName("댓글 생성 테스트")
     @Test
     public void insertCommentTest() throws Exception{
-        when(commentService.insertComment(any())).thenReturn(commentDto);
+        when(commentService.insertComment(any())).thenReturn(comment.toDto());
 
         mockMvc.perform(post("/api/comment").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(commentDto.toEntity())))
+                .content(new ObjectMapper().writeValueAsString(comment)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -106,7 +134,7 @@ public class CommentControllerTest {
 
         mockMvc.perform(post("/api/comment").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(commentDto.toEntity())))
+                        .content(new ObjectMapper().writeValueAsString(comment)))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
