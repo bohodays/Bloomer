@@ -51,7 +51,7 @@ public class DiaryService {
     private UserTeamRepository userTeamRepository;
 
     @Transactional
-    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto) throws Exception {
+    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto){
         Diary diary = diaryRequestDto.toEntity();
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
@@ -105,7 +105,7 @@ public class DiaryService {
         return result;
     }
 
-    public DiaryDto getDiary(Long diaryId) throws Exception {
+    public DiaryDto getDiary(Long diaryId){
         Optional<Diary> diary = diaryRepository.findById(diaryId);
 
         if(diary.isEmpty()){
@@ -138,7 +138,7 @@ public class DiaryService {
     }
 
     @Transactional
-    public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
+    public DiaryDto updateDiary(DiaryRequestDto diaryDto){
         Optional<Diary> dir = diaryRepository.findById(diaryDto.getId());
 
         if(dir.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
@@ -190,7 +190,7 @@ public class DiaryService {
         return result;
     }
 
-    public List<DiaryDto> getDiaryListByGarden(Long gardenId, Long requestId) throws Exception {
+    public List<DiaryDto> getDiaryListByGarden(Long gardenId, Long requestId){
 
         Optional<Garden> garden = gardenRepository.findById(gardenId);
         List<Diary> diaryList;
@@ -235,7 +235,7 @@ public class DiaryService {
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListByUser(Long memberId, Long requestId) throws Exception {
+    public List<DiaryDto> getDiaryListByUser(Long memberId, Long requestId){
 
         List<Diary> diaryList = getDiaryListInUser(memberId, requestId);
         List<DiaryDto> diaryDtoList = new ArrayList<>();
@@ -252,7 +252,7 @@ public class DiaryService {
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListInMap(Map<String, String> info) throws Exception {
+    public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
         double lat1 = Double.parseDouble(info.get("lat1"));
         double lng1 = Double.parseDouble(info.get("lng1"));
         double lat2 = Double.parseDouble(info.get("lat2"));
@@ -395,7 +395,46 @@ public class DiaryService {
         return diaryDayDtoList;
     }
 
-    public List<CommentListDto> getCommentList(DiaryDto diaryDto) throws Exception{
+    @Transactional
+    public List<DiaryDto> updateDiaryLocation(List<DiaryDto> diaries){
+        List<DiaryDto> result = new ArrayList<>();
+
+        for(DiaryDto diaryDto: diaries){
+            log.info("DiaryDto: {}",diaryDto);
+            Diary diary = diaryDto.toEntity();
+            log.info("diary: {}",diary);
+
+            Optional<Garden> garden = gardenRepository.findById(diaryDto.getGarden().getId());
+            Optional<Emotion> emotion = emotionRepository.findById(diaryDto.getFlowerEmotion().getEid());
+
+            if(emotion.isEmpty()) throw new CustomException(ErrorCode.NO_EMOTION);
+
+            Flower flower = Flower.builder()
+                    .id(diaryDto.getFlowerEmotion().getFid()).name(diaryDto.getFlowerEmotion().getFlowerName())
+                    .smallCategory(diaryDto.getFlowerEmotion().getSmallCategory()).emotion(emotion.get()).language(diaryDto.getFlowerEmotion().getLanguage()).build();
+            if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+
+            diary.setGarden(garden.get());
+            diary.setMusic(diaryDto.getMusic());
+            diary.setFlower(flower);
+
+            log.info("Set diary: {}",diary);
+
+            DiaryDto diaryDto1 = diaryRepository.save(diary).toDto();
+
+            diaryDto1.setGarden(diaryDto.getGarden());
+            diaryDto1.setMusic(diary.getMusic());
+            diaryDto1.setFlowerEmotion(diaryDto.getFlowerEmotion());
+            diaryDto1.setGroupList(diaryDto.getGroupList());
+            diaryDto1.setCommentList(diaryDto.getCommentList());
+
+            result.add(diaryDto1);
+        }
+
+        return result;
+    }
+
+    public List<CommentListDto> getCommentList(DiaryDto diaryDto){
         List<CommentListDto> comments = new ArrayList<>();
         List<Comment> commentList = commentRepository.findByDid(diaryDto.getId());
 
@@ -414,7 +453,7 @@ public class DiaryService {
         return comments;
     }
 
-    public FlowerEmotionDto getFlowerEmotion(Flower flowerData) throws Exception{
+    public FlowerEmotionDto getFlowerEmotion(Flower flowerData){
         Long emotionId = flowerRepository.getEmotionKey(flowerData.getId()).get(0);
 
         Optional<Emotion> emotion = emotionRepository.findById(emotionId);
