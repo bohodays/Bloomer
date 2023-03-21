@@ -57,9 +57,4 @@ export const SMyPage = styled.div`
   }
 `;
 
-export const ImgIcon = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: end;
-`;
 

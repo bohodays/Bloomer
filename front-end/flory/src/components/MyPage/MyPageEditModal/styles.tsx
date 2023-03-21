@@ -32,3 +32,17 @@ export const SForm = styled.form`
     }
   }
 `
+
+export const ImgIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  postion: relative;
+
+  .modifyButtonImg{
+    width: 6.5vh;
+    position: absolute;
+    left: 55%;
+  }
+`;
+

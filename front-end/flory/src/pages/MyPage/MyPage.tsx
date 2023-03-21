@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { ImgIcon, SMyPage } from "./styles";
+import { SMyPage } from "./styles";
 import { useNavigate } from "react-router-dom";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal"
 import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal"
 import Pie from "../../components/common/Pie/Pie";
-import FlowerImg from "./Spring.png";
+import FlowerImg from "../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../components/common/Post/Post";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -100,31 +100,11 @@ const MyPage = () => {
       <ProfileCard
             width="100%"
             header={
-              <>
-               <input
-                  type="file"
-                  accept=".jpg, .png"
-                  style={{ display: "none" }}
-                  // ref={selectFile} //EditIcon 에서 input에 접근 하기위해 useRef사용
-                  // onChange={handleChangePreview}
-                />
-                <ImgIcon
-                  onClick={() => {
-                    // 
-                  }}
-                >
-                  <Avatar
-                    size={"big"}
-                    imgIdx={1}
-                  />
-                  
-                </ImgIcon>
-                <MyPageEditModal />     
-              </>
+              <MyPageEditModal />     
             }
             name={"이름"}
             body={
-              <div style={{ textAlign: "center" }}>이메일</div>
+              <div style={{ textAlign: "center", padding: "0.3vh" }}>이메일</div>
             }
             height="100%"
             className="profile"
