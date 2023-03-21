@@ -234,9 +234,9 @@ const DiaryCreate = () => {
             width: "90%",
             // margin: "2rem  0",
             height: "25%",
-            background1: "rgb(46,33,98)",
+            background1: "rgb(244,175,255)",
             background2:
-              "linear-gradient(90deg, rgba(132,120,185,1) 0%, rgba(46,33,98,1) 100%)",
+              "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
             borderRadius: "16px",
             color: "#ffffff",
             fontSize: "1rem",
