@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -6,6 +6,11 @@ import store from "./redux/store";
 import "./App.css";
 import DiaryDetail from "./pages/DiaryDetail/DiaryDetail";
 import pMinDelay from "p-min-delay";
+
+// 유저 정보 관련
+import { localData } from "../src/redux/modules/user/token";
+import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
+import { getUserDataToTokenAction } from "./redux/modules/user";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -22,6 +27,17 @@ const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
 const Setting = React.lazy(() => import("./pages/Setting/Setting"));
 
 function App() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.userData);
+
+  useEffect(() => {
+    if (localData.getAccessToken()) {
+      if (user.userId === null) {
+        dispatch(getUserDataToTokenAction());
+      }
+    }
+  }, []);
+
   return (
     <div className="app">
       {/*  fallback 추가해야 됨 */}

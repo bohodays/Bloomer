@@ -1,4 +1,4 @@
 export type diaryListDateType = {
-  year: number
-  month: number
-}
+  year: number;
+  month: number;
+};

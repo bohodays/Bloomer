@@ -7,6 +7,7 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
+import { useNavigate } from "react-router-dom";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -29,10 +30,10 @@ const Scene = () => {
 
 const GardenEdit = () => {
   const canvasRef = useRef<any>();
-  console.log(canvasRef);
+  const navigate = useNavigate();
 
   const handlePositionUpdate = () => {
-    console.log("편집 완료 버튼 클릭");
+    navigate("/garden");
   };
 
   return (
