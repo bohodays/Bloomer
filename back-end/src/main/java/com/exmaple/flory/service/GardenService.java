@@ -73,9 +73,9 @@ public class GardenService {
         gardenRepository.deleteById(garden_id);
     }
 
-    public GardenResponseDto getGardenByMonth(Integer month) {
+    public GardenResponseDto getGardenByMonth(Integer year,Integer month) {
 
-        return gardenRepository.findByMonth(month)
+        return gardenRepository.findByDate(year,month)
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }
