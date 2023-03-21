@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react"
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Avatar from "../../common/Avatar/Avatar"
 import BasicModal from "../../common/Modal/BasicModal"
@@ -7,19 +8,19 @@ import { faUser } from "@fortawesome/free-solid-svg-icons"
 import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png";
 
 const returnPickStatus = (idx: number, pickedIdx: number) => {
-  if (idx === pickedIdx) return "pick"
-  return ""
+  return idx === pickedIdx ? "pick" : "";
 }
 
 const MyPageEditModal = () => {
   const imgIdxList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9","10"]
+  const userInfo = useSelector((state:any) => state.AuthReducer);
   const [nickName, setNickName] = useState("")
   const [pickedIdx, setPickedIdx] = useState(0)
 
   const selectFile = useRef<HTMLInputElement | null>(null);; // Icon onClick에 input File을 달기 위한 ref
 
-  const [imgBase64, setImgBase64] = useState(""); // 미리보기 파일
-  const [imgFile, setImgFile] = useState(""); // 선택한 이미지 파일
+  const [previewImg, setpreviewImg] = useState(""); // 미리보기 파일(출력을 위한)
+  const [imgFile, setImgFile] = useState(""); // 미리보기 실제 파일(저장을 위한)
 
 
   const handlePickImg = (idx: number) => {
@@ -39,12 +40,12 @@ const MyPageEditModal = () => {
             const base64 = reader.result;
             if (base64) {
                 var base64Sub = base64.toString();
-                setImgBase64(base64Sub);
+                setpreviewImg(base64Sub);
                 // 파일 base64 상태 업데이트
-                console.log(imgBase64);
+                console.log(previewImg);
             }
         };
-        setImgFile(e.target.files[0]);
+        setImgFile(e.target.files[0]); //저장을 위한 파일
         console.log(imgFile);
     }
 };
@@ -90,16 +91,20 @@ const MyPageEditModal = () => {
             />
             <Avatar
               onClick={() => selectFile.current?.click()}
+              size="medium"
+              tmpsrc={previewImg}
               imgIdx={11}
               key={11}
               status={returnPickStatus(11, pickedIdx)}
             />
+            
           </span>
           {imgIdxList.map((item, idx) => {
             return (
               <span key={idx} className="image__btn" onClick={() => handlePickImg(idx)}>
                 <Avatar
                   imgIdx={item}
+                  size="medium"
                   key={idx}
                   status={returnPickStatus(idx, pickedIdx)}
                 />
