@@ -18,6 +18,7 @@ const TabList: React.FC<{
             idx={idx}
             value={props.value}
             nth={props.tabs.length}
+            key={idx}
           ></TabItem>
         ))}
       </Grid>

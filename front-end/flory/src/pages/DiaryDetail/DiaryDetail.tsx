@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/84142-gradient-background.json";
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
@@ -13,93 +13,20 @@ import Avatar from "../../components/common/Avatar/Avatar";
 import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
 
 const DiaryDetail = () => {
-  const { diaryId } = useParams() as { diaryId: string };
+  // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
+  // useNavigate로 일기의 id를 전달한다.
+  // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
+  const location = useLocation();
+  const diary = location.state.diaryData;
+  const navigate = useNavigate();
+
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
     setMapView(!mapView);
   };
-  const onClick = () => {
-    console.log("뒤로가기");
-  };
-
-  const diary = {
-    id: 1,
-    content:
-      "김 팀장님이 일을 잔뜩 주셔서 야근을 했다 ㅠㅠ 야근해서 슬펐지만 집 가는 길에 본 노을 풍경은 정말 예뻤다.",
-    imgSrc:
-      "https://cdn.eyesmag.com/content/uploads/posts/2022/08/08/main-ad65ae47-5a50-456d-a41f-528b63071b7b.jpg",
-    address: "멀티캠퍼스 역삼",
-    lat: "37.5128064",
-    lng: "127.0284288",
-    publicStatus: "그룹공개",
-    x: "10",
-    y: "10",
-    z: "10",
-    createdTime: "2023-03-15T06:15:51.715+00:00",
-    garden: {
-      createdDate: "2023-03-15T15:15:36.043595",
-      modifiedDate: "2023-03-15T15:15:36.043595",
-      id: 1,
-      path: null,
-      deadLine: "2023-04-15T15:15:36.036634",
-      member: {
-        createdDate: "2023-03-15T15:15:03.580057",
-        modifiedDate: "2023-03-15T15:15:03.580057",
-        userId: 1,
-        nickname: "jisoo",
-        password:
-          "$2a$10$J/WXZXQLRYcrNvHjzEmAweEBMlKeJVwhAuRtzhKAdrBYPale8TpsK",
-        img: "기본",
-        email: "user1",
-        refreshToken: null,
-        authority: "ROLE_USER",
-      },
-      music: null,
-    },
-    flowerEmotion: {
-      fid: 1,
-      eid: 1,
-      flowerName: "크로커스",
-      language: "믿는 기쁨",
-      largeCategory: "기쁨",
-      smallCategory: "기쁨",
-    },
-    commentList: [
-      {
-        id: 1,
-        content: "댓글입니당",
-        createdTime: "2023-03-15T06:17:33.145+00:00",
-        member: {
-          createdDate: "2023-03-15T15:15:03.580057",
-          modifiedDate: "2023-03-15T15:15:03.580057",
-          userId: 1,
-          nickname: "jisoo",
-          password:
-            "$2a$10$J/WXZXQLRYcrNvHjzEmAweEBMlKeJVwhAuRtzhKAdrBYPale8TpsK",
-          img: "기본",
-          email: "user1",
-          refreshToken: null,
-          authority: "ROLE_USER",
-        },
-      },
-      {
-        id: 2,
-        content: "댓글입니당22",
-        createdTime: "2023-03-15T06:17:33.145+00:00",
-        member: {
-          createdDate: "2023-03-15T15:15:03.580057",
-          modifiedDate: "2023-03-15T15:15:03.580057",
-          userId: 1,
-          nickname: "jisoo",
-          password:
-            "$2a$10$J/WXZXQLRYcrNvHjzEmAweEBMlKeJVwhAuRtzhKAdrBYPale8TpsK",
-          img: "기본",
-          email: "user1",
-          refreshToken: null,
-          authority: "ROLE_USER",
-        },
-      },
-    ],
+  const handleGoBack = () => {
+    // 뒤로가기
+    navigate(-1);
   };
 
   const defaultOptions = {
@@ -127,13 +54,13 @@ const DiaryDetail = () => {
           width="100%"
         />
       </div>
-      <DiaryFlower />
+      <DiaryFlower flower={diary.flowerEmotion} />
       <div className="header"></div>
       {/* 뒤로 가기 아이콘 */}
       <FontAwesomeIcon
         className="back-icon"
         icon={faArrowLeft}
-        onClick={onClick}
+        onClick={handleGoBack}
       />
       <div className="content-box">
         <div className="flower-title">
@@ -160,7 +87,7 @@ const DiaryDetail = () => {
         {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
 
         {/* 덧글 영역 */}
-        {diary.commentList.map((comment) => {
+        {diary.commentList.map((comment: any) => {
           return <DiaryComment comment={comment} />;
         })}
       </div>

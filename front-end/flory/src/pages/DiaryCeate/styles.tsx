@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   height: 100%;
@@ -15,13 +15,14 @@ export const SMain = styled.main`
     align-items: center;
     transform: translateY(-2rem);
   }
-`;
+`
 
 export const SSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 
   text-align: center;
   margin-top: 1rem;
@@ -37,9 +38,31 @@ export const SSection = styled.section`
     width: 90%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0.8rem 0;
     margin-bottom: 0;
     /* margin-left: 5%; */
+  }
+
+  .preview-image__wrapper {
+    position: relative;
+    .preview-image {
+      /* left: 5.5vh; */
+      width: 90%;
+      margin: auto;
+      margin-top: 0.8rem;
+    }
+    .cancleBtn {
+      position: absolute;
+      background-color: #ffffffab;
+      color: black;
+      width: 1rem;
+      height: 1rem;
+      top: 1.2rem;
+      right: 7.5%;
+      border: 2px solid black;
+      border-radius: 50%;
+    }
   }
 
   .image__button {
@@ -108,4 +131,4 @@ export const SSection = styled.section`
     padding: 0.5rem;
     margin: 0.5rem 0;
   }
-`;
+`

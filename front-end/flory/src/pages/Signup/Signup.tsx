@@ -4,9 +4,10 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Wave } from "../../assets/imgs/wave.svg";
 import UserSignupForm from "../../components/User/UserSignupForm/UserSignupForm";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const onClick = () => {};
+  const navigate = useNavigate();
 
   return (
     <SMain>
@@ -19,7 +20,9 @@ const Signup = () => {
       {/* 뒤로 가기 아이콘 */}
       <FontAwesomeIcon
         className="back-icon"
-        onClick={onClick}
+        onClick={() => {
+          navigate("/login");
+        }}
         icon={faArrowLeft}
       />
       <div className="login__title">

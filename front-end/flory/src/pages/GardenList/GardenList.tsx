@@ -6,6 +6,7 @@ import Button from "../../components/common/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
 
 const CARDS = 10;
 const MAX_VISIBILITY = 3;
@@ -74,6 +75,9 @@ const GardenList = () => {
             <img src={testGarden} alt="" />
           ))}
         </Carousel>
+      </div>
+      <div>
+        <GardenCalendar year={2023} month={2} />
       </div>
     </SMain>
   );
