@@ -156,8 +156,7 @@ const FlowersWrapper = () => {
           );
         } else if (item.flowerEmotion.flowerName === "무스카리") {
           return (
-            <F10
-              diaryId={item.id}
+            <F11
               flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
               onClick={() => {
                 if (!location.pathname.includes("garden/edit")) {
