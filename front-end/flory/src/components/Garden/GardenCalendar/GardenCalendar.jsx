@@ -1,10 +1,12 @@
 import React from "react";
 import { IoMdFlower } from "react-icons/io";
-import { IoFlowerSharp } from "react-icons/io5";
+import { MdFilterVintage } from "react-icons/md";
+import { FaSpa } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "./styles.css";
 import moment from "moment";
 import { useNavigate } from "react-router";
+import { emotionColor } from "../../../redux/utils/emotionColor";
 
 const SAMPLE_DIARY_LIST = [
   {
@@ -378,6 +380,7 @@ const GardenCalendar = ({ year, month }) => {
     <div className="calendar__wrapper" onClick={handleClickCalendar}>
       <Calendar
         activeStartDate={new Date(year, month - 1)}
+        locale="en-EN"
         formatDay={(locale, date) => moment(date).format("DD")}
         showNeighboringMonth={false}
         showNavigation={false}
@@ -391,8 +394,11 @@ const GardenCalendar = ({ year, month }) => {
           });
           if (targetLst.length) {
             targetLst.map((data) => {
-              console.log(data.flowerEmotion.largeCategory);
-              tag.push(<IoMdFlower color="orange" />);
+              tag.push(
+                <MdFilterVintage
+                  color={emotionColor(data.flowerEmotion.largeCategory)}
+                />
+              );
             });
           } else {
             tag.push(<div className="none"></div>);
