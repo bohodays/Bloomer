@@ -21,6 +21,7 @@ import { PlaceType } from "../../models/map/placeType";
 
 import { useAppDispatch } from "../../redux/store.hooks";
 import { createDiaryAction } from "../../redux/modules/diary";
+import { useNavigate } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -29,6 +30,7 @@ declare global {
 }
 
 const DiaryCreate = () => {
+  const navigate = useNavigate();
   const [place, setPlace] = useState<PlaceType>({
     placeName: "멀티캠퍼스 역삼",
     address: "",
@@ -129,23 +131,23 @@ const DiaryCreate = () => {
   // 다이어리 생성
   const dispatch = useAppDispatch();
   const onCreateDiary = () => {
-    const diaryData = {
-      content: contentInput.current?.value,
-      imgSrc: "",
-      lat: place.lat,
-      lng: place.lng,
-      address: place.placeName ? place.placeName : place.address,
-      publicStatus: "전체공개",
-
-      // 일단 채워놓는 데이터
-      fid: 1,
-      x: 10,
-      y: 10,
-      z: 10,
-      gid: 1,
-      mid: 1,
-    };
-    dispatch(createDiaryAction(diaryData));
+    // const diaryData = {
+    //   content: contentInput.current?.value,
+    //   imgSrc: "",
+    //   lat: place.lat,
+    //   lng: place.lng,
+    //   address: place.placeName ? place.placeName : place.address,
+    //   publicStatus: "전체공개",
+    //   // 일단 채워놓는 데이터
+    //   fid: 1,
+    //   x: 10,
+    //   y: 10,
+    //   z: 10,
+    //   gid: 1,
+    //   mid: 1,
+    // };
+    // dispatch(createDiaryAction(diaryData));
+    navigate("/diary/select");
   };
 
   return (
