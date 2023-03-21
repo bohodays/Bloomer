@@ -19,24 +19,17 @@ export const SMain = styled.main`
     position: absolute;
     font-size: 1.8rem;
     left: 16px;
-    top: 16px;
   }
 
   .header {
     /* position: absolute;
     top: 0; */
     text-align: center;
-    background: linear-gradient(
-      60deg,
-      rgba(84, 58, 183, 1) 0%,
-      rgba(0, 172, 193, 1) 100%
-    );
-    color: white;
-    margin-bottom: 2rem;
-  }
+    color: black;
+    padding: 3vh;
+-  }
 
   .inner-header {
-    height: 6rem;
     width: 100%;
     margin: 0;
     padding: 0;

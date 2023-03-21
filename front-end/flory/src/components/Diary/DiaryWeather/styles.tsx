@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const SMain = styled.div`
   position: absolute;
   width: 4rem;
-  background-color: rgba(0, 0, 0, 0.18);
+  background-color: rgba(0, 0, 0, 0.13);
   border-radius: 10px;
   padding: 0.3rem;
   text-align: center;
-  top: 12vh;
+  bottom: 2.5rem;
   right: 5%;
   z-index: 100;
 

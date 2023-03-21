@@ -7,19 +7,23 @@ import {
   loginAction,
 } from "../../../redux/modules/user";
 import { localData } from "../../../redux/modules/user/token";
-import { useAppDispatch } from "../../../redux/store.hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
 import { SForm, SInput } from "./styles";
 
 // mui
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { createGardenAction } from "../../../redux/modules/garden";
+import { GardenStateType } from "../../../models/garden/gardenStateType";
+import { gardenType } from "../../../models/garden/gardenType";
 
 const UserLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   // 모달 상태 관리
   const [open, setOpen] = React.useState(false);
@@ -55,9 +59,22 @@ const UserLoginForm = () => {
           }
         })
         .then((response) => {
+          // 이메일이 존재하고 비밀번호가 일치하면
           if (response) {
-            dispatch(getUserDataToTokenAction());
-            navigate("/garden");
+            // 로컬스토리지에 저장된 엑세스 토큰으로 유저 정보 업데이트
+            dispatch(getUserDataToTokenAction())
+              .then((response) => {
+                // store에서 gardenId를 가지고 있지 않다면
+                if (!gardenId) {
+                  // userId로 정원 정보 업데이트
+                  dispatch(
+                    createGardenAction(response.payload.response.userId)
+                  );
+                }
+              })
+              .then(() => {
+                navigate("/garden");
+              });
           }
         })
         .catch((e) => console.log(e));
