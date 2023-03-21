@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DiaryStateType } from "../../../models/diary/diaryStateType";
-import { createDiaryAction } from "./diary-action";
-// import { createDiaryAction } from "./diary-action";
+import { createDiaryAction, updatePositionAction } from "./diary-action";
 
 const initialState: DiaryStateType = {
   diaryData: [
@@ -284,6 +283,24 @@ const diarySlice = createSlice({
         state.create.loading = false;
         state.create.data = null;
         state.create.error = payload;
+      })
+      // 수정된 꽃들의 위치 서버에 전송
+      .addCase(updatePositionAction.pending, (state) => {
+        state.positionUpdate.loading = true;
+        state.positionUpdate.data = null;
+        state.positionUpdate.error = null;
+      })
+      .addCase(updatePositionAction.fulfilled, (state, { payload }) => {
+        state.positionUpdate.loading = false;
+        state.positionUpdate.data = payload;
+        state.positionUpdate.error = null;
+        console.log(payload);
+      })
+      .addCase(updatePositionAction.rejected, (state, { payload }) => {
+        state.positionUpdate.loading = false;
+        state.positionUpdate.data = null;
+        state.positionUpdate.error = payload;
+        console.log(payload, 99);
       });
   },
 });

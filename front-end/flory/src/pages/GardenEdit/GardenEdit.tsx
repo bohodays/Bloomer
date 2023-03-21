@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { updatePositionAction } from "../../redux/modules/diary";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -31,9 +33,16 @@ const Scene = () => {
 const GardenEdit = () => {
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
+  const diaryData = useAppSelector((state) => state.diary.diaryData);
+  const dispatch = useAppDispatch();
+
+  const userData = useAppSelector((state) => state.user.userData);
+  console.log(userData, 33);
 
   const handlePositionUpdate = () => {
-    navigate("/garden");
+    dispatch(updatePositionAction(diaryData)).then(() => {
+      navigate("/garden");
+    });
   };
 
   return (
