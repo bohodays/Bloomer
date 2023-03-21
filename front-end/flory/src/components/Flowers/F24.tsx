@@ -10,6 +10,8 @@ import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
 import { useLocation } from "react-router-dom";
 import { useFrame, useThree } from "@react-three/fiber";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -22,7 +24,9 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function F24(props: JSX.IntrinsicElements["group"] & PositionType) {
+export function F24(
+  props: (JSX.IntrinsicElements["group"] & PositionType) | any
+) {
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();
@@ -38,6 +42,23 @@ export function F24(props: JSX.IntrinsicElements["group"] & PositionType) {
     return raycaster.intersectObjects(scene.children);
   }
 
+  const dispatch = useAppDispatch();
+  const handlePositionUpdate = (
+    id: number,
+    x: string,
+    y: string,
+    z: string
+  ) => {
+    dispatch(
+      positionUpdate({
+        diaryId: id,
+        x: x,
+        y: y,
+        z: z,
+      })
+    );
+  };
+
   useEffect(() => {
     const handleWindowClick = (e: MouseEvent) => {
       if (isDragging) {
@@ -48,6 +69,7 @@ export function F24(props: JSX.IntrinsicElements["group"] & PositionType) {
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       if (location.pathname.includes("garden/edit")) {
         window.removeEventListener("click", handleWindowClick);
       }
