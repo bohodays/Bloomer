@@ -22,6 +22,8 @@ from kobert.pytorch_kobert import get_pytorch_kobert_model
 from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
 
+import json
+
 
 max_len = 64
 batch_size = 64
@@ -35,6 +37,7 @@ bertmodel, vocab = get_pytorch_kobert_model()
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
 checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
+# checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
 #토큰화
@@ -46,7 +49,8 @@ tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 def analysis(request):
 
     if request.method == 'POST':
-        data = request.POST['text']
+        # print(request.POST['text'])
+        data = json.loads(request.body)['text']
 
         result = predict(data)
         # results = calc_result(result)
