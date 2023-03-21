@@ -49,7 +49,8 @@ class TeamControllerTest {
     @DisplayName("팀 조회")
     @Test
     void getTeam() throws Exception{
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
 
         when(teamService.getTeam(any())).thenReturn(TeamDto.of(team));
 
@@ -78,12 +79,11 @@ class TeamControllerTest {
     @DisplayName("팀 저장")
     @Test
     void insertTeam() throws Exception {
-        List<Long> participant = new ArrayList<>();
-        participant.add(1L);
         TeamInsertRequestDto teamInsertRequestDto = TeamInsertRequestDto.builder()
-                .name("name").participant(participant).build();
+                .name("name").info("info").isPrivate(true).hostId(1L).build();
 
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
 
         when(teamService.insertTeam(any())).thenReturn(TeamDto.of(team));
 
@@ -103,10 +103,8 @@ class TeamControllerTest {
     @DisplayName("팀 저장 오류")
     @Test
     void insertTeamException() throws Exception {
-        List<Long> participant = new ArrayList<>();
-        participant.add(1L);
         TeamInsertRequestDto teamInsertRequestDto = TeamInsertRequestDto.builder()
-                .name("name").participant(participant).build();
+                .name("name").info("info").isPrivate(true).hostId(1L).build();
 
         when(teamService.insertTeam(any())).thenThrow(new RuntimeException());
 
@@ -139,7 +137,8 @@ class TeamControllerTest {
     @Test
     void updateGroupName() throws Exception {
         TeamReNameRequestDto teamReNameRequestDto = TeamReNameRequestDto.builder().teamId(1L).name("rename").build();
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
         team.updateName("rename");
 
         when(teamService.updateTeamName(any())).thenReturn(TeamDto.of(team));
@@ -161,7 +160,8 @@ class TeamControllerTest {
     @Test
     void updateGroupNameException() throws Exception {
         TeamReNameRequestDto teamReNameRequestDto = TeamReNameRequestDto.builder().teamId(1L).name("rename").build();
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
         team.updateName("rename");
 
         when(teamService.updateTeamName(any())).thenThrow(new RuntimeException());
@@ -177,7 +177,8 @@ class TeamControllerTest {
     @Test
     void getUserTeam() throws Exception {
         List<TeamDto> teamDtoList = new ArrayList<>();
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
         teamDtoList.add(TeamDto.of(team));
 
         when(teamService.getUserTeam(anyLong())).thenReturn(teamDtoList);
@@ -197,7 +198,8 @@ class TeamControllerTest {
     @Test
     void getUserTeamException() throws Exception {
         List<TeamDto> teamDtoList = new ArrayList<>();
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
         teamDtoList.add(TeamDto.of(team));
 
         when(teamService.getUserTeam(anyLong())).thenThrow(new RuntimeException());
@@ -213,7 +215,8 @@ class TeamControllerTest {
         TeamMemberRequestDto teamMemberRequestDto = TeamMemberRequestDto.builder()
                 .teamId(1L).userId(1L).build();
 
-        Team team = Team.builder().teamId(1L).name("name").build();
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").isPrivate(true).build();
 
         when(teamService.insertTeamMember(any())).thenReturn(TeamDto.of(team));
 

@@ -42,16 +42,17 @@ public class TeamService {
         Team team = teamRepository.save(teamInsertRequestDto.toGroup());
 
         List<MemberResponseDto> memberList = new ArrayList<>();
-        for(Long memberId : teamInsertRequestDto.getParticipant()){
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new RuntimeException("멤버 정보가 없습니다."));
+        Member member = memberRepository.findById(teamInsertRequestDto.getHostId())
+                .orElseThrow(() -> new RuntimeException("멤버 정보가 없습니다."));
 
-            UserTeam userTeam = UserTeam.builder()
-                    .tid(team)
-                    .uid(member)
-                    .build();
-            memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
-        }
+        UserTeam userTeam = UserTeam.builder()
+                .tid(team)
+                .uid(member)
+                .status(1)
+                .manager(0) //관리자
+                .build();
+        
+        memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
 
 //        return teamRepository.findById(team.getTeamId())
 //                .map(TeamDto::of)

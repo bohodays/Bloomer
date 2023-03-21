@@ -15,11 +15,16 @@ import java.util.List;
 public class TeamInsertRequestDto {
 
     private String name; //그룹 이름
-    private List<Long> participant; //그룹 참가자
+    private String info; //그룹 소개
+    private boolean isPrivate; //공개여부
+//    private List<Long> participant; //그룹 참가자
+    private Long hostId; //방장 아이디
 
     public Team toGroup() {
         return Team.builder()
                 .name(name)
+                .info(info)
+                .isPrivate(isPrivate)
                 .build();
     }
 }
