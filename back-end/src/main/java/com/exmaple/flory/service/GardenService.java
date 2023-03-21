@@ -46,8 +46,18 @@ public class GardenService {
 
         Garden garden = new Garden();
         garden.setMember(result.get());
-        //1개월뒤 마감날짜
-        garden.setDeadLine(today.plusMonths(1));
+
+        LocalDateTime nxtMonth = LocalDateTime.of(today.getYear(),
+                today.getMonthValue()+1,
+                1,
+                0,
+                0,
+                0);
+
+        LocalDateTime deadLine = nxtMonth.minusSeconds(1);
+
+        //마감날짜세팅
+        garden.setDeadLine(deadLine);
         Garden res = gardenRepository.save(garden);
 
         return res.toResponseDto();
