@@ -14,32 +14,30 @@ interface AvatarProps {
 function Avatar({ size, status, imgIdx, onClick, tmpsrc, src }: AvatarProps): JSX.Element {
   let imgSrc = imgIdx
     ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
-    : require(`../../../assets/imgs/profile_icon/profile0.png`)
+    : require(`../../../assets/imgs/profile_icon/profile0.png`);
   
-    // tmpsrc : 클라이언트에서 바로 가져오는 이미지src
-    // src : s3에서 불러오는 이미지 키값
+  // tmpsrc : 클라이언트에서 바로 가져오는 이미지src
+  // src : s3에서 불러오는 이미지 키값
+    
+  // s3 bucket 이미지 읽어오기
+  const s3 = new AWS.S3();
+  const [imageUrl, setImageUrl] = useState(""); //실제 이미지
 
-    // s3 bucket 이미지 읽어오기
-    AWS.config.update({
-      accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
-      region: process.env.REACT_APP_S3_REGION,
-    });
-    const s3 = new AWS.S3();
-    const [imageUrl, setImageUrl] = useState(""); //실제 이미지
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+    region: process.env.REACT_APP_S3_REGION,
+  });
 
-    useEffect(() => {
-        const params = {
-            Bucket: "bloomer205",
-            Key: `${src}`,
-        };
-
-        s3.getSignedUrlPromise("getObject", params)
-        .then((url) => setImageUrl(url))
-        .catch((err) => console.error(err));
-
-    }, [src]);
-  
+  useEffect(() => {
+    const params = {
+      Bucket: "bloomer205",
+      Key: `${src}`,
+    };
+    s3.getSignedUrlPromise("getObject", params)
+    .then((url) => setImageUrl(url))
+    .catch((err) => console.error(err));
+  }, [src]);
 
   if(tmpsrc != null){
     // 파일 미리 보기 (아직 저장이 안된 상태)

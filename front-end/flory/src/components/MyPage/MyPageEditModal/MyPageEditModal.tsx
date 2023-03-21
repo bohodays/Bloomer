@@ -6,6 +6,8 @@ import BasicModal from "../../common/Modal/BasicModal"
 import { ImgIcon, SForm } from "./styles"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png";
+import cameraButtonImg from "../../../assets/imgs/button/cameraButton.png";
+
 
 const returnPickStatus = (idx: number, pickedIdx: number) => {
   return idx === pickedIdx ? "pick" : "";
@@ -40,13 +42,12 @@ const MyPageEditModal = () => {
             const base64 = reader.result;
             if (base64) {
                 var base64Sub = base64.toString();
-                setpreviewImg(base64Sub);
-                // 파일 base64 상태 업데이트
+                setpreviewImg(base64Sub); // 파일 base64 상태 업데이트
+                setImgFile(e.target.files[0]); //저장을 위한 파일
                 console.log(previewImg);
+                console.log(imgFile);
             }
         };
-        setImgFile(e.target.files[0]); //저장을 위한 파일
-        console.log(imgFile);
     }
 };
 
@@ -93,11 +94,12 @@ const MyPageEditModal = () => {
               onClick={() => selectFile.current?.click()}
               size="medium"
               tmpsrc={previewImg}
+              // src={userInfo.imgUrl}
               imgIdx={11}
               key={11}
               status={returnPickStatus(11, pickedIdx)}
             />
-            
+            <img src={cameraButtonImg} className="cameraButtonImg"></img>
           </span>
           {imgIdxList.map((item, idx) => {
             return (
