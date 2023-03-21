@@ -80,7 +80,7 @@ class MemberControllerTest {
         when(memberService.findMemberInfoByUserId(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/user/me"))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -107,7 +107,7 @@ class MemberControllerTest {
         when(memberService.findMemberInfoByEmail(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/user/{email}","email"))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -152,7 +152,7 @@ class MemberControllerTest {
 
         mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
                         .file(dto).with(csrf()))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 

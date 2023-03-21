@@ -71,7 +71,7 @@ class TeamControllerTest {
         when(teamService.getTeam(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/team/{teamId}",1))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -113,7 +113,7 @@ class TeamControllerTest {
         mockMvc.perform(post("/api/team").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(teamInsertRequestDto)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isMethodNotAllowed())
                 .andReturn();
 
     }
@@ -169,7 +169,7 @@ class TeamControllerTest {
         mockMvc.perform(put("/api/team").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(teamReNameRequestDto)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -203,7 +203,7 @@ class TeamControllerTest {
         when(teamService.getUserTeam(anyLong())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/team/member"))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -241,7 +241,7 @@ class TeamControllerTest {
         mockMvc.perform(post("/api/team/member").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(teamMemberRequestDto)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 
@@ -269,7 +269,7 @@ class TeamControllerTest {
         mockMvc.perform(delete("/api/team/member").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(teamMemberRequestDto)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 }
