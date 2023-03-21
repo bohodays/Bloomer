@@ -24,8 +24,9 @@ public class AuthController {
         try{
             MemberResponseDto memberResponseDto = authService.signup(signUpRequestDto);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.USER_DUPLICATION),HttpStatus.CONFLICT);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -35,8 +36,9 @@ public class AuthController {
         try{
             TokenDto tokenDto = authService.login(loginDto);
             return new ResponseEntity<>(new SuccessResponse(tokenDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -46,8 +48,9 @@ public class AuthController {
         try{
             TokenDto tokenDto = authService.reissue(tokenRequestDto);
             return new ResponseEntity<>(new SuccessResponse(tokenDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_LOGIN), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,8 +60,9 @@ public class AuthController {
         try{
             boolean checkEmail = authService.checkEmail(email);
             return new ResponseEntity<>(new SuccessResponse(checkEmail), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.EMAIL_DUPLICATION), HttpStatus.CONFLICT);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
