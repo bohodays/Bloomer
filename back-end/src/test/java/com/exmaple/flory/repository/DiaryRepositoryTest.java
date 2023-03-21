@@ -53,29 +53,29 @@ public class DiaryRepositoryTest {
             .path("/usr/app")
             .build();
 
-    private final DiaryDto diaryDto = DiaryDto.builder()
+    private final Diary diary = Diary.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat(1).lng(1).publicStatus("전체공개").x("x").y("y").z("z")
-            .build();
+            .garden(garden).build();
 
     @DisplayName("일기 등록하기 테스트")
     @Test
     public void insertDiaryTest() throws Exception{
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
-        Optional<Diary> result = diaryRepository.findById(diary.getId());
+        Optional<Diary> result = diaryRepository.findById(diary1.getId());
 
         if(result.isEmpty()) throw new Exception();
 
-        assertEquals(diary.getContent(),result.get().getContent());
+        assertEquals(diary1.getContent(),result.get().getContent());
 
     }
 
     @DisplayName("일기 삭제하기 테스트")
     @Test
     public void deleteDiaryTest(){
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
-        diaryRepository.delete(diary);
+        diaryRepository.delete(diary1);
 
         Optional<Diary> result = diaryRepository.findById(1L);
 
@@ -89,12 +89,12 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        diaryRepository.save(diaryDto.toEntity());
+        diaryRepository.save(diary);
         List<DiaryDto> diaryDtoList = new ArrayList<>();
 
-        diaryDtoList.add(diaryDto);
+        diaryDtoList.add(diary.toDto());
 
         List<Diary> diarylist = diaryRepository.findByGardenId(garden1.getId());
 
@@ -107,12 +107,12 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        diaryRepository.save(diaryDto.toEntity());
+        diaryRepository.save(diary);
         List<DiaryDto> diaryDtoList = new ArrayList<>();
 
-        diaryDtoList.add(diaryDto);
+        diaryDtoList.add(diary.toDto());
 
         List<Diary> diarylist = diaryRepository.findByMemberId(member1.getUserId());
 
@@ -125,13 +125,13 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         Diary result = diaryRepository.findByXAndYAndZInGarden(garden1.getId(), "x","y","z");
 
-        assertEquals(diary.getContent(),result.getContent());
+        assertEquals(diary1.getContent(),result.getContent());
     }
 
     @DisplayName("전체공개 정원 아이디로 조회 테스트")
@@ -140,13 +140,13 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         List<Diary> diaries = diaryRepository.findPublicByGardenId(diary.getGarden().getId());
 
-        assertEquals(diary.getContent(),diaries.get(0).getContent());
+        assertEquals(diary1.getContent(),diaries.get(0).getContent());
     }
 
     @DisplayName("그룹공개 정원 아이디로 조회 테스트")
@@ -155,14 +155,14 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
-        diaryDto.setPublicStatus("그룹공개");
+        diary.setGarden(garden1);
+        diary.setPublicStatus("그룹공개");
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
-        List<Diary> diaries = diaryRepository.findTeamByGardenId(diary.getGarden().getId());
+        List<Diary> diaries = diaryRepository.findTeamByGardenId(diary1.getGarden().getId());
 
-        assertEquals(diary.getContent(),diaries.get(0).getContent());
+        assertEquals(diary1.getContent(),diaries.get(0).getContent());
     }
 
     @DisplayName("유저 아이디로 전체공개 일기 조회 테스트")
@@ -171,13 +171,13 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         List<Diary> diaries = diaryRepository.findPublicByMemberId(member1.getUserId());
 
-        assertEquals(diary.getContent(),diaries.get(0).getContent());
+        assertEquals(diary1.getContent(),diaries.get(0).getContent());
     }
 
     @DisplayName("유저 아이디로 그룹공개 일기 조회 테스트")
@@ -186,14 +186,14 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
-        diaryDto.setPublicStatus("그룹공개");
+        diary.setGarden(garden1);
+        diary.setPublicStatus("그룹공개");
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         List<Diary> diaries = diaryRepository.findTeamByMemberId(member1.getUserId());
 
-        assertEquals(diary.getContent(),diaries.get(0).getContent());
+        assertEquals(diary1.getContent(),diaries.get(0).getContent());
     }
 
     @DisplayName("지도 좌표로 일기 조회 테스트")
@@ -202,13 +202,13 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         List<Diary> result = diaryRepository.findDiaryInMap(11,0,0,11);
 
-        assertEquals(diary.getContent(),result.get(0).getContent());
+        assertEquals(diary1.getContent(),result.get(0).getContent());
     }
 
     @DisplayName("해당 월의 일기 목록 가졍오기 테스트")
@@ -217,13 +217,13 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         List<Diary> result = diaryRepository.findDiaryInMonth(member1.getUserId(),diary.getCreatedTime(),new Date());
 
-        assertEquals(diary.getContent(),result.get(0).getContent());
+        assertEquals(diary1.getContent(),result.get(0).getContent());
     }
 
     @DisplayName("일기의 그룹 가져오기 테스트")
@@ -232,16 +232,16 @@ public class DiaryRepositoryTest {
         Member member1 = memberRepository.save(member);
         garden.setMember(member1);
         Garden garden1 = gardenRepository.save(garden);
-        diaryDto.setGarden(garden1);
+        diary.setGarden(garden1);
 
-        Diary diary = diaryRepository.save(diaryDto.toEntity());
+        Diary diary1 = diaryRepository.save(diary);
 
         DiaryTeam diaryTeam = DiaryTeam.builder()
-                .diaryId(diary.getId()).groupId(1L).build();
+                .diaryId(diary1.getId()).groupId(1L).build();
 
         diaryTeamRepository.save(diaryTeam);
 
-        List<Long> result = diaryTeamRepository.getGroup(diary.getId());
+        List<Long> result = diaryTeamRepository.getGroup(diary1.getId());
 
         assertEquals(1L,result.get(0));
     }

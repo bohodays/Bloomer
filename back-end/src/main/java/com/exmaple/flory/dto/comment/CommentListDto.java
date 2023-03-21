@@ -1,6 +1,6 @@
 package com.exmaple.flory.dto.comment;
 
-import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.dto.member.MemberResponseDto;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,5 +21,5 @@ public class CommentListDto {
 
     private Date createdTime;
 
-    private Member member;
+    private MemberResponseDto member;
 }

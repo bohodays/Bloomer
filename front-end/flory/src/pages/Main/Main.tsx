@@ -5,21 +5,25 @@ import { localData } from "../../redux/modules/user/token";
 import { useAppDispatch } from "../../redux/store.hooks";
 import { SMain } from "./styles";
 
+import { ReactComponent as LoadingImg } from "../../assets/imgs/loading.svg";
+import Loading from "../Loading/Loading";
+
 const Main = () => {
   const dispatch = useAppDispatch();
 
   // 로그아웃 연습
-  const handleLogout = () => {
-    const accessToken = localData.getAccessToken();
-    dispatch(logoutAction(accessToken)).then(() => {
-      localData.clear();
-    });
-  };
+  // const handleLogout = () => {
+  //   const accessToken = localData.getAccessToken();
+  //   dispatch(logoutAction(accessToken)).then(() => {
+  //     localData.clear();
+  //   });
+  // };
 
   return (
     <SMain>
       {/* 로그아웃 연습 */}
-      <button onClick={handleLogout}>로그아웃</button>
+      <Loading />
+      {/* <button onClick={handleLogout}>로그아웃</button> */}
       {/* 네브바 테스트를 위해 임시로 메인에 넣었습니다. 메인 페이지 작업할 때 빼주세요 */}
       <Navbar />
     </SMain>

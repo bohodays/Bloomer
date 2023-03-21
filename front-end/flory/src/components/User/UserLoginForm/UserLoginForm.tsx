@@ -6,6 +6,7 @@ import {
   getUserDataToTokenAction,
   loginAction,
 } from "../../../redux/modules/user";
+import { getCurrentGardenAction } from "../../../redux/modules/garden";
 import { localData } from "../../../redux/modules/user/token";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
@@ -17,13 +18,13 @@ import Modal from "@mui/material/Modal";
 import { createGardenAction } from "../../../redux/modules/garden";
 import { GardenStateType } from "../../../models/garden/gardenStateType";
 import { gardenType } from "../../../models/garden/gardenType";
-
 const UserLoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  const userId = useAppSelector((state) => state.user.userData.userId);
 
   // 모달 상태 관리
   const [open, setOpen] = React.useState(false);
@@ -63,14 +64,12 @@ const UserLoginForm = () => {
           if (response) {
             // 로컬스토리지에 저장된 엑세스 토큰으로 유저 정보 업데이트
             dispatch(getUserDataToTokenAction())
-              .then((response) => {
-                // store에서 gardenId를 가지고 있지 않다면
-                if (!gardenId) {
-                  // userId로 정원 정보 업데이트
-                  dispatch(
-                    createGardenAction(response.payload.response.userId)
-                  );
-                }
+              .then(() => {
+                dispatch(getCurrentGardenAction()).then(() => {
+                  if (!gardenId) {
+                    dispatch(createGardenAction(userId));
+                  }
+                });
               })
               .then(() => {
                 navigate("/garden");

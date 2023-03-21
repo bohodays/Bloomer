@@ -11,7 +11,6 @@ import F01 from "../Flowers/F01";
 import FlowersWrapper from "../Flowers/FlowersWrapper";
 import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
-// import { F11 } from "../Flowers/F11";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -88,7 +87,7 @@ type GLTFResult1 = GLTF & {
 
 export function Model_new(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
-    "/models/base_map_new.glb"
+    `${process.env.PUBLIC_URL}/models/base_map_new.glb`
   ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
@@ -401,32 +400,6 @@ export function Model_new(props: JSX.IntrinsicElements["group"]) {
         castShadow={true}
         receiveShadow={true}
       />
-    </group>
-  );
-}
-
-export function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/models/test.gltf") as GLTFResult1;
-  return (
-    <group {...props} dispose={null}>
-      <group position={[2, 3, 0.3]} rotation={[-0.97, -0.39, -1.42]}>
-        <mesh
-          geometry={nodes.Cylinder073.geometry}
-          material={materials["Material.020"]}
-        />
-        <mesh
-          geometry={nodes.Cylinder073_1.geometry}
-          material={materials["Material.017"]}
-        />
-        <mesh
-          geometry={nodes.Cylinder073_2.geometry}
-          material={materials.stem}
-        />
-        <mesh
-          geometry={nodes.Cylinder073_3.geometry}
-          material={materials["Material.019"]}
-        />
-      </group>
     </group>
   );
 }

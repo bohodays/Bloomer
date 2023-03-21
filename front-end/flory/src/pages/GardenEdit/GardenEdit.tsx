@@ -1,5 +1,5 @@
 import React, { Suspense, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
 
@@ -7,6 +7,7 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
+import { useNavigate } from "react-router-dom";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -28,9 +29,16 @@ const Scene = () => {
 };
 
 const GardenEdit = () => {
+  const canvasRef = useRef<any>();
+  const navigate = useNavigate();
+
+  const handlePositionUpdate = () => {
+    navigate("/garden");
+  };
+
   return (
     <SMain>
-      <Canvas shadows={true}>
+      <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
           maxPolarAngle={Math.PI / 2.8}
@@ -41,6 +49,11 @@ const GardenEdit = () => {
         />
         <Scene></Scene>
       </Canvas>
+      <div className="info__wrapper">
+        <div className="background" onClick={() => handlePositionUpdate()}>
+          <p>완료</p>
+        </div>
+      </div>
     </SMain>
   );
 };
