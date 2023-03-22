@@ -75,6 +75,7 @@ export const SMain = styled.div`
         );
         border-radius: 7px;
         padding: 6px 8px;
+        cursor: pointer;
       }
     }
   }

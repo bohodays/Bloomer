@@ -93,7 +93,9 @@ const MyPage = () => {
 
   const groupPanel = (
     <div>
-      <div className="">그룹 둘러보기</div>
+      <div className="" onClick={handleMoveGroupList}>
+        그룹 둘러보기
+      </div>
       <Post title="가입한 그룹 목록" content={"hi"} />
     </div>
   );

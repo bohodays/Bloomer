@@ -18,6 +18,8 @@ const convertDateFormat = (date: string) => {
 const GroupUnJoinListITem = ({ group }: any) => {
   const [isDetail, setIsDetail] = useState(false);
   const contentInput = useRef<HTMLInputElement>(null);
+  console.log("dddd", contentInput.current);
+
   const handleClickDetail = () => {
     setIsDetail(!isDetail);
   };
