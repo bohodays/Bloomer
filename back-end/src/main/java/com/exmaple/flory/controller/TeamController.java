@@ -1,9 +1,7 @@
 package com.exmaple.flory.controller;
 
-import com.exmaple.flory.dto.team.TeamDto;
-import com.exmaple.flory.dto.team.TeamInsertRequestDto;
-import com.exmaple.flory.dto.team.TeamMemberRequestDto;
-import com.exmaple.flory.dto.team.TeamReNameRequestDto;
+import com.exmaple.flory.dto.team.*;
+import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
 import com.exmaple.flory.response.SuccessResponse;
@@ -29,9 +27,22 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.getTeam(teamId);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTeam(){
+        try{
+            List<TeamDto> teamDto = teamService.getAllTeam(SecurityUtil.getCurrentMemberId());
+            return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        } catch (Exception e){
+            log.info("전체 목록 가져오기 : {}", e.getMessage());
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -41,8 +52,8 @@ public class TeamController {
         try{
             TeamDto teamDto = teamService.insertTeam(teamInsertRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_INPUT),HttpStatus.METHOD_NOT_ALLOWED);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -53,20 +64,20 @@ public class TeamController {
         try{
             teamService.deleteTeam(teamId);
             return new ResponseEntity<>(new SuccessResponse("그룹 삭제 되었습니다."),HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping
-    public ResponseEntity<?> updateGroupName(@RequestBody TeamReNameRequestDto teamReNameRequestDto){
+    public ResponseEntity<?> updateTeam(@RequestBody TeamUpdateRequestDto teamUpdateRequestDto){
         try{
-            TeamDto teamDto = teamService.updateTeamName(teamReNameRequestDto);
+            TeamDto teamDto = teamService.updateTeam(teamUpdateRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto),HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_TEAM),HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -78,20 +89,34 @@ public class TeamController {
             // userId : SecurityUtil.getCurrentMemberId()
             List<TeamDto> teamDto = teamService.getUserTeam(SecurityUtil.getCurrentMemberId()); //속한 팀 목록 가져오기
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/member")
-    public ResponseEntity<?> insertTeamMember(@RequestBody TeamMemberRequestDto teamMemberRequestDto){
+    public ResponseEntity<?> insertTeamMember(@RequestBody TeamMemberRequestDto teamMemberRequestDto){ //그룹 가입 신청
         try{
             TeamDto teamDto = teamService.insertTeamMember(teamMemberRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()).getHttpStatus(), HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            log.info(e.getMessage());
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/approve")
+    public ResponseEntity<?> approveTeamMember(@RequestBody TeamApproveRequestDto teamApproveRequestDto){ //그룹 가입 신청
+        try{
+            TeamDto teamDto = teamService.approveTeamMember(teamApproveRequestDto);
+            return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
+        } catch(CustomException e){
+            log.info(e.getMessage());
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -102,8 +127,9 @@ public class TeamController {
         try{
             teamService.deleteTeamMember(teamMemberRequestDto);
             return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
-        } catch(RuntimeException e){
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()).getHttpStatus(), HttpStatus.NOT_FOUND);
+        } catch(CustomException e){
+            log.info(e.getMessage());
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }

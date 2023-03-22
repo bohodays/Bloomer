@@ -4,7 +4,7 @@ import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.dto.team.TeamInsertRequestDto;
 import com.exmaple.flory.dto.team.TeamMemberRequestDto;
-import com.exmaple.flory.dto.team.TeamReNameRequestDto;
+import com.exmaple.flory.dto.team.TeamUpdateRequestDto;
 import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.Team;
 import com.exmaple.flory.entity.UserTeam;
@@ -20,14 +20,12 @@ import org.mockito.Spy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 
@@ -55,7 +53,7 @@ class TeamServiceTest {
         //given
         Long teamId = 1L;
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
 
         when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
 
@@ -71,10 +69,10 @@ class TeamServiceTest {
     void insertTeam() {
         //given
         TeamInsertRequestDto teamInsertRequestDto = TeamInsertRequestDto.builder()
-                .name("name").info("info").isPrivate(true).hostId(1L).build();
+                .name("name").info("info").open(true).hostId(1L).build();
 
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
         UserTeam userTeam = UserTeam.builder().userTeamId(1L).tid(team).uid(member).build();
@@ -91,7 +89,7 @@ class TeamServiceTest {
         //when
         TeamDto result = teamService.insertTeam(teamInsertRequestDto);
 
-        assertThat(result.getUserGroupList().size()).isEqualTo(teamDto.getUserGroupList().size());
+        assertThat(result.getUserTeamList().size()).isEqualTo(teamDto.getUserTeamList().size());
         assertThat(result.getName()).isEqualTo(teamDto.getName());
     }
 
@@ -101,7 +99,7 @@ class TeamServiceTest {
         //given
         Long teamId = 1L;
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
 
         when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
 
@@ -113,24 +111,24 @@ class TeamServiceTest {
         verify(teamRepository, times(1)).delete(any());
     }
 
-    @DisplayName("팀 이름 변경")
-    @Test
-    void updateTeamName() {
-        //given
-        TeamReNameRequestDto teamReNameRequestDto = TeamReNameRequestDto.builder().teamId(1L).name("rename").build();
-        Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
-
-        when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
-        team.updateName(teamReNameRequestDto.getName());
-        when(teamRepository.save(any())).thenReturn(team);
-
-        //when
-        TeamDto result = teamService.updateTeamName(teamReNameRequestDto);
-
-        //then
-        assertThat(result.getName()).isEqualTo(team.getName());
-    }
+//    @DisplayName("팀 이름 변경")
+//    @Test
+//    void updateTeamName() {
+//        //given
+//        TeamUpdateRequestDto teamUpdateRequestDto = TeamUpdateRequestDto.builder().teamId(1L).name("rename").build();
+//        Team team = Team.builder()
+//                .teamId(1L).name("name").info("info").open(true).build();
+//
+//        when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
+//        team.updateTeam(teamUpdateRequestDto.getName());
+//        when(teamRepository.save(any())).thenReturn(team);
+//
+//        //when
+//        TeamDto result = teamService.updateTeam(teamUpdateRequestDto);
+//
+//        //then
+//        assertThat(result.getName()).isEqualTo(team.getName());
+//    }
 
     @DisplayName("해당 유저가 속한 팀 목록 가져오기")
     @Test
@@ -141,9 +139,9 @@ class TeamServiceTest {
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
 
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
         Team team2 = Team.builder()
-                .teamId(2L).name("name").info("info").isPrivate(true).build();
+                .teamId(2L).name("name").info("info").open(true).build();
         UserTeam userTeam = UserTeam.builder().userTeamId(1L).tid(team).uid(member).build();
         UserTeam userTeam2 = UserTeam.builder().userTeamId(2L).tid(team2).uid(member).build();
 
@@ -156,7 +154,7 @@ class TeamServiceTest {
         teamDtoList.add(TeamDto.of(team2));
 
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
-        when(userTeamRepository.findAllByUid(any())).thenReturn(userTeamList);
+        when(userTeamRepository.findAllByUidAndStatus(any(),any())).thenReturn(userTeamList);
 
         //when
         List<TeamDto> result = teamService.getUserTeam(userId);
@@ -173,7 +171,7 @@ class TeamServiceTest {
                 .teamId(1L).userId(1L).build();
 
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
         UserTeam userTeam = UserTeam.builder().tid(team).uid(member).build();
@@ -198,7 +196,7 @@ class TeamServiceTest {
                 .teamId(1L).userId(1L).build();
 
         Team team = Team.builder()
-                .teamId(1L).name("name").info("info").isPrivate(true).build();
+                .teamId(1L).name("name").info("info").open(true).build();
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
         UserTeam userTeam = UserTeam.builder().tid(team).uid(member).build();

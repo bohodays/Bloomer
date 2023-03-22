@@ -30,7 +30,10 @@ public enum ErrorCode {
     NO_MUSIC(HttpStatus.NOT_FOUND,"404","없는 음악입니다."),
 
     //team
-    INVALID_TEAM(HttpStatus.NOT_FOUND,"404","없는 그룹 정보입니다.");
+    INVALID_TEAM(HttpStatus.NOT_FOUND,"404","없는 그룹 정보입니다."),
+    INVALID_APPROVE(HttpStatus.NOT_FOUND,"404","가입 신청 내역이 존재하지 않습니다."),
+    TEAM_DUPLICATION(HttpStatus.CONFLICT, "409", "이미 멤버에 속해 있습니다.")
+    ;
 
     private HttpStatus httpStatus;
     private String code;

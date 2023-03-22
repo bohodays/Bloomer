@@ -29,7 +29,7 @@ public class UserTeam {
      * status = 1 : 승인
      */
     @Column(name = "status", nullable = false)
-    private int status;
+    private Integer status;
 
     @Column(name = "message", length = 100)
     private String message; //신청메시지
@@ -39,6 +39,10 @@ public class UserTeam {
      * manager = 1 : 멤버
      */
     @Column(name = "manager", nullable = false)
-    private int manager; //관리자
+    private Integer manager; //관리자
 
+    public UserTeam updateUserTeam(int status) {
+        this.status = status;
+        return this;
+    }
 }

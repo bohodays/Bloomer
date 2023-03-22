@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TeamMemberRequestDto {
+public class TeamUpdateRequestDto {
     private Long teamId;
-    private Long userId;
-    private String message;
+    private String name; //그룹 이름
+    private String info; //소개말
+    private Boolean open; //공개 여부
 
 }

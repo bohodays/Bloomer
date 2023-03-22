@@ -26,16 +26,18 @@ public class Team extends BaseTime{
     @Column(name = "info", length = 100)
     private String info;
 
-    @Column(name = "is_private", columnDefinition = "TINYINT", nullable = false)
-    private boolean isPrivate;
+    @Column(name = "open", columnDefinition = "TINYINT", nullable = false)
+    private Boolean open;
 
     @Builder.Default
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "tid", cascade = CascadeType.ALL) //읽기만 가능하다.
     private List<UserTeam> userTeamList = new ArrayList<>();
 
-    public Team updateName(String name) {
+    public Team updateTeam(String name, String info, Boolean open) {
         this.name = name;
+        this.info = info;
+        this.open = open;
         return this;
     }
 
