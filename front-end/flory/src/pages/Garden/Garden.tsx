@@ -47,12 +47,10 @@ const Garden = () => {
   // 로딩스피너 조작
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
   }, []);
-  // if (isLoading) return <Loading />;
 
   return (
     <SMain>

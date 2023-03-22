@@ -10,8 +10,6 @@ declare global {
 
 const BasicMap = () => {
   const geolocation = useGeolocation();
-  console.log(geolocation.latitude);
-  console.log(geolocation.longitude);
   let isGeolocation = geolocation.latitude != null;
 
   useEffect(() => {
