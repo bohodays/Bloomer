@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
 import Avatar from "../../components/common/Avatar/Avatar";
+import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -91,14 +92,7 @@ const MyPage = () => {
     </div>
   );
 
-  const groupPanel = (
-    <div>
-      <div className="" onClick={handleMoveGroupList}>
-        그룹 둘러보기
-      </div>
-      <Post title="가입한 그룹 목록" content={"hi"} />
-    </div>
-  );
+  const groupPanel = <GroupPanel />;
   return (
     <SMyPage>
       <div className="header">
