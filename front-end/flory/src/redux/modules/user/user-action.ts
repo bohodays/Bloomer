@@ -22,7 +22,7 @@ export const loginAction = createAsyncThunk(
 // 토큰으로 내 정보 가져오기
 export const getUserDataToTokenAction = createAsyncThunk(
   "GETINFO",
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
@@ -33,6 +33,7 @@ export const getUserDataToTokenAction = createAsyncThunk(
       });
       return data;
     } catch (e: any) {
+      dispatch(updateAccessToken());
       return rejectWithValue(e);
     }
   }
@@ -45,8 +46,6 @@ export const logoutAction = createAsyncThunk(
   async (userData: any, { rejectWithValue }) => {
     try {
       const axios = axiosInitializer();
-      console.log(userData);
-
       await axios.get(`/api/user/logout`, {
         headers: {
           Authorization: `Bearer ${userData}`,
@@ -67,10 +66,9 @@ export const signupAction = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const { data } = await axios.post(`/api/user`, userData);
-      alert("회원가입 완료");
       return data;
     } catch (e: any) {
-      alert(e.response.data.message);
+      alert("회원가입 실패");
       return rejectWithValue(e);
     }
   }
@@ -83,9 +81,39 @@ export const checkDupEmailAction = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const { data } = await axios.get(`/api/user/check-email/${email}`);
-
       return data;
     } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// refresh token 업데이트
+export const updateAccessToken = createAsyncThunk(
+  "UPDATE_TOKEN",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const refreshToken = localData.getRefreshToken();
+      const axios = axiosInitializer();
+      await axios
+        .post(
+          `/api/user/access`,
+          { refreshToken, accessToken },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((data: any) => {
+          localData.setAccessToken(data.response.accessToken);
+          localData.setRefreshToken(data.response.refreshToken);
+        })
+        .then(() => {
+          dispatch(getUserDataToTokenAction());
+        });
+    } catch (e: any) {
       return rejectWithValue(e);
     }
   }
