@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../components/common/Navbar/Navbar";
-import DiaryCreateInput from "../../components/Diary/DiaryCreateInput/DiaryCreateInput";
+import CreateInput from "../../components/common/CreateInput/CreateInput";
 import { SMain, SSection } from "./styles";
 import useGeolocation from "react-hook-geolocation";
 
@@ -154,7 +154,10 @@ const DiaryCreate = () => {
     <SMain>
       <SSection>
         {/* 전체 공개인 경우 height 60% 올리는 로직 추가하기! */}
-        <DiaryCreateInput contentInput={contentInput} />
+        <CreateInput
+          contentInput={contentInput}
+          placeHolder="어떤 일이 있었나요?"
+        />
         <h1>1</h1>
         <h1>2</h1>
         <h1>3</h1>
