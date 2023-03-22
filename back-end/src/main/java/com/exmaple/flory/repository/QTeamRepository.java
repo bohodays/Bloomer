@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface QTeamRepository {
-    public List<TeamDto> getAllTeam(Long userId);
+    public List<Team> getAllTeam(Long userId);
 }

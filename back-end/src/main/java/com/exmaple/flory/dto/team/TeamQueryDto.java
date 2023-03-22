@@ -19,5 +19,5 @@ public class TeamQueryDto {
     private Boolean open;
     private List<UserTeam> userTeamList;
     private LocalDateTime createdDate;
-    private int status;
+    private Integer status;
 }

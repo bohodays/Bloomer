@@ -43,8 +43,11 @@ public class TeamService {
         Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
-        List<TeamDto> teamDtoList = teamRepository.getAllTeam(userId);
-
+        List<Team> teamList = teamRepository.getAllTeam(userId);
+        for(int i=0; i<teamList.size(); i++){
+            log.info(teamList.get(i).toString());
+        }
+        List<TeamDto> teamDtoList = new ArrayList<>();
         return teamDtoList;
     }
 

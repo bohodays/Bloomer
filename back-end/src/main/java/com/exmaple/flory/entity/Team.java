@@ -30,7 +30,7 @@ public class Team extends BaseTime{
     private Boolean open;
 
     @Builder.Default
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "tid", cascade = CascadeType.ALL) //읽기만 가능하다.
     private List<UserTeam> userTeamList = new ArrayList<>();
 
