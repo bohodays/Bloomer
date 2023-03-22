@@ -5,10 +5,4 @@ import garden from "./modules/garden";
 import map from "./modules/map";
 import weather from "./modules/weather";
 
-export const reducer = combineReducers({
-  user,
-  map,
-  garden,
-  diary,
-  weather,
-});
+export {};

@@ -19,8 +19,7 @@ const initialState: UserStateType = {
   getUserData: { loading: false, data: null, error: null },
   login: { loading: false, data: null, error: null },
   logout: { loading: false, data: null, error: null },
-  signup: { loading: false, data: null, error: null },
-  checkDupEmail: { loading: false, data: null, error: null },
+  axiosState: { loading: false, data: null, error: null },
 };
 
 const userSlice = createSlice({
@@ -82,38 +81,6 @@ const userSlice = createSlice({
         state.logout.loading = false;
         state.logout.data = null;
         state.logout.error = payload;
-      })
-      // 회원가입
-      .addCase(signupAction.pending, (state) => {
-        state.signup.loading = true;
-        state.signup.data = null;
-        state.signup.error = null;
-      })
-      .addCase(signupAction.fulfilled, (state, { payload }) => {
-        state.signup.loading = false;
-        state.signup.data = payload;
-        state.signup.error = null;
-      })
-      .addCase(signupAction.rejected, (state, { payload }) => {
-        state.signup.loading = false;
-        state.signup.data = null;
-        state.signup.error = payload;
-      })
-      // 이메일 중복 확인
-      .addCase(checkDupEmailAction.pending, (state) => {
-        state.checkDupEmail.loading = true;
-        state.checkDupEmail.data = null;
-        state.checkDupEmail.error = null;
-      })
-      .addCase(checkDupEmailAction.fulfilled, (state, { payload }) => {
-        state.checkDupEmail.loading = false;
-        state.checkDupEmail.data = payload;
-        state.checkDupEmail.error = null;
-      })
-      .addCase(checkDupEmailAction.rejected, (state, { payload }) => {
-        state.checkDupEmail.loading = false;
-        state.checkDupEmail.data = null;
-        state.checkDupEmail.error = payload;
       });
   },
 });

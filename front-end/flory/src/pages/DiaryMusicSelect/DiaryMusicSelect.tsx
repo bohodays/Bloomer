@@ -1,13 +1,14 @@
-import { faMusic, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button/Button";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { SMain, SMusicWrapper } from "./styles";
 
 const DiaryMusicSelect = () => {
-  const ref1 = useRef<any>();
-  const [selectedItems, setSelectedItems] = useState({
+  const navigate = useNavigate();
+  const [selectedItems, setSelectedItems] = useState<any>({
     select1: false,
     select2: false,
     select3: false,
@@ -15,11 +16,12 @@ const DiaryMusicSelect = () => {
     select5: false,
   });
 
-  const handleChangeIcon = (e: any) => {
-    // if (e.target.className === "")
-    console.log(e.target.className);
-
-    console.log("변해야 함");
+  const initItem = {
+    select1: false,
+    select2: false,
+    select3: false,
+    select4: false,
+    select5: false,
   };
 
   return (
@@ -28,39 +30,67 @@ const DiaryMusicSelect = () => {
       <div className="info__wrapper">
         <p>원하는 음악을 선택해주세요? (수정필요)</p>
       </div>
-      <SMusicWrapper>
-        <FontAwesomeIcon className="icon music item1" icon={faMusic} />
+      <SMusicWrapper isSelected={selectedItems.select1}>
+        <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 1</p>
         <FontAwesomeIcon
-          className="icon play"
-          icon={faPlay}
-          onClick={handleChangeIcon}
+          className="icon play item1"
+          icon={selectedItems.select1 ? faStop : faPlay}
+          onClick={() => {
+            setSelectedItems({ ...initItem, select1: !selectedItems.select1 });
+          }}
         />
       </SMusicWrapper>
-      <SMusicWrapper>
-        <FontAwesomeIcon className="icon music item2" icon={faMusic} />
+      <SMusicWrapper isSelected={selectedItems.select2}>
+        <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 2</p>
-        <FontAwesomeIcon className="icon play" icon={faPlay} />
+        <FontAwesomeIcon
+          className="icon play item2"
+          icon={selectedItems.select2 ? faStop : faPlay}
+          onClick={() => {
+            setSelectedItems({ ...initItem, select2: !selectedItems.select2 });
+          }}
+        />
       </SMusicWrapper>
-      <SMusicWrapper>
-        <FontAwesomeIcon className="icon music item3" icon={faMusic} />
+      <SMusicWrapper isSelected={selectedItems.select3}>
+        <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 3</p>
-        <FontAwesomeIcon className="icon play" icon={faPlay} />
+        <FontAwesomeIcon
+          className="icon play item3"
+          icon={selectedItems.select3 ? faStop : faPlay}
+          onClick={() => {
+            setSelectedItems({ ...initItem, select3: !selectedItems.select3 });
+          }}
+        />
       </SMusicWrapper>
-      <SMusicWrapper>
-        <FontAwesomeIcon className="icon music item4" icon={faMusic} />
+      <SMusicWrapper isSelected={selectedItems.select4}>
+        <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 4</p>
-        <FontAwesomeIcon className="icon play" icon={faPlay} />
+        <FontAwesomeIcon
+          className="icon play item4"
+          icon={selectedItems.select4 ? faStop : faPlay}
+          onClick={() => {
+            setSelectedItems({ ...initItem, select4: !selectedItems.select4 });
+          }}
+        />
       </SMusicWrapper>
-      <SMusicWrapper>
-        <FontAwesomeIcon className="icon music item5" icon={faMusic} />
+      <SMusicWrapper isSelected={selectedItems.select5}>
+        <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 5</p>
-        <FontAwesomeIcon className="icon play" icon={faPlay} />
+        <FontAwesomeIcon
+          className="icon play item5"
+          icon={selectedItems.select5 ? faStop : faPlay}
+          onClick={() => {
+            setSelectedItems({ ...initItem, select5: !selectedItems.select5 });
+          }}
+        />
       </SMusicWrapper>
       {/* </div> */}
       <div className="bottom__wrapper">
         <Button
-          // onClick={onCreateDiary}
+          onClick={() => {
+            navigate("/diary/select");
+          }}
           contents="선택"
           addStyle={{
             width: "90%",
