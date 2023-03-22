@@ -8,6 +8,7 @@ import MapFilterModal from "../../components/Map/MapFilterModal/MapFilterModal";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
+import Navbar from "../../components/common/Navbar/Navbar";
 
 const DIARY_LIST = [
   {
@@ -181,6 +182,7 @@ const Map = () => {
           },
         ]}
       />
+      <Navbar />
     </SMain>
   );
 };
