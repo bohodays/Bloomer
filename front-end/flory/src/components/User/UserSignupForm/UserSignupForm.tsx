@@ -173,7 +173,7 @@ const UserSignupForm = () => {
           borderRadius: "20px",
           boxShadow: "5px 5px 5px 0px rgb(158 158 158)",
         }}
-        contents="회원가입"
+        contents="다음"
       />
     </SForm>
   );
