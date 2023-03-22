@@ -89,6 +89,10 @@ public class DiaryServiceTest {
             .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z")
             .garden(garden.toDiaryDto()).flowerEmotion(flowerEmotionDto).createdTime(new Date()).build();
 
+    private final DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
+            .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("그룹공개").x("x").y("y").z("z")
+            .fid(1L).gid(1L).mid(1L).build();
+
     private final Comment comment = Comment.builder()
             .id(1L).diary(diaryDto.toEntity()).member(member).content("content").build();
 
@@ -117,6 +121,29 @@ public class DiaryServiceTest {
 
         DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
                 .content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).publicStatus("전체공개").build();
+
+        DiaryDto result = diaryService.insertDiary(diaryRequestDto);
+
+        assertEquals(diaryDto.getContent(),result.getContent());
+    }
+
+    @DisplayName("일기 그룹공개 등록하기 테스트")
+    @Test
+    public void insertDiaryMemberTest(){
+        List<Long> info = new ArrayList<>();
+        info.add(emotion.getId());
+        diaryRequestDto.setGroupList(info);
+
+        Diary diary = diaryRequestDto.toEntity();
+        diary.setGarden(garden);
+
+        when(diaryRepository.save(any())).thenReturn(diary);
+        when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
+        when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
+        when(flowerRepository.getEmotionKey(any())).thenReturn(info);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+        when(musicRepository.findById(any())).thenReturn(Optional.of(music));
+        when(teamRepository.findById(any())).thenReturn(Optional.of(team));
 
         DiaryDto result = diaryService.insertDiary(diaryRequestDto);
 
@@ -246,6 +273,76 @@ public class DiaryServiceTest {
         when(diaryRepository.findDiaryInMap(anyDouble(),anyDouble(),anyDouble(),anyDouble())).thenReturn(diaries);
         when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
         when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+
+        List<DiaryDto> result = diaryService.getDiaryListInMap(info);
+
+        assertEquals(diaries.size(),result.size());
+    }
+
+    @DisplayName("지도 범위 내의 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryInMapIdTest(){
+        List<Diary> diaries = new ArrayList<>();
+        Map<String,String> info = new HashMap<>();
+        List<Long> emotions = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+        garden.setMember(member);
+        diary.setGarden(garden);
+        diary.setFlower(flower);
+
+        info.put("lat1","11");
+        info.put("lng1","1");
+        info.put("lat2","1");
+        info.put("lng2","11");
+        info.put("requestId","2");
+
+        diaries.add(diary);
+        emotions.add(1L);
+
+        when(diaryRepository.findDiaryInMap(anyDouble(),anyDouble(),anyDouble(),anyDouble())).thenReturn(diaries);
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+
+        List<DiaryDto> result = diaryService.getDiaryListInMap(info);
+
+        assertEquals(diaries.size(),result.size());
+    }
+
+    @DisplayName("지도 범위 내의 그룹공개 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryInMapMemberTest(){
+        List<Diary> diaries = new ArrayList<>();
+        Map<String,String> info = new HashMap<>();
+        List<Long> emotions = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+        garden.setMember(member);
+        diary.setGarden(garden);
+        diary.setFlower(flower);
+
+        diary.setPublicStatus("그룹공개");
+
+        info.put("lat1","11");
+        info.put("lng1","1");
+        info.put("lat2","1");
+        info.put("lng2","11");
+        info.put("requestId","2");
+
+        diaries.add(diary);
+        emotions.add(1L);
+
+        when(diaryRepository.findDiaryInMap(anyDouble(),anyDouble(),anyDouble(),anyDouble())).thenReturn(diaries);
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+
+        List<Long> groupList = new ArrayList<>();
+        groupList.add(1L);
+
+        List<UserTeam> userTeams = new ArrayList<>();
+        userTeams.add(userTeam);
+
+        when(diaryTeamRepository.getGroup(any())).thenReturn(groupList);
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
+        when(userTeamRepository.findAllByUid(any())).thenReturn(userTeams);
 
         List<DiaryDto> result = diaryService.getDiaryListInMap(info);
 
