@@ -17,7 +17,7 @@ const UserSignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [alert, setAlert] = useState({
+  const [alarm, setAlarm] = useState({
     nickname: "",
     email: "",
     pw: "",
@@ -30,15 +30,14 @@ const UserSignupForm = () => {
   const onCheckEmail = (e: any) => {
     e.preventDefault();
     dispatch(checkDupEmailAction(email)).then((data: any) => {
-      console.log(data.payload.response);
       if (data.payload.response) {
-        setAlert({
-          ...alert,
-          email: "alert",
+        setAlarm({
+          ...alarm,
+          email: "alarm",
         });
       } else {
-        setAlert({
-          ...alert,
+        setAlarm({
+          ...alarm,
           email: "confirm",
         });
       }
@@ -48,18 +47,18 @@ const UserSignupForm = () => {
   // 비밀번호 재입력 확인
   useEffect(() => {
     if (password && password === passwordCheck) {
-      setAlert({
-        ...alert,
+      setAlarm({
+        ...alarm,
         pwConf: "confirm",
       });
     } else if (password && passwordCheck) {
-      setAlert({
-        ...alert,
-        pwConf: "alert",
+      setAlarm({
+        ...alarm,
+        pwConf: "alarm",
       });
     } else {
-      setAlert({
-        ...alert,
+      setAlarm({
+        ...alarm,
         pwConf: "",
       });
     }
@@ -73,13 +72,16 @@ const UserSignupForm = () => {
       password,
       email,
     };
-    dispatch(signupAction(signupData)).then(() => {
-      navigate("/login");
+    dispatch(signupAction(signupData)).then((data) => {
+      if (data.type === "SIGNUP/fulfilled") {
+        alert("회원가입 완료");
+        navigate("/login");
+      }
     });
   };
 
   return (
-    <SForm alert={alert}>
+    <SForm alarm={alarm}>
       {/* 닉네임 */}
       <div className="input__wrapper">
         <FontAwesomeIcon
@@ -91,7 +93,7 @@ const UserSignupForm = () => {
           onChange={(e: any) => setNickname(e.target.value)}
           placeholder="닉네임을 입력해주세요."
         />
-        <p id="nicknameAlert">닉네임 경고</p>
+        <p id="nicknameAlarm">닉네임 경고</p>
       </div>
       {/* 이메일 */}
       <div className="input__wrapper">
@@ -118,8 +120,8 @@ const UserSignupForm = () => {
           onChange={(e: any) => setEmail(e.target.value)}
           placeholder="이메일을 입력해주세요."
         />
-        <p id="emailAlert">
-          {alert.email === "alert" ? "이메일 경고" : "이메일 확인"}
+        <p id="emailAlarm">
+          {alarm.email === "alarm" ? "이메일 경고" : "이메일 확인"}
         </p>
       </div>
       {/* 비밀번호 */}
@@ -134,8 +136,8 @@ const UserSignupForm = () => {
           type={"password"}
           placeholder="비밀번호를 입력해주세요."
         />
-        <p id="pwAlert">
-          {alert.pw === "alert" ? "비밀번호 경고" : "비밀번호 확인"}
+        <p id="pwAlarm">
+          {alarm.pw === "alarm" ? "비밀번호 경고" : "비밀번호 확인"}
         </p>
       </div>
       {/* 비밀번호 확인 */}
@@ -150,8 +152,8 @@ const UserSignupForm = () => {
           type={"password"}
           placeholder="비밀번호를 다시 입력해주세요."
         />
-        <p id="pwConfAlert">
-          {alert.pwConf === "alert"
+        <p id="pwConfAlarm">
+          {alarm.pwConf === "alarm"
             ? "비밀번호 확인 경고"
             : "비밀번호 확인 확인"}
         </p>

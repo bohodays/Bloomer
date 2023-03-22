@@ -11,6 +11,7 @@ import { borderRadius } from "@mui/system";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../components/common/Avatar/Avatar";
 import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
+import BackButton from "../../components/common/BackButton/BackButton";
 
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
@@ -57,11 +58,7 @@ const DiaryDetail = () => {
       <DiaryFlower flower={diary.flowerEmotion} />
       <div className="header"></div>
       {/* 뒤로 가기 아이콘 */}
-      <FontAwesomeIcon
-        className="back-icon"
-        icon={faArrowLeft}
-        onClick={handleGoBack}
-      />
+      <BackButton color="white" />
       <div className="content-box">
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}

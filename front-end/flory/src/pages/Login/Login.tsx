@@ -7,6 +7,7 @@ import googleLogoImg from "../../assets/imgs/login/google_logo.svg";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Wave } from "../../assets/imgs/wave.svg";
+import BackButton from "../../components/common/BackButton/BackButton";
 
 const Login = () => {
   const onClick = () => {};
@@ -19,12 +20,11 @@ const Login = () => {
           <Wave />
         </div>
       </div>
+
       {/* 뒤로 가기 아이콘 */}
-      <FontAwesomeIcon
-        className="back-icon"
-        onClick={onClick}
-        icon={faArrowLeft}
-      />
+
+      <BackButton color="white" />
+
       <div className="login__title">
         <h1>Hello!</h1>
       </div>

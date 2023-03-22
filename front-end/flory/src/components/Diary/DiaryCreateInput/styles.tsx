@@ -12,16 +12,8 @@ export const STextarea = styled.textarea`
 
   /* 스크롤바 */
   /* Chrome, Edge, and Safari */
+
   ::-webkit-scrollbar {
-    width: 10px;
-    margin-right: -40px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #ffffff;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #f2f2fc;
-    border-radius: 10px;
-    border-left: 3px solid #ffffff;
+    display: none;
   }
 `;
