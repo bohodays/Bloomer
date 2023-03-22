@@ -20,18 +20,21 @@ const Loading = () => {
         position: "absolute",
         display: "flex",
         alignItems: "center",
+        // zIndex: 1,
+        backgroundColor: "#b01fbf",
       }}
     >
-      <Lottie
+      {/* <Lottie
         style={{
           position: "relative",
-          zIndex: -3,
+
           width: "40%",
         }}
         options={defaultOptions}
         height={200}
         width="100%"
-      />
+      /> */}
+      <h1 style={{ color: "white" }}>Loading</h1>
     </div>
   );
 };
