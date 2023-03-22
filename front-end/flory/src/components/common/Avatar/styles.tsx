@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 export const SAvatar = styled.div<any>`
   width: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
   height: ${(props) => (props.size === "small" ? "2rem" : "5rem")};
@@ -23,4 +23,4 @@ export const SAvatar = styled.div<any>`
     height: 100%;
     overflow: hidden;
   }
-`
+`;
