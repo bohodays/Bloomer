@@ -2,15 +2,26 @@ import BasicModal from "../../common/Modal/BasicModal";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateInput from "../../common/CreateInput/CreateInput";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import CreateInputLine from "../../common/CreateInputLine/CreateInputLine";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 
 function GroupCreateModal({}): JSX.Element {
+  const nameInput = useRef<HTMLInputElement>(null);
+  const [groupName, setGroupName] = useState("");
   const contentInput = useRef<HTMLInputElement>(null);
   return (
     <BasicModal modalButton={<FontAwesomeIcon icon={faPlus} />}>
-      <h1>새 그룹 만들기</h1>
+      <h3>새 그룹 만들기</h3>
+      <CreateInputLine
+        icon={faUserGroup}
+        placeholder="그룹 이름을 입력해주세요"
+        contentInput={groupName}
+        setContentInput={setGroupName}
+      />
+
       <CreateInput
         contentInput={contentInput}
         placeholder="그룹 소개말을 입력해주세요"
