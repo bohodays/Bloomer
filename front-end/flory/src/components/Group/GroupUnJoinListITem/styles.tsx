@@ -57,4 +57,25 @@ export const SMain = styled.div`
   &:hover {
     /* transform: scale(1.03); */
   }
+
+  .register__form {
+    margin-top: 20px;
+
+    .btn__wrapper {
+      margin-top: 5px;
+      text-align: right;
+      .btn {
+        font-size: 0.7rem;
+        color: white;
+        background: linear-gradient(
+          90deg,
+          #f4afff 0%,
+          #9c93dd 53.61%,
+          #9677d2 100%
+        );
+        border-radius: 7px;
+        padding: 6px 8px;
+      }
+    }
+  }
 `;

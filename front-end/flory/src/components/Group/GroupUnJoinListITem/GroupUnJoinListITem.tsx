@@ -21,6 +21,12 @@ const GroupUnJoinListITem = ({ group }: any) => {
   const handleClickDetail = () => {
     setIsDetail(!isDetail);
   };
+  const handleClickForm = (e: any) => {
+    e.stopPropagation();
+  };
+  const handleSubmitForm = (e: any) => {
+    e.preventDefault();
+  };
 
   return (
     <SMain onClick={handleClickDetail}>
@@ -63,10 +69,14 @@ const GroupUnJoinListITem = ({ group }: any) => {
           )}
         </div>
         {isDetail && group.status !== "waiting" && (
-          <div>
-            <GroupJoinInput />
-            <button>참여 신청하기</button>
-          </div>
+          <form className="register__form" onClick={handleClickForm}>
+            <GroupJoinInput contentInput={contentInput} />
+            <div className="btn__wrapper">
+              <button className="btn" onClick={handleSubmitForm}>
+                참여 신청하기
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </SMain>

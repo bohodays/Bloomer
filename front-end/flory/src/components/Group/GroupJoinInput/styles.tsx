@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const STextarea = styled.textarea`
   width: 100%;
-  height: 40px;
+  height: 60px;
   background-color: #f2f2fc;
   border: none;
   outline: none;
