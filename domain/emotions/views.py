@@ -13,6 +13,8 @@ import gluonnlp as nlp
 import numpy as np
 from tqdm import tqdm, tqdm_notebook
 import pandas as pd
+from numpy import dot
+from numpy.linalg import norm
 
 import sys, os
 from kobert.utils import get_tokenizer
@@ -45,6 +47,24 @@ tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #===============================
+
+def nearestUser(request, user_id):
+
+    if request.method == 'GET':
+        
+        #member table에서 전체 유저 정보 가져오기
+
+        #user id가 key user객체를 value로하는 딕셔너리 생성 
+
+        #[classic,jazz,pop,reggae,RnB,electronic]을 벡터화 하기 true면 1 false면 0
+
+        #각 유저별로 코사인 유사도계산
+
+        #가장 큰 값을 가지는 인덱스 받아서 딕셔너리로 user id가져오기
+
+        #user id return
+    else :
+        return JsonResponse({"result" : "GET으로 요청하시오"})
 
 def analysis(request):
 
@@ -105,3 +125,6 @@ def makeProb(logits):
     
     print("상대확률", rel_probs)
     return rel_probs
+
+def cos_sim(A, B):
+  return dot(A, B)/(norm(A)*norm(B))    
