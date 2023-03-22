@@ -86,25 +86,10 @@ const DiaryMusicSelect = () => {
         />
       </SMusicWrapper>
       {/* </div> */}
-      <div className="bottom__wrapper">
-        <Button
-          onClick={() => {
-            navigate("/diary/select");
-          }}
-          contents="선택"
-          addStyle={{
-            width: "90%",
-            // margin: "2rem  0",
-            // height: "25%",
-            padding: "0.3rem",
-            background1: "rgb(244,175,255)",
-            background2:
-              "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
-            borderRadius: "12px",
-            color: "#ffffff",
-            fontSize: "1rem",
-          }}
-        />
+      <div className="select__wrapper">
+        <div className="background">
+          <p className="select__p">선택</p>
+        </div>
       </div>
       <Navbar />
     </SMain>

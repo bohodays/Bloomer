@@ -150,10 +150,16 @@ const DiaryCreate = () => {
       address: place.placeName ? place.placeName : place.address,
     };
 
+    console.log(diaryData);
     if (!diaryData.content?.trim()) {
       handleOpen();
+    } else {
+      navigate("/diary/select", {
+        state: {
+          diaryData,
+        },
+      });
     }
-    console.log(diaryData);
 
     // dispatch(createDiaryAction(diaryData));
     // navigate("/diary/select");
