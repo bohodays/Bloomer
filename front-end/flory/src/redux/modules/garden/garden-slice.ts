@@ -19,7 +19,6 @@ const gardenSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createGardenAction.pending, (state) => {})
       .addCase(createGardenAction.fulfilled, (state, { payload }) => {
         state.gardenData.gardenId = payload.response.id;
         state.gardenData.gardenPath = payload.response.gardenPath;

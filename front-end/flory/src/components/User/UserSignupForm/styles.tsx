@@ -27,23 +27,23 @@ export const SForm = styled.form<any>`
     visibility: hidden;
   }
 
-  #nicknameAlert {
+  #nicknameAlarm {
     color: ${(props) =>
-      props.alert.nickname === "alert" ? "#dc3545" : "green"};
-    visibility: ${(props) => (props.alert.nickname ? "visible" : "hidden")};
+      props.alarm.nickname === "alarm" ? "#dc3545" : "green"};
+    visibility: ${(props) => (props.alarm.nickname ? "visible" : "hidden")};
   }
-  #emailAlert {
-    color: ${(props) => (props.alert.email === "alert" ? "#dc3545" : "green")};
-    visibility: ${(props) => (props.alert.email ? "visible" : "hidden")};
+  #emailAlarm {
+    color: ${(props) => (props.alarm.email === "alarm" ? "#dc3545" : "green")};
+    visibility: ${(props) => (props.alarm.email ? "visible" : "hidden")};
   }
 
-  #pwAlert {
-    color: ${(props) => (props.alert.pw === "alert" ? "#dc3545" : "green")};
-    visibility: ${(props) => (props.alert.pw ? "visible" : "hidden")};
+  #pwAlarm {
+    color: ${(props) => (props.alarm.pw === "alarm" ? "#dc3545" : "green")};
+    visibility: ${(props) => (props.alarm.pw ? "visible" : "hidden")};
   }
-  #pwConfAlert {
-    color: ${(props) => (props.alert.pwConf === "alert" ? "#dc3545" : "green")};
-    visibility: ${(props) => (props.alert.pwConf ? "visible" : "hidden")};
+  #pwConfAlarm {
+    color: ${(props) => (props.alarm.pwConf === "alarm" ? "#dc3545" : "green")};
+    visibility: ${(props) => (props.alarm.pwConf ? "visible" : "hidden")};
   }
 `;
 
