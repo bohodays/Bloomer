@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SButton = styled.button<any>`
+  position: absolute;
   .back-icon {
     cursor: pointer;
     left: 1rem;
