@@ -321,8 +321,6 @@ public class DiaryServiceTest {
 
         diary.setPublicStatus("그룹공개");
 
-        Diary temp =diary;
-
         info.put("lat1","11");
         info.put("lng1","1");
         info.put("lat2","1");
