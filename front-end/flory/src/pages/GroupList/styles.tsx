@@ -5,9 +5,10 @@ export const SMain = styled.main`
   height: 100%;
 
   .search__wrapper {
+    position: relative;
     width: 90%;
-    margin: auto;
     height: 15%;
+    margin: auto;
     padding-top: 3.3rem;
   }
 

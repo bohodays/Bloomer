@@ -7,8 +7,8 @@ import { SMain } from "./styles";
 const GroupList = () => {
   return (
     <SMain>
-      <BackButton color="black" />
       <div className="search__wrapper">
+        <BackButton color="black" />
         <GroupSearchInput />
       </div>
       <div className="grouplist__wrapper">
