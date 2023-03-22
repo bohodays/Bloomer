@@ -6,6 +6,5 @@ export type UserStateType = {
   getUserData: ReduxStateType;
   login: ReduxStateType;
   logout: ReduxStateType;
-  signup: ReduxStateType;
-  checkDupEmail: ReduxStateType;
+  axiosState: ReduxStateType;
 };
