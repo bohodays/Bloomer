@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   position: relative;
@@ -133,4 +133,4 @@ export const SMain = styled.main`
       transform: translateX(100%) translatey(-50%);
     }
   }
-`
+`;
