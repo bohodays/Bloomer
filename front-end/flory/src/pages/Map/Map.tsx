@@ -140,7 +140,7 @@ const DIARY_LIST = [
 ];
 
 const Map = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 내 주변 보기
   const mapPanel = (
@@ -158,7 +158,7 @@ const Map = () => {
   return (
     <SMain>
       <div className="header">
-        <div className="inner-header flex"></div>
+        {/* <div className="inner-header flex"></div> */}
       </div>
 
       <div className="login__title">
