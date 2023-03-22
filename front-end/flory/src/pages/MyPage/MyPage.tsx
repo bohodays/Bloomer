@@ -6,11 +6,13 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
 import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal";
 import Pie from "../../components/common/Pie/Pie";
-import FlowerImg from "./Spring.png";
+import FlowerImg from "../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../components/common/Post/Post";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
+import Avatar from "../../components/common/Avatar/Avatar";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -85,10 +87,16 @@ const MyPage = () => {
           </div>
         }
       />
-      <Post title="지난주 대비 감정 분포" content="hi" />
+      <Post title="지난주 대비 감정 분포" content={"hi"} />
     </div>
   );
 
+  const groupPanel = (
+    <div>
+      <div className="">그룹 둘러보기</div>
+      <Post title="가입한 그룹 목록" content={"hi"} />
+    </div>
+  );
   return (
     <SMyPage>
       <div className="header">
@@ -99,22 +107,24 @@ const MyPage = () => {
           icon={faGear}
         />
       </div>
-      <MyPageEditModal />
+      <ProfileCard
+        width="100%"
+        header={<MyPageEditModal />}
+        name={"이름"}
+        body={
+          <div style={{ textAlign: "center", padding: "0.3vh" }}>이메일</div>
+        }
+        height="100%"
+        className="profile"
+      />
+
       <BasicTabs
         tabs={[
           {
             label: "나의 감정 분포",
             panel: distPanel,
           },
-          {
-            label: "그룹 목록 보기",
-            panel: (
-              <>
-                <button onClick={handleMoveGroupList}>그룹 둘러보기</button>
-                <div>그룹 목록 보기 내용</div>
-              </>
-            ),
-          },
+          { label: "그룹 목록 보기", panel: groupPanel },
         ]}
       />
       <Navbar />

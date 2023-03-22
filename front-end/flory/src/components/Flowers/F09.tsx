@@ -10,6 +10,8 @@ import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
 import { useLocation } from "react-router-dom";
 import { useFrame, useThree } from "@react-three/fiber";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -20,13 +22,15 @@ type GLTFResult = GLTF & {
   };
   materials: {
     bammoo: THREE.MeshStandardMaterial;
-    stem: THREE.MeshStandardMaterial;
-    ["Material.003"]: THREE.MeshStandardMaterial;
     ["Material.001"]: THREE.MeshStandardMaterial;
+    stem: THREE.MeshStandardMaterial;
+    ["Material.002"]: THREE.MeshStandardMaterial;
   };
 };
 
-export function F09(props: JSX.IntrinsicElements["group"] & PositionType) {
+export function F09(
+  props: (JSX.IntrinsicElements["group"] & PositionType) | any
+) {
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();
@@ -42,6 +46,23 @@ export function F09(props: JSX.IntrinsicElements["group"] & PositionType) {
     return raycaster.intersectObjects(scene.children);
   }
 
+  const dispatch = useAppDispatch();
+  const handlePositionUpdate = (
+    id: number,
+    x: string,
+    y: string,
+    z: string
+  ) => {
+    dispatch(
+      positionUpdate({
+        diaryId: id,
+        x: x,
+        y: y,
+        z: z,
+      })
+    );
+  };
+
   useEffect(() => {
     const handleWindowClick = (e: MouseEvent) => {
       if (isDragging) {
@@ -52,6 +73,7 @@ export function F09(props: JSX.IntrinsicElements["group"] & PositionType) {
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       if (location.pathname.includes("garden/edit")) {
         window.removeEventListener("click", handleWindowClick);
       }
@@ -87,7 +109,8 @@ export function F09(props: JSX.IntrinsicElements["group"] & PositionType) {
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={0.17}
+        scale={0.03}
+        rotation={[0.55, 0.1, 0.02]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f09" }}
         onClick={() => {
@@ -95,14 +118,14 @@ export function F09(props: JSX.IntrinsicElements["group"] & PositionType) {
         }}
       >
         <mesh geometry={nodes.f09_1.geometry} material={materials.bammoo} />
-        <mesh geometry={nodes.f09_2.geometry} material={materials.stem} />
         <mesh
-          geometry={nodes.f09_3.geometry}
-          material={materials["Material.003"]}
+          geometry={nodes.f09_2.geometry}
+          material={materials["Material.001"]}
         />
+        <mesh geometry={nodes.f09_3.geometry} material={materials.stem} />
         <mesh
           geometry={nodes.f09_4.geometry}
-          material={materials["Material.001"]}
+          material={materials["Material.002"]}
         />
       </group>
     </group>
