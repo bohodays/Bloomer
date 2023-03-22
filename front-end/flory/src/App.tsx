@@ -25,6 +25,9 @@ const Garden = React.lazy(() => pMinDelay(import("./pages/Garden/Garden"), 0));
 const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
 const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
 const Setting = React.lazy(() => import("./pages/Setting/Setting"));
+const DiaryMusicSlect = React.lazy(
+  () => import("./pages/DiaryMusicSelect/DiaryMusicSelect")
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -51,6 +54,7 @@ function App() {
             <Route path="/map" element={<Map />} />
             <Route path="/diary/create" element={<DiaryCreate />} />
             <Route path="/diary/select" element={<DiarySelect />} />
+            <Route path="/diary/select/music" element={<DiaryMusicSlect />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />

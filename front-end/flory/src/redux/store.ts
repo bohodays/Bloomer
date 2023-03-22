@@ -18,7 +18,13 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    user,
+    map,
+    garden,
+    diary,
+    weather,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

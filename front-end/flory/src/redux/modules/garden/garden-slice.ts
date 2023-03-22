@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GardenStateType } from "../../../models/garden/gardenStateType";
-import { createGardenAction } from "./garden-action";
+import { createGardenAction, getCurrentGardenAction } from "./garden-action";
 
 const initialState: GardenStateType = {
   gardenData: {
@@ -29,6 +29,18 @@ const gardenSlice = createSlice({
       })
       .addCase(createGardenAction.rejected, (state, { payload }) => {
         console.log("정원 생성 실패");
+      })
+      .addCase(getCurrentGardenAction.pending, (state) => {})
+      .addCase(getCurrentGardenAction.fulfilled, (state, { payload }) => {
+        state.gardenData.gardenId = payload.response.id;
+        state.gardenData.gardenPath = payload.response.gardenPath;
+        state.gardenData.nickname = payload.response.nickname;
+        state.gardenData.artist = payload.response.artist;
+        state.gardenData.title = payload.response.title;
+        state.gardenData.deadline = payload.response.deadline;
+      })
+      .addCase(getCurrentGardenAction.rejected, (state, { payload }) => {
+        console.log("정원 확인 실패");
       });
   },
 });

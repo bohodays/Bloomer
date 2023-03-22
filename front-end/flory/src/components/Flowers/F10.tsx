@@ -10,19 +10,23 @@ import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
 import { useLocation } from "react-router-dom";
 import { useFrame, useThree } from "@react-three/fiber";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 
 type GLTFResult = GLTF & {
   nodes: {
-    f10_1: THREE.Mesh;
-    f10_2: THREE.Mesh;
+    NurbsPath001: THREE.Mesh;
+    NurbsPath001_1: THREE.Mesh;
   };
   materials: {
-    bell: THREE.MeshStandardMaterial;
-    stem: THREE.MeshStandardMaterial;
+    ["Material.002"]: THREE.MeshStandardMaterial;
+    Material: THREE.MeshStandardMaterial;
   };
 };
 
-export function F10(props: JSX.IntrinsicElements["group"] & PositionType) {
+export function F10(
+  props: (JSX.IntrinsicElements["group"] & PositionType) | any
+) {
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();
@@ -38,6 +42,23 @@ export function F10(props: JSX.IntrinsicElements["group"] & PositionType) {
     return raycaster.intersectObjects(scene.children);
   }
 
+  const dispatch = useAppDispatch();
+  const handlePositionUpdate = (
+    id: number,
+    x: string,
+    y: string,
+    z: string
+  ) => {
+    dispatch(
+      positionUpdate({
+        diaryId: id,
+        x: x,
+        y: y,
+        z: z,
+      })
+    );
+  };
+
   useEffect(() => {
     const handleWindowClick = (e: MouseEvent) => {
       if (isDragging) {
@@ -48,6 +69,7 @@ export function F10(props: JSX.IntrinsicElements["group"] & PositionType) {
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       if (location.pathname.includes("garden/edit")) {
         window.removeEventListener("click", handleWindowClick);
       }
@@ -83,16 +105,22 @@ export function F10(props: JSX.IntrinsicElements["group"] & PositionType) {
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        rotation={[-1.4, -0.57, -3.1]}
-        scale={0.17}
+        rotation={[0, 0, -Math.PI / 2]}
+        scale={0.5}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f10" }}
         onClick={() => {
           setIsDragging(!isDragging);
         }}
       >
-        <mesh geometry={nodes.f10_1.geometry} material={materials.bell} />
-        <mesh geometry={nodes.f10_2.geometry} material={materials.stem} />
+        <mesh
+          geometry={nodes.NurbsPath001.geometry}
+          material={materials["Material.002"]}
+        />
+        <mesh
+          geometry={nodes.NurbsPath001_1.geometry}
+          material={materials.Material}
+        />
       </group>
     </group>
   );

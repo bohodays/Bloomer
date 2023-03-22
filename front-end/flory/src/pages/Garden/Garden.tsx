@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Sky,
@@ -20,12 +20,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store.hooks";
+import Loading from "../Loading/Loading";
 
 const Scene = () => {
   return (
     <>
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
+
         <Base_map_new />
 
         {/* <EffectComposer multisampling={8}> */}
@@ -42,8 +44,20 @@ const Garden = () => {
   const loggedUser = useAppSelector((state) => state.user.userData);
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
+  // 로딩스피너 조작
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+  // if (isLoading) return <Loading />;
+
   return (
     <SMain>
+      {isLoading && <Loading />}
+
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
