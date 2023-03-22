@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
+import BackButton from "../../components/common/BackButton/BackButton";
 
 const CARDS = 10;
 const MAX_VISIBILITY = 3;
@@ -58,11 +59,13 @@ const GardenList = () => {
 
   return (
     <SMain>
-      <FontAwesomeIcon
-        className="back-icon"
-        onClick={handleBack}
-        icon={faArrowLeft}
+      <BackButton
+        color="purple"
+        onClickAction={() => {
+          navigate("/garden");
+        }}
       />
+
       <div className="info__wrapper">
         <div className="background">
           <p>2023년 2월</p>

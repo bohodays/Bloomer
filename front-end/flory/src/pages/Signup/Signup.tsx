@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Wave } from "../../assets/imgs/wave.svg";
 import UserSignupForm from "../../components/User/UserSignupForm/UserSignupForm";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../components/common/BackButton/BackButton";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -18,12 +19,11 @@ const Signup = () => {
         </div>
       </div>
       {/* 뒤로 가기 아이콘 */}
-      <FontAwesomeIcon
-        className="back-icon"
-        onClick={() => {
+      <BackButton
+        color="white"
+        onClickAction={() => {
           navigate("/login");
         }}
-        icon={faArrowLeft}
       />
       <div className="login__title">
         <h1>Welcome!</h1>
