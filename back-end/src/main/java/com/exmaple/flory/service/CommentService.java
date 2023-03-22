@@ -6,6 +6,8 @@ import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.CommentRepository;
 import com.exmaple.flory.repository.DiaryRepository;
 import com.exmaple.flory.repository.MemberRepository;
@@ -32,12 +34,13 @@ public class CommentService {
     MemberRepository memberRepository;
 
     @Transactional
-    public CommentDto insertComment(CommentDto commentDto) throws Exception{
+    public CommentDto insertComment(CommentDto commentDto) {
         Optional<Diary> diary = diaryRepository.findById(commentDto.getDid());
         Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
 
-        if(diary.isEmpty() || member.isEmpty()) throw new Exception();
+        if(diary.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
+        if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
         log.info("Diary: {}",diary.get());
         log.info("DiaryinMember: {}",diary.get().getGarden().getMember());
@@ -58,7 +61,7 @@ public class CommentService {
         return result.toDto();
     }
 
-    public List<CommentListDto> getCommentList(Long diaryId) throws Exception {
+    public List<CommentListDto> getCommentList(Long diaryId) {
         List<Comment> commentList = commentRepository.findByDid(diaryId);
         List<CommentListDto> comments = new ArrayList<>();
         log.info("comment 목록: {}, {}", diaryId, commentList.size());
@@ -67,7 +70,7 @@ public class CommentService {
             CommentDto commentDto = commentList.get(i).toDto();
             Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
-            if(member.isEmpty()) throw new Exception();
+            if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
             CommentListDto commentListDto = CommentListDto.builder()
                     .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
@@ -79,13 +82,13 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentDto updateComment(Map<String,String> updateInfo) throws Exception{
+    public CommentDto updateComment(Map<String,String> updateInfo){
         Long id =  Long.parseLong(updateInfo.get("id"));
         String content = updateInfo.get("content");
 
         Optional<Comment> comment = commentRepository.findById(id);
 
-        if(comment.isEmpty()) throw new Exception();
+        if(comment.isEmpty()) throw new CustomException(ErrorCode.NO_COMMENT);
         CommentDto commentDto = comment.get().toDto();
         log.info("dto: {}",commentDto);
         Optional<Member> member = memberRepository.findById(commentDto.getUid());
@@ -93,7 +96,8 @@ public class CommentService {
 
         commentDto.setContent(content);
 
-        if(member.isEmpty() || diary.isEmpty()) throw new Exception();
+        if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
+        if(diary.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
 
         commentDto.setDiary(diary.get().toDto());
 

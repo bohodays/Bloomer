@@ -29,6 +29,9 @@ public class Flower {
     @ManyToOne
     private Emotion emotion;
 
+    @Column(name = "small_category")
+    private String smallCategory;
+
     @JsonIgnore
     @OneToMany(mappedBy = "flower")
     private List<Diary> diaryList;

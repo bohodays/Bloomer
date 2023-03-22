@@ -58,6 +58,9 @@ public class DiaryServiceTest {
     @Mock
     MusicRepository musicRepository;
 
+    @Mock
+    TeamRepository teamRepository;
+
     private final Member member = Member
             .builder()
             .userId(1L)
@@ -74,13 +77,13 @@ public class DiaryServiceTest {
             .build();
 
     private final Emotion emotion = Emotion.builder()
-            .id(1L).largeCategory("large").smallCategory("small").build();
+            .id(1L).largeCategory("large").build();
 
     private final Flower flower = Flower.builder()
-            .id(1L).name("flower").language("language").emotion(emotion).build();
+            .id(1L).name("flower").language("language").smallCategory("small").emotion(emotion).build();
 
     private final FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
-            .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(emotion.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
+            .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z")
@@ -99,7 +102,7 @@ public class DiaryServiceTest {
             .id(1L).title("title").build();
     @DisplayName("일기 등록하기 테스트")
     @Test
-    public void insertDiaryTest() throws Exception {
+    public void insertDiaryTest(){
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
         Diary diary = diaryDto.toEntity();
@@ -122,7 +125,7 @@ public class DiaryServiceTest {
 
     @DisplayName("일기 상세내용 가져오기 테스트")
     @Test
-    public void getDiaryTest() throws Exception{
+    public void getDiaryTest(){
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
 
@@ -152,7 +155,7 @@ public class DiaryServiceTest {
 
     @DisplayName("일기 수정하기 테스트")
     @Test
-    public void updateDiaryTest() throws Exception {
+    public void updateDiaryTest(){
         DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
                 .publicStatus("전체공개").address("address").content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).build();
         List<Long> emotions = new ArrayList<>();
@@ -176,7 +179,7 @@ public class DiaryServiceTest {
 
     @DisplayName("해당 정원의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryByGardenTest() throws Exception{
+    public void getDiaryByGardenTest(){
         List<Diary> diaryList = new ArrayList<>();
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
@@ -200,7 +203,7 @@ public class DiaryServiceTest {
 
     @DisplayName("유저의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryByMemberTest() throws Exception{
+    public void getDiaryByMemberTest(){
         List<Diary> diaryDtoList = new ArrayList<>();
         List<Long> emotions = new ArrayList<>();
 
@@ -222,7 +225,7 @@ public class DiaryServiceTest {
 
     @DisplayName("지도 범위 내의 일기 목록 조회 테스트")
     @Test
-    public void getDiaryInMapTest() throws Exception {
+    public void getDiaryInMapTest(){
         List<Diary> diaries = new ArrayList<>();
         Map<String,String> info = new HashMap<>();
         List<Long> emotions = new ArrayList<>();
@@ -251,7 +254,7 @@ public class DiaryServiceTest {
 
     @DisplayName("좌표값으로 일기 조회 테스트")
     @Test
-    public void getDiaryByLocationTest() throws Exception{
+    public void getDiaryByLocationTest(){
         Diary diary = diaryDto.toEntity();
         diary.setFlower(flower);
         garden.setMember(member);
@@ -279,9 +282,30 @@ public class DiaryServiceTest {
         assertEquals(diaryDto.getContent(),result.getContent());
     }
 
+    @DisplayName("정원의 꽃들 위치 조정 테스트")
+    @Test
+    public void updateDiariesLocationTest(){
+        List<DiaryDto> diaries = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+
+        diaries.add(diaryDto);
+
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
+        when(diaryRepository.save(any())).thenReturn(diary);
+        when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
+        when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+        when(musicRepository.findById(any())).thenReturn(Optional.of(music));
+
+        List<DiaryDto> result = diaryService.updateDiaryLocation(diaries);
+
+        assertEquals(diaries.size(),result.size());
+    }
+
     @DisplayName("댓글 목록 가져오기 테스트")
     @Test
-    public void getCommentListTest() throws Exception {
+    public void getCommentListTest(){
         List<Comment> comments = new ArrayList<>();
         Diary diary = diaryDto.toEntity();
 
@@ -351,7 +375,24 @@ public class DiaryServiceTest {
         List<DiaryDayDto> diaryDayDtoList = diaryService.getDiaryInMonth(1L,"2023","3");
         List<DiaryDayDto> diaryDayDtoList1 = diaryService.getDiaryInMonth(1L,"2023","3");
 
-
         assertEquals(diaryList.size(),diaryDayDtoList.size()+diaryDayDtoList1.size());
+    }
+
+    @DisplayName("그룹 리스트 설정 테스트")
+    @Test
+    public void setGroupListTest(){
+        List<Long> groupIdList = new ArrayList<>();
+        List<Team> groupList = new ArrayList<>();
+        DiaryDto result = diaryDto;
+
+        groupIdList.add(1L);
+        groupList.add(team);
+
+        when(diaryTeamRepository.getGroup(any())).thenReturn(groupIdList);
+        when(teamRepository.findById(any())).thenReturn(Optional.of(team));
+
+        diaryService.setGroupList(result);
+
+        assertEquals(result.getGroupList().size(),groupList.size());
     }
 }

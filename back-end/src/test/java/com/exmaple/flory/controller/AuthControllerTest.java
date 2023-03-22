@@ -140,7 +140,7 @@ class AuthControllerTest {
             mockMvc.perform(post("/api/user").with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(signUpRequestDto)))
-                    .andExpect(status().isInternalServerError())
+                    .andExpect(status().isConflict())
                     .andReturn();
         }
 
@@ -156,7 +156,7 @@ class AuthControllerTest {
             mockMvc.perform(post("/api/user/login").with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(loginDto)))
-                    .andExpect(status().isInternalServerError())
+                    .andExpect(status().isNotFound())
                     .andReturn();
         }
 
@@ -171,7 +171,7 @@ class AuthControllerTest {
             mockMvc.perform(post("/api/user/access").with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(tokenRequestDto)))
-                    .andExpect(status().isInternalServerError())
+                    .andExpect(status().isUnauthorized())
                     .andReturn();
         }
 
@@ -181,7 +181,7 @@ class AuthControllerTest {
             when(authService.checkEmail(any())).thenThrow(new RuntimeException());
 
             mockMvc.perform(get("/api/user/check-email/{email}",email))
-                    .andExpect(status().isInternalServerError())
+                    .andExpect(status().isConflict())
                     .andReturn();
         }
     }

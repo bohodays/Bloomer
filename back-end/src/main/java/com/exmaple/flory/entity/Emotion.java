@@ -22,9 +22,6 @@ public class Emotion {
     @Column(name = "large_category")
     private String largeCategory;
 
-    @Column(name = "small_category")
-    private String smallCategory;
-
     @JsonIgnore
     @OneToMany(mappedBy = "emotion", cascade = CascadeType.ALL)
     private List<Flower> flowerList;
