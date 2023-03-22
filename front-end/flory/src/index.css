@@ -156,3 +156,7 @@ p {
   width: 100%;
   max-width: 480px;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
