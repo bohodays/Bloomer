@@ -15,12 +15,12 @@ import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 
 type GLTFResult = GLTF & {
   nodes: {
-    f10_1: THREE.Mesh;
-    f10_2: THREE.Mesh;
+    NurbsPath001: THREE.Mesh;
+    NurbsPath001_1: THREE.Mesh;
   };
   materials: {
-    bell: THREE.MeshStandardMaterial;
-    stem: THREE.MeshStandardMaterial;
+    ["Material.002"]: THREE.MeshStandardMaterial;
+    Material: THREE.MeshStandardMaterial;
   };
 };
 
@@ -105,16 +105,22 @@ export function F10(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        rotation={[-1.4, -0.57, -3.1]}
-        scale={0.17}
+        rotation={[0, 0, -Math.PI / 2]}
+        scale={0.5}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f10" }}
         onClick={() => {
           setIsDragging(!isDragging);
         }}
       >
-        <mesh geometry={nodes.f10_1.geometry} material={materials.bell} />
-        <mesh geometry={nodes.f10_2.geometry} material={materials.stem} />
+        <mesh
+          geometry={nodes.NurbsPath001.geometry}
+          material={materials["Material.002"]}
+        />
+        <mesh
+          geometry={nodes.NurbsPath001_1.geometry}
+          material={materials.Material}
+        />
       </group>
     </group>
   );
