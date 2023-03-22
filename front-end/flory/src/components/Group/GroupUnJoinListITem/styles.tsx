@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SMain = styled.div`
+export const SMain = styled.div<any>`
   box-shadow: 4px 4px 8px rgba(144, 144, 144, 0.25);
   border-radius: 13px;
   padding: 1.25rem;
@@ -55,28 +55,32 @@ export const SMain = styled.div`
   }
 
   &:hover {
-    /* transform: scale(1.03); */
+    transform: scale(1.02);
   }
 
   .register__form {
-    margin-top: 20px;
+  }
+`;
 
-    .btn__wrapper {
-      margin-top: 5px;
-      text-align: right;
-      .btn {
-        font-size: 0.7rem;
-        color: white;
-        background: linear-gradient(
-          90deg,
-          #f4afff 0%,
-          #9c93dd 53.61%,
-          #9677d2 100%
-        );
-        border-radius: 7px;
-        padding: 6px 8px;
-        cursor: pointer;
-      }
+export const SForm = styled.form<any>`
+  margin-top: 20px;
+  display: ${(props) => (props.isDetail ? "" : "none")};
+
+  .btn__wrapper {
+    margin-top: 5px;
+    text-align: right;
+    .btn {
+      font-size: 0.7rem;
+      color: white;
+      background: linear-gradient(
+        90deg,
+        #f4afff 0%,
+        #9c93dd 53.61%,
+        #9677d2 100%
+      );
+      border-radius: 7px;
+      padding: 6px 8px;
+      cursor: pointer;
     }
   }
 `;

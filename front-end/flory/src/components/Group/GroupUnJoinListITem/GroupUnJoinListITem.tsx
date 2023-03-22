@@ -3,9 +3,8 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { FiCalendar, FiUser } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import { RiFilePaper2Line } from "react-icons/ri";
-import { SMain } from "./styles";
+import { SForm, SMain } from "./styles";
 import GroupJoinInput from "../GroupJoinInput/GroupJoinInput";
-import DiaryCreateInput from "../../Diary/DiaryCreateInput/DiaryCreateInput";
 
 const convertDateFormat = (date: string) => {
   const target = new Date(date);
@@ -17,17 +16,17 @@ const convertDateFormat = (date: string) => {
 
 const GroupUnJoinListITem = ({ group }: any) => {
   const [isDetail, setIsDetail] = useState(false);
-  const contentInput = useRef<HTMLInputElement>(null);
-  console.log("dddd", contentInput.current);
+  const [content, setContent] = useState("");
 
   const handleClickDetail = () => {
     setIsDetail(!isDetail);
   };
-  const handleClickForm = (e: any) => {
+  const handleClickFormArea = (e: any) => {
     e.stopPropagation();
   };
   const handleSubmitForm = (e: any) => {
     e.preventDefault();
+    // 가입 api 쏘기
   };
 
   return (
@@ -70,15 +69,15 @@ const GroupUnJoinListITem = ({ group }: any) => {
             <div className="group-content">{group.info}</div>
           )}
         </div>
-        {isDetail && group.status !== "waiting" && (
-          <form className="register__form" onClick={handleClickForm}>
-            <GroupJoinInput contentInput={contentInput} />
+        {group.status !== "waiting" && (
+          <SForm onClick={handleClickFormArea} isDetail={isDetail}>
+            <GroupJoinInput content={content} setContent={setContent} />
             <div className="btn__wrapper">
               <button className="btn" onClick={handleSubmitForm}>
                 참여 신청하기
               </button>
             </div>
-          </form>
+          </SForm>
         )}
       </div>
     </SMain>

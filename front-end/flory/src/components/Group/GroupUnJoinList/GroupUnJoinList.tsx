@@ -1,5 +1,6 @@
 import React from "react";
 import GroupUnJoinListITem from "../GroupUnJoinListITem/GroupUnJoinListITem";
+import { SMain } from "./styles";
 
 const SAMPE_DATA = [
   {
@@ -87,15 +88,15 @@ const SAMPE_DATA = [
 
 const GroupUnJoinList = () => {
   return (
-    <>
+    <SMain>
       {SAMPE_DATA.map((group, idx) => {
         return (
           <div>
-            <GroupUnJoinListITem group={group} />
+            <GroupUnJoinListITem group={group} key={idx} />
           </div>
         );
       })}
-    </>
+    </SMain>
   );
 };
 
