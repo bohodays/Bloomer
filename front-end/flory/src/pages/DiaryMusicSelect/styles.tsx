@@ -41,6 +41,41 @@ export const SMain = styled.div`
     justify-content: center;
     align-items: center;
   }
+
+  .select__wrapper {
+    cursor: pointer;
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+
+    .background {
+      background-color: rgba(255, 255, 255, 0.32);
+      padding: 0.4rem 0;
+      border-radius: 12px;
+      border: 2px solid var(--color-white);
+      transition: all linear 300ms;
+    }
+
+    .select__p {
+      font-size: 1rem;
+      color: var(--color-white);
+      z-index: 10;
+      user-select: none;
+    }
+  }
+
+  .select__wrapper:hover {
+    .background {
+      background-color: #ecdcff;
+    }
+
+    .select__p {
+      color: #9a1aff;
+    }
+  }
 `;
 
 export const SMusicWrapper = styled.div<any>`
