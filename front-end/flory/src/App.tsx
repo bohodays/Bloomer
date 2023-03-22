@@ -17,6 +17,9 @@ import GroupList from "./pages/GroupList/GroupList";
 const Main = React.lazy(() => import("./pages/Main/Main"));
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Signup = React.lazy(() => import("./pages/Signup/Signup"));
+const SignupMusicSelect = React.lazy(
+  () => import("./pages/SignupMusicSelect/SignupMusicSelect")
+);
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
@@ -52,6 +55,7 @@ function App() {
             {/* 로그인 되어있으면 메인페이지로 보내기 */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/signup/music" element={<SignupMusicSelect />} />
             <Route path="/map" element={<Map />} />
             <Route path="/diary/create" element={<DiaryCreate />} />
             <Route path="/diary/select" element={<DiarySelect />} />
