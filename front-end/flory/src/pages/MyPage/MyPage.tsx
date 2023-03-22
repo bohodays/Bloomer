@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { SMyPage } from "./styles";
 import { useNavigate } from "react-router-dom";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
-import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal"
-import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal"
+import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
+import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal";
 import Pie from "../../components/common/Pie/Pie";
 import FlowerImg from "../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../components/common/Post/Post";
@@ -12,90 +12,91 @@ import Navbar from "../../components/common/Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
-import Avatar from "../../components/common/Avatar/Avatar"
+import Avatar from "../../components/common/Avatar/Avatar";
 
 const MyPage = () => {
   const navigate = useNavigate();
 
   const handleMove = (target: string) => {
     navigate(target);
-  }
+  };
 
+  const handleMoveGroupList = () => {
+    navigate("/group/list");
+  };
 
   const data = [
     {
-      "id": "기쁨",
-      "label": "기쁨",
-      "value": 573,
-      "color": "hsl(145, 70%, 50%)"
+      id: "기쁨",
+      label: "기쁨",
+      value: 573,
+      color: "hsl(145, 70%, 50%)",
     },
     {
-      "id": "elixir",
-      "label": "elixir",
-      "value": 314,
-      "color": "hsl(75, 70%, 50%)"
+      id: "elixir",
+      label: "elixir",
+      value: 314,
+      color: "hsl(75, 70%, 50%)",
     },
     {
-      "id": "java",
-      "label": "java",
-      "value": 347,
-      "color": "hsl(348, 70%, 50%)"
+      id: "java",
+      label: "java",
+      value: 347,
+      color: "hsl(348, 70%, 50%)",
     },
     {
-      "id": "scala",
-      "label": "scala",
-      "value": 263,
-      "color": "hsl(49, 70%, 50%)"
+      id: "scala",
+      label: "scala",
+      value: 263,
+      color: "hsl(49, 70%, 50%)",
     },
     {
-      "id": "sass",
-      "label": "sass",
-      "value": 542,
-      "color": "hsl(30, 70%, 50%)"
+      id: "sass",
+      label: "sass",
+      value: 542,
+      color: "hsl(30, 70%, 50%)",
     },
     {
-      "id": "sass2",
-      "label": "sass",
-      "value": 542,
-      "color": "hsl(30, 70%, 50%)"
+      id: "sass2",
+      label: "sass",
+      value: 542,
+      color: "hsl(30, 70%, 50%)",
     },
     {
-      "id": "sass3",
-      "label": "sass",
-      "value": 542,
-      "color": "hsl(30, 70%, 50%)"
-    }
-  ]
+      id: "sass3",
+      label: "sass",
+      value: 542,
+      color: "hsl(30, 70%, 50%)",
+    },
+  ];
 
   const distPanel = (
     <div>
       <div className="totalFlower">
         <img src={FlowerImg} className="flowerImg"></img>
-          이번 달에 9개의 꽃을 피웠습니다!
+        이번 달에 9개의 꽃을 피웠습니다!
       </div>
-      <Post title="실시간 누적 감정 분포" content={
-        <div>
-          <div className="inner-title">이번 달 현재까지 가장 많이 기록된 감정은 기쁨입니다</div>
-          <Pie
-            data={
-              data
-            }
-          /> 
-        </div>
-      } />
-      <Post title="지난주 대비 감정 분포" content={
-        "hi"
-      }/>
-      
+      <Post
+        title="실시간 누적 감정 분포"
+        content={
+          <div>
+            <div className="inner-title">
+              이번 달 현재까지 가장 많이 기록된 감정은 기쁨입니다
+            </div>
+            <Pie data={data} />
+          </div>
+        }
+      />
+      <Post title="지난주 대비 감정 분포" content={"hi"} />
     </div>
   );
 
   const groupPanel = (
     <div>
-      <div className="">그룹 둘러보기</div>
-      <Post title="가입한 그룹 목록" content={
-        "hi"
-      }/>
+      <div className="" onClick={handleMoveGroupList}>
+        그룹 둘러보기
+      </div>
+      <Post title="가입한 그룹 목록" content={"hi"} />
     </div>
   );
   return (
@@ -109,18 +110,16 @@ const MyPage = () => {
         />
       </div>
       <ProfileCard
-            width="100%"
-            header={
-              <MyPageEditModal />     
-            }
-            name={"이름"}
-            body={
-              <div style={{ textAlign: "center", padding: "0.3vh" }}>이메일</div>
-            }
-            height="100%"
-            className="profile"
-        />
-      
+        width="100%"
+        header={<MyPageEditModal />}
+        name={"이름"}
+        body={
+          <div style={{ textAlign: "center", padding: "0.3vh" }}>이메일</div>
+        }
+        height="100%"
+        className="profile"
+      />
+
       <BasicTabs
         tabs={[
           {
@@ -134,6 +133,5 @@ const MyPage = () => {
     </SMyPage>
   );
 };
-
 
 export default MyPage;
