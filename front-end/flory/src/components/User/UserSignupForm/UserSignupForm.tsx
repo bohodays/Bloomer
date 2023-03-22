@@ -13,7 +13,7 @@ import { useAppDispatch } from "../../../redux/store.hooks";
 import { useNavigate } from "react-router-dom";
 
 const UserSignupForm = () => {
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState<any>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -62,7 +62,23 @@ const UserSignupForm = () => {
         pwConf: "",
       });
     }
-  }, [password, passwordCheck]);
+  }, [nickname, email, password, passwordCheck]);
+
+  useEffect(() => {
+    if (nickname !== null) {
+      if (!nickname.trim()) {
+        setAlarm({
+          ...alarm,
+          nickname: "alarm",
+        });
+      } else {
+        setAlarm({
+          ...alarm,
+          nickname: "confirm",
+        });
+      }
+    }
+  }, [nickname]);
 
   // 회원가입
   const onSignup = (e: any) => {
@@ -72,12 +88,30 @@ const UserSignupForm = () => {
       password,
       email,
     };
-    dispatch(signupAction(signupData)).then((data) => {
-      if (data.type === "SIGNUP/fulfilled") {
-        alert("회원가입 완료");
-        navigate("/login");
-      }
-    });
+
+    if (!nickname) {
+      setAlarm({
+        ...alarm,
+        nickname: "alarm",
+      });
+    } else {
+      setAlarm({
+        ...alarm,
+        nickname: "confirm",
+      });
+    }
+
+    if (
+      alarm.nickname === "confirm" &&
+      alarm.email === "confirm" &&
+      alarm.pwConf === "confirm"
+    ) {
+      navigate("/signup/music", {
+        state: {
+          signupData,
+        },
+      });
+    }
   };
 
   return (
@@ -93,7 +127,9 @@ const UserSignupForm = () => {
           onChange={(e: any) => setNickname(e.target.value)}
           placeholder="닉네임을 입력해주세요."
         />
-        <p id="nicknameAlarm">닉네임 경고</p>
+        <p id="nicknameAlarm">
+          {alarm.nickname === "alarm" ? "필수 입력 사항입니다." : "닉네임 확인"}
+        </p>
       </div>
       {/* 이메일 */}
       <div className="input__wrapper">
@@ -121,7 +157,9 @@ const UserSignupForm = () => {
           placeholder="이메일을 입력해주세요."
         />
         <p id="emailAlarm">
-          {alarm.email === "alarm" ? "이메일 경고" : "이메일 확인"}
+          {alarm.email === "alarm"
+            ? "이미 존재하는 이메일입니다."
+            : "사용 가능한 이메일입니다."}
         </p>
       </div>
       {/* 비밀번호 */}
@@ -154,8 +192,8 @@ const UserSignupForm = () => {
         />
         <p id="pwConfAlarm">
           {alarm.pwConf === "alarm"
-            ? "비밀번호 확인 경고"
-            : "비밀번호 확인 확인"}
+            ? "비밀번호가 일치하지 않습니다."
+            : "비밀번호가 일치합니다."}
         </p>
       </div>
       <Button
