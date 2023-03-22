@@ -25,6 +25,8 @@ public enum ErrorCode {
     NO_DIARY(HttpStatus.NOT_FOUND,"404","요청한 일기가 없습니다."),
     NO_FLOWER(HttpStatus.NOT_FOUND,"404","없는 꽃입니다."),
 
+    NO_COMMENT(HttpStatus.NOT_FOUND,"404","해당 댓글이 존재하지 않습니다."),
+
     NO_EMOTION(HttpStatus.NOT_FOUND,"404","해당 감정이 존재하지 않습니다."),
 
     NO_MUSIC(HttpStatus.NOT_FOUND,"404","없는 음악입니다."),

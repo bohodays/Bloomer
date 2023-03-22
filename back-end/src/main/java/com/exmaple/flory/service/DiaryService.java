@@ -301,7 +301,7 @@ public class DiaryService {
         return result;
     }
 
-    public DiaryDto getDiaryByLocation(Map<String, String> info) throws Exception {
+    public DiaryDto getDiaryByLocation(Map<String, String> info){
         Long gardenId = Long.parseLong(info.get("gardenId"));
         String x = info.get("x");
         String y = info.get("y");
