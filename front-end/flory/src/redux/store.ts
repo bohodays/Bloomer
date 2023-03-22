@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import user from "./modules/user";
 import diary from "./modules/diary";
 import garden from "./modules/garden";
-import map from "./modules/map";
+
 import weather from "./modules/weather";
 import storage from "redux-persist/lib/storage";
 import { reducer } from "./rootReducer";
@@ -12,7 +12,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "map", "garden", "diary", "weather"],
+  whitelist: ["user", "garden", "diary", "weather"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
