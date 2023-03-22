@@ -4,7 +4,7 @@ import { FiCalendar, FiUser } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { SForm, SMain } from "./styles";
-import GroupJoinInput from "../GroupJoinInput/GroupJoinInput";
+import CreateInput from "../../common/CreateInput/CreateInput";
 
 const convertDateFormat = (date: string) => {
   const target = new Date(date);
@@ -16,7 +16,8 @@ const convertDateFormat = (date: string) => {
 
 const GroupUnJoinListITem = ({ group }: any) => {
   const [isDetail, setIsDetail] = useState(false);
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
+  const contentInput = useRef<HTMLInputElement>(null);
 
   const handleClickDetail = () => {
     setIsDetail(!isDetail);
@@ -26,6 +27,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
   };
   const handleSubmitForm = (e: any) => {
     e.preventDefault();
+    console.log(contentInput.current?.value);
     // 가입 api 쏘기
   };
 
@@ -71,7 +73,11 @@ const GroupUnJoinListITem = ({ group }: any) => {
         </div>
         {group.status !== "waiting" && (
           <SForm onClick={handleClickFormArea} isDetail={isDetail}>
-            <GroupJoinInput content={content} setContent={setContent} />
+            <CreateInput
+              contentInput={contentInput}
+              placeholder="승인 요청을 위한 가입 메시지를 작성해 주세요"
+              page="group"
+            />
             <div className="btn__wrapper">
               <button className="btn" onClick={handleSubmitForm}>
                 참여 신청하기
