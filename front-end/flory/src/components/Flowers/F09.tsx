@@ -22,9 +22,9 @@ type GLTFResult = GLTF & {
   };
   materials: {
     bammoo: THREE.MeshStandardMaterial;
-    stem: THREE.MeshStandardMaterial;
-    ["Material.003"]: THREE.MeshStandardMaterial;
     ["Material.001"]: THREE.MeshStandardMaterial;
+    stem: THREE.MeshStandardMaterial;
+    ["Material.002"]: THREE.MeshStandardMaterial;
   };
 };
 
@@ -109,7 +109,8 @@ export function F09(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={0.17}
+        scale={0.03}
+        rotation={[0.55, 0.1, 0.02]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f09" }}
         onClick={() => {
@@ -117,14 +118,14 @@ export function F09(
         }}
       >
         <mesh geometry={nodes.f09_1.geometry} material={materials.bammoo} />
-        <mesh geometry={nodes.f09_2.geometry} material={materials.stem} />
         <mesh
-          geometry={nodes.f09_3.geometry}
-          material={materials["Material.003"]}
+          geometry={nodes.f09_2.geometry}
+          material={materials["Material.001"]}
         />
+        <mesh geometry={nodes.f09_3.geometry} material={materials.stem} />
         <mesh
           geometry={nodes.f09_4.geometry}
-          material={materials["Material.001"]}
+          material={materials["Material.002"]}
         />
       </group>
     </group>

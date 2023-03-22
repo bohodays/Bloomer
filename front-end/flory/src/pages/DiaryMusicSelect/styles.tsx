@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const SMain = styled.div`
   position: relative;
@@ -16,7 +16,7 @@ export const SMain = styled.div`
 
   .info__wrapper {
     position: absolute;
-    top: 1rem;
+    top: 3rem;
     left: 50%;
     transform: translateX(-50%);
     & > p {
@@ -43,7 +43,7 @@ export const SMain = styled.div`
   }
 `;
 
-export const SMusicWrapper = styled.div`
+export const SMusicWrapper = styled.div<any>`
   padding: 1rem 2rem;
   width: 100%;
   display: flex;
@@ -65,7 +65,12 @@ export const SMusicWrapper = styled.div`
     cursor: pointer;
   }
   /* height: 2rem; */
+
+  background-color: ${(props) =>
+    props.isSelected ? "rgb(228, 163, 158)" : "none"};
+
   &:hover {
-    background-color: rgb(243, 200, 197);
+    background-color: ${(props) =>
+      props.isSelected ? "none" : "rgb(243, 200, 197)"};
   }
 `;

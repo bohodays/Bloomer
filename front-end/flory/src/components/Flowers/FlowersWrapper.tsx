@@ -45,308 +45,310 @@ const FlowersWrapper = () => {
 
   return (
     <>
-      {diary.map((item: any) => {
-        if (item.flowerEmotion.flowerName === "크로커스") {
-          return (
-            <F01
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "은방울꽃") {
-          return (
-            <F02
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "빨간 튤립") {
-          return (
-            <F03
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "칼랑코에") {
-          return (
-            <F04
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "분홍 장미") {
-          return (
-            <F05
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "쑥국화") {
-          return (
-            <F06
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "뱀무") {
-          return (
-            <F07
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "잉글리쉬데이지") {
-          return (
-            <F08
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "함박꽃") {
-          return (
-            <F09
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "무스카리") {
-          return (
-            <F11
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "흑종초") {
-          return (
-            <F11
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "해당화") {
-          return (
-            <F12
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "봉선화") {
-          return (
-            <F13
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "노란 장미") {
-          return (
-            <F14
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "풍접초") {
-          return (
-            <F15
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "매발톱꽃") {
-          return (
-            <F16
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "빨강 매발톱꽃") {
-          return (
-            <F17
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "아네모네") {
-          return (
-            <F18
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "콜레우스") {
-          return (
-            <F19
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "시네라리아") {
-          return (
-            <F20
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "알리움") {
-          return (
-            <F21
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "찔레꽃") {
-          return (
-            <F22
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "노란 카네이션") {
-          return (
-            <F23
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "층꽃나무") {
-          return (
-            <F24
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        } else if (item.flowerEmotion.flowerName === "제라늄") {
-          return (
-            <F25
-              diaryId={item.id}
-              flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
-              onClick={() => {
-                if (!location.pathname.includes("garden/edit")) {
-                  handleMoveToDetail(item.id, item);
-                }
-              }}
-            />
-          );
-        }
-      })}
+      {diary.length &&
+        diary.map((item: any) => {
+          if (item.flowerEmotion.flowerName === "크로커스") {
+            return (
+              <F01
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "은방울꽃") {
+            return (
+              <F02
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "빨간 튤립") {
+            return (
+              <F03
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "칼랑코에") {
+            return (
+              <F04
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "분홍 장미") {
+            return (
+              <F05
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "쑥국화") {
+            return (
+              <F06
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "뱀무") {
+            return (
+              <F07
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "잉글리쉬데이지") {
+            return (
+              <F08
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "함박꽃") {
+            return (
+              <F09
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "무스카리") {
+            return (
+              <F10
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "흑종초") {
+            return (
+              <F11
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "해당화") {
+            return (
+              <F12
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "봉선화") {
+            return (
+              <F13
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "노란 장미") {
+            return (
+              <F14
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "풍접초") {
+            return (
+              <F15
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "매발톱꽃") {
+            return (
+              <F16
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "빨강 매발톱꽃") {
+            return (
+              <F17
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "아네모네") {
+            return (
+              <F18
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "콜레우스") {
+            return (
+              <F19
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "시네라리아") {
+            return (
+              <F20
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "알리움") {
+            return (
+              <F21
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "찔레꽃") {
+            return (
+              <F22
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "노란 카네이션") {
+            return (
+              <F23
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "층꽃나무") {
+            return (
+              <F24
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          } else if (item.flowerEmotion.flowerName === "제라늄") {
+            return (
+              <F25
+                diaryId={item.id}
+                flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
+                onClick={() => {
+                  if (!location.pathname.includes("garden/edit")) {
+                    handleMoveToDetail(item.id, item);
+                  }
+                }}
+              />
+            );
+          }
+        })}
     </>
   );
 };
