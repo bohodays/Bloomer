@@ -31,31 +31,22 @@ const Diary = () => {
   const lat = geoLocation.latitude;
   const lon = geoLocation.longitude;
   const weatherData = useSelector((state: any) => state.weather.weatherData);
+
   const currentTime = new Date().toTimeString();
-  const [backoption, setBackOption] = useState(
-    createLottieOptions(
-      weatherData.sunrise <= currentTime && weatherData.sunset > currentTime
-        ? "day"
-        : "night"
-    )
+  const backoption = createLottieOptions(
+    weatherData.sunrise <= currentTime && weatherData.sunset > currentTime
+      ? "day"
+      : "night"
   );
 
   useEffect(() => {
     let requiredData: WeatherRequiredType;
-    if (lat !== null) {
-      requiredData = {
-        lat,
-        lon,
-      };
-      dispatch(getWeatherAction(requiredData));
-    }
-    // else {
-    //   requiredData = {
-    //     lat: 37.5012860931305,
-    //     lon: 127.039604663862,
-    //   };
-    // }
-  }, [lat]);
+    requiredData = {
+      lat: lat,
+      lon: lon,
+    };
+    dispatch(getWeatherAction(requiredData));
+  }, [lat, dispatch]);
 
   return (
     <SMain>

@@ -22,6 +22,10 @@ const MyPage = () => {
     navigate(target);
   };
 
+  const handleMoveGroupList = () => {
+    navigate("/group/list");
+  };
+
   const data = [
     {
       id: "기쁨",
