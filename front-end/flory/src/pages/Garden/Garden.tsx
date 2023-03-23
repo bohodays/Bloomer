@@ -19,13 +19,13 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../redux/store.hooks";
 import Loading from "../Loading/Loading";
 
 const Scene = () => {
   return (
     <>
-      <Suspense fallback={null}>
+      {/* <Loader /> */}
+      <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
 
         <Base_map_new />
@@ -41,21 +41,9 @@ const Scene = () => {
 
 const Garden = () => {
   const navigate = useNavigate();
-  const loggedUser = useAppSelector((state) => state.user.userData);
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
-
-  // 로딩스피너 조작
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
 
   return (
     <SMain>
-      {isLoading && <Loading />}
-
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
