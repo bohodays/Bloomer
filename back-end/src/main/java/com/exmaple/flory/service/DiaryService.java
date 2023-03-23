@@ -492,27 +492,20 @@ public class DiaryService {
 
         Collections.sort(emotionData);
 
-        List<EmotionDataDto> result = new ArrayList<>();
         List<FlowerEmotionDto> flowerData = new ArrayList<>();
-        for(int i=0;i<3;i++){
-            if(emotionData.get(i).getAnalysis()<1) continue;
-            result.add(emotionData.get(i));
 
-            if(i==0){
-                List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(i).getLargeCategory());
+        List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(0).getLargeCategory());
 
-                for(Flower flower: flowers){
-                    FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
-                            .fid(flower.getId()).largeCategory(emotionData.get(i).getLargeCategory()).eid(flower.getEmotion().getId())
-                            .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
+        for(Flower flower: flowers){
+            FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
+                    .fid(flower.getId()).largeCategory(emotionData.get(0).getLargeCategory()).eid(flower.getEmotion().getId())
+                    .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
 
-                    flowerData.add(flowerEmotionDto);
-                }
-            }
+            flowerData.add(flowerEmotionDto);
         }
 
         FlowerEmotionDataDto flowerEmotionDataDto = FlowerEmotionDataDto.builder()
-                .flowers(flowerData).emotions(result).build();
+                .flowers(flowerData).emotions(emotionData).build();
 
         return flowerEmotionDataDto;
     }
