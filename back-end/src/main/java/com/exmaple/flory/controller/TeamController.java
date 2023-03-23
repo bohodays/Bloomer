@@ -34,6 +34,18 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/all/search")
+    public ResponseEntity<?> getAllTeamByKeyWord(@RequestParam(name = "keyword") String keyword){
+        try{
+            List<TeamDto> teamDto = teamService.getAllTeamByKeyWord(keyword, SecurityUtil.getCurrentMemberId());
+            return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
+        } catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<?> getAllTeam(){
         try{
@@ -97,9 +109,9 @@ public class TeamController {
     }
 
     @PostMapping("/member")
-    public ResponseEntity<?> insertTeamMember(@RequestBody TeamMemberRequestDto teamMemberRequestDto){ //그룹 가입 신청
+    public ResponseEntity<?> insertTeamMember(@RequestBody TeamMemberDto teamMemberDto){ //그룹 가입 신청
         try{
-            TeamDto teamDto = teamService.insertTeamMember(teamMemberRequestDto);
+            TeamDto teamDto = teamService.insertTeamMember(teamMemberDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
         } catch(CustomException e){
             log.info(e.getMessage());
@@ -110,7 +122,7 @@ public class TeamController {
     }
 
     @PutMapping("/approve")
-    public ResponseEntity<?> approveTeamMember(@RequestBody TeamApproveRequestDto teamApproveRequestDto){ //그룹 가입 신청
+    public ResponseEntity<?> approveTeamMember(@RequestBody TeamApproveRequestDto teamApproveRequestDto){ //그룹 가입 신청 승인
         try{
             TeamDto teamDto = teamService.approveTeamMember(teamApproveRequestDto);
             return new ResponseEntity<>(new SuccessResponse(teamDto), HttpStatus.OK);
@@ -123,12 +135,25 @@ public class TeamController {
     }
 
     @DeleteMapping("/member")
-    public ResponseEntity<?> deleteTeamMember(@RequestBody TeamMemberRequestDto teamMemberRequestDto){
+    public ResponseEntity<?> deleteTeamMember(@RequestBody TeamApproveRequestDto teamMemberDto){
         try{
-            teamService.deleteTeamMember(teamMemberRequestDto);
+            teamService.deleteTeamMember(teamMemberDto);
             return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
         } catch(CustomException e){
             log.info(e.getMessage());
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sign/{teamId}")
+    public ResponseEntity<?> signTeamMember(@PathVariable Long teamId){
+        try{
+            // userId : SecurityUtil.getCurrentMemberId()
+            List<TeamMemberResponseDto> teamMemberDtoList = teamService.signTeamMember(teamId);
+            return new ResponseEntity<>(new SuccessResponse(teamMemberDtoList), HttpStatus.OK);
+        } catch(CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);

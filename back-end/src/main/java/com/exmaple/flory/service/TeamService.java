@@ -7,11 +7,9 @@ import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.UserTeam;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
-import com.exmaple.flory.repository.QTeamRepository;
 import com.exmaple.flory.repository.TeamRepository;
 import com.exmaple.flory.repository.MemberRepository;
 import com.exmaple.flory.repository.UserTeamRepository;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,16 +36,33 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
+    public List<TeamDto> getAllTeamByKeyWord(String keyword, Long userId){
+
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+        List<Team> teamList = teamRepository.getAllTeamByKeyWord(keyword, userId);
+        List<TeamDto> teamDtoList = new ArrayList<>();
+        for(Team team : teamList){
+            teamDtoList.add(TeamDto.of(team,member));
+        }
+
+        return teamDtoList;
+    }
+
+    @Transactional(readOnly = true)
     public List<TeamDto> getAllTeam(Long userId){
 
         Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         List<Team> teamList = teamRepository.getAllTeam(userId);
-        for(int i=0; i<teamList.size(); i++){
-            log.info(teamList.get(i).toString());
-        }
+        System.out.println(teamList.size());
         List<TeamDto> teamDtoList = new ArrayList<>();
+        for(Team team : teamList){
+            teamDtoList.add(TeamDto.of(team,member));
+        }
+
         return teamDtoList;
     }
 
@@ -105,11 +120,11 @@ public class TeamService {
     }
 
     @Transactional
-    public TeamDto insertTeamMember(TeamMemberRequestDto teamMemberRequestDto){
-        Team team = teamRepository.findById(teamMemberRequestDto.getTeamId())
+    public TeamDto insertTeamMember(TeamMemberDto teamMemberDto){
+        Team team = teamRepository.findById(teamMemberDto.getTeamId())
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        Member member = memberRepository.findById(teamMemberRequestDto.getUserId())
+        Member member = memberRepository.findById(teamMemberDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         if(userTeamRepository.existsByUidAndTid(member,team)){
@@ -120,11 +135,11 @@ public class TeamService {
                 .tid(team)
                 .uid(member)
                 .status(0) //가입 대기
-                .message(teamMemberRequestDto.getMessage())
+                .message(teamMemberDto.getMessage())
                 .manager(1) //멤버로
                 .build();
 
-        return TeamDto.of(userTeamRepository.save(userTeam).getTid());
+        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
     }
 
     @Transactional
@@ -139,15 +154,15 @@ public class TeamService {
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
 
         userTeam.updateUserTeam(1); //가입 승인 상태로
-        return TeamDto.of(userTeamRepository.save(userTeam).getTid());
+        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
     }
 
     @Transactional
-    public int deleteTeamMember(TeamMemberRequestDto teamMemberRequestDto){
-        Team team = teamRepository.findById(teamMemberRequestDto.getTeamId())
+    public int deleteTeamMember(TeamApproveRequestDto teamApproveRequestDto){
+        Team team = teamRepository.findById(teamApproveRequestDto.getTeamId())
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        Member member = memberRepository.findById(teamMemberRequestDto.getUserId())
+        Member member = memberRepository.findById(teamApproveRequestDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
@@ -155,5 +170,18 @@ public class TeamService {
 
         userTeamRepository.deleteById(userTeam.getUserTeamId());
         return 1;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamMemberResponseDto> signTeamMember(Long teamId){
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
+        List<UserTeam> userTeamList = userTeamRepository.findAllByTidAndStatus(team, 0);
+        List<TeamMemberResponseDto> teamMemberResponseDtoList = new ArrayList<>();
+        for(UserTeam userTeam : userTeamList){
+            teamMemberResponseDtoList.add(TeamMemberResponseDto.of(userTeam));
+        }
+
+        return teamMemberResponseDtoList;
     }
 }

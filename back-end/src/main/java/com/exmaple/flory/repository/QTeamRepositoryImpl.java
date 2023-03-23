@@ -1,21 +1,10 @@
 package com.exmaple.flory.repository;
 
-import com.exmaple.flory.dto.member.MemberResponseDto;
-import com.exmaple.flory.dto.team.TeamDto;
-import com.exmaple.flory.dto.team.TeamQueryDto;
 import com.exmaple.flory.entity.*;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.exmaple.flory.entity.QDiary.diary;
-import static com.exmaple.flory.entity.QMember.member;
 import static com.exmaple.flory.entity.QTeam.team;
 import static com.exmaple.flory.entity.QUserTeam.userTeam;
 
@@ -32,10 +21,23 @@ public class QTeamRepositoryImpl implements QTeamRepository {
     public List<Team> getAllTeam(Long userId) {
 
         return jpaQueryFactory
-                .selectFrom(team)
-                .leftJoin(userTeam.tid, team)
+                .selectFrom(team).distinct()
+                .leftJoin(userTeam)
                 .on(team.teamId.eq(userTeam.tid.teamId))
+                .where((userTeam.uid.userId.eq(userId)).or((userTeam.status.eq(1))))
+                .fetchJoin()
                 .fetch();
     }
     //select * from team left join user_team on team.id = user_team.tid where user_team.uid = 2 or user_team.status  = 1
+
+    @Override
+    public List<Team> getAllTeamByKeyWord(String keyword, Long userId){
+        return jpaQueryFactory
+                .selectFrom(team).distinct()
+                .leftJoin(userTeam)
+                .on(team.teamId.eq(userTeam.tid.teamId))
+                .where(((userTeam.uid.userId.eq(userId)).or((userTeam.status.eq(1)))).and(team.name.contains(keyword)))
+                .fetchJoin()
+                .fetch();
+    }
 }

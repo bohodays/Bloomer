@@ -1,6 +1,7 @@
 package com.exmaple.flory.dto.team;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
+import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.Team;
 import com.exmaple.flory.entity.UserTeam;
 import lombok.AllArgsConstructor;
@@ -23,17 +24,21 @@ public class TeamDto {
     private LocalDateTime createdDate;
     private Integer status;
 
-    public static TeamDto of(TeamQueryDto teamQueryDto) {
+    public static TeamDto of(Team team, Member member) {
         List<MemberResponseDto> memberList = new ArrayList<>();
+        int status = -1; //신청도 안한 상태
 
-        for(UserTeam userTeam : teamQueryDto.getUserTeamList()){
+        for(UserTeam userTeam : team.getUserTeamList()){
             if(userTeam.getStatus() == 1){ // 승인된 사람들만
                 memberList.add(MemberResponseDto.of(userTeam.getUid()));
             }
-        }
-        return new TeamDto(teamQueryDto.getTeamId(), teamQueryDto.getName(), teamQueryDto.getInfo(), teamQueryDto.getOpen(), memberList, teamQueryDto.getCreatedDate(), teamQueryDto.getStatus());
-    }
 
+            if(userTeam.getUid().getUserId().equals(member.getUserId())){
+                status = userTeam.getStatus();
+            }
+        }
+        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(), status);
+    }
     public static TeamDto of(Team team) {
         List<MemberResponseDto> memberList = new ArrayList<>();
 
