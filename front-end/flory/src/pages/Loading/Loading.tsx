@@ -1,6 +1,7 @@
 import React from "react";
+import { Html, useProgress } from "@react-three/drei";
 import Lottie from "react-lottie";
-import animationData from "../../assets/imgs/lotties/sunshine.json";
+import animationData from "../../assets/imgs/lotties/Loading.json";
 
 const defaultOptions = {
   loop: true,
@@ -12,30 +13,14 @@ const defaultOptions = {
 };
 
 const Loading = () => {
+  const { progress } = useProgress();
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        display: "flex",
-        alignItems: "center",
-        // zIndex: 1,
-        backgroundColor: "#b01fbf",
-      }}
-    >
-      {/* <Lottie
-        style={{
-          position: "relative",
-
-          width: "40%",
-        }}
-        options={defaultOptions}
-        height={200}
-        width="100%"
-      /> */}
-      <h1 style={{ color: "white" }}>Loading</h1>
-    </div>
+    <Html center>
+      <div>
+        <Lottie options={defaultOptions} height={250} />
+        <h1 style={{ color: "white" }}>Loading</h1>
+      </div>
+    </Html>
   );
 };
 

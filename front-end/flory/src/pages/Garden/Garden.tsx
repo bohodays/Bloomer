@@ -10,6 +10,8 @@ import {
   Float,
   Sparkles,
   Stars,
+  useProgress,
+  Html,
 } from "@react-three/drei";
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
@@ -21,11 +23,14 @@ import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store.hooks";
 import Loading from "../Loading/Loading";
+import animationData from "../../assets/imgs/lotties/Loading.json";
+import Lottie from "react-lottie";
 
 const Scene = () => {
   return (
     <>
-      <Suspense fallback={null}>
+      {/* <Loader /> */}
+      <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
 
         <Base_map_new />
@@ -45,16 +50,16 @@ const Garden = () => {
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   // 로딩스피너 조작
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
+  // const [isLoading, setIsLoading] = useState(true);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 100);
+  // }, []);
 
   return (
     <SMain>
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
 
       <ToggleButton />
       <Canvas shadows={true}>
