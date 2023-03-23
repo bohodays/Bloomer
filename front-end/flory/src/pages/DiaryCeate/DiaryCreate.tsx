@@ -182,12 +182,8 @@ const DiaryCreate = () => {
         {/* 전체 공개인 경우 height 60% 올리는 로직 추가하기! */}
         <CreateInput
           contentInput={contentInput}
-          placeHolder="어떤 일이 있었나요?"
+          placeholder="어떤 일이 있었나요?"
         />
-        <h1>1</h1>
-        <h1>2</h1>
-        <h1>3</h1>
-        <h1>4</h1>
         <div className="input__wrapper">
           <button className="image__button">
             <FontAwesomeIcon
