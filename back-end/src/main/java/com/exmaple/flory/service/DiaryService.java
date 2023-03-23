@@ -5,6 +5,8 @@ import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
+import com.exmaple.flory.dto.emotion.EmotionDataDto;
+import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
@@ -14,7 +16,10 @@ import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
@@ -451,6 +456,65 @@ public class DiaryService {
         }
 
         return comments;
+    }
+
+    public FlowerEmotionDataDto getFlowerEmotionData(Map<String,String> data){
+        List<EmotionDataDto> emotionData = new ArrayList<>();
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://j8a205.p.ssafy.io/domain/emotions/analysis/";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(data, headers);
+
+        Map<String,List<String>> resultData = restTemplate.exchange(
+                url, HttpMethod.POST, entity ,new ParameterizedTypeReference<Map<String,List<String>>>() {}
+        ).getBody();
+
+        List<Double> percents = new ArrayList<>();
+
+        for(String str: resultData.get("result")){
+            percents.add(Double.parseDouble(str));
+        }
+
+        log.info("Emotion Analysis Data: {}",percents);
+
+        for(int i=0;i<percents.size();i++){
+            EmotionDataDto emoData = EmotionDataDto.builder()
+                    .largeCategory(emotions[i]).analysis(100*percents.get(i)).build();
+
+            log.info("Emotion Data: {}",emoData);
+
+            emotionData.add(emoData);
+        }
+
+        Collections.sort(emotionData);
+
+        List<EmotionDataDto> result = new ArrayList<>();
+        List<FlowerEmotionDto> flowerData = new ArrayList<>();
+        for(int i=0;i<3;i++){
+            if(emotionData.get(i).getAnalysis()<1) continue;
+            result.add(emotionData.get(i));
+
+            if(i==0){
+                List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(i).getLargeCategory());
+
+                for(Flower flower: flowers){
+                    FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
+                            .fid(flower.getId()).largeCategory(emotionData.get(i).getLargeCategory()).eid(flower.getEmotion().getId())
+                            .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
+
+                    flowerData.add(flowerEmotionDto);
+                }
+            }
+        }
+
+        FlowerEmotionDataDto flowerEmotionDataDto = FlowerEmotionDataDto.builder()
+                .flowers(flowerData).emotions(result).build();
+
+        return flowerEmotionDataDto;
     }
 
     public FlowerEmotionDto getFlowerEmotion(Flower flowerData){
