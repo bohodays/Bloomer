@@ -176,9 +176,6 @@ public class DiaryController {
         try{
             FlowerEmotionDataDto result = diaryService.getFlowerEmotionData(data);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
-        } catch (CustomException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
