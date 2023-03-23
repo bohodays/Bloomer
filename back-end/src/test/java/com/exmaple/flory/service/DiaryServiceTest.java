@@ -204,6 +204,34 @@ public class DiaryServiceTest {
         assertEquals(diaryDto.getContent(),result.getContent());
     }
 
+    @DisplayName("그룹 공개 일기 수정하기 테스트")
+    @Test
+    public void updateMemberDiaryTest(){
+        List<Long> groupList = new ArrayList<>();
+        groupList.add(1L);
+
+        DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
+                .publicStatus("그룹공개").address("address").content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).groupList(groupList).build();
+        List<Long> emotions = new ArrayList<>();
+        emotions.add(emotion.getId());
+
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+        diary.setPublicStatus("그룹공개");
+
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
+        when(diaryRepository.save(any())).thenReturn(diary);
+        when(gardenRepository.findById(any())).thenReturn(Optional.ofNullable(garden));
+        when(flowerRepository.findById(any())).thenReturn(Optional.ofNullable(flower));
+        when(flowerRepository.getEmotionKey(any())).thenReturn(emotions);
+        when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
+        when(musicRepository.findById(any())).thenReturn(Optional.of(music));
+
+        DiaryDto result = diaryService.updateDiary(diaryRequestDto);
+
+        assertEquals(diaryDto.getContent(),result.getContent());
+    }
+
     @DisplayName("해당 정원의 일기 목록 조회 테스트")
     @Test
     public void getDiaryByGardenTest(){
