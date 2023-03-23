@@ -31,6 +31,11 @@ const Scene = () => {
 };
 
 const GardenEdit = () => {
+  // 현재 작성 중인 일기 데이터
+  const currentCreateDiaryData = useAppSelector(
+    (state) => state.diaryCreate.diaryCreateData
+  );
+  console.log(currentCreateDiaryData);
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);

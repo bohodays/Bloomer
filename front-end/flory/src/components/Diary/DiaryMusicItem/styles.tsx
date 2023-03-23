@@ -7,7 +7,11 @@ export const SMusicWrapper = styled.div<any>`
   justify-content: space-between;
   align-items: center;
   transition: all linear 300ms;
-  margin: 0.3rem 0;
+
+  /* 오디오 숨기기 */
+  audio {
+    display: none;
+  }
 
   .icon {
     padding: 0.8rem;

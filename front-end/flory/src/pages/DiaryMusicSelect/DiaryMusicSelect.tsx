@@ -1,17 +1,17 @@
-import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/common/Button/Button";
 import Navbar from "../../components/common/Navbar/Navbar";
-import { useAppSelector } from "../../redux/store.hooks";
-import { SMain, SMusicWrapper } from "./styles";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { SMain } from "./styles";
 import AWS from "aws-sdk";
 import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem";
+import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
 
 const DiaryMusicSelect = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
+  console.log(aa);
 
   const [selectedItems, setSelectedItems] = useState<any>({
     select1: false,
@@ -52,6 +52,19 @@ const DiaryMusicSelect = () => {
     setSelectedItems({ ...initItem, [key]: !selectedItems[key] });
   };
 
+  // 일기 작성할 때 보내야 하는 건 music id임
+  // 근데 감정 보내면 받는 응답은 음악들의 타이틀임
+  // 내가 그 음악들의 id를 어떻게 알지?
+
+  // 선택된 select를 보고 mid로 변환해야 함
+
+  const handleNavigate = () => {
+    const musicData = { mid: 1 };
+    dispatch(createInfoSaveAction(musicData)).then(() => {
+      navigate("/garden/edit");
+    });
+  };
+
   return (
     <SMain>
       <div className="info__wrapper">
@@ -87,19 +100,7 @@ const DiaryMusicSelect = () => {
         musicUrl={musicUrl}
         onClick={() => handleItemClick("select5")}
       />
-      {/* <SMusicWrapper isSelected={selectedItems.select1}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 1</p>
-        <audio src={musicUrl} controls id="myAudio"></audio>
-        <FontAwesomeIcon
-          className="icon play item1"
-          icon={selectedItems.select1 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select1: !selectedItems.select1 });
-          }}
-        />
-      </SMusicWrapper> */}
-      <div className="select__wrapper">
+      <div className="select__wrapper" onClick={handleNavigate}>
         <div className="background">
           <p className="select__p">선택</p>
         </div>

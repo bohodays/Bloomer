@@ -10,6 +10,9 @@ export type DiaryCreateStateType = {
     lng: string;
     mid: number | null;
     publicStatus: string;
+    x: number;
+    y: number;
+    z: number;
   };
   currentEmotionData: any;
   currentFlowerData: any;

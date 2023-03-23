@@ -34,6 +34,8 @@ declare global {
 }
 
 const DiaryCreate = () => {
+  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
+  console.log(aa);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

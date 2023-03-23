@@ -58,6 +58,8 @@ const Carousel = ({ children }: any) => {
 };
 
 const DiarySelect = () => {
+  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
+  console.log(aa);
   const nickname = useAppSelector((state) => state.user.userData.nickname);
   const dispatch = useAppDispatch();
 
