@@ -23,4 +23,26 @@ public class UserTeam {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="uid")
     private Member uid;
+
+    /**
+     * status = 0 : 대기중
+     * status = 1 : 승인
+     */
+    @Column(name = "status", nullable = false)
+    private Integer status;
+
+    @Column(name = "message", length = 100)
+    private String message; //신청메시지
+
+    /**
+     * manager = 0 : 관리자
+     * manager = 1 : 멤버
+     */
+    @Column(name = "manager", nullable = false)
+    private Integer manager; //관리자
+
+    public UserTeam updateUserTeam(int status) {
+        this.status = status;
+        return this;
+    }
 }

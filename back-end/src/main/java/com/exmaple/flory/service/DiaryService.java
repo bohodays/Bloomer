@@ -530,7 +530,7 @@ public class DiaryService {
         Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) return false;
 
-        List<UserTeam> teamList = userTeamRepository.findAllByUid(member.get());
+        List<UserTeam> teamList = userTeamRepository.findAllByUidAndStatus(member.get(), 1);
 
         for(int i=0;i<teamList.size();i++) {
             if(groupList.contains(teamList.get(i).getTid().getTeamId())){

@@ -18,10 +18,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
 public class DiaryServiceTest {
 
@@ -370,7 +368,7 @@ public class DiaryServiceTest {
 
         when(diaryTeamRepository.getGroup(any())).thenReturn(groupList);
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
-        when(userTeamRepository.findAllByUid(any())).thenReturn(userTeams);
+        when(userTeamRepository.findAllByUidAndStatus(any(),eq(1))).thenReturn(userTeams);
 
         List<DiaryDto> result = diaryService.getDiaryListInMap(info);
 
@@ -457,7 +455,7 @@ public class DiaryServiceTest {
 
         when(diaryTeamRepository.getGroup(any())).thenReturn(groupList);
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
-        when(userTeamRepository.findAllByUid(any())).thenReturn(userTeams);
+        when(userTeamRepository.findAllByUidAndStatus(any(),eq(1))).thenReturn(userTeams);
 
         boolean result = diaryService.isInTeam(1L,1L);
 
