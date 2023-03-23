@@ -25,7 +25,8 @@ from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
 
 import json
-
+from .models import Member
+from django.core import serializers
 
 max_len = 64
 batch_size = 64
@@ -38,7 +39,7 @@ bertmodel, vocab = get_pytorch_kobert_model()
 
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
-checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
+checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -48,22 +49,51 @@ tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #===============================
 
-def nearestUser(request, user_id):
+def nearestUser(request, emotion,user_id):
 
     if request.method == 'GET':
         
         #member table에서 전체 유저 정보 가져오기
+        members = Member.objects.all()
 
         #user id가 key user객체를 value로하는 딕셔너리 생성 
+        idToUser = dict()
+
+        for member in members:
+            idToUser[member.user_id] = member
 
         #[classic,jazz,pop,reggae,RnB,electronic]을 벡터화 하기 true면 1 false면 0
+        jenre_vector = [] # 장르 벡터 2d array
+
+        for member in members:
+            cur = convertVector(member)
+            jenre_vector.append((cur,member.user_id))
 
         #각 유저별로 코사인 유사도계산
 
-        #가장 큰 값을 가지는 인덱스 받아서 딕셔너리로 user id가져오기
+        curUserVector = convertVector(idToUser[user_id]) # 현재 유저의 음악 벡터
 
-        #user id return
-    else :
+        result = [] #결과 계산값
+
+        for vector in jenre_vector:
+
+            res = cos_sim(curUserVector,vector[0])
+            result.append((res,vector[1])) # 결과값과 user_id저장
+
+        #코사인 유사도 큰 순으로 정렬
+        result.sort(key=lambda x: -x[0]) 
+        
+        #가장 큰 값을 가지는 인덱스 받아서 딕셔너리로 user id가져오기
+        #자기자신이 0번째니까 그다음유저가 가장 유사한 녀석임
+        similarUser = idToUser[result[1][1]].user_id
+
+        #similarUser가 어떤 감정일 때 어떤 노래를 듣는지 찾아야함.
+
+        json_data = json.dumps(serialize_object(idToUser[result[1][1]]))
+
+        return JsonResponse({"result" : json_data})
+        
+    else:
         return JsonResponse({"result" : "GET으로 요청하시오"})
 
 def analysis(request):
@@ -128,3 +158,32 @@ def makeProb(logits):
 
 def cos_sim(A, B):
   return dot(A, B)/(norm(A)*norm(B))    
+
+def convertVector(member):
+    cur = []
+    #클래식
+    cur.append(member.classic)
+
+    #재즈
+    cur.append(member.jazz)
+
+    #pop
+    cur.append(member.pop)
+
+    #reggae
+    cur.append(member.reggae)
+    
+    #RnB
+    cur.append(member.RnB)
+
+    #electronic
+    cur.append(member.electronic)
+
+    return cur
+    
+def serialize_object(obj):
+    return {
+        'nickname' : obj.nickname,
+        'email': obj.email,
+        'user_id' : obj.user_id
+    }

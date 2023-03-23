@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'flory.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bloommer',
+        'USER': 'a205',
+        'PASSWORD': '1234',
+        'HOST': 'j8a205.p.ssafy.io',
+        'PORT': '3301',
     }
 }
 
