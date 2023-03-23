@@ -43,3 +43,27 @@ export const updatePositionAction = createAsyncThunk(
     }
   }
 );
+
+// 입력받은 텍스트를 통해 감정 도출
+export const getEmotionAction = createAsyncThunk(
+  "GETEMOTION",
+  async (text: string | undefined, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.post(
+        `/api/diary/emotion`,
+        { text },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DiaryStateType } from "../../../models/diary/diaryStateType";
-import { createDiaryAction, updatePositionAction } from "./diary-action";
+import {
+  createDiaryAction,
+  getEmotionAction,
+  updatePositionAction,
+} from "./diary-action";
 
 const initialState: DiaryStateType = {
   diaryData: [
@@ -2436,8 +2440,6 @@ const diarySlice = createSlice({
         state.create.loading = false;
         state.create.data = payload;
         state.create.error = null;
-
-        console.log(state.create.data);
       })
       .addCase(createDiaryAction.rejected, (state, { payload }) => {
         state.create.loading = false;
@@ -2454,13 +2456,11 @@ const diarySlice = createSlice({
         state.positionUpdate.loading = false;
         state.positionUpdate.data = payload;
         state.positionUpdate.error = null;
-        console.log(payload);
       })
       .addCase(updatePositionAction.rejected, (state, { payload }) => {
         state.positionUpdate.loading = false;
         state.positionUpdate.data = null;
         state.positionUpdate.error = payload;
-        console.log(payload, 99);
       });
   },
 });

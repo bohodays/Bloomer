@@ -4,11 +4,15 @@ import React, { useRef, useState, useEffect  } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button/Button";
 import Navbar from "../../components/common/Navbar/Navbar";
+import { useAppSelector } from "../../redux/store.hooks";
 import { SMain, SMusicWrapper } from "./styles";
 import AWS from "aws-sdk";
 
 const DiaryMusicSelect = () => {
   const navigate = useNavigate();
+  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
+  console.log(aa);
+
   const [selectedItems, setSelectedItems] = useState<any>({
     select1: false,
     select2: false,
