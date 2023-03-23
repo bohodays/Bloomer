@@ -110,7 +110,7 @@ export const SSection = styled.section`
     margin-right: 0;
   }
 
-  /* 위치 */
+  /* 위치 스타일 */
   .location__wrapper {
     margin: 0 auto;
     margin-top: 0.8rem;
