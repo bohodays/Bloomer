@@ -60,14 +60,16 @@ const Carousel = ({ children }: any) => {
 const DiarySelect = () => {
   const nickname = useAppSelector((state) => state.user.userData.nickname);
   const dispatch = useAppDispatch();
+
+  // 감정 정보
   const emotionData = useAppSelector(
     (state) => state.diaryCreate.currentEmotionData
   );
+
+  // 해당 감정에 대한 꽃 정보 (소분류들)
   const flowerData = useAppSelector(
     (state) => state.diaryCreate.currentFlowerData
   );
-
-  console.log(emotionData, flowerData, "제발");
 
   const navigate = useNavigate();
 
@@ -92,20 +94,7 @@ const DiarySelect = () => {
         });
       }
     }
-
-    // const active = "--active";
-    // let target;
-    // [...items].map((item, i) => {
-    //   if (item.style.active === 1) {
-    //     console.log(i);
-    //   }
-    // });
-    // console.log(items, 99);
-
-    // navigate("/diary/select/music");
   };
-
-  const CARDS = flowerData.length;
 
   return (
     <SMain>
