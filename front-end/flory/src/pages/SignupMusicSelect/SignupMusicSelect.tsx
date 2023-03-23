@@ -6,25 +6,35 @@ import { SMain } from "./styles";
 import Button from "../../components/common/Button/Button";
 import Chip from "../../components/common/Chip/Chip";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { signupAction } from "../../redux/modules/user";
 
 const SignupMusicSelect = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   const signupData = location.state.signupData;
 
   const [selectedItems, setSelectedItems] = useState<any>({
-    Classic: false,
-    Jazz: false,
-    Pop: false,
+    classic: false,
+    jazz: false,
+    pop: false,
     HipHop: false,
-    Reggae: false,
-    RandB: false,
-    Electronic: false,
+    reggae: false,
+    RnB: false,
+    electronic: false,
   });
 
   const handleSignUp = () => {
-    navigate("/login");
+    const userData = {
+      ...signupData,
+      ...selectedItems,
+    };
+
+    dispatch(signupAction(userData)).then(() => {
+      navigate("/login");
+    });
   };
 
   return (
@@ -45,11 +55,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#e3f2fd",
             activeColor: "#bbdefb",
           }}
-          active={selectedItems.Classic}
+          active={selectedItems.classic}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              Classic: !selectedItems.Classic,
+              classic: !selectedItems.classic,
             });
           }}
         />
@@ -61,9 +71,9 @@ const SignupMusicSelect = () => {
             hoverColor: "#fce4ec",
             activeColor: "#f48fb1",
           }}
-          active={selectedItems.Jazz}
+          active={selectedItems.jazz}
           onClick={() => {
-            setSelectedItems({ ...selectedItems, Jazz: !selectedItems.Jazz });
+            setSelectedItems({ ...selectedItems, jazz: !selectedItems.jazz });
           }}
         />
       </div>
@@ -76,11 +86,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#fff3e0",
             activeColor: "#ffcc80",
           }}
-          active={selectedItems.Pop}
+          active={selectedItems.pop}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              Pop: !selectedItems.Pop,
+              pop: !selectedItems.pop,
             });
           }}
         />
@@ -108,11 +118,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#e8f5e9",
             activeColor: "#a5d6a7",
           }}
-          active={selectedItems.Reggae}
+          active={selectedItems.reggae}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              Reggae: !selectedItems.Reggae,
+              reggae: !selectedItems.reggae,
             });
           }}
         />
@@ -126,11 +136,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#efebe9",
             activeColor: "#bcaaa4",
           }}
-          active={selectedItems.RandB}
+          active={selectedItems.RnB}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              RandB: !selectedItems.RandB,
+              RnB: !selectedItems.RnB,
             });
           }}
         />
