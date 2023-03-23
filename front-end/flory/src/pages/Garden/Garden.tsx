@@ -10,8 +10,6 @@ import {
   Float,
   Sparkles,
   Stars,
-  useProgress,
-  Html,
 } from "@react-three/drei";
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
@@ -21,10 +19,7 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../redux/store.hooks";
 import Loading from "../Loading/Loading";
-import animationData from "../../assets/imgs/lotties/Loading.json";
-import Lottie from "react-lottie";
 
 const Scene = () => {
   return (
@@ -46,21 +41,9 @@ const Scene = () => {
 
 const Garden = () => {
   const navigate = useNavigate();
-  const loggedUser = useAppSelector((state) => state.user.userData);
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
-
-  // 로딩스피너 조작
-  // const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 100);
-  // }, []);
 
   return (
     <SMain>
-      {/* {isLoading && <Loading />} */}
-
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
