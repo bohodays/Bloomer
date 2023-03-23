@@ -10,7 +10,7 @@ public enum ErrorCode {
     // common
     INVALID_INPUT(HttpStatus.METHOD_NOT_ALLOWED, "405", "기입되지 않은 정보가 있습니다"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "서버 내부 에러"),
-
+    INVALID_EMOTION(HttpStatus.NOT_FOUND,"404","없는 감정입니다."),
     //garden
     INVALID_GARDEN(HttpStatus.NOT_FOUND,"404","없는 정원 정보입니다."),
     // user

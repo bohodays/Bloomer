@@ -4,6 +4,7 @@ import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
+import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
@@ -160,6 +161,20 @@ public class DiaryController {
     public ResponseEntity<?> updateDiaryLocation(@RequestBody UpdateDiariesDto updateDiariesDto){
         try{
             List<DiaryDto> result = diaryService.updateDiaryLocation(updateDiariesDto.getUpdateDiaries());
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/emotion")
+    public ResponseEntity<?> getEmotionData(@RequestBody Map<String,String> data){
+        try{
+            FlowerEmotionDataDto result = diaryService.getFlowerEmotionData(data);
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
         } catch (CustomException e){
             e.printStackTrace();
