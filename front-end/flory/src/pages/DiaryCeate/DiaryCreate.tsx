@@ -22,8 +22,10 @@ import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryL
 import { PlaceType } from "../../models/map/placeType";
 
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { createDiaryAction } from "../../redux/modules/diary";
+import { createDiaryAction, getEmotionAction } from "../../redux/modules/diary";
 import { useNavigate } from "react-router-dom";
+import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
+import { emotionDataSave } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 
 declare global {
   interface Window {
@@ -100,6 +102,8 @@ const DiaryCreate = () => {
 
   const handleImgChange = (e: any) => {
     const imgFile = e.target.files[0];
+    console.log(typeof imgFile);
+
     let reader = new FileReader();
     if (imgFile) {
       reader.readAsDataURL(imgFile);
@@ -142,23 +146,30 @@ const DiaryCreate = () => {
       imgSrc: selectedImg.image_file,
       lat: place.lat,
       lng: place.lng,
+      // 그룹 설정 수정해야 됨
       publicStatus: "전체공개",
+      // 전체 공개 아니면 그룹 리스트 배열 넣기
       groupList: null,
-      fid: 1,
-      gid: 1,
-      mid: 1,
+      fid: null,
+      gid: null,
+      mid: null,
       address: place.placeName ? place.placeName : place.address,
     };
 
-    console.log(diaryData);
     if (!diaryData.content?.trim()) {
       handleOpen();
     } else {
-      navigate("/diary/select", {
-        state: {
-          diaryData,
-        },
-      });
+      // 입력된 텍스트로 감정 분석하기
+      dispatch(getEmotionAction(contentInput.current?.value))
+        .then((res) => {
+          // 분석된 감정과 꽃 정보 저장
+          dispatch(emotionDataSave(res));
+          // 꽃 선택 페이지로 가기 전에 현재 입력 상태 저장
+          dispatch(createInfoSaveAction(diaryData));
+        })
+        .then(() => {
+          navigate("/diary/select");
+        });
     }
 
     // dispatch(createDiaryAction(diaryData));
