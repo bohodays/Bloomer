@@ -27,8 +27,9 @@ const Scene = () => {
       {/* <Loader /> */}
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-
-        <Base_map_new />
+        <Float>
+          <Base_map_new />
+        </Float>
 
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
