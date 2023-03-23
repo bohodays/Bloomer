@@ -63,6 +63,8 @@ html {
   font-style: normal;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Niconne&display=swap");
+
 body {
   position: relative;
   /* font-family: "Open Sans", sans-serif; */
