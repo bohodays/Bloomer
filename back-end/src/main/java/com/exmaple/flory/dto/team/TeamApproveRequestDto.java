@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TeamReNameRequestDto {
+public class TeamApproveRequestDto {
     private Long teamId;
-    private String name; //그룹 이름
+    private Long userId;
 }
