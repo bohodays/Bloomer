@@ -4,6 +4,7 @@ import com.exmaple.flory.dto.comment.CommentListDto;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
+import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.repository.*;
@@ -16,8 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
@@ -491,5 +491,21 @@ public class DiaryServiceTest {
         diaryService.setGroupList(result);
 
         assertEquals(result.getGroupList().size(),groupList.size());
+    }
+
+    @DisplayName("감정 분석 결과 및 꽃 목록 가져오기")
+    @Test
+    public void getFlowerEmotionDataTest(){
+        Map<String, String> data = new HashMap<>();
+        data.put("text","나는 기쁘다");
+        List<Flower> flowers= new ArrayList<>();
+        flowers.add(flower);
+
+        when(flowerRepository.getFlowers(any())).thenReturn(flowers);
+
+        FlowerEmotionDataDto result = diaryService.getFlowerEmotionData(data);
+
+        assertNotEquals(result.getEmotions(),null);
+        assertNotEquals(result.getFlowers(),null);
     }
 }
