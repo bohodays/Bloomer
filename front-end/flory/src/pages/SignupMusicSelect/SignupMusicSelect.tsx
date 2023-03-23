@@ -20,7 +20,7 @@ const SignupMusicSelect = () => {
     classic: false,
     jazz: false,
     pop: false,
-    HipHop: false,
+    hiphop: false,
     reggae: false,
     RnB: false,
     electronic: false,
@@ -102,11 +102,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#ede7f6",
             activeColor: "#b39ddb",
           }}
-          active={selectedItems.HipHop}
+          active={selectedItems.hiphop}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              HipHop: !selectedItems.HipHop,
+              hiphop: !selectedItems.hiphop,
             });
           }}
         />
