@@ -10,5 +10,5 @@ urlpatterns = [
     path('analysis/', views.analysis, name='analysis'),
     # path('result/', views.result, name='result'),
 
-    path('<str:emotion>/near-user/<int:user_id>/',views.nearestUser, name='nearestUser')    
+    path('<int:emotion>/near-user/<int:user_id>/',views.nearestUser, name='nearestUser')    
 ]

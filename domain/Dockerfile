@@ -11,9 +11,10 @@ COPY . .
 
 ## Copy KoBERTall src files
 COPY ./KoBERT/kobert/ /usr/local/lib/python3.7/site-packages/kobert
+COPY ./emotions/music_vector.csv /usr/src/app/emotions
 ## Run the application on the port 8000
 EXPOSE 8000
-
+ENV PYTHONPATH=/usr/src/app
 # gunicorn 배포 명령어
 # CMD ["gunicorn", "--bind", "허용하는 IP:열어줄 포트", "project.wsgi:application"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

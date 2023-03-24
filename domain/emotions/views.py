@@ -39,6 +39,7 @@ bertmodel, vocab = get_pytorch_kobert_model()
 
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
+#checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
 checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
@@ -74,6 +75,8 @@ def nearestUser(request, emotion,user_id):
 
     if request.method == 'GET':
         
+        emotions = ["기쁨","안정","당황","분노","불안","상처","슬픔"]
+
         #member table에서 전체 유저 정보 가져오기
         members = Member.objects.all()
 
@@ -114,7 +117,7 @@ def nearestUser(request, emotion,user_id):
 
         queryset = Diary.objects.filter(
     Q(gid__uid=user_id) &
-    Q(fid__eid__large_category='기쁨') &
+    Q(fid__eid__large_category=emotions[emotion]) &
     Q(fid__id=F('fid')) &
     Q(mid__id=F('mid'))
 ).select_related('fid__eid', 'mid').values(
