@@ -43,7 +43,7 @@ const Main = () => {
           회원가입
         </button> */}
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </SMain>
   );
 };

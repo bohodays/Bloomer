@@ -12,5 +12,5 @@ export const reducer = combineReducers({
   diary,
   diaryCreate,
   weather,
-  group
+  group,
 });
