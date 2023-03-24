@@ -45,6 +45,7 @@ export const SMain = styled.main`
 
   .emotion {
     position: absolute;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;

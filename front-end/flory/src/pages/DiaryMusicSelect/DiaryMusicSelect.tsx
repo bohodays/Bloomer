@@ -1,13 +1,18 @@
 import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect  } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button/Button";
 import Navbar from "../../components/common/Navbar/Navbar";
+import { useAppSelector } from "../../redux/store.hooks";
 import { SMain, SMusicWrapper } from "./styles";
+import AWS from "aws-sdk";
 
 const DiaryMusicSelect = () => {
   const navigate = useNavigate();
+  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
+  console.log(aa);
+
   const [selectedItems, setSelectedItems] = useState<any>({
     select1: false,
     select2: false,
@@ -24,6 +29,26 @@ const DiaryMusicSelect = () => {
     select5: false,
   };
 
+  AWS.config.update({
+      accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+      region: process.env.REACT_APP_S3_REGION,
+  });
+  const s3 = new AWS.S3();
+  const [musicUrl, setMusicUrl] = useState("");
+
+  useEffect(() => {
+      const params = {
+          Bucket: "bloomer205",
+          Key: `music/218-westernet-141021.mp3`,
+      };
+
+      s3.getSignedUrlPromise("getObject", params)
+      .then((url) => setMusicUrl(url))
+      .catch((err) => console.error(err));
+
+  }, []);
+
   return (
     <SMain>
       {/* <div> */}
@@ -33,6 +58,7 @@ const DiaryMusicSelect = () => {
       <SMusicWrapper isSelected={selectedItems.select1}>
         <FontAwesomeIcon className="icon music" icon={faMusic} />
         <p>제목 1</p>
+        <audio src={musicUrl} controls id="myAudio"></audio>
         <FontAwesomeIcon
           className="icon play item1"
           icon={selectedItems.select1 ? faStop : faPlay}
