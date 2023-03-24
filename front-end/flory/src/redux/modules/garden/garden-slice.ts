@@ -20,6 +20,7 @@ const gardenSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createGardenAction.fulfilled, (state, { payload }) => {
+        console.log("정원 생성 완료", payload.response.id);
         state.gardenData.gardenId = payload.response.id;
         state.gardenData.gardenPath = payload.response.gardenPath;
         state.gardenData.nickname = payload.response.nickname;
@@ -30,8 +31,9 @@ const gardenSlice = createSlice({
       .addCase(createGardenAction.rejected, (state, { payload }) => {
         console.log("정원 생성 실패");
       })
-      .addCase(getCurrentGardenAction.pending, (state) => {})
       .addCase(getCurrentGardenAction.fulfilled, (state, { payload }) => {
+        console.log("정원 확인 성공", payload);
+
         state.gardenData.gardenId = payload.response.id;
         state.gardenData.gardenPath = payload.response.gardenPath;
         state.gardenData.nickname = payload.response.nickname;

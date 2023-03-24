@@ -59,21 +59,14 @@ const UserLoginForm = () => {
             return true;
           }
         })
+
         .then((response) => {
           // 이메일이 존재하고 비밀번호가 일치하면
           if (response) {
             // 로컬스토리지에 저장된 엑세스 토큰으로 유저 정보 업데이트
-            dispatch(getUserDataToTokenAction())
-              .then(() => {
-                dispatch(getCurrentGardenAction()).then(() => {
-                  if (!gardenId) {
-                    dispatch(createGardenAction(userId));
-                  }
-                });
-              })
-              .then(() => {
-                navigate("/garden");
-              });
+            dispatch(getUserDataToTokenAction()).then(() => {
+              navigate("/garden");
+            });
           }
         })
         .catch((e) => console.log(e));
