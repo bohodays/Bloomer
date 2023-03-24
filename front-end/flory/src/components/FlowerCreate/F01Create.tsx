@@ -7,12 +7,10 @@ import * as THREE from "three";
 import React, { useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { PositionType } from "../../models/garden/gardenType";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useLocation } from "react-router-dom";
-import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
+import { createFlowerPosition } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -37,6 +35,8 @@ export function F01Create(props: JSX.IntrinsicElements["group"] | any) {
   const [position, setPosition] = useState<any>({ x, y, z });
   const [isDragging, setIsDragging] = useState(false);
 
+  console.log("다시 렌더링됨", x, y, z);
+
   const { scene, camera } = useThree();
   const raycaster = new THREE.Raycaster();
 
@@ -46,14 +46,8 @@ export function F01Create(props: JSX.IntrinsicElements["group"] | any) {
   }
 
   const dispatch = useAppDispatch();
-  const handlePositionUpdate = (x: number, y: number, z: number) => {
-    dispatch(
-      createInfoSaveAction({
-        x: x,
-        y: y,
-        z: z,
-      })
-    );
+  const handlePositionUpdate = (position: any) => {
+    dispatch(createFlowerPosition(position));
   };
 
   useEffect(() => {
@@ -67,9 +61,9 @@ export function F01Create(props: JSX.IntrinsicElements["group"] | any) {
     }
     return () => {
       if (location.pathname.includes("garden/edit")) {
+        handlePositionUpdate(position);
         console.log(position, 33);
 
-        // handlePositionUpdate(position.x, position.y, position.z);
         window.removeEventListener("click", handleWindowClick);
       }
     };

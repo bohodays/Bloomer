@@ -50,19 +50,8 @@ const FlowersWrapper = () => {
     });
   };
 
-  // 현재 작성 중인 일기의 fid에 맞는 꽃을 반환하는 컴포넌트
-  const CurrentFlower: any = () => {
-    if (currentCreateDiaryData.fid === 1) {
-      return <F01Create />;
-    } else if (currentCreateDiaryData.fid === 8) {
-      return <F08 flowerPosition={{ x: 0, z: 0, y: 0 }} />;
-    }
-  };
-
   return (
     <>
-      {/* 현재 작성 중인 일기의 꽃 */}
-      <CurrentFlower />
       {/* 작성 완료된 일기들의 꽃 */}
       {diary.length &&
         diary.map((item: any) => {
@@ -372,4 +361,4 @@ const FlowersWrapper = () => {
   );
 };
 
-export default FlowersWrapper;
+export default React.memo(FlowersWrapper);

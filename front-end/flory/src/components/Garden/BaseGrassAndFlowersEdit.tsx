@@ -10,6 +10,10 @@ import { GLTF } from "three-stdlib";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Model_new } from "./Base_map_new";
 import FlowersWrapper from "../Flowers/FlowersWrapper";
+import { useAppSelector } from "../../redux/store.hooks";
+import F01Create from "../FlowerCreate/F01Create";
+import F08 from "../Flowers/F08";
+import CurrentFlower from "../FlowerCreate/CurrentFlower";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -94,6 +98,8 @@ function BassGrassAndFlowersEdit() {
   return (
     <>
       <BaseGrassEdit />
+      {/* 현재 작성 중인 일기의 꽃 */}
+      <CurrentFlower />
       <FlowersWrapper />
     </>
   );

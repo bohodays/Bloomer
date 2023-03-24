@@ -29,6 +29,8 @@ type GLTFResult = GLTF & {
 export function F23(
   props: (JSX.IntrinsicElements["group"] & PositionType) | any
 ) {
+  console.log("노란 카네이션 렌더링됨");
+
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();

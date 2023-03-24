@@ -32,6 +32,11 @@ const diaryCreateSlice = createSlice({
       state.currentEmotionData = [...emotionData];
       state.currentFlowerData = [...flowerData];
     },
+    createFlowerPosition: (state, action) => {
+      state.diaryCreateData.x = action.payload.x;
+      state.diaryCreateData.y = action.payload.y;
+      state.diaryCreateData.z = action.payload.z;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createInfoSaveAction.fulfilled, (state, { payload }) => {
@@ -40,6 +45,7 @@ const diaryCreateSlice = createSlice({
   },
 });
 
-export const { emotionDataSave } = diaryCreateSlice.actions;
+export const { emotionDataSave, createFlowerPosition } =
+  diaryCreateSlice.actions;
 
 export default diaryCreateSlice.reducer;
