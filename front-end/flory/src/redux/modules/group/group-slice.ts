@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GroupStateType } from "../../../models/Group/groupStateTypes";
-import { getGroupInfoAction } from "./group-action";
+import { getAllGroupByKeywordAction, getGroupInfoAction } from "./group-action";
 
 const initialState: GroupStateType = {
   userGroupList: [],
@@ -11,9 +11,13 @@ const groupSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getGroupInfoAction.fulfilled, (state, { payload }) => {
-      console.log(payload);
-    });
+    builder
+      .addCase(getGroupInfoAction.fulfilled, (state, { payload }) => {
+        console.log(payload);
+      })
+      .addCase(getAllGroupByKeywordAction.fulfilled, (state, { payload }) => {
+        console.log(state, payload);
+      });
   },
 });
 
