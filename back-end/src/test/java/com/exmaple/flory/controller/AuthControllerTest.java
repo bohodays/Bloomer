@@ -1,6 +1,8 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.member.*;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.SuccessResponse;
 import com.exmaple.flory.service.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -134,7 +136,7 @@ class AuthControllerTest {
             SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
                     .nickname("nickname").password("password").email("email").build();
 
-            when(authService.signup(any())).thenThrow(new RuntimeException());
+            when(authService.signup(any())).thenThrow(new CustomException(ErrorCode.USER_DUPLICATION));
 
             //when
             mockMvc.perform(post("/api/user").with(csrf())
@@ -150,13 +152,13 @@ class AuthControllerTest {
             LoginDto loginDto = LoginDto.builder()
                     .email("email").password("password").build();
 
-            when(authService.login(any())).thenThrow(new RuntimeException());
+            when(authService.login(any())).thenThrow(new CustomException(ErrorCode.NO_LOGIN));
 
             //when
             mockMvc.perform(post("/api/user/login").with(csrf())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(new ObjectMapper().writeValueAsString(loginDto)))
-                    .andExpect(status().isNotFound())
+                    .andExpect(status().isUnauthorized())
                     .andReturn();
         }
 
@@ -165,7 +167,7 @@ class AuthControllerTest {
             TokenRequestDto tokenRequestDto = TokenRequestDto.builder()
                     .accessToken("accessToken").refreshToken("refreshToken").build();
 
-            when(authService.reissue(any())).thenThrow(new RuntimeException());
+            when(authService.reissue(any())).thenThrow(new CustomException(ErrorCode.NO_LOGIN));
 
             //when
             mockMvc.perform(post("/api/user/access").with(csrf())
@@ -178,10 +180,10 @@ class AuthControllerTest {
         @Test
         void checkEmailException() throws Exception {
             String email = "email";
-            when(authService.checkEmail(any())).thenThrow(new RuntimeException());
+            when(authService.checkEmail(any())).thenThrow(new CustomException(ErrorCode.NO_LOGIN));
 
             mockMvc.perform(get("/api/user/check-email/{email}",email))
-                    .andExpect(status().isConflict())
+                    .andExpect(status().isUnauthorized())
                     .andReturn();
         }
     }
