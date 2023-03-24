@@ -5,6 +5,7 @@ import {
   loginAction,
   logoutAction,
   getUserDataToTokenAction,
+  updateAccessToken,
 } from "./user-action";
 
 const initialState: UserStateType = {
@@ -51,6 +52,7 @@ const userSlice = createSlice({
         state.axiosState.data = null;
         state.axiosState.error = payload;
       });
+
     // 로딩 액션 필요시 참고
     // .addCase(logoutAction.pending, (state) => {
     //   state.axiosState.loading = true;

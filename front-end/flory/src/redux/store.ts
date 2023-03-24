@@ -3,6 +3,8 @@ import user from "./modules/user";
 import diary from "./modules/diary";
 import garden from "./modules/garden";
 import diaryCreate from "./modules/diaryCreate";
+import group from "./modules/group";
+
 import weather from "./modules/weather";
 import group from "./modules/group";
 // import storage from "redux-persist/lib/storage";
