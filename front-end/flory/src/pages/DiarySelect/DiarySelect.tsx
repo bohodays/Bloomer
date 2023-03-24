@@ -98,6 +98,8 @@ const DiarySelect = () => {
     }
   };
 
+  const CARDS = flowerData.length;
+
   return (
     <SMain>
       <div className="info__wrapper">

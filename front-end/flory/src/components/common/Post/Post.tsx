@@ -4,7 +4,7 @@ import { SPost } from "./styles";
 function Post(props:any) {
   return (
     <SPost>
-      <div className="title">{props.title}</div>
+      <div className="subject">{props.title}</div>
       <div>{props.content}</div>
     </SPost>
   );

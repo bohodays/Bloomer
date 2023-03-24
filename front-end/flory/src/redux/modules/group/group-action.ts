@@ -3,9 +3,10 @@ import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 
+// 토큰으로 내 그룹 목록 가져오기
 export const getGroupInfoAction = createAsyncThunk(
-  "GET",
-  async (userData, { rejectWithValue }) => {
+  "MY_GROUP_LIST",
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
@@ -14,9 +15,9 @@ export const getGroupInfoAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
       return data;
-    } catch (e) {
+    } catch (e: any) {
+      // dispatch(updateAccessToken());
       return rejectWithValue(e);
     }
   }
@@ -28,9 +29,6 @@ export const createGroupAction = createAsyncThunk(
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      console.log("data", groupCreateData);
-      console.log("token", accessToken);
-
       const { data } = await axios.post(`/api/team`, groupCreateData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -39,6 +37,45 @@ export const createGroupAction = createAsyncThunk(
       return data;
     } catch (e) {
       return rejectWithValue(e);
+    }
+  }
+);
+
+export const getAllGroupAction = createAsyncThunk(
+  "GET_ALL_GROUP",
+  async (_, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(`/api/team/all`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data.response;
+    } catch (e: any) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const getAllGroupByKeywordAction = createAsyncThunk(
+  "GET_ALL_GROUP_BY_KEYWORD",
+  async (keyword: string, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(
+        `/api/team/all/search?keyword=${keyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return data.response;
+    } catch (e) {
+      rejectWithValue(e);
     }
   }
 );

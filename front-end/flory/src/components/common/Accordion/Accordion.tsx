@@ -58,7 +58,7 @@ const Header = styled.div`
   align-items: center;
   cursor: pointer;
 
-  height: 5vh;
+  height: 2.2rem;
   margin: 0 32px 0 8px;
 `;
 

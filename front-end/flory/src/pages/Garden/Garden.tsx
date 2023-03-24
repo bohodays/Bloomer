@@ -1,5 +1,5 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, { Suspense, useRef, useEffect, useState } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
 import {
   Sky,
   Cloud,
@@ -10,16 +10,16 @@ import {
   Float,
   Sparkles,
   Stars,
-} from "@react-three/drei";
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
-import Navbar from "../../components/common/Navbar/Navbar";
-import { SMain } from "./styles";
+} from "@react-three/drei"
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
+import Navbar from "../../components/common/Navbar/Navbar"
+import { SMain } from "./styles"
 
-import Base_map_new from "../../components/Garden/Base_map_new";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import Loading from "../Loading/Loading";
+import Base_map_new from "../../components/Garden/Base_map_new"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPaintRoller } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from "react-router-dom"
+import Loading from "../Loading/Loading"
 
 const Scene = () => {
   return (
@@ -27,20 +27,18 @@ const Scene = () => {
       {/* <Loader /> */}
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-
         <Base_map_new />
-
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
         {/* </EffectComposer> */}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
-  );
-};
+  )
+}
 
 const Garden = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <SMain>
@@ -63,7 +61,7 @@ const Garden = () => {
       {/* 네브바 */}
       <Navbar />
     </SMain>
-  );
-};
+  )
+}
 
-export default Garden;
+export default Garden
