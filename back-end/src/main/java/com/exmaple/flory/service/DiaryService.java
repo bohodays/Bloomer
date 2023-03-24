@@ -425,6 +425,23 @@ public class DiaryService {
         return result;
     }
 
+    public List<DiaryDto> getPublicDiaryList(){
+        List<DiaryDto> result = new ArrayList<>();
+        List<Diary> diaries = diaryRepository.findAllPublic();
+
+        for(Diary diary:diaries){
+            DiaryDto diaryDto = diary.toDto();
+
+            diaryDto.setCommentList(getCommentList(diaryDto));
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+            setGroupList(diaryDto);
+
+            result.add(diaryDto);
+        }
+
+        return result;
+    }
+
     public List<CommentResponseDto> getCommentList(DiaryDto diaryDto){
         List<CommentResponseDto> comments = new ArrayList<>();
         List<Comment> commentList = commentRepository.findByDid(diaryDto.getId());
