@@ -19,15 +19,15 @@ from numpy.linalg import norm
 import sys, os
 from kobert.utils import get_tokenizer
 from kobert.pytorch_kobert import get_pytorch_kobert_model
-
+from sklearn.feature_extraction.text import TfidfVectorizer
 #transformers
 from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
-
+from sklearn.metrics.pairwise import cosine_similarity
 import json
-from .models import Member
+from .models import Emotion, Flower, Diary, Garden, Music,Member
 from django.core import serializers
-
+from django.db.models import Q, F, Value
 max_len = 64
 batch_size = 64
 
@@ -46,6 +46,27 @@ model.load_state_dict(checkpoint['model_state_dict'])
 #토큰화
 tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
+
+#csv파일 가져오기
+music_data = pd.read_csv("C:/Users/SSAFY/git/S08P22A205/domain/emotions/music_vector.csv",index_col=0)
+
+#음악 content에 있는 모든 태그 가져오기
+music_content = music_data['content']
+music_title = music_data['제목']
+music_tags = music_content.to_numpy()
+
+train_data = []
+
+for str in music_tags :
+  train_data.append(str.replace(',',''))
+
+print(f"음악 개수: {len(train_data)}",)
+
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+title_to_index = dict(zip(music_title, music_data.index))
 
 #===============================
 
@@ -89,9 +110,27 @@ def nearestUser(request, emotion,user_id):
 
         #similarUser가 어떤 감정일 때 어떤 노래를 듣는지 찾아야함.
 
-        json_data = json.dumps(serialize_object(idToUser[result[1][1]]))
+        #json_data = json.dumps(serialize_object(idToUser[result[1][1]]))
 
-        return JsonResponse({"result" : json_data})
+        queryset = Diary.objects.filter(
+    Q(gid__uid=user_id) &
+    Q(fid__eid__large_category='기쁨') &
+    Q(fid__id=F('fid')) &
+    Q(mid__id=F('mid'))
+).select_related('fid__eid', 'mid').values(
+    'fid__eid__large_category', 'mid__title'
+).first()
+
+        music = ''
+        serialized_list = 'there is no recommendation'
+
+        if queryset:
+            music = queryset['mid__title']
+            music_list = get_recommendations(music)
+            print(music_list)
+            serialized_list = json.dumps(music_list)
+
+        return JsonResponse({"result" : serialized_list})
         
     else:
         return JsonResponse({"result" : "GET으로 요청하시오"})
@@ -187,3 +226,25 @@ def serialize_object(obj):
         'email': obj.email,
         'user_id' : obj.user_id
     }
+
+def get_recommendations(title, cosine_sim=cosine_sim):
+    # 선택한 음악의 타이틀로부터 해당 음악의 인덱스를 받아온다.
+    idx = title_to_index[title]
+
+    # 해당 음악과 모든 음악과의 유사도를 가져온다.
+    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    # 유사도에 따라 음악들을 정렬한다.
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+    # 가장 유사한 5개의 음악를 받아온다.
+    sim_scores = sim_scores[:5]
+
+    # 가장 유사한 5개의 음악의 인덱스를 얻는다.
+    music_indices = [idx[0] for idx in sim_scores]
+    ret = []
+
+    for idx in music_indices:
+        ret.append(music_title.iloc[idx])
+
+    return ret   
