@@ -484,4 +484,27 @@ public class DiaryControllerTest {
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
+
+    @DisplayName("최신순으로 전체공개 일기 목록 가져오기 테스트")
+    @Test
+    public void getPublicDiaryListTest() throws Exception {
+        List<DiaryDto> diaryDtoList = new ArrayList<>();
+
+        diaryDtoList.add(diaryDto);
+        when(diaryService.getPublicDiaryList()).thenReturn(diaryDtoList);
+
+        mockMvc.perform(get("/api/diary/list/all"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("최신순으로 전체공개 일기 목록 가져오기 오류 테스트")
+    @Test
+    public void getPublicDiaryListExceptionTest() throws Exception {
+        when(diaryService.getPublicDiaryList()).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/list/all"))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
 }
