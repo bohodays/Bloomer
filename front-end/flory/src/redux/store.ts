@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import user from "./modules/user";
 import diary from "./modules/diary";
 import garden from "./modules/garden";
+import group from "./modules/group";
 
 import weather from "./modules/weather";
 // import storage from "redux-persist/lib/storage";
@@ -23,6 +24,7 @@ const store = configureStore({
     garden,
     diary,
     weather,
+    group
   },
 });
 

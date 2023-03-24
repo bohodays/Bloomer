@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SPost = styled.div`
-  .title{
+  .subject{
     font-size: 1.5em;
     margin: 1.5vh auto;
     background: linear-gradient(
