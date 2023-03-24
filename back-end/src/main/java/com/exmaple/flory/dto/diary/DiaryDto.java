@@ -1,11 +1,10 @@
 package com.exmaple.flory.dto.diary;
 
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.garden.GardenDiaryDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.entity.Music;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,9 +47,9 @@ public class DiaryDto {
 
     private List<TeamDto> groupList;
 
-    private Music music;
+    private String musicTitle;
 
-    private List<CommentListDto> commentList;
+    private List<CommentResponseDto> commentList;
 
     public Diary toEntity(){
         return Diary.builder()
