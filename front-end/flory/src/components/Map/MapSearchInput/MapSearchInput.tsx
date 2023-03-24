@@ -8,14 +8,20 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { useRef } from "react";
 import { SPaper } from "./styles";
 
-function MapSearchInput({ setKeyword, onClickHere, page }: any): JSX.Element {
+function MapSearchInput({
+  setKeyword,
+  onClickHere,
+  handleClick,
+  page,
+  groupKeyword,
+}: any): JSX.Element {
   const keywordInput = useRef<HTMLInputElement>(null);
   const onSearch = (e: any) => {
-    // console.log("hey", keywordInput.current?.value);
     if (page === "map") {
       setKeyword({ word: keywordInput.current?.value, new: true });
     } else {
-      setKeyword(keywordInput.current?.value);
+      groupKeyword.current = keywordInput.current;
+      handleClick();
     }
   };
 

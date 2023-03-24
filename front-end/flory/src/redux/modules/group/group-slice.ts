@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GroupStateType } from "../../../models/Group/groupStateTypes";
-import { getGroupInfoAction } from "./group-action";
+import { getAllGroupByKeywordAction, getGroupInfoAction } from "./group-action";
 
 const initialState: GroupStateType = {
   userGroupList: [],

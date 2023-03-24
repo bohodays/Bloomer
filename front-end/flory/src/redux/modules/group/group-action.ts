@@ -58,3 +58,24 @@ export const getAllGroupAction = createAsyncThunk(
     }
   }
 );
+
+export const getAllGroupByKeywordAction = createAsyncThunk(
+  "GET_ALL_GROUP_BY_KEYWORD",
+  async (keyword: string, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(
+        `/api/team/all/search?keyword=${keyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return data.response;
+    } catch (e) {
+      rejectWithValue(e);
+    }
+  }
+);

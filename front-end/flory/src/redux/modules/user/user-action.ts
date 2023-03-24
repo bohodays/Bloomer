@@ -113,6 +113,7 @@ export const updateAccessToken = createAsyncThunk(
         .then(() => {
           dispatch(getUserDataToTokenAction());
         });
+      return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
       return rejectWithValue(e);
     }

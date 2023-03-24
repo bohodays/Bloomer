@@ -4,7 +4,6 @@ import diary from "./modules/diary";
 import garden from "./modules/garden";
 import diaryCreate from "./modules/diaryCreate";
 import group from "./modules/group";
-
 import weather from "./modules/weather";
 // import storage from "redux-persist/lib/storage";
 import { reducer } from "./rootReducer";
@@ -26,7 +25,7 @@ const store = configureStore({
     diary,
     diaryCreate,
     weather,
-    group
+    group,
   },
 });
 
