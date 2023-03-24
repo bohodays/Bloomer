@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Post from "../../common/Post/Post";
 import Accordion from "../../../components/common/Accordion/Accordion";
+import Avatar from "../../common/Avatar/Avatar";
+import { SGroupPanel, SMember } from "./styles";
 
 import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
 import { getGroupInfoAction } from "../../../redux/modules/group/group-action";
@@ -20,24 +22,39 @@ function GroupPanel({}): JSX.Element {
       isInital = false;
       dispatch(getGroupInfoAction())
     }
-    
   }, [dispatch]);
     
+  console.log(userGroupList);
   return (
-    <div>
-      <div className="" onClick={() => navigate("/group/list")}>
+    <SGroupPanel>
+      <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
         그룹 둘러보기
       </div>
       <Post title="가입한 그룹 목록" content={
         <div>
           {userGroupList.map((group:any) => (
-            <Accordion key={group.groupId} title={group.name} contents={group.info} />
+            <Accordion
+              key={group.teamId}
+              title={`${group.name} (${group.userTeamList.length})`}
+              contents={group.userTeamList.map((member: any) => (
+                <SMember key={member.userId}>
+                  <Avatar
+                    size="small"
+                    // tmpsrc={}
+                    imgIdx={1}
+                    key={1}
+                    
+                  />
+                  <div className="memberName">{member.nickname}</div>
+                </SMember>
+            ))}
+          />
           ))}
         </div>
       } 
       />
       <GroupCreateModal />
-    </div>
+    </SGroupPanel>
   );
 }
 
