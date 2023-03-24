@@ -142,6 +142,9 @@ const DiaryCreate = () => {
 
   // 다이어리 생성
   const dispatch = useAppDispatch();
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  console.log(gardenId, "정원정보");
+
   const onCreateDiary = () => {
     const diaryData = {
       content: contentInput.current?.value,
@@ -153,8 +156,8 @@ const DiaryCreate = () => {
       // 전체 공개 아니면 그룹 리스트 배열 넣기
       groupList: null,
       fid: null,
-      gid: null,
-      mid: null,
+      gid: gardenId,
+      musicTitle: null,
       address: place.placeName ? place.placeName : place.address,
     };
 

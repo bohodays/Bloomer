@@ -8,7 +8,7 @@ export type DiaryCreateStateType = {
     imgSrc: "";
     lat: string;
     lng: string;
-    mid: number | null;
+    musicTitle: string | null;
     publicStatus: string;
     x: number;
     y: number;
@@ -16,4 +16,5 @@ export type DiaryCreateStateType = {
   };
   currentEmotionData: any;
   currentFlowerData: any;
+  currentMusicData: any;
 };

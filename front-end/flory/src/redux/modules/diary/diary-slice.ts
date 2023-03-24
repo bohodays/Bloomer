@@ -115,6 +115,7 @@ const diarySlice = createSlice({
         state.create.loading = true;
         state.create.data = null;
         state.create.error = null;
+        console.log("일기작성 성공!");
       })
       .addCase(createDiaryAction.fulfilled, (state, { payload }) => {
         state.create.loading = false;

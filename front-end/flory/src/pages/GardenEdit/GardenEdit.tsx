@@ -9,7 +9,10 @@ import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { updatePositionAction } from "../../redux/modules/diary";
+import {
+  createDiaryAction,
+  updatePositionAction,
+} from "../../redux/modules/diary";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -35,7 +38,7 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
-  console.log(currentCreateDiaryData);
+  console.log(currentCreateDiaryData, "현재 데이터");
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);
@@ -45,9 +48,13 @@ const GardenEdit = () => {
   console.log(userData, 33);
 
   const handlePositionUpdate = () => {
-    dispatch(updatePositionAction(diaryData)).then(() => {
-      navigate("/garden");
-    });
+    dispatch(updatePositionAction(diaryData))
+      .then(() => {
+        dispatch(createDiaryAction(currentCreateDiaryData));
+      })
+      .then(() => {
+        navigate("/garden");
+      });
   };
 
   return (

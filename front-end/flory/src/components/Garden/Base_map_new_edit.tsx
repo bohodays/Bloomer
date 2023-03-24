@@ -410,8 +410,6 @@ export function Model_new_edit(props: JSX.IntrinsicElements["group"]) {
 }
 
 function Base_map_new_edit() {
-  console.log("부모 렌더링됨");
-
   return (
     <>
       {/* 카메라, 빛 */}
