@@ -69,8 +69,8 @@ export function F10(
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
-      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       if (location.pathname.includes("garden/edit")) {
+        handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
         window.removeEventListener("click", handleWindowClick);
       }
     };
