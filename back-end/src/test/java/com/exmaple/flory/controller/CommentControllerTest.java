@@ -1,6 +1,7 @@
 package com.exmaple.flory.controller;
 
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
+import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Garden;
@@ -63,12 +64,15 @@ public class CommentControllerTest {
     private final Comment comment = Comment.builder()
             .id(1L).content("content").member(member).diary(diary).build();
 
+    private final CommentResponseDto commentResponseDto = CommentResponseDto.builder()
+            .id(1L).did(1L).content("content").member(MemberResponseDto.of(member)).build();
+
     @DisplayName("일기에 해당하는 댓글 목록 가져오기 테스트")
     @Test
     public void getCommentList() throws Exception{
-        List<CommentListDto> comments = new ArrayList<>();
-        CommentListDto commentListDto = CommentListDto.builder().id(1L).content("content").build();
-        comments.add(commentListDto);
+        List<CommentResponseDto> comments = new ArrayList<>();
+        CommentResponseDto commentResponseDto = CommentResponseDto.builder().id(1L).content("content").build();
+        comments.add(commentResponseDto);
 
         when(commentService.getCommentList(any())).thenReturn(comments);
 
@@ -104,7 +108,7 @@ public class CommentControllerTest {
         Comment comment1 = Comment.builder()
                 .id(1L).content("content").build();
 
-        when(commentService.updateComment(any())).thenReturn(comment.toDto());
+        when(commentService.updateComment(any())).thenReturn(commentResponseDto);
 
         mockMvc.perform(put("/api/comment").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -146,7 +150,7 @@ public class CommentControllerTest {
     @DisplayName("댓글 생성 테스트")
     @Test
     public void insertCommentTest() throws Exception{
-        when(commentService.insertComment(any())).thenReturn(comment.toDto());
+        when(commentService.insertComment(any())).thenReturn(commentResponseDto);
 
         mockMvc.perform(post("/api/comment").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)

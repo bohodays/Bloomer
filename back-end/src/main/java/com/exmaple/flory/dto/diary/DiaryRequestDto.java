@@ -19,8 +19,6 @@ public class DiaryRequestDto {
 
     private Long gid;
 
-    private Long mid;
-
     private Long fid;
 
     private String content;
@@ -32,6 +30,8 @@ public class DiaryRequestDto {
     private double lng;
 
     private String publicStatus;
+
+    private String musicTitle;
 
     private List<Long> groupList;
 

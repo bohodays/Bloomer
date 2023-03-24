@@ -35,4 +35,9 @@ insert into flower (id,name,language,small_category,eid) values(24,'층꽃나무
 insert into flower (id,name,language,small_category,eid) values(25,'제라늄','우울함','우울',7);
 
 
-insert into music (id, title) values(1,'터키행진곡');
+insert into music (id, title) values(1,'218-westernet-141021');
+insert into music (id, title) values(2,'5-islamic-background-sounds-alfa-relaxing-music-126059');
+insert into music (id, title) values(3,'80s-mystical-stranger-things-133254');
+insert into music (id, title) values(4,'a-dark-night-141333');
+insert into music (id, title) values(5,'a-jazz-piano-110481');
+insert into music (id, title) values(6,'a-small-miracle-132333');
