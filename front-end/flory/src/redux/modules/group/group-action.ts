@@ -28,9 +28,6 @@ export const createGroupAction = createAsyncThunk(
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      console.log("data", groupCreateData);
-      console.log("token", accessToken);
-
       const { data } = await axios.post(`/api/team`, groupCreateData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -38,6 +35,24 @@ export const createGroupAction = createAsyncThunk(
       });
       return data;
     } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const getAllGroupAction = createAsyncThunk(
+  "GET_ALL_GROUP",
+  async (_, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(`/api/team/all`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data.response;
+    } catch (e: any) {
       return rejectWithValue(e);
     }
   }

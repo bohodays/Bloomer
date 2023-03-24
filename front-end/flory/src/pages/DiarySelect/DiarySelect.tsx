@@ -5,8 +5,11 @@ import testFlower from "../../assets/imgs/test_flower.png";
 import Navbar from "../../components/common/Navbar/Navbar";
 import Button from "../../components/common/Button/Button";
 import { useLocation, useNavigate } from "react-router";
+import Chart from "react-apexcharts";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
+import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
 
-const CARDS = 10;
 const MAX_VISIBILITY = 3;
 
 const Card = ({ title, content }: any) => (
@@ -55,33 +58,95 @@ const Carousel = ({ children }: any) => {
 };
 
 const DiarySelect = () => {
-  const location = useLocation();
-  const diaryData = location.state.diaryData;
-  console.log(diaryData, 33);
+  const nickname = useAppSelector((state) => state.user.userData.nickname);
+  const dispatch = useAppDispatch();
+  const emotionData = useAppSelector(
+    (state) => state.diaryCreate.currentEmotionData
+  );
+  const flowerData = useAppSelector(
+    (state) => state.diaryCreate.currentFlowerData
+  );
+
+  console.log(emotionData, flowerData, "제발");
 
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/diary/select/music");
+    const target = document.querySelector('[style*="--active:1"]');
+    const parentNode: any = target?.parentNode?.childNodes;
+    const targetArray = [...parentNode].filter(
+      (item) => item.localName === "div"
+    );
+
+    let targetFid: any;
+    for (let i = 0; i < targetArray.length; i++) {
+      const styles = getComputedStyle(targetArray[i]);
+      const activeValue = styles.getPropertyValue("--active");
+      if (activeValue === "1") {
+        targetFid = i;
+        const fidData = {
+          fid: flowerData[targetFid].fid,
+        };
+        dispatch(createInfoSaveAction(fidData)).then(() => {
+          navigate("/diary/select/music");
+        });
+      }
+    }
+
+    // const active = "--active";
+    // let target;
+    // [...items].map((item, i) => {
+    //   if (item.style.active === 1) {
+    //     console.log(i);
+    //   }
+    // });
+    // console.log(items, 99);
+
+    // navigate("/diary/select/music");
   };
+
+  const CARDS = flowerData.length;
 
   return (
     <SMain>
       <div className="info__wrapper">
-        <p>역삼동 김싸피 님의 감정은 다음과 같습니다.</p>
-        <p>꽃 피우고 싶은 감정을 선택해주세요.</p>
+        <p>{nickname} 님의 감정은 다음과 같습니다.</p>
+        <p>피우고 싶은 꽃을 선택해주세요.</p>
+        {/* 일단 보류 */}
+        {/* <Chart
+          type="bar"
+          series={[
+            { name: "오늘의 기온", data: [19, 26, 20, 9] },
+            // { name: "내일의 기온", data: [30, 26, 34, 10] },
+          ]}
+          options={{
+            // tooltip: {
+            //   enabled: false,
+            // },
+            chart: {
+              toolbar: {
+                show: false,
+              },
+              height: 500,
+              width: 500,
+            },
+          }}
+        ></Chart> */}
       </div>
       {/* 선택된 감정 */}
       <div className="wrapper">
-        <div className="emotion">기쁨</div>
-        <div className="flower__wrapper">
-          <p className="name__title">크로커스</p>
-          <p className="flower__language">믿음의 기쁨</p>
-        </div>
         <Carousel>
-          {[...new Array(CARDS)].map((_, i) => (
+          {flowerData.map((item: any, i: number) => (
             // <Card title={"Card " + (i + 1)}>
-            <img src={testFlower} alt="" />
+            <>
+              <div className="emotion">{item.smallCategory}</div>
+              <DiaryFlower flower={item} />
+              {/* <img src={testFlower} alt="" /> */}
+              <div className="flower__wrapper">
+                <p className="name__title">{item.flowerName}</p>
+                <p className="flower__language">{item.language}</p>
+              </div>
+            </>
             // </Card>
           ))}
         </Carousel>
