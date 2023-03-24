@@ -1,7 +1,7 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
@@ -26,7 +26,7 @@ public class CommentController {
     @GetMapping("/{diaryId}")
     public ResponseEntity<?> getCommentList(@PathVariable Long diaryId){
         try{
-            List<CommentListDto> comments = commentService.getCommentList(diaryId);
+            List<CommentResponseDto> comments = commentService.getCommentList(diaryId);
 
             return new ResponseEntity(new SuccessResponse(comments), HttpStatus.OK);
         }catch (CustomException e){
@@ -41,7 +41,7 @@ public class CommentController {
     @PutMapping
     public ResponseEntity<?> updateComment(@RequestBody Map<String,String> updateInfo){
         try {
-            CommentDto updatedComment = commentService.updateComment(updateInfo);
+            CommentResponseDto updatedComment = commentService.updateComment(updateInfo);
 
             return new ResponseEntity(new SuccessResponse(updatedComment),HttpStatus.OK);
         }catch (CustomException e){
@@ -56,7 +56,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<?> insertComment(@RequestBody CommentDto commentDto){
         try{
-            CommentDto insert = commentService.insertComment(commentDto);
+            CommentResponseDto insert = commentService.insertComment(commentDto);
 
             log.info("댓글 생성: {}",commentDto);
             return new ResponseEntity(new SuccessResponse(insert),HttpStatus.OK);

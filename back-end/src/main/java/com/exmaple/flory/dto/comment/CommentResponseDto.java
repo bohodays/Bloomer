@@ -13,9 +13,11 @@ import java.util.Date;
 @ToString
 @Builder
 @Slf4j
-public class CommentListDto {
+public class CommentResponseDto {
 
     private Long id;
+
+    private Long did;
 
     private String content;
 
