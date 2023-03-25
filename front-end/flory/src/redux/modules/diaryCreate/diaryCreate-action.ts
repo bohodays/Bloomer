@@ -15,11 +15,16 @@ export const getMusicInfoAction = createAsyncThunk(
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      const { data } = await axios.get(`/api/music/recommend/${emotionData}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const { data } = await axios.get(
+        `/api/music/recommend/${emotionData.emotionIndex}/user/${emotionData.userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(data, "음악 데이터");
+
       return data;
     } catch (e) {
       return rejectWithValue(e);

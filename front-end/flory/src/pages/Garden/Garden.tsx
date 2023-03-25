@@ -71,7 +71,16 @@ const Garden = () => {
         <Scene></Scene>
       </Canvas>
       {/* 정원 편집 모드 버튼 */}
-      <button onClick={() => navigate("/garden/edit")} className="moveToEdit">
+      <button
+        onClick={() =>
+          navigate("/garden/edit", {
+            state: {
+              garden: true,
+            },
+          })
+        }
+        className="moveToEdit"
+      >
         <FontAwesomeIcon icon={faPaintRoller} />
       </button>
       {/* 네브바 */}

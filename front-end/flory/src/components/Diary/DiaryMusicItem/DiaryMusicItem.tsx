@@ -47,10 +47,10 @@ const DiaryMusicItem = ({
   return (
     <SMusicWrapper isSelected={isSelected} onClick={handlePlay}>
       <FontAwesomeIcon className="icon music" icon={faMusic} />
-      <p>{musicTitle}</p>
+      <p>{musicTitle.slice(0, 28)}...</p>
       <audio ref={audioControl} src={musicUrl} controls id="myAudio"></audio>
       <FontAwesomeIcon
-        className={`icon play ${musicTitle}`}
+        className={`icon play`}
         icon={isSelected ? faStop : faPlay}
         // onClick={handlePlay}
       />

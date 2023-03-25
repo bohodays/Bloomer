@@ -32,6 +32,7 @@ import F25 from "./F25"; // 제라늄
 
 const FlowersWrapper = () => {
   const diary = useAppSelector((state) => state.diary.diaryData);
+  console.log(diary, "꽃 심자");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,7 +76,7 @@ const FlowersWrapper = () => {
                 }}
               />
             );
-          } else if (item.flowerEmotion.flowerName === "빨간 튤립") {
+          } else if (item.flowerEmotion.flowerName === "빨강 튤립") {
             return (
               <F03
                 diaryId={item.id}
