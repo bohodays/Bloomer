@@ -11,4 +11,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QMemberRe
     Optional<Member> findByEmail(String email);
     boolean existsByEmail(String email);
     boolean existsById(Long userId);
+    Optional<Member> findByRefreshToken(String refreshToken);
 }
