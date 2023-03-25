@@ -7,7 +7,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={{ width: "100%", height: "100%" }}>
         <WebView
-          source={{ uri: "http://172.24.224.1:3000" }}
+          source={{ uri: "https://j8a205.p.ssafy.io/" }}
           onLoad={console.log("Loaded!")}
           style={{ marginTop: 20 }}
         />
