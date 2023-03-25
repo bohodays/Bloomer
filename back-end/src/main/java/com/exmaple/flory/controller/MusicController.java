@@ -30,6 +30,7 @@ public class MusicController {
         try{
             return new ResponseEntity<>(new SuccessResponse(musicService.recommendMusic(emotion,user_id)), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_EMOTION), HttpStatus.NOT_FOUND);
         }
     }

@@ -30,6 +30,7 @@ public class MusicService {
                 .append("near-user/")
                 .append(user_id);
 
+        log.info("request domain");
         String[] response = restTemplate.getForObject(url.toString(), String[].class);
 
         log.info("1번 : {}\n 2번: {} \n 3번:{}",response[0],response[1],response[2]);
