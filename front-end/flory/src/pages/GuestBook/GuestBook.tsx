@@ -1,17 +1,20 @@
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestBookComment";
 import { SMain } from "./styles";
 
 const GuestBook = () => {
+  const navigate = useNavigate();
+
   const dummyData = [
     {
       name: "박중원",
       // 이미지?
       comment:
-        "정원 너무 예뻐요~~~ 정원 너무 예뻐요~~~ 정원 너무 예뻐요~~~ 정원 너무 예뻐요~~~정원 너무 예뻐요~~~정원 너무 예뻐요~~~정원 너무 예뻐요~~~정원 너무 예뻐요~~~",
+        "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하안녕하세안녕하세요",
     },
     {
       name: "박중원",
@@ -62,7 +65,7 @@ const GuestBook = () => {
   return (
     <SMain>
       <BackButton color="black" />
-      <div className="create">
+      <div className="create" onClick={() => navigate("/guestbook/create")}>
         <FontAwesomeIcon icon={faPenToSquare} />
       </div>
       {dummyData.map((item, index) => {
