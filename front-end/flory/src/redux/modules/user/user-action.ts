@@ -3,7 +3,7 @@ import { LoginType } from "../../../models/user/loginType";
 import { SignupType } from "../../../models/user/signUpType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "./token";
-import { getCurrentGardenAction } from "../garden";
+import { getCurrentGardenAction, getGardenListAction } from "../garden";
 
 // 로그인
 export const loginAction = createAsyncThunk(
@@ -32,7 +32,8 @@ export const getUserDataToTokenAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      dispatch(getCurrentGardenAction(data.response.userId));
+      // dispatch(getCurrentGardenAction(data.response.userId));
+      dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
       dispatch(updateAccessToken());

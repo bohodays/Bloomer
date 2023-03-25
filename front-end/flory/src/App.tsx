@@ -38,11 +38,11 @@ const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.userData);
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
 
   useEffect(() => {
     if (localData.getAccessToken()) {
-      if (user.userId === null) {
+      if (user.userId === 0) {
         dispatch(getUserDataToTokenAction());
       }
     }
