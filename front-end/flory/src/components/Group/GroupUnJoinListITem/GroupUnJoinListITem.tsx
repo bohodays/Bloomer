@@ -5,6 +5,9 @@ import { FaLock } from "react-icons/fa"
 import { RiFilePaper2Line } from "react-icons/ri"
 import { SForm, SMain } from "./styles"
 import CreateInput from "../../common/CreateInput/CreateInput"
+import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType"
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
+import { requestJoinGroup } from "../../../redux/modules/group"
 
 const convertDateFormat = (date: string) => {
   const target = new Date(date)
@@ -15,9 +18,11 @@ const convertDateFormat = (date: string) => {
 }
 
 const GroupUnJoinListITem = ({ group }: any) => {
+  const userInfo = useAppSelector((state) => state.user.userData)
   const [isDetail, setIsDetail] = useState(false)
   // const [content, setContent] = useState("");
   const contentInput = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
 
   const handleClickDetail = () => {
     setIsDetail(!isDetail)
@@ -27,8 +32,14 @@ const GroupUnJoinListITem = ({ group }: any) => {
   }
   const handleSubmitForm = (e: any) => {
     e.preventDefault()
-    console.log(contentInput.current?.value)
+    const groupJoinData: GroupJoinRequestType = {
+      teamId: group.teamId,
+      userId: userInfo.userId,
+      message: contentInput.current?.value,
+    }
+
     // 가입 api 쏘기
+    dispatch(requestJoinGroup(groupJoinData))
 
     if (contentInput.current) {
       contentInput.current.value = ""
