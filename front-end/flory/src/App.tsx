@@ -12,6 +12,7 @@ import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
 import GroupList from "./pages/GroupList/GroupList";
+import { createGardenAction } from "./redux/modules/garden";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -37,10 +38,11 @@ const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.userData);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
 
   useEffect(() => {
     if (localData.getAccessToken()) {
-      if (user.userId === null) {
+      if (user.userId === 0) {
         dispatch(getUserDataToTokenAction());
       }
     }
