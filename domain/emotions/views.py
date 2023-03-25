@@ -39,8 +39,8 @@ bertmodel, vocab = get_pytorch_kobert_model()
 
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
-#checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
-checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
+checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
+#checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -49,7 +49,7 @@ tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #csv파일 가져오기
-music_data = pd.read_csv("C:/Users/SSAFY/git/S08P22A205/domain/emotions/music_vector.csv",index_col=0)
+music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv",index_col=0)
 
 #음악 content에 있는 모든 태그 가져오기
 music_content = music_data['content']
