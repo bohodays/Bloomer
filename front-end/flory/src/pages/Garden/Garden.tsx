@@ -44,7 +44,7 @@ const Garden = () => {
   const dispatch = useAppDispatch();
 
   // 본인 정원 ID
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
   // 본인 ID
   const requestId = useAppSelector((state) => state.user.userData.userId);
 

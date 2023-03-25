@@ -140,7 +140,7 @@ const DiaryCreate = () => {
 
   // 다이어리 생성
   const dispatch = useAppDispatch();
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
 
   const onCreateDiary = () => {
     const diaryData = {
