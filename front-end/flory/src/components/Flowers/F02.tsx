@@ -27,8 +27,6 @@ type GLTFResult = GLTF & {
 export function F02(
   props: (JSX.IntrinsicElements["group"] & PositionType) | any
 ) {
-  console.log("되나?");
-
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();

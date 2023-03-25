@@ -14,6 +14,10 @@ export const createDiaryAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log("요청 보낸 데이터", diaryData);
+
+      console.log("일기 생성 요청 후 받는 데이터", data);
+
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -60,6 +64,7 @@ export const getEmotionAction = createAsyncThunk(
           },
         }
       );
+      console.log(data, "감정분석");
 
       return data;
     } catch (e) {
@@ -83,6 +88,8 @@ export const getDiaryListAction = createAsyncThunk(
           },
         }
       );
+      console.log("현재 일기 목록", data);
+
       return data;
     } catch (e) {
       return rejectWithValue(e);
