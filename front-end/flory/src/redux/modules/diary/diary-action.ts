@@ -67,3 +67,25 @@ export const getEmotionAction = createAsyncThunk(
     }
   }
 );
+
+// 해당 정원의 일기 목록 조회
+export const getDiaryListAction = createAsyncThunk(
+  "GET_DIARYLIST",
+  async (inputData: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(
+        `/api/diary/list/${inputData.gardenId}/${inputData.requestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

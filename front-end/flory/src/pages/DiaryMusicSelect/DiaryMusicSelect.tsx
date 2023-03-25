@@ -59,7 +59,6 @@ const DiaryMusicSelect = () => {
           setMusicUrls(test);
         });
     });
-    // return test;
   };
 
   useEffect(() => {
@@ -79,7 +78,6 @@ const DiaryMusicSelect = () => {
           const newTitle = splitedTitle
             .splice(0, splitedTitle.length - 1)
             .join(" ");
-          // console.log(musicData[i].title.split("-"), "제목");
 
           newItem.push([newTitle, musicUrls[i]]);
         }

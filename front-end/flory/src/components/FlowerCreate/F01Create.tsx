@@ -55,12 +55,11 @@ export function F01Create(props: JSX.IntrinsicElements["group"] | any) {
       }
     };
     if (location.pathname.includes("garden/edit")) {
+      handlePositionUpdate(position);
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
       if (location.pathname.includes("garden/edit")) {
-        handlePositionUpdate(position);
-
         window.removeEventListener("click", handleWindowClick);
       }
     };
