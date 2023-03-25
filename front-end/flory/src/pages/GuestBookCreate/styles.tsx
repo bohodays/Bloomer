@@ -1,40 +1,11 @@
 import styled from "styled-components";
 
-export const SMain = styled.main`
-  padding-top: 5rem;
+export const SSection = styled.section<any>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  min-height: 100%;
-
-  button {
-    top: 1rem;
-    left: 1rem;
-  }
-
-  .create {
-    background-color: white;
-    padding: 0.5rem;
-    /* width: 1rem; */
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 1.6rem;
-    cursor: pointer;
-    text-align: center;
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 50%;
-    transition: all linear 300ms;
-  }
-
-  .create:hover {
-    transform: scale(1.1);
-  }
-
+  height: 100%;
   position: relative;
   background-color: #f6f6f6;
   background-image: linear-gradient(
@@ -104,4 +75,63 @@ export const SMain = styled.main`
     linear-gradient(#cdcccc, #cdcccc);
   background-size: 100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px,
     100px 100%, 100px 100%, 100px 100px, 100px 100px;
+
+  button {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .create__wrapper {
+    /* display: */
+    width: 22rem;
+    height: 24rem;
+    background-color: ${(props) => props.backgroundColor};
+  }
+
+  .color-button__wrapper {
+    background-color: ${(props) => props.backgroundColor};
+    height: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .left {
+    margin-left: 1rem;
+  }
+
+  .color {
+    margin: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+  }
+
+  textarea {
+    resize: none;
+    width: 22rem;
+    height: 20rem;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    font-size: 1rem;
+    background-color: ${(props) => props.backgroundColor};
+  }
+
+  .yellow {
+    background-color: #f4f39e;
+  }
+
+  .pink {
+    background-color: #fdd7db;
+  }
+
+  .blue {
+    background-color: #b9eaf6;
+  }
+
+  .complete {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+  }
 `;

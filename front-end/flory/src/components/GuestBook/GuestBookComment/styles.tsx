@@ -59,4 +59,9 @@ export const SSection = styled.section<any>`
     -moz-box-shadow: 0px 0 3px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 0 3px rgba(0, 0, 0, 0.1);
   }
+
+  .date {
+    margin-top: 1rem;
+    text-align: right;
+  }
 `;

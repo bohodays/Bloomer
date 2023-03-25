@@ -34,6 +34,9 @@ const DiaryMusicSlect = React.lazy(
   () => import("./pages/DiaryMusicSelect/DiaryMusicSelect")
 );
 const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
+const GuestBookCreate = React.lazy(
+  () => import("./pages/GuestBookCreate/GuestBookCreate")
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -70,6 +73,7 @@ function App() {
             <Route path="/garden/edit" element={<GardenEdit />} />
             <Route path="/garden/list" element={<GardenList />} />
             <Route path="/guestbook" element={<GuestBook />} />
+            <Route path="/guestbook/create" element={<GuestBookCreate />} />
             <Route path="/setting" element={<Setting />} />
             <Route path="/group/list" element={<GroupList />} />
             {/* 404 Not Found 추가해야 됨 */}
