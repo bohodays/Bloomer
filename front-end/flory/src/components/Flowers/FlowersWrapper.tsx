@@ -32,10 +32,6 @@ import F25 from "./F25"; // 제라늄
 
 const FlowersWrapper = () => {
   const diary = useAppSelector((state) => state.diary.diaryData);
-  const currentCreateDiaryData = useAppSelector(
-    (state) => state.diaryCreate.diaryCreateData
-  );
-  console.log(currentCreateDiaryData, 33);
 
   const navigate = useNavigate();
   const location = useLocation();

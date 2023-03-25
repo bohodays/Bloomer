@@ -61,11 +61,11 @@ export function F13Create(
       }
     };
     if (location.pathname.includes("garden/edit")) {
+      handlePositionUpdate(position);
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
       if (location.pathname.includes("garden/edit")) {
-        handlePositionUpdate(position);
         window.removeEventListener("click", handleWindowClick);
       }
     };

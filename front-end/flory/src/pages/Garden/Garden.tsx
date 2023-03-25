@@ -1,5 +1,5 @@
-import React, { Suspense, useRef, useEffect, useState } from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
+import React, { Suspense, useRef, useEffect, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Sky,
   Cloud,
@@ -10,16 +10,18 @@ import {
   Float,
   Sparkles,
   Stars,
-} from "@react-three/drei"
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
-import Navbar from "../../components/common/Navbar/Navbar"
-import { SMain } from "./styles"
+} from "@react-three/drei";
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
+import Navbar from "../../components/common/Navbar/Navbar";
+import { SMain } from "./styles";
 
-import Base_map_new from "../../components/Garden/Base_map_new"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate } from "react-router-dom"
-import Loading from "../Loading/Loading"
+import Base_map_new from "../../components/Garden/Base_map_new";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryListAction } from "../../redux/modules/diary";
 
 const Scene = () => {
   return (
@@ -34,11 +36,25 @@ const Scene = () => {
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
-  )
-}
+  );
+};
 
 const Garden = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // 본인 정원 ID
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  // 본인 ID
+  const requestId = useAppSelector((state) => state.user.userData.userId);
+
+  useEffect(() => {
+    const inputData = {
+      gardenId,
+      requestId,
+    };
+    dispatch(getDiaryListAction(inputData));
+  });
 
   return (
     <SMain>
@@ -61,7 +77,7 @@ const Garden = () => {
       {/* 네브바 */}
       <Navbar />
     </SMain>
-  )
-}
+  );
+};
 
-export default Garden
+export default Garden;

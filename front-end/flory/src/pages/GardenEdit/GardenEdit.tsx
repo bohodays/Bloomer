@@ -38,14 +38,10 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
-  console.log(currentCreateDiaryData, "현재 데이터");
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
-
-  const userData = useAppSelector((state) => state.user.userData);
-  console.log(userData, 33);
 
   const handlePositionUpdate = () => {
     dispatch(updatePositionAction(diaryData))

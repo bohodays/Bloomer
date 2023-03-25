@@ -34,8 +34,6 @@ declare global {
 }
 
 const DiaryCreate = () => {
-  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
-  console.log(aa);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -143,7 +141,6 @@ const DiaryCreate = () => {
   // 다이어리 생성
   const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
-  console.log(gardenId, "정원정보");
 
   const onCreateDiary = () => {
     const diaryData = {
@@ -176,9 +173,6 @@ const DiaryCreate = () => {
           navigate("/diary/select");
         });
     }
-
-    // dispatch(createDiaryAction(diaryData));
-    // navigate("/diary/select");
   };
 
   const style: any = {
