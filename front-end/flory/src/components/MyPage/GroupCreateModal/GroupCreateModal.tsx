@@ -7,17 +7,19 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 import CreateInputLine from "../../common/CreateInputLine/CreateInputLine"
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons"
-import { useAppDispatch } from "../../../redux/store.hooks"
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
 import { GroupCreateType } from "../../../models/Group/groupCreateType"
-import { createGroupAction } from "../../../redux/modules/group"
-import { useSelector } from "react-redux"
+import {
+  createGroupAction,
+  getGroupInfoAction,
+} from "../../../redux/modules/group"
 
 function GroupCreateModal(): JSX.Element {
   const [groupName, setGroupName] = useState("")
   const contentInput = useRef<HTMLInputElement>(null)
-  const [isOpenData, setIsOpenData] = useState(true) // use state instead of ref
+  const [isOpenData, setIsOpenData] = useState(true)
+  const userInfo = useAppSelector((state: any) => state.user.userData)
   const dispatch = useAppDispatch()
-  const userInfo = useSelector((state: any) => state.user.userData)
 
   const handleChangeSwitch = (e: any) => {
     setIsOpenData(e.target.checked)
@@ -40,7 +42,11 @@ function GroupCreateModal(): JSX.Element {
           open: isOpenData,
           hostId: userInfo.userId,
         }
-        await dispatch(createGroupAction(groupCreateData))
+        await dispatch(createGroupAction(groupCreateData)).then(() => {
+          // 가입 생성 완료 후 본인 가입 그룹 목록 다시 불러와야 함
+          dispatch(getGroupInfoAction())
+        })
+        // input값 초기화
         initializeInput()
       }}
     >
