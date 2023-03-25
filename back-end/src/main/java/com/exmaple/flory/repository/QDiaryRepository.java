@@ -13,6 +13,8 @@ public interface QDiaryRepository {
 
     List<Diary> findByMemberId(Long memberId);
 
+    List<Diary> findAllPublic();
+
     List<Diary> findPublicByGardenId(Long gardenId);
 
     List<Diary> findTeamByGardenId(Long gardenId);

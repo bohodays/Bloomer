@@ -1,7 +1,7 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
@@ -61,7 +61,7 @@ public class DiaryService {
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
-        Optional<Music> music = musicRepository.findById(diaryRequestDto.getMid());
+        Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryRequestDto.getMusicTitle()));
 
         if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
         if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
@@ -72,13 +72,9 @@ public class DiaryService {
         diary.setGarden(garden.get());
         diary.setFlower(flowerData);
         diary.setMusic(music.get());
-        diary.setX("0");
-        diary.setY("0");
-        diary.setZ("0");
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         result.setFlowerEmotion(getFlowerEmotion(flowerData));
-        result.setMusic(music.get());
 
         if(diaryRequestDto.getPublicStatus().equals("그룹공개")){
             List<Long> groups = diaryRequestDto.getGroupList();
@@ -120,7 +116,6 @@ public class DiaryService {
         DiaryDto result = diary.get().toDto();
         result.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
         result.setCommentList(getCommentList(result));
-        result.setMusic(diary.get().getMusic());
 
         if(result.getPublicStatus().equals("그룹공개")){
             setGroupList(result);
@@ -150,7 +145,7 @@ public class DiaryService {
 
         Optional<Garden> garden = gardenRepository.findById(diaryDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryDto.getFid());
-        Optional<Music> music = musicRepository.findById(diaryDto.getMid());
+        Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryDto.getMusicTitle()));
 
         if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
         if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
@@ -160,7 +155,6 @@ public class DiaryService {
         log.info("Diary: {}",diary);
 
         setUpdateDiary(diaryDto,diary);
-
 
         diary.setGarden(garden.get());
         diary.setFlower(flower.get());
@@ -189,7 +183,6 @@ public class DiaryService {
         result.setCreatedTime(dir.get().getCreatedTime());
         result.setCommentList(getCommentList(result));
         result.setFlowerEmotion(getFlowerEmotion(flower.get()));
-        result.setMusic(music.get());
         setGroupList(result);
 
         return result;
@@ -227,7 +220,6 @@ public class DiaryService {
             DiaryDto diaryDto = diary.toDto();
             diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
             diaryDto.setCommentList(getCommentList(diaryDto));
-            diaryDto.setMusic(diary.getMusic());
             setGroupList(diaryDto);
 
             if(diary.getPublicStatus().equals("그룹공개")){
@@ -250,7 +242,6 @@ public class DiaryService {
             diaryDto.setCommentList(getCommentList(diaryDto));
             diaryDto.setFlowerEmotion(getFlowerEmotion(diaryList.get(i).getFlower()));
             setGroupList(diaryDto);
-            diaryDto.setMusic(diaryList.get(i).getMusic());
             diaryDtoList.add(diaryDto);
         }
 
@@ -273,7 +264,6 @@ public class DiaryService {
                 DiaryDto diaryDto = diary.toDto();
 
                 diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                diaryDto.setMusic(diary.getMusic());
                 setGroupList(diaryDto);
                 diaryDto.setCommentList(getCommentList(diaryDto));
                 result.add(diaryDto);
@@ -284,7 +274,6 @@ public class DiaryService {
                     DiaryDto diaryDto = diary.toDto();
 
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                    diaryDto.setMusic(diary.getMusic());
                     setGroupList(diaryDto);
 
                     result.add(diaryDto);
@@ -294,7 +283,6 @@ public class DiaryService {
                         DiaryDto diaryDto = diary.toDto();
 
                         diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                        diaryDto.setMusic(diary.getMusic());
                         setGroupList(diaryDto);
 
                         result.add(diaryDto);
@@ -316,11 +304,10 @@ public class DiaryService {
 
         if(diary!=null){
             DiaryDto diaryDto = diary.toDto();
-            List<CommentListDto> comments = commentService.getCommentList(diaryDto.getId());
+            List<CommentResponseDto> comments = commentService.getCommentList(diaryDto.getId());
 
             diaryDto.setCommentList(comments);
             diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-            diaryDto.setMusic(diary.getMusic());
             setGroupList(diaryDto);
 
             return diaryDto;
@@ -372,7 +359,6 @@ public class DiaryService {
                     List<DiaryDto> diaries = diaryDayDto.getDiaryList();
                     DiaryDto diaryDto = diary.toDto();
                     diaryDto.setCommentList(getCommentList(diaryDto));
-                    diaryDto.setMusic(diary.getMusic());
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
                     setGroupList(diaryDto);
                     diaries.add(diaryDto);
@@ -386,7 +372,6 @@ public class DiaryService {
                 List<DiaryDto> diaryList1 = new ArrayList<>();
                 DiaryDto diaryDto = diary.toDto();
                 diaryDto.setCommentList(getCommentList(diaryDto));
-                diaryDto.setMusic(diary.getMusic());
                 diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
                 setGroupList(diaryDto);
                 diaryList1.add(diaryDto);
@@ -411,6 +396,7 @@ public class DiaryService {
 
             Optional<Garden> garden = gardenRepository.findById(diaryDto.getGarden().getId());
             Optional<Emotion> emotion = emotionRepository.findById(diaryDto.getFlowerEmotion().getEid());
+            Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryDto.getMusicTitle()));
 
             if(emotion.isEmpty()) throw new CustomException(ErrorCode.NO_EMOTION);
 
@@ -418,9 +404,10 @@ public class DiaryService {
                     .id(diaryDto.getFlowerEmotion().getFid()).name(diaryDto.getFlowerEmotion().getFlowerName())
                     .smallCategory(diaryDto.getFlowerEmotion().getSmallCategory()).emotion(emotion.get()).language(diaryDto.getFlowerEmotion().getLanguage()).build();
             if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+            if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
             diary.setGarden(garden.get());
-            diary.setMusic(diaryDto.getMusic());
+            diary.setMusic(music.get());
             diary.setFlower(flower);
 
             log.info("Set diary: {}",diary);
@@ -428,7 +415,6 @@ public class DiaryService {
             DiaryDto diaryDto1 = diaryRepository.save(diary).toDto();
 
             diaryDto1.setGarden(diaryDto.getGarden());
-            diaryDto1.setMusic(diary.getMusic());
             diaryDto1.setFlowerEmotion(diaryDto.getFlowerEmotion());
             diaryDto1.setGroupList(diaryDto.getGroupList());
             diaryDto1.setCommentList(diaryDto.getCommentList());
@@ -439,8 +425,25 @@ public class DiaryService {
         return result;
     }
 
-    public List<CommentListDto> getCommentList(DiaryDto diaryDto){
-        List<CommentListDto> comments = new ArrayList<>();
+    public List<DiaryDto> getPublicDiaryList(){
+        List<DiaryDto> result = new ArrayList<>();
+        List<Diary> diaries = diaryRepository.findAllPublic();
+
+        for(Diary diary:diaries){
+            DiaryDto diaryDto = diary.toDto();
+
+            diaryDto.setCommentList(getCommentList(diaryDto));
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+            setGroupList(diaryDto);
+
+            result.add(diaryDto);
+        }
+
+        return result;
+    }
+
+    public List<CommentResponseDto> getCommentList(DiaryDto diaryDto){
+        List<CommentResponseDto> comments = new ArrayList<>();
         List<Comment> commentList = commentRepository.findByDid(diaryDto.getId());
 
         for(int i=0;i<commentList.size();i++){
@@ -449,10 +452,10 @@ public class DiaryService {
 
             if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
-            CommentListDto commentListDto = CommentListDto.builder()
+            CommentResponseDto commentResponseDto = CommentResponseDto.builder()
                     .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
 
-            comments.add(commentListDto);
+            comments.add(commentResponseDto);
         }
 
         return comments;
@@ -492,27 +495,20 @@ public class DiaryService {
 
         Collections.sort(emotionData);
 
-        List<EmotionDataDto> result = new ArrayList<>();
         List<FlowerEmotionDto> flowerData = new ArrayList<>();
-        for(int i=0;i<3;i++){
-            if(emotionData.get(i).getAnalysis()<1) continue;
-            result.add(emotionData.get(i));
 
-            if(i==0){
-                List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(i).getLargeCategory());
+        List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(0).getLargeCategory());
 
-                for(Flower flower: flowers){
-                    FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
-                            .fid(flower.getId()).largeCategory(emotionData.get(i).getLargeCategory()).eid(flower.getEmotion().getId())
-                            .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
+        for(Flower flower: flowers){
+            FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
+                    .fid(flower.getId()).largeCategory(emotionData.get(0).getLargeCategory()).eid(flower.getEmotion().getId())
+                    .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
 
-                    flowerData.add(flowerEmotionDto);
-                }
-            }
+            flowerData.add(flowerEmotionDto);
         }
 
         FlowerEmotionDataDto flowerEmotionDataDto = FlowerEmotionDataDto.builder()
-                .flowers(flowerData).emotions(result).build();
+                .flowers(flowerData).emotions(emotionData).build();
 
         return flowerEmotionDataDto;
     }
@@ -537,7 +533,7 @@ public class DiaryService {
         Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) return false;
 
-        List<UserTeam> teamList = userTeamRepository.findAllByUid(member.get());
+        List<UserTeam> teamList = userTeamRepository.findAllByUidAndStatus(member.get(), 1);
 
         for(int i=0;i<teamList.size();i++) {
             if(groupList.contains(teamList.get(i).getTid().getTeamId())){

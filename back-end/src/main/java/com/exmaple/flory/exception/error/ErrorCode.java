@@ -19,6 +19,7 @@ public enum ErrorCode {
     NO_USER(HttpStatus.NOT_FOUND, "404", "없는 사용자입니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 옳지 않습니다."),
     NO_LOGIN(HttpStatus.UNAUTHORIZED, "401", "로그인이 필요합니다"),
+    NO_TOKEN(HttpStatus.UNAUTHORIZED, "401", "Refresh Token 이 유효하지 않습니다."),
 
     //diary
 
@@ -32,7 +33,10 @@ public enum ErrorCode {
     NO_MUSIC(HttpStatus.NOT_FOUND,"404","없는 음악입니다."),
 
     //team
-    INVALID_TEAM(HttpStatus.NOT_FOUND,"404","없는 그룹 정보입니다.");
+    INVALID_TEAM(HttpStatus.NOT_FOUND,"404","없는 그룹 정보입니다."),
+    INVALID_APPROVE(HttpStatus.NOT_FOUND,"404","가입 신청 내역이 존재하지 않습니다."),
+    TEAM_DUPLICATION(HttpStatus.CONFLICT, "409", "이미 멤버에 속해 있습니다.")
+    ;
 
     private HttpStatus httpStatus;
     private String code;

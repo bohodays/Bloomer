@@ -1,7 +1,7 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.entity.Comment;
 import com.exmaple.flory.entity.Diary;
@@ -34,17 +34,16 @@ public class CommentService {
     MemberRepository memberRepository;
 
     @Transactional
-    public CommentDto insertComment(CommentDto commentDto) {
+    public CommentResponseDto insertComment(CommentDto commentDto) {
         Optional<Diary> diary = diaryRepository.findById(commentDto.getDid());
         Optional<Member> member = memberRepository.findById(commentDto.getUid());
-
 
         if(diary.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
         if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
         log.info("Diary: {}",diary.get());
-        log.info("DiaryinMember: {}",diary.get().getGarden().getMember());
-        log.info("gardendiarydto: {}",diary.get().getGarden().toDiaryDto());
+        log.info("DiaryInMember: {}",diary.get().getGarden().getMember());
+        log.info("GardenDiaryDto: {}",diary.get().getGarden().toDiaryDto());
 
         commentDto.setDiary(diary.get().toDto());
         Comment comment = commentDto.toEntity();
@@ -54,16 +53,16 @@ public class CommentService {
         log.info("insert 요청: {}",comment);
 
         Comment result = commentRepository.save(comment);
-        result.setDiary(diary.get());
+        CommentResponseDto commentResponseDto = CommentResponseDto.builder()
+                .id(result.getId()).content(result.getContent()).member(MemberResponseDto.of(member.get()))
+                .createdTime(result.getCreatedTime()).did(diary.get().getId()).build();
 
-        log.info("insert 요청: {}",result);
-
-        return result.toDto();
+        return commentResponseDto;
     }
 
-    public List<CommentListDto> getCommentList(Long diaryId) {
+    public List<CommentResponseDto> getCommentList(Long diaryId) {
         List<Comment> commentList = commentRepository.findByDid(diaryId);
-        List<CommentListDto> comments = new ArrayList<>();
+        List<CommentResponseDto> comments = new ArrayList<>();
         log.info("comment 목록: {}, {}", diaryId, commentList.size());
 
         for(int i=0;i<commentList.size();i++){
@@ -72,17 +71,18 @@ public class CommentService {
 
             if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
-            CommentListDto commentListDto = CommentListDto.builder()
-                    .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
+            CommentResponseDto commentResponseDto = CommentResponseDto.builder()
+                    .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime())
+                    .did(diaryId).build();
 
-            comments.add(commentListDto);
+            comments.add(commentResponseDto);
         }
 
         return comments;
     }
 
     @Transactional
-    public CommentDto updateComment(Map<String,String> updateInfo){
+    public CommentResponseDto updateComment(Map<String,String> updateInfo){
         Long id =  Long.parseLong(updateInfo.get("id"));
         String content = updateInfo.get("content");
 
@@ -104,7 +104,13 @@ public class CommentService {
         Comment comment1 = commentDto.toEntity();
         comment1.setMember(member.get());
 
-        return commentRepository.save(comment1).toDto();
+        Comment result = commentRepository.save(comment1);
+
+        CommentResponseDto commentResponseDto = CommentResponseDto.builder()
+                .id(result.getId()).content(result.getContent()).member(MemberResponseDto.of(member.get()))
+                .createdTime(result.getCreatedTime()).did(diary.get().getId()).build();
+
+        return commentResponseDto;
     }
 
     @Transactional

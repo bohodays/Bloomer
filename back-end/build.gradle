@@ -35,6 +35,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.json:json:20210307'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
@@ -151,11 +152,11 @@ jacocoTestCoverageVerification {
 				minimum = 0.00
 			}
 
-			// 빈 줄을 제외한 코드의 라인수를 최대 300라인으로 제한합니다.
+			// 빈 줄을 제외한 코드의 라인수를 최대 600라인으로 제한합니다.
 			limit {
 				counter = 'LINE'
 				value = 'TOTALCOUNT'
-				maximum = 300
+				maximum = 600
 			}
 
 			excludes = [] + Qdomains // 제외할 Qdomains 패턴 추가

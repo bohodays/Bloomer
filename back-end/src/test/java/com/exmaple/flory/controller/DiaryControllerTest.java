@@ -3,6 +3,7 @@ package com.exmaple.flory.controller;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
+import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.service.DiaryService;
@@ -448,6 +449,61 @@ public class DiaryControllerTest {
         mockMvc.perform(put("/api/diary/location").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updateDiariesDto)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("감정 분석 및 꽃 목록 가져오기 테스트")
+    @Test
+    public void getEmotionFlowerDataTest() throws Exception{
+        FlowerEmotionDataDto flowerEmotionDataDto = FlowerEmotionDataDto.builder()
+                .flowers(null).emotions(null).build();
+        Map<String,String> data = new HashMap<>();
+        data.put("text","안녕하세요");
+
+        when(diaryService.getFlowerEmotionData(any())).thenReturn(flowerEmotionDataDto);
+
+        mockMvc.perform(post("/api/diary/emotion").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(data)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("감정 분석 및 꽃 목록 가져오기 오류 테스트")
+    @Test
+    public void getEmotionFlowerDataExceptionTest() throws Exception{
+        Map<String,String> data = new HashMap<>();
+        data.put("text","안녕하세요");
+
+        when(diaryService.getFlowerEmotionData(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/diary/emotion").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(data)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("최신순으로 전체공개 일기 목록 가져오기 테스트")
+    @Test
+    public void getPublicDiaryListTest() throws Exception {
+        List<DiaryDto> diaryDtoList = new ArrayList<>();
+
+        diaryDtoList.add(diaryDto);
+        when(diaryService.getPublicDiaryList()).thenReturn(diaryDtoList);
+
+        mockMvc.perform(get("/api/diary/list/all"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("최신순으로 전체공개 일기 목록 가져오기 오류 테스트")
+    @Test
+    public void getPublicDiaryListExceptionTest() throws Exception {
+        when(diaryService.getPublicDiaryList()).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/list/all"))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
