@@ -43,7 +43,12 @@ export const SMain = styled.main`
     align-items: center;
   }
 
+  .info__title {
+    user-select: none;
+  }
+
   .emotion {
+    user-select: none;
     position: absolute;
     top: 0;
     display: flex;
@@ -72,10 +77,12 @@ export const SMain = styled.main`
 
     .name__title {
       font-size: 1.6rem;
+      user-select: none;
     }
 
     .flower__language {
       font-size: 1.2rem;
+      user-select: none;
     }
   }
 

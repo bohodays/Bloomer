@@ -38,6 +38,9 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
+  // 디버깅용
+  // console.log(currentCreateDiaryData);
+
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);

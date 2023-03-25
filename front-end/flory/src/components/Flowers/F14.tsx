@@ -106,7 +106,7 @@ export function F14(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[1.22, 1.38, -0.79]}
-        scale={0.11}
+        scale={location.pathname.includes("diary/select") ? 0.15 : 0.11}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f14" }}
         onClick={() => {

@@ -109,7 +109,7 @@ export function F09(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={0.03}
+        scale={location.pathname.includes("diary/select") ? 0.038 : 0.03}
         rotation={[0.55, 0.1, 0.02]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f09" }}

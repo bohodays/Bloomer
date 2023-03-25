@@ -63,6 +63,8 @@ const DiaryMusicSelect = () => {
 
   useEffect(() => {
     if (!musicData) {
+      // 수정 필요
+      // api 보고 맞춰서 보내기
       dispatch(getMusicInfoAction("happy")).then((res) => {
         setMusicData(res.payload.response);
       });
