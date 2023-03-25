@@ -27,6 +27,8 @@ type GLTFResult = GLTF & {
 export function F02(
   props: (JSX.IntrinsicElements["group"] & PositionType) | any
 ) {
+  console.log("되나?");
+
   const { x, y, z } = props.flowerPosition;
   const location = useLocation();
   const modelRef = useRef<any>();
@@ -107,7 +109,7 @@ export function F02(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[-1.1, 0.99, -2.47]}
-        scale={0.05}
+        scale={location.pathname.includes("diary/select") ? 0.06 : 0.05}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f02" }}
         onClick={() => {

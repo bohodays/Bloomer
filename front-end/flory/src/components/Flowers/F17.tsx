@@ -110,7 +110,11 @@ export function F17(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[0, -1.3, -Math.PI / 2]}
-        scale={[0.13, 0.08, 0.1]}
+        scale={
+          location.pathname.includes("diary/select")
+            ? [0.16, 0.11, 0.13]
+            : [0.13, 0.08, 0.1]
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f17" }}
         onClick={() => {

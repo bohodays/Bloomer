@@ -1,6 +1,6 @@
 import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SMusicWrapper } from "./styles";
 
 interface Props {
@@ -32,15 +32,27 @@ const DiaryMusicItem = ({
     }
   };
 
+  useEffect(() => {
+    if (audioControl.current) {
+      if (!isSelected) {
+        audioControl.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioControl.current.play();
+        setIsPlaying(true);
+      }
+    }
+  }, [isSelected]);
+
   return (
-    <SMusicWrapper isSelected={isSelected}>
+    <SMusicWrapper isSelected={isSelected} onClick={handlePlay}>
       <FontAwesomeIcon className="icon music" icon={faMusic} />
       <p>{musicTitle}</p>
       <audio ref={audioControl} src={musicUrl} controls id="myAudio"></audio>
       <FontAwesomeIcon
         className={`icon play ${musicTitle}`}
         icon={isSelected ? faStop : faPlay}
-        onClick={handlePlay}
+        // onClick={handlePlay}
       />
     </SMusicWrapper>
   );

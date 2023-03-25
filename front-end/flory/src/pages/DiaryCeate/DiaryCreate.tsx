@@ -156,6 +156,9 @@ const DiaryCreate = () => {
       gid: gardenId,
       musicTitle: null,
       address: place.placeName ? place.placeName : place.address,
+      x: 0,
+      y: 0,
+      z: 0,
     };
 
     if (!diaryData.content?.trim()) {

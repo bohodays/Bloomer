@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SMusicWrapper = styled.div<any>`
+  cursor: pointer;
   padding: 1rem 2rem;
   width: 100%;
   display: flex;
