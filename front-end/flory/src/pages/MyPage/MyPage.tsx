@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { SMyPage } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
 import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal";
@@ -17,6 +18,9 @@ import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const userState = useAppSelector((state) => state.user.userData);
 
   const handleMove = (target: string) => {
     navigate(target);
@@ -75,7 +79,7 @@ const MyPage = () => {
     <div>
       <div className="totalFlower">
         <img src={FlowerImg} className="flowerImg"></img>
-        이번 달에 9개의 꽃을 피웠습니다!
+        <div className="flower-title">이번 달에 9개의 꽃을 피웠습니다!</div>
       </div>
       <Post
         title="실시간 누적 감정 분포"
@@ -106,9 +110,9 @@ const MyPage = () => {
       <ProfileCard
         width="100%"
         header={<MyPageEditModal />}
-        name={"이름"}
+        name={userState.nickname}
         body={
-          <div style={{ textAlign: "center", padding: "0.3vh" }}>이메일</div>
+          <div style={{ textAlign: "center", padding: "1px" }}>{ userState.email }</div>
         }
         height="100%"
         className="profile"

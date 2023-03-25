@@ -17,6 +17,7 @@ function GroupPanel({}): JSX.Element {
   // const [userGroupList, setUserGroupList] = useState(null);``
   
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
+  
   useEffect(() => {
     if (isInital) {
       isInital = false;
@@ -24,7 +25,7 @@ function GroupPanel({}): JSX.Element {
     }
   }, [dispatch]);
     
-  console.log(userGroupList);
+  // console.log(userGroupList);
   return (
     <SGroupPanel>
       <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
@@ -51,9 +52,9 @@ function GroupPanel({}): JSX.Element {
           />
           ))}
         </div>
-      } 
+      }
+        addition={<GroupCreateModal />}
       />
-      <GroupCreateModal />
     </SGroupPanel>
   );
 }

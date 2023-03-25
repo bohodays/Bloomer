@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SMyPage = styled.div`
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,24 +36,29 @@ export const SMyPage = styled.div`
   .totalFlower{
     background: #e6d1ff;
     text-align: center;
-    margin: 2vw auto;
-    width: 15vw;
-    padding: 0.4vh;
+    margin: 20px auto;
+    width: 230px;
+    padding: 3px;
     border-radius: 2em;
-    box-shadow: #ebe1e1 3px 3px 3px 3px;
+    box-shadow: #ebe1e1 2px 2px 2px 2px;
   }
 
   .flowerImg{
-    height: 2vh;
-    width: 1vw;
+    height: 15px;
+    // width: 1vw;
     position: relative;
-    top: 0.2vw;
-    right: 0.3vw;
+    top: 2.5px;
+    right: 4px;
   }
 
   .inner-title{
-    font-size: 0.8em;
+    font-size: 12px;
     margin-bottom:5vh;
+  }
+
+  .flower-title{
+    font-size: 12px;
+    display:inline-block;
   }
 `;
 
