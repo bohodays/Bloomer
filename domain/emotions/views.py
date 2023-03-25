@@ -6,7 +6,7 @@ from django.http import JsonResponse
 #KoBERT
 import torch
 from torch import nn
-import torch.nn.functional as F
+import torch.nn.functional as Fun
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import gluonnlp as nlp
@@ -181,7 +181,7 @@ def predict(text):
             makeProb(out[0].detach().cpu().numpy().tolist())
 
             # 소프트맥스 적용 비율 구하기
-            fProb = F.softmax(out, dim=1).detach().cpu().numpy()
+            fProb = Fun.softmax(out, dim=1).detach().cpu().numpy()
             result = fProb.tolist()[0]
             print("소프트맥스확률", result)
 
