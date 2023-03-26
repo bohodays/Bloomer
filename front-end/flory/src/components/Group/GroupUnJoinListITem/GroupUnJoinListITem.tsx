@@ -20,9 +20,9 @@ const convertDateFormat = (date: string) => {
 const GroupUnJoinListITem = ({ group }: any) => {
   const userInfo = useAppSelector((state) => state.user.userData)
   const [isDetail, setIsDetail] = useState(false)
-  // const [content, setContent] = useState("");
   const contentInput = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
+  const [isRequest, setIsRequest] = useState(false)
 
   const handleClickDetail = () => {
     setIsDetail(!isDetail)
@@ -30,7 +30,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
   const handleClickFormArea = (e: any) => {
     e.stopPropagation()
   }
-  const handleSubmitForm = (e: any) => {
+  const handleSubmitForm = async (e: any) => {
     e.preventDefault()
     const groupJoinData: GroupJoinRequestType = {
       teamId: group.teamId,
@@ -39,11 +39,11 @@ const GroupUnJoinListITem = ({ group }: any) => {
     }
 
     // 가입 api 쏘기
-    dispatch(requestJoinGroup(groupJoinData))
-
-    if (contentInput.current) {
-      contentInput.current.value = ""
-    }
+    await dispatch(requestJoinGroup(groupJoinData))
+    setIsRequest(true)
+    // if (contentInput.current) {
+    //   contentInput.current.value = ""
+    // }
   }
 
   return (
@@ -51,7 +51,8 @@ const GroupUnJoinListITem = ({ group }: any) => {
       <div className="title__wrapper">
         <div className="group-name">{group.name}</div>
         <div className="private__section">
-          {group.status === 0 && <div id="accept-tag">승인 대기 중</div>}
+          {group.status === 0 && <div className="accept-tag">승인 대기 중</div>}
+          {isRequest && <div className="accept-tag done">신청 완료</div>}
           {!group.open && (
             <div>
               <FaLock color="#656565" />
@@ -84,7 +85,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
             <div className="group-content">{group.info}</div>
           )}
         </div>
-        {group.status !== 0 && (
+        {group.status !== 0 && !isRequest && (
           <SForm onClick={handleClickFormArea} isDetail={isDetail}>
             {!group.open && (
               <CreateInput
