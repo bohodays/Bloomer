@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { GroupCreateType } from "../../../models/Group/groupCreateType"
+import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType"
 import { axiosInitializer } from "../../utils/axiosInitializer"
 import { localData } from "../user/token"
 
@@ -23,6 +24,7 @@ export const getGroupInfoAction = createAsyncThunk(
   }
 )
 
+// 그룹 생성하기
 export const createGroupAction = createAsyncThunk(
   "CREATE_GROUP",
   async (groupCreateData: GroupCreateType, { rejectWithValue }) => {
@@ -43,6 +45,7 @@ export const createGroupAction = createAsyncThunk(
   }
 )
 
+// 모든 그룹 목록 가져오기
 export const getAllGroupAction = createAsyncThunk(
   "GET_ALL_GROUP",
   async (_, { rejectWithValue }) => {
@@ -61,6 +64,7 @@ export const getAllGroupAction = createAsyncThunk(
   }
 )
 
+// 키워드로 그룹 목록 가져오기
 export const getAllGroupByKeywordAction = createAsyncThunk(
   "GET_ALL_GROUP_BY_KEYWORD",
   async (keyword: string, { rejectWithValue }) => {
@@ -78,6 +82,26 @@ export const getAllGroupByKeywordAction = createAsyncThunk(
       return data.response
     } catch (e) {
       rejectWithValue(e)
+    }
+  }
+)
+
+// 그룹 신청하기
+export const requestJoinGroup = createAsyncThunk(
+  "REQUEST_JOIN_GROUP",
+  async (groupJoinData: GroupJoinRequestType, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken()
+      const axios = axiosInitializer()
+      const { data } = await axios.post(`/api/team/member`, groupJoinData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      console.log(data)
+      return data.response
+    } catch (e) {
+      return rejectWithValue(e)
     }
   }
 )
