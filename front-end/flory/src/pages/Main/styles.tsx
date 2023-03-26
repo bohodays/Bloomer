@@ -3,6 +3,7 @@ import styled from "styled-components"
 export const SMain = styled.main<any>`
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   /* background-color: #d7bede; */
   background-color: #4e126b;
   display: flex;

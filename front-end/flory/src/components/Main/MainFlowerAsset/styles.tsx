@@ -1,16 +1,17 @@
 import styled from "styled-components"
 
 export const GlobalStyle = styled.div`
+  margin-top: -50px;
   *,
   *::after,
   *::before {
     padding: 0;
-    margin: 0;
+    margin-top: 0;
     box-sizing: border-box;
   }
 
   width: 100%;
-  height: 57vh;
+  height: 65vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -21,6 +22,24 @@ export const GlobalStyle = styled.div`
   .flowers {
     position: relative;
     transform: scale(0.6);
+  }
+
+  @media screen and (max-width: 479px) {
+    .flowers {
+      transform: scale(1.2);
+    }
+  }
+
+  @media screen and (min-width: 489px) and (max-width: 767px) {
+    .flowers {
+      transform: scale(1);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .flowers {
+      transform: scale(0.6);
+    }
   }
 
   .flower {
