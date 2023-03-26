@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.seoda0000.bloomer"
+      "package": "com.erscindy.floryapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "7f3d1488-486a-417d-aa33-5e7d544ceea9"
+        "projectId": "5f69b34e-726f-4eed-93ac-c3b7e47a38d8"
       }
     }
   }

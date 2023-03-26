@@ -5,6 +5,9 @@ import { FaLock } from "react-icons/fa"
 import { RiFilePaper2Line } from "react-icons/ri"
 import { SForm, SMain } from "./styles"
 import CreateInput from "../../common/CreateInput/CreateInput"
+import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType"
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
+import { requestJoinGroup } from "../../../redux/modules/group"
 
 const convertDateFormat = (date: string) => {
   const target = new Date(date)
@@ -15,9 +18,11 @@ const convertDateFormat = (date: string) => {
 }
 
 const GroupUnJoinListITem = ({ group }: any) => {
+  const userInfo = useAppSelector((state) => state.user.userData)
   const [isDetail, setIsDetail] = useState(false)
-  // const [content, setContent] = useState("");
   const contentInput = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
+  const [isRequest, setIsRequest] = useState(false)
 
   const handleClickDetail = () => {
     setIsDetail(!isDetail)
@@ -25,14 +30,20 @@ const GroupUnJoinListITem = ({ group }: any) => {
   const handleClickFormArea = (e: any) => {
     e.stopPropagation()
   }
-  const handleSubmitForm = (e: any) => {
+  const handleSubmitForm = async (e: any) => {
     e.preventDefault()
-    console.log(contentInput.current?.value)
-    // 가입 api 쏘기
-
-    if (contentInput.current) {
-      contentInput.current.value = ""
+    const groupJoinData: GroupJoinRequestType = {
+      teamId: group.teamId,
+      userId: userInfo.userId,
+      message: contentInput.current?.value,
     }
+
+    // 가입 api 쏘기
+    await dispatch(requestJoinGroup(groupJoinData))
+    setIsRequest(true)
+    // if (contentInput.current) {
+    //   contentInput.current.value = ""
+    // }
   }
 
   return (
@@ -40,7 +51,8 @@ const GroupUnJoinListITem = ({ group }: any) => {
       <div className="title__wrapper">
         <div className="group-name">{group.name}</div>
         <div className="private__section">
-          {group.status === 0 && <div id="accept-tag">승인 대기 중</div>}
+          {group.status === 0 && <div className="accept-tag">승인 대기 중</div>}
+          {isRequest && <div className="accept-tag done">신청 완료</div>}
           {!group.open && (
             <div>
               <FaLock color="#656565" />
@@ -73,7 +85,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
             <div className="group-content">{group.info}</div>
           )}
         </div>
-        {group.status !== 0 && (
+        {group.status !== 0 && !isRequest && (
           <SForm onClick={handleClickFormArea} isDetail={isDetail}>
             {!group.open && (
               <CreateInput

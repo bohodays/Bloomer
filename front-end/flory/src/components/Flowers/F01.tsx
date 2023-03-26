@@ -68,11 +68,11 @@ export function F01(
       }
     };
     if (location.pathname.includes("garden/edit")) {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
       if (location.pathname.includes("garden/edit")) {
-        handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
         window.removeEventListener("click", handleWindowClick);
       }
     };
@@ -109,7 +109,11 @@ export function F01(
         position={[position.x, position.y, position.z]}
         rotation={[0, 0, -1.56]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
-        scale={[0.14, 0.2, 0.2]}
+        scale={
+          location.pathname.includes("diary/select")
+            ? [0.18, 0.25, 0.25]
+            : [0.14, 0.2, 0.2]
+        }
         // scale={0.17}
         userData={{ draggable: true, name: "f01" }}
         onClick={() => {

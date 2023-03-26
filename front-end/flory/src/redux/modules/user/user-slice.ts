@@ -10,7 +10,7 @@ import {
 
 const initialState: UserStateType = {
   userData: {
-    userId: null,
+    userId: 0,
     nickname: "",
     email: "",
     img: "",

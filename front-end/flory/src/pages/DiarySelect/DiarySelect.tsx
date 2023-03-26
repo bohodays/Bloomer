@@ -58,8 +58,6 @@ const Carousel = ({ children }: any) => {
 };
 
 const DiarySelect = () => {
-  const aa = useAppSelector((state) => state.diaryCreate.diaryCreateData);
-  console.log(aa);
   const nickname = useAppSelector((state) => state.user.userData.nickname);
   const dispatch = useAppDispatch();
 
@@ -103,8 +101,8 @@ const DiarySelect = () => {
   return (
     <SMain>
       <div className="info__wrapper">
-        <p>{nickname} 님의 감정은 다음과 같습니다.</p>
-        <p>피우고 싶은 꽃을 선택해주세요.</p>
+        <p className="info__title">{nickname} 님의 감정은 다음과 같습니다.</p>
+        <p className="info__title">피우고 싶은 꽃을 선택해주세요.</p>
         {/* 일단 보류 */}
         {/* <Chart
           type="bar"
@@ -132,7 +130,9 @@ const DiarySelect = () => {
           {flowerData.map((item: any, i: number) => (
             // <Card title={"Card " + (i + 1)}>
             <>
-              <div className="emotion">{item.smallCategory}</div>
+              <div key={item.id} className="emotion">
+                {item.smallCategory}
+              </div>
               <DiaryFlower flower={item} />
               {/* <img src={testFlower} alt="" /> */}
               <div className="flower__wrapper">

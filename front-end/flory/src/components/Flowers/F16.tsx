@@ -70,11 +70,11 @@ export function F16(
       }
     };
     if (location.pathname.includes("garden/edit")) {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
       if (location.pathname.includes("garden/edit")) {
-        handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
         window.removeEventListener("click", handleWindowClick);
       }
     };
@@ -110,7 +110,11 @@ export function F16(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[0, -1.3, -Math.PI / 2]}
-        scale={[0.12, 0.07, 0.09]}
+        scale={
+          location.pathname.includes("diary/select")
+            ? [0.15, 0.09, 0.11]
+            : [0.12, 0.07, 0.09]
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f16" }}
         onClick={() => {

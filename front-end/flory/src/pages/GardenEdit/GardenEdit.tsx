@@ -7,7 +7,7 @@ import Base_map_new from "../../components/Garden/Base_map_new";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import {
   createDiaryAction,
@@ -38,23 +38,33 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
-  console.log(currentCreateDiaryData, "현재 데이터");
+  // 디버깅용
+  // console.log(currentCreateDiaryData);
+
+  const location = useLocation();
+  // 일기 작성 flow 중 정원 편집 모드로 온 것이 아닌
+  // 메인 화면에서 정원 편집모드로 온 것을 판별하기 위한 변수
+  const fromGarden = location.state?.garden;
+
   const canvasRef = useRef<any>();
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
 
-  const userData = useAppSelector((state) => state.user.userData);
-  console.log(userData, 33);
-
   const handlePositionUpdate = () => {
-    dispatch(updatePositionAction(diaryData))
-      .then(() => {
-        dispatch(createDiaryAction(currentCreateDiaryData));
-      })
-      .then(() => {
-        navigate("/garden");
-      });
+    if (fromGarden) {
+      dispatch(updatePositionAction(diaryData)).then(() => navigate("/garden"));
+    } else {
+      dispatch(updatePositionAction(diaryData))
+        .then(() => {
+          console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
+
+          dispatch(createDiaryAction(currentCreateDiaryData));
+        })
+        .then(() => {
+          navigate("/garden");
+        });
+    }
   };
 
   return (

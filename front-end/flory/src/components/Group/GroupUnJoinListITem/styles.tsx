@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.div<any>`
   box-shadow: 4px 4px 8px rgba(144, 144, 144, 0.25);
@@ -23,12 +23,16 @@ export const SMain = styled.div<any>`
       justify-content: center;
       gap: 0.5rem;
 
-      #accept-tag {
-        background-color: #906bd5;
+      .accept-tag {
+        background-color: #ffb963;
         color: white;
         padding: 0.3rem 0.5rem;
         font-size: 0.5rem;
         border-radius: 30px;
+      }
+
+      .done {
+        background-color: #8fc093;
       }
     }
   }
@@ -60,7 +64,7 @@ export const SMain = styled.div<any>`
 
   .register__form {
   }
-`;
+`
 
 export const SForm = styled.form<any>`
   margin-top: 20px;
@@ -71,16 +75,19 @@ export const SForm = styled.form<any>`
     text-align: right;
     .btn {
       font-size: 0.7rem;
+      font-weight: 900;
       color: white;
-      background: linear-gradient(
+      background-color: #835ba4;
+      /* background: linear-gradient(
         90deg,
         #f4afff 0%,
         #9c93dd 53.61%,
         #9677d2 100%
-      );
+      ); */
       border-radius: 7px;
-      padding: 6px 8px;
+      padding: 8px 10px;
+      border: none;
       cursor: pointer;
     }
   }
-`;
+`

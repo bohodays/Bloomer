@@ -41,6 +41,25 @@ const DiaryMusicSelect = () => {
   const [musicData, setMusicData] = useState<any>(null);
   const [totalData, setTotalData] = useState<any>([]);
 
+  // 이전 페이지에서 감정을 저장시켰음
+  const emotion = useAppSelector(
+    (state) => state.diaryCreate.currentEmotionData[0].largeCategory
+  );
+  // 유저 id
+  const userId = useAppSelector((state) => state.user.userData.userId);
+  console.log(emotion, "지배 감정");
+
+  // 텍스트 형태의 감정을 백엔드에 매칭된 인덱스로 바꿔주는 함수
+  const changeTextToIndex = (string: string) => {
+    if (string === "기쁨") return 0;
+    else if (string === "안정") return 1;
+    else if (string === "당황") return 2;
+    else if (string === "분노") return 3;
+    else if (string === "불안") return 4;
+    else if (string === "상처") return 5;
+    else if (string === "슬픔") return 6;
+  };
+
   // 응답받은 음악 제목들을 순회하면서 s3의 url을 저장하는 함수
   const getMusicUrls = (musicArray: any) => {
     let test: any = [];
@@ -59,12 +78,15 @@ const DiaryMusicSelect = () => {
           setMusicUrls(test);
         });
     });
-    // return test;
   };
 
   useEffect(() => {
     if (!musicData) {
-      dispatch(getMusicInfoAction("happy")).then((res) => {
+      // 수정 필요
+      // api 보고 맞춰서 보내기
+      const emotionIndex = changeTextToIndex(emotion);
+      const emotionData = { emotionIndex, userId };
+      dispatch(getMusicInfoAction(emotionData)).then((res) => {
         setMusicData(res.payload.response);
       });
     }
@@ -79,7 +101,6 @@ const DiaryMusicSelect = () => {
           const newTitle = splitedTitle
             .splice(0, splitedTitle.length - 1)
             .join(" ");
-          // console.log(musicData[i].title.split("-"), "제목");
 
           newItem.push([newTitle, musicUrls[i]]);
         }
@@ -93,23 +114,26 @@ const DiaryMusicSelect = () => {
   };
 
   const handleNavigate = () => {
-    let musicId: any;
+    let musicId = null;
     const keys = Object.keys(selectedItems);
     for (let i = 0; i < keys.length; i++) {
       if (selectedItems[keys[i]] === true) {
         musicId = i;
       }
     }
-    const musicTitle = { musicTitle: musicData[musicId].title };
-    dispatch(createInfoSaveAction(musicTitle)).then(() => {
-      navigate("/garden/edit");
-    });
+
+    if (musicId !== null) {
+      const musicTitle = { musicTitle: musicData[musicId].title };
+      dispatch(createInfoSaveAction(musicTitle)).then(() => {
+        navigate("/garden/edit");
+      });
+    }
   };
 
   return (
     <SMain>
       <div className="info__wrapper">
-        <p>원하는 음악을 선택해주세요? (수정필요)</p>
+        <p>일기의 배경음악을 선택해주세요.</p>
       </div>
       {totalData.length &&
         totalData.map((item: any, i: number) => {

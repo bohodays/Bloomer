@@ -3,17 +3,36 @@ import styled from "styled-components";
 export const SMain = styled.main`
   padding-top: 5rem;
 
+  min-height: 100%;
+
   button {
     top: 1rem;
     left: 1rem;
   }
 
   .create {
+    background-color: white;
+    padding: 0.5rem;
+    /* width: 1rem; */
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right: 1rem;
     top: 1rem;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     cursor: pointer;
+    text-align: center;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    transition: all linear 300ms;
+  }
+
+  .create:hover {
+    transform: scale(1.1);
   }
 
   position: relative;
