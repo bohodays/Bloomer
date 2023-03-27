@@ -60,9 +60,9 @@ public class Member extends BaseTime {
         return this;
     }
 
-    public Member updateMember(String nickname, String password, PasswordEncoder passwordEncoder){
+    public Member updateMember(String nickname){ //, String password, PasswordEncoder passwordEncoder
         this.nickname = nickname;
-        this.password = passwordEncoder.encode(password);
+//        this.password = passwordEncoder.encode(password);
         return this;
     }
 

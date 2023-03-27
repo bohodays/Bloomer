@@ -123,7 +123,7 @@ class MemberControllerTest {
     @Test
     void updateMember() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").email("email").build();
+                .nickname("name").email("email").build();
 
         when(memberService.updateMember(any(),any())).thenReturn(memberResponseDto);
         String json = new ObjectMapper().writeValueAsString(memberRequestDto);
@@ -144,7 +144,7 @@ class MemberControllerTest {
     @Test
     void updateMemberException() throws Exception{
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").password("password").email("email").build();
+                .nickname("name").email("email").build();
 
         when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
         String json = new ObjectMapper().writeValueAsString(memberRequestDto);
