@@ -11,6 +11,7 @@ public enum ErrorCode {
     INVALID_INPUT(HttpStatus.METHOD_NOT_ALLOWED, "405", "기입되지 않은 정보가 있습니다"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "서버 내부 에러"),
     INVALID_EMOTION(HttpStatus.NOT_FOUND,"404","없는 감정입니다."),
+
     //garden
     INVALID_GARDEN(HttpStatus.NOT_FOUND,"404","없는 정원 정보입니다."),
     // user
@@ -35,8 +36,8 @@ public enum ErrorCode {
     //team
     INVALID_TEAM(HttpStatus.NOT_FOUND,"404","없는 그룹 정보입니다."),
     INVALID_APPROVE(HttpStatus.NOT_FOUND,"404","가입 신청 내역이 존재하지 않습니다."),
-    TEAM_DUPLICATION(HttpStatus.CONFLICT, "409", "이미 멤버에 속해 있습니다.")
-    ;
+    TEAM_DUPLICATION(HttpStatus.CONFLICT, "409", "이미 멤버에 속해 있습니다."),
+    NO_GUEST(HttpStatus.NOT_FOUND,"404" ,"없는 방명록 입니다.");
 
     private HttpStatus httpStatus;
     private String code;

@@ -34,7 +34,6 @@ insert into flower (id,name,language,small_category,eid) values(23,'노란 카�
 insert into flower (id,name,language,small_category,eid) values(24,'층꽃나무','허무한 삶','허무',7);
 insert into flower (id,name,language,small_category,eid) values(25,'제라늄','우울함','우울',7);
 
-
 insert into music (id, title) values(1,'218-westernet-141021');
 insert into music (id, title) values(2,'5-islamic-background-sounds-alfa-relaxing-music-126059');
 insert into music (id, title) values(3,'80s-mystical-stranger-things-133254');
