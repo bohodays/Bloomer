@@ -42,11 +42,14 @@ public class CommentServiceTest {
             .nickname("abcd")
             .build();
 
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
+
     private final Garden garden = Garden
             .builder()
             .id(1L)
             .member(member)
-            .path("/usr/app")
+            .music(music)
             .build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
@@ -58,9 +61,6 @@ public class CommentServiceTest {
 
     private final CommentDto commentDto = CommentDto.builder()
             .id(1L).content("content").createdTime(new Date()).did(1L).uid(1L).diary(diaryDto).build();
-
-    private final Music music = Music.builder()
-            .id(1L).title("title").build();
 
     @DisplayName("댓글 수정 테스트")
     @Test

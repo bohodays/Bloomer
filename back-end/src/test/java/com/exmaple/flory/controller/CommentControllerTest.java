@@ -54,7 +54,6 @@ public class CommentControllerTest {
             .builder()
             .id(1L)
             .member(member)
-            .path("/usr/app")
             .build();
 
     private final Diary diary = Diary.builder()

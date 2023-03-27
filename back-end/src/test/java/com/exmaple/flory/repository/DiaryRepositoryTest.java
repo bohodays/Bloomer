@@ -47,7 +47,6 @@ public class DiaryRepositoryTest {
     private final Garden garden = Garden
             .builder()
             .member(member)
-            .path("/usr/app")
             .build();
 
     private final Music music = Music.builder()

@@ -46,7 +46,6 @@ public class GardenRepositoryTest {
         Garden garden = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         memberRepository.save(member);
@@ -62,7 +61,6 @@ public class GardenRepositoryTest {
 
         Garden garden = Garden
                 .builder()
-                .path("/usr/app")
                 .build();
 
         gardenRepository.save(garden);
@@ -72,7 +70,7 @@ public class GardenRepositoryTest {
 
         Optional<Garden> result = gardenRepository.findByDate(year,month);
 
-        assertThat(result.get().getPath()).isEqualTo(garden.getPath());
+        assertThat(result.get().getDeadLine()).isEqualTo(garden.getDeadLine());
     }
 
     @DisplayName("유저의 모든 정원 가져오기")
@@ -88,19 +86,16 @@ public class GardenRepositoryTest {
         Garden garden1 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Garden garden2 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Garden garden3 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Member memberEntity = memberRepository.save(member);
