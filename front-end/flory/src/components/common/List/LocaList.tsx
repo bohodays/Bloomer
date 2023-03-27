@@ -29,7 +29,11 @@ function LocaList({ func }: any): JSX.Element {
     <List sx={{ width: "100%", height: "200px", bgcolor: "background.paper" }}>
       {func.locations.map((location: any, idx: any) => {
         return (
-          <LocalListItem location={location} setKeyword={func.setKeyword} />
+          <LocalListItem
+            key={idx}
+            location={location}
+            setKeyword={func.setKeyword}
+          />
         );
       })}
     </List>

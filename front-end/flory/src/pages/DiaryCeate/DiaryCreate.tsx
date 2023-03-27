@@ -39,12 +39,6 @@ const DiaryCreate = () => {
   const handleClose = () => setOpen(false);
 
   const navigate = useNavigate();
-  const [place, setPlace] = useState<PlaceType>({
-    placeName: "멀티캠퍼스 역삼",
-    address: "",
-    lng: 128.5,
-    lat: 37.5,
-  });
 
   const contentInput = useRef<HTMLInputElement>(null);
 
@@ -57,9 +51,15 @@ const DiaryCreate = () => {
   });
   const fileInput = React.useRef<HTMLInputElement>(null);
   // =============현재 주소 관련 변수=============
-
   const geolocation = useGeolocation();
   let isGeolocation = geolocation.latitude != null;
+  const [place, setPlace] = useState<PlaceType>({
+    placeName: isGeolocation ? "" : "멀티캠퍼스 역삼",
+    address: "",
+    lng: isGeolocation ? geolocation.longitude : 128.5,
+    lat: isGeolocation ? geolocation.latitude : 37.5,
+  });
+
   let geocoder = new kakao.maps.services.Geocoder();
 
   function searchDetailAddrFromCoords(callback: any) {
@@ -79,8 +79,9 @@ const DiaryCreate = () => {
         if (status === kakao.maps.services.Status.OK) {
           var detailAddr = !!result[0].road_address
             ? result[0].road_address.address_name
-            : "";
+            : result[0].address.address_name;
 
+          console.log(detailAddr);
           setPlace({
             placeName: "",
             address: detailAddr,
@@ -94,7 +95,7 @@ const DiaryCreate = () => {
 
   useEffect(() => {
     getGeo();
-  }, [isGeolocation]);
+  }, [geolocation]);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
     fileInput.current!.click();

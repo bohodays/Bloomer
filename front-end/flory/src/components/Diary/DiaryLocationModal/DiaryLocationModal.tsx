@@ -6,7 +6,7 @@ import MapSearchInput from "../../Map/MapSearchInput/MapSearchInput";
 
 function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
   const [keyword, setKeyword] = useState<any>({
-    word: place.placeName,
+    word: place.placeName | place.address,
     new: true,
   });
   const [locations, setLocations] = useState<any>([]);

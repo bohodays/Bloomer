@@ -92,7 +92,7 @@ const CommunityMap = ({ setBound, diaries }: any): JSX.Element => {
       });
       // marker.setMap(map.current);
     }
-  }, [bounds]);
+  }, [bounds, diaries]);
 
   return <SMap id="map" />;
 };
