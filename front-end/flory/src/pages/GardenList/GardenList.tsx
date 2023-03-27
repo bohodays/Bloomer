@@ -11,56 +11,105 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import { useSelect } from "@react-three/drei";
 import { useAppSelector } from "../../redux/store.hooks";
 
-const CARDS = 10;
+// const CARDS = 1;
 const MAX_VISIBILITY = 3;
 
-const Carousel = ({ children }: any) => {
-  const [active, setActive] = useState<number>(0);
+const TEST_DATA = [
+  {
+    artist: null,
+    deadline: "2022-12-31T23:59:59",
+    gardenPath: null,
+    id: 1,
+    nickname: "12345",
+    title: null,
+  },
+  {
+    artist: null,
+    deadline: "2023-01-31T23:59:59",
+    gardenPath: null,
+    id: 2,
+    nickname: "12345",
+    title: null,
+  },
+  {
+    artist: null,
+    deadline: "2023-02-25T23:59:59",
+    gardenPath: null,
+    id: 3,
+    nickname: "12345",
+    title: null,
+  },
+  {
+    artist: null,
+    deadline: "2023-03-31T23:59:59",
+    gardenPath: null,
+    id: 4,
+    nickname: "12345",
+    title: null,
+  },
+];
+
+const Carousel = ({ children, setActiveIdx, activeIdx }: any) => {
   const count = React.Children.count(children);
+  const [active, setActive] = useState<number>(count - 1);
+
+  const handleClickRight = () => {
+    setActive((i) => i + 1);
+    setActiveIdx(activeIdx + 1);
+  };
+
+  const handleClickLeft = () => {
+    setActive((i) => i - 1);
+    setActiveIdx(activeIdx - 1);
+  };
 
   return (
-    <div className="carousel">
-      {active > 0 && (
-        <button className="nav left" onClick={() => setActive((i) => i - 1)}>
-          <TiChevronLeftOutline />
-        </button>
-      )}
-      {React.Children.map(children, (child, i: any) => (
-        <div
-          className="card-container"
-          style={
-            {
-              "--active": i === active ? 1 : 0,
-              "--offset": (active - i) / 1.2,
-              "--direction": Math.sign(active - i),
-              "--abs-offset": Math.abs(active - i) / 3,
-              "pointer-events": active === i ? "auto" : "none",
-              opacity: Math.abs(active - i) >= MAX_VISIBILITY ? "0" : "1",
-              display: Math.abs(active - i) > MAX_VISIBILITY ? "none" : "flex",
-            } as React.CSSProperties
-          }
-        >
-          {child}
-        </div>
-      ))}
-      {active < count - 1 && (
-        <button className="nav right" onClick={() => setActive((i) => i + 1)}>
-          <TiChevronRightOutline />
-        </button>
-      )}
-    </div>
+    <>
+      <div className="carousel">
+        {active > 0 && (
+          <button className="nav left" onClick={() => handleClickLeft()}>
+            <TiChevronLeftOutline />
+          </button>
+        )}
+        {React.Children.map(children, (child, i: any) => (
+          <>
+            <div
+              className="card-container"
+              style={
+                {
+                  "--active": i === active ? 1 : 0,
+                  "--offset": (active - i) / 1.2,
+                  "--direction": Math.sign(active - i),
+                  "--abs-offset": Math.abs(active - i) / 3,
+                  "pointer-events": active === i ? "auto" : "none",
+                  opacity: Math.abs(active - i) >= MAX_VISIBILITY ? "0" : "1",
+                  display:
+                    Math.abs(active - i) > MAX_VISIBILITY ? "none" : "flex",
+                } as React.CSSProperties
+              }
+            >
+              {child}
+            </div>
+          </>
+        ))}
+        {active < count - 1 && (
+          <button className="nav right" onClick={() => handleClickRight()}>
+            <TiChevronRightOutline />
+          </button>
+        )}
+      </div>
+    </>
   );
 };
 
 const GardenList = () => {
   const navigate = useNavigate();
-  const gardenList = useAppSelector((state) => state.garden.gardenList);
-
-  console.log("정원정보리스트", gardenList);
-
-  const handleBack = () => {
-    navigate("/garden");
-  };
+  // const gardenList = useAppSelector((state) => state.garden.gardenList);
+  const CARDS_LENGTH = TEST_DATA.length;
+  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH - 1);
+  const target = new Date(TEST_DATA[activeIdx].deadline);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
 
   return (
     <SMain>
@@ -73,19 +122,21 @@ const GardenList = () => {
 
       <div className="info__wrapper">
         <div className="background">
-          <p>2023년 2월</p>
+          <p>
+            {year}년 {month}월
+          </p>
         </div>
       </div>
       {/* 기간별 정원 */}
       <div className="wrapper">
-        <Carousel>
-          {[...new Array(CARDS)].map((_, i) => (
+        <Carousel setActiveIdx={setActiveIdx} activeIdx={activeIdx}>
+          {TEST_DATA.map((_, i) => (
             <img src={testGarden} alt="" />
           ))}
         </Carousel>
       </div>
       <div>
-        <GardenCalendar year={2023} month={2} />
+        <GardenCalendar year={year} month={month} />
       </div>
     </SMain>
   );
