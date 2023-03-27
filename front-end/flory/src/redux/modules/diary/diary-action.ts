@@ -14,6 +14,10 @@ export const createDiaryAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log("요청 보낸 데이터", diaryData);
+
+      console.log("일기 생성 요청 후 받는 데이터", data);
+
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -37,6 +41,55 @@ export const updatePositionAction = createAsyncThunk(
           },
         }
       );
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 입력받은 텍스트를 통해 감정 도출
+export const getEmotionAction = createAsyncThunk(
+  "GETEMOTION",
+  async (text: string | undefined, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.post(
+        `/api/diary/emotion`,
+        { text },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(data, "감정분석");
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 해당 정원의 일기 목록 조회
+export const getDiaryListAction = createAsyncThunk(
+  "GET_DIARYLIST",
+  async (inputData: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(
+        `/api/diary/list/${inputData.gardenId}/${inputData.requestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("현재 일기 목록", data);
+
       return data;
     } catch (e) {
       return rejectWithValue(e);

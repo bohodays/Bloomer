@@ -1,12 +1,12 @@
-import DiaryListItem from "../DiaryListItem/DiaryListItem";
+import DiaryListItem from "../DiaryListItem/DiaryListItem"
 
 const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
   return (
     <div>
       {
         // SAMPLE_DIARY_LIST.length !== 0 ? (
-        DIARY_LIST.map((diary: any) => (
-          <DiaryListItem diary={diary} key={diary.id} page={page} />
+        DIARY_LIST.map((diary: any, idx: number) => (
+          <DiaryListItem diary={diary} key={idx} page={page} />
         ))
         // )
         // : (
@@ -14,6 +14,6 @@ const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
         // )
       }
     </div>
-  );
-};
-export default DiaryList;
+  )
+}
+export default DiaryList

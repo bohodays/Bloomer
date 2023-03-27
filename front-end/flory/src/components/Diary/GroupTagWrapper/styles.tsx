@@ -6,4 +6,5 @@ export const SWrapper = styled.div`
   margin-top: 0.8rem;
   margin-bottom: 0;
   display: flex;
+  flex-wrap: wrap;
 `;

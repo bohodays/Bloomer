@@ -1,110 +1,155 @@
-import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/common/Button/Button";
 import Navbar from "../../components/common/Navbar/Navbar";
-import { SMain, SMusicWrapper } from "./styles";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { SMain } from "./styles";
+import AWS from "aws-sdk";
+import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem";
+import {
+  createInfoSaveAction,
+  getMusicInfoAction,
+} from "../../redux/modules/diaryCreate";
 
 const DiaryMusicSelect = () => {
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
+
   const [selectedItems, setSelectedItems] = useState<any>({
-    select1: false,
-    select2: false,
-    select3: false,
-    select4: false,
-    select5: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
   });
 
   const initItem = {
-    select1: false,
-    select2: false,
-    select3: false,
-    select4: false,
-    select5: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+  };
+
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+    region: process.env.REACT_APP_S3_REGION,
+  });
+  const s3 = new AWS.S3();
+  const [musicUrls, setMusicUrls] = useState<any>([]);
+  const [musicData, setMusicData] = useState<any>(null);
+  const [totalData, setTotalData] = useState<any>([]);
+
+  // 이전 페이지에서 감정을 저장시켰음
+  const emotion = useAppSelector(
+    (state) => state.diaryCreate.currentEmotionData[0].largeCategory
+  );
+  // 유저 id
+  const userId = useAppSelector((state) => state.user.userData.userId);
+  console.log(emotion, "지배 감정");
+
+  // 텍스트 형태의 감정을 백엔드에 매칭된 인덱스로 바꿔주는 함수
+  const changeTextToIndex = (string: string) => {
+    if (string === "기쁨") return 0;
+    else if (string === "안정") return 1;
+    else if (string === "당황") return 2;
+    else if (string === "분노") return 3;
+    else if (string === "불안") return 4;
+    else if (string === "상처") return 5;
+    else if (string === "슬픔") return 6;
+  };
+
+  // 응답받은 음악 제목들을 순회하면서 s3의 url을 저장하는 함수
+  const getMusicUrls = (musicArray: any) => {
+    let test: any = [];
+
+    musicArray.map((item: any) => {
+      const params = {
+        Bucket: "bloomer205",
+        Key: `music/${item.title}.mp3`,
+      };
+      s3.getSignedUrlPromise("getObject", params)
+        .then((url) => {
+          test.push(url);
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setMusicUrls(test);
+        });
+    });
+  };
+
+  useEffect(() => {
+    if (!musicData) {
+      // 수정 필요
+      // api 보고 맞춰서 보내기
+      const emotionIndex = changeTextToIndex(emotion);
+      const emotionData = { emotionIndex, userId };
+      dispatch(getMusicInfoAction(emotionData)).then((res) => {
+        setMusicData(res.payload.response);
+      });
+    }
+
+    // let test;
+    if (musicData !== null) {
+      getMusicUrls(musicData);
+      if (musicData.length === 5 && musicUrls.length === 5) {
+        const newItem = [];
+        for (let i = 0; i < 5; i++) {
+          const splitedTitle = musicData[i].title.split("-");
+          const newTitle = splitedTitle
+            .splice(0, splitedTitle.length - 1)
+            .join(" ");
+
+          newItem.push([newTitle, musicUrls[i]]);
+        }
+        setTotalData(newItem);
+      }
+    }
+  }, [dispatch, musicData]);
+
+  const handleItemClick = (key: string) => {
+    setSelectedItems({ ...initItem, [key]: !selectedItems[key] });
+  };
+
+  const handleNavigate = () => {
+    let musicId = null;
+    const keys = Object.keys(selectedItems);
+    for (let i = 0; i < keys.length; i++) {
+      if (selectedItems[keys[i]] === true) {
+        musicId = i;
+      }
+    }
+
+    if (musicId !== null) {
+      const musicTitle = { musicTitle: musicData[musicId].title };
+      dispatch(createInfoSaveAction(musicTitle)).then(() => {
+        navigate("/garden/edit");
+      });
+    }
   };
 
   return (
     <SMain>
-      {/* <div> */}
       <div className="info__wrapper">
-        <p>원하는 음악을 선택해주세요? (수정필요)</p>
+        <p>일기의 배경음악을 선택해주세요.</p>
       </div>
-      <SMusicWrapper isSelected={selectedItems.select1}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 1</p>
-        <FontAwesomeIcon
-          className="icon play item1"
-          icon={selectedItems.select1 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select1: !selectedItems.select1 });
-          }}
-        />
-      </SMusicWrapper>
-      <SMusicWrapper isSelected={selectedItems.select2}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 2</p>
-        <FontAwesomeIcon
-          className="icon play item2"
-          icon={selectedItems.select2 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select2: !selectedItems.select2 });
-          }}
-        />
-      </SMusicWrapper>
-      <SMusicWrapper isSelected={selectedItems.select3}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 3</p>
-        <FontAwesomeIcon
-          className="icon play item3"
-          icon={selectedItems.select3 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select3: !selectedItems.select3 });
-          }}
-        />
-      </SMusicWrapper>
-      <SMusicWrapper isSelected={selectedItems.select4}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 4</p>
-        <FontAwesomeIcon
-          className="icon play item4"
-          icon={selectedItems.select4 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select4: !selectedItems.select4 });
-          }}
-        />
-      </SMusicWrapper>
-      <SMusicWrapper isSelected={selectedItems.select5}>
-        <FontAwesomeIcon className="icon music" icon={faMusic} />
-        <p>제목 5</p>
-        <FontAwesomeIcon
-          className="icon play item5"
-          icon={selectedItems.select5 ? faStop : faPlay}
-          onClick={() => {
-            setSelectedItems({ ...initItem, select5: !selectedItems.select5 });
-          }}
-        />
-      </SMusicWrapper>
-      {/* </div> */}
-      <div className="bottom__wrapper">
-        <Button
-          onClick={() => {
-            navigate("/diary/select");
-          }}
-          contents="선택"
-          addStyle={{
-            width: "90%",
-            // margin: "2rem  0",
-            // height: "25%",
-            padding: "0.3rem",
-            background1: "rgb(244,175,255)",
-            background2:
-              "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
-            borderRadius: "12px",
-            color: "#ffffff",
-            fontSize: "1rem",
-          }}
-        />
+      {totalData.length &&
+        totalData.map((item: any, i: number) => {
+          return (
+            <DiaryMusicItem
+              isSelected={selectedItems[i + 1]}
+              musicTitle={item[0]}
+              musicUrl={item[1]}
+              onClick={() => handleItemClick(`${i + 1}`)}
+            />
+          );
+        })}
+      <div className="select__wrapper" onClick={handleNavigate}>
+        <div className="background">
+          <p className="select__p">선택</p>
+        </div>
       </div>
       <Navbar />
     </SMain>

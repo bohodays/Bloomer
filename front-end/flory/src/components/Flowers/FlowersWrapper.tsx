@@ -1,7 +1,9 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { JsxElement } from "typescript";
 import { positionUpdate } from "../../redux/modules/diary/diary-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import F01Create from "../FlowerCreate/F01Create";
 import F01 from "./F01"; // 크로커스
 import F02 from "./F02"; // 은방울꽃
 import F03 from "./F03"; // 빨강 튤립
@@ -30,6 +32,8 @@ import F25 from "./F25"; // 제라늄
 
 const FlowersWrapper = () => {
   const diary = useAppSelector((state) => state.diary.diaryData);
+  console.log(diary, "꽃 심자");
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,6 +49,7 @@ const FlowersWrapper = () => {
 
   return (
     <>
+      {/* 작성 완료된 일기들의 꽃 */}
       {diary.length &&
         diary.map((item: any) => {
           if (item.flowerEmotion.flowerName === "크로커스") {
@@ -71,7 +76,7 @@ const FlowersWrapper = () => {
                 }}
               />
             );
-          } else if (item.flowerEmotion.flowerName === "빨간 튤립") {
+          } else if (item.flowerEmotion.flowerName === "빨강 튤립") {
             return (
               <F03
                 diaryId={item.id}
@@ -353,4 +358,4 @@ const FlowersWrapper = () => {
   );
 };
 
-export default FlowersWrapper;
+export default React.memo(FlowersWrapper);
