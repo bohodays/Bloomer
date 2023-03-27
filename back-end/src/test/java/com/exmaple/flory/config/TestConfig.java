@@ -1,21 +1,20 @@
 package com.exmaple.flory.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
 
 @TestConfiguration
 public class TestConfig {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     @Bean
-    public JPAQueryFactory jpaQueryFactory(){
-        return new JPAQueryFactory(entityManager);
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(entityManagerFactory.createEntityManager());
     }
 
 }
