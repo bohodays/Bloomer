@@ -22,6 +22,7 @@ const Navbar = () => {
   const currentLocationIconActive = (pathname: string) => {
     if (pathname === "/diary/create") return "diaryCreate";
     else if (pathname === "/diary/select") return "diaryCreate";
+    else if (pathname === "/diary/select/music") return "diaryCreate";
     else if (pathname === "/diary") return "diaryList";
     else if (pathname === "/garden") return "garden";
     else if (pathname === "/map") return "map";

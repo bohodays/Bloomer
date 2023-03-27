@@ -66,10 +66,10 @@ export function F24(
       }
     };
     if (location.pathname.includes("garden/edit")) {
+      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       window.addEventListener("click", handleWindowClick);
     }
     return () => {
-      handlePositionUpdate(props.diaryId, position.x, position.y, position.z);
       if (location.pathname.includes("garden/edit")) {
         window.removeEventListener("click", handleWindowClick);
       }
@@ -105,7 +105,11 @@ export function F24(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={[0.02, 0.55, 0.02]}
+        scale={
+          location.pathname.includes("diary/select")
+            ? [0.023, 0.65, 0.023]
+            : [0.02, 0.55, 0.02]
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f24" }}
         onClick={() => {

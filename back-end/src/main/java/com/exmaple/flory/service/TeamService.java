@@ -131,13 +131,25 @@ public class TeamService {
             throw new CustomException(ErrorCode.TEAM_DUPLICATION);
         }
 
-        UserTeam userTeam = UserTeam.builder()
-                .tid(team)
-                .uid(member)
-                .status(0) //가입 대기
-                .message(teamMemberDto.getMessage())
-                .manager(1) //멤버로
-                .build();
+        UserTeam userTeam = null;
+        if(team.getOpen()){ //공개 그룹이면
+            userTeam = UserTeam.builder()
+                    .tid(team)
+                    .uid(member)
+                    .status(1) //자동 가입
+                    .message(teamMemberDto.getMessage())
+                    .manager(1) //멤버로
+                    .build();
+        }else{
+            userTeam = UserTeam.builder()
+                    .tid(team)
+                    .uid(member)
+                    .status(0) //가입 대기
+                    .message(teamMemberDto.getMessage())
+                    .manager(1) //멤버로
+                    .build();
+        }
+
 
         return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
     }

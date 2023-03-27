@@ -3,6 +3,7 @@ import { LoginType } from "../../../models/user/loginType";
 import { SignupType } from "../../../models/user/signUpType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "./token";
+import { getCurrentGardenAction, getGardenListAction } from "../garden";
 
 // 로그인
 export const loginAction = createAsyncThunk(
@@ -31,6 +32,8 @@ export const getUserDataToTokenAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      // dispatch(getCurrentGardenAction(data.response.userId));
+      dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
       dispatch(updateAccessToken());
@@ -97,22 +100,16 @@ export const updateAccessToken = createAsyncThunk(
       const refreshToken = localData.getRefreshToken();
       const axios = axiosInitializer();
       await axios
-        .post(
-          `/api/user/access`,
-          { refreshToken, accessToken },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .post(`/api/user/access`, { refreshToken, accessToken })
         .then((data: any) => {
-          localData.setAccessToken(data.response.accessToken);
-          localData.setRefreshToken(data.response.refreshToken);
+          console.log("업데이트 요청", data);
+          localData.setAccessToken(data.data.response.accessToken);
+          localData.setRefreshToken(data.data.response.refreshToken);
         })
         .then(() => {
           dispatch(getUserDataToTokenAction());
         });
+      return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
       return rejectWithValue(e);
     }

@@ -1,5 +1,5 @@
 export type gardenType = {
-  gardenId: number | null;
+  id: number | null;
   gardenPath: string | null;
   nickname: string;
   artist: string | null;

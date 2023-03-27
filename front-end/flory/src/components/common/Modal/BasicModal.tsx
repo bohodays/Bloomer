@@ -4,22 +4,17 @@ import Box from "@mui/material/Box";
 import Button from "../Button/Button";
 import { SDrawer, Puller, SModalContent } from "./styles";
 
-function BasicModal({ children, modalButton }: any): JSX.Element {
+function BasicModal({
+  children,
+  modalButton,
+  dispatchAction,
+}: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
-  const toggleDrawer =
-    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event &&
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-
-      setOpen(open);
-    };
+  const handleClick = () => {
+    setOpen(false);
+    dispatchAction();
+  };
 
   const ModalContent = (
     <SModalContent role="presentation">
@@ -27,7 +22,7 @@ function BasicModal({ children, modalButton }: any): JSX.Element {
       {children}
       <Button
         // type="submit"
-        onClick={toggleDrawer(false)}
+        onClick={handleClick}
         addStyle={{
           margin: "auto",
           fontSize: "1rem",
@@ -43,6 +38,20 @@ function BasicModal({ children, modalButton }: any): JSX.Element {
       />
     </SModalContent>
   );
+
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+
+      setOpen(open);
+    };
 
   return (
     <div>

@@ -20,6 +20,8 @@ export const SAccordion = styled.main`
 
   .title{
     float:left;
+    color: black;
+  
   }
 
   .select-icon {

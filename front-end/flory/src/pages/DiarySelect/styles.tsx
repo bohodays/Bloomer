@@ -43,8 +43,14 @@ export const SMain = styled.main`
     align-items: center;
   }
 
+  .info__title {
+    user-select: none;
+  }
+
   .emotion {
+    user-select: none;
     position: absolute;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,10 +77,12 @@ export const SMain = styled.main`
 
     .name__title {
       font-size: 1.6rem;
+      user-select: none;
     }
 
     .flower__language {
       font-size: 1.2rem;
+      user-select: none;
     }
   }
 
@@ -158,6 +166,41 @@ export const SMain = styled.main`
     &.right {
       right: 0;
       transform: translateX(100%) translatey(-50%);
+    }
+  }
+
+  .select__wrapper {
+    cursor: pointer;
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+
+    .background {
+      background-color: rgba(255, 255, 255, 0.32);
+      padding: 0.4rem 0;
+      border-radius: 12px;
+      border: 2px solid var(--color-white);
+      transition: all linear 300ms;
+    }
+
+    .select__p {
+      font-size: 1rem;
+      color: var(--color-white);
+      z-index: 10;
+      user-select: none;
+    }
+  }
+
+  .select__wrapper:hover {
+    .background {
+      background-color: #ecdcff;
+    }
+
+    .select__p {
+      color: #9a1aff;
     }
   }
 `;

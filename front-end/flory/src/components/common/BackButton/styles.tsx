@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const SButton = styled.button<any>`
+  left: 0;
+  top: 0;
+  position: absolute;
   .back-icon {
     cursor: pointer;
-    left: 1rem;
-    top: 1rem;
-    position: absolute;
     font-size: 1.8rem;
     border-radius: 50%;
     width: ${(props) => (props.color === "purple" ? "1.4rem" : null)};
