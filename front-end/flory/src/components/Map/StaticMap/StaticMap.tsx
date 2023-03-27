@@ -8,7 +8,15 @@ declare global {
   }
 }
 
-function StaticMap({ lat, lng }: any): JSX.Element {
+const convertNumFormat = (num: number) => {
+  let sNum = String(num);
+  if (sNum.length < 2) {
+    sNum = "0" + sNum;
+  }
+  return sNum;
+};
+
+function StaticMap({ lat, lng, fid }: any): JSX.Element {
   useEffect(() => {
     // ================================
     //          기본 지도 그리기
@@ -30,11 +38,16 @@ function StaticMap({ lat, lng }: any): JSX.Element {
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
     // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(24, 35);
-    var imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    var imageSize = new kakao.maps.Size(35, 35);
+    // var imageSrc =
+    //   "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+    var iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${convertNumFormat(
+      fid
+    )}.png`);
+
     // 마커 이미지를 생성합니다
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    var markerImage = new kakao.maps.MarkerImage(iconRoute_bg, imageSize);
 
     // 마커를 생성합니다
     var yellowMarker = new kakao.maps.Marker({

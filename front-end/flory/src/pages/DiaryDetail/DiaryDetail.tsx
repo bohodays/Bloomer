@@ -81,7 +81,13 @@ const DiaryDetail = () => {
           <FontAwesomeIcon icon={faLocationDot} />
           <p>{diary.address}</p>
         </div>
-        {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
+        {mapView && (
+          <StaticMap
+            lng={diary.lng}
+            lat={diary.lat}
+            fid={diary.flowerEmotion.fid}
+          />
+        )}
 
         {/* 덧글 영역 */}
         {diary.commentList.map((comment: any) => {
