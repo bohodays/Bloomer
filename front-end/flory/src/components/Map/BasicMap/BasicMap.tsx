@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import useGeolocation from "react-hook-geolocation";
+import { DiaryType } from "../../../models/diary/diaryType";
 import { SMap } from "./styles";
 
 declare global {
@@ -8,9 +9,20 @@ declare global {
   }
 }
 
-const BasicMap = () => {
+const convertNumFormat = (num: number) => {
+  let sNum = String(num);
+  if (sNum.length < 2) {
+    sNum = "0" + sNum;
+  }
+  return sNum;
+};
+
+const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
   const geolocation = useGeolocation();
   let isGeolocation = geolocation.latitude != null;
+  let bounds;
+
+  var iconRoute_bg1 = `../../../assets/imgs/flower_bgicon/bgicon_f01.png`;
 
   useEffect(() => {
     // 좌표 가져오기
@@ -26,43 +38,53 @@ const BasicMap = () => {
 
     let map = new window.kakao.maps.Map(mapContainer, mapOptions); //지도 생성 및 객체 리턴
 
-    // 지도 범위 가져오기
-    var bounds = map.getBounds();
-    bounds.toString(); // "((33.44843745687413, 126.56798357402302), (33.452964008206735, 126.57333898904454))"
+    // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, "dragend", function () {
+      // 지도 범위 가져오기
+      bounds = map.getBounds();
+      setBound({
+        lng1: String(bounds.ha),
+        lat2: String(bounds.qa),
+        lng2: String(bounds.oa),
+        lat1: String(bounds.pa),
+      });
+    });
+
+    // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, "zoom_changed", function () {
+      // 지도 범위 가져오기
+      bounds = map.getBounds();
+      console.log(bounds);
+      setBound({
+        lng1: String(bounds.ha),
+        lat2: String(bounds.qa),
+        lng2: String(bounds.oa),
+        lat1: String(bounds.pa),
+      });
+    });
 
     // 마커를 표시할 위치와 title 객체 배열입니다
-    var positions = [
-      {
-        title: "현 위치",
-        latlng: new kakao.maps.LatLng(
-          geolocation.latitude,
-          geolocation.longitude
-        ),
-      },
-      {
-        title: "멀티캠퍼스",
-        latlng: new kakao.maps.LatLng(37.50119059031505, 127.03959330427779),
-      },
-      {
-        title: "한국은행",
-        latlng: new kakao.maps.LatLng(37.50059645381534, 127.03798710525825),
-      },
-      {
-        title: "근린공원",
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
-      },
-    ];
+    let positions = diaries.map((diary: DiaryType) => {
+      return {
+        title: diary.content,
+        latlng: new kakao.maps.LatLng(diary.lat, diary.lng),
+        fid: convertNumFormat(diary.flowerEmotion.fid),
+      };
+    });
 
-    // 마커 이미지의 이미지 주소입니다
     var imageSrc =
       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
+    // iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f01.png`);
     for (var i = 0; i < positions.length; i++) {
+      var iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${positions[i].fid}.png`);
+      // 마커 이미지의 이미지 주소입니다
+      // const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f0${positions[i].fid}.png`);
+
       // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35);
+      var imageSize = new kakao.maps.Size(32, 32);
 
       // 마커 이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      var markerImage = new kakao.maps.MarkerImage(iconRoute_bg, imageSize);
 
       // 마커를 생성합니다
       var marker = new kakao.maps.Marker({
@@ -72,9 +94,14 @@ const BasicMap = () => {
         image: markerImage, // 마커 이미지
       });
     }
-  }, [isGeolocation]);
+  }, [bounds, isGeolocation]);
 
-  return <SMap id="map" />;
+  return (
+    <div>
+      <SMap id="map" />
+      <img src={require(`../../../assets/imgs/flower_bgicon/bgicon_f01.png`)} />
+    </div>
+  );
 };
 
 export default BasicMap;

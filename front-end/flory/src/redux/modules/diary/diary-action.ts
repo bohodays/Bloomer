@@ -117,7 +117,7 @@ export const getAllDiary = createAsyncThunk(
   }
 );
 
-// 전체 공개 일기 목록 가져오기
+// 특정 기간 일기 목록 가져오기
 export const getDiaryWithDate = createAsyncThunk(
   "GET_DIARY_WITH_DATE",
   async (dateData: any, { rejectWithValue }) => {
@@ -133,6 +133,26 @@ export const getDiaryWithDate = createAsyncThunk(
         }
       );
       console.log(data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 주변 일기 목록 가져오기
+export const getDiaryWithMap = createAsyncThunk(
+  "GET_DIARY_WITH_MAP",
+  async (mapData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.post("/api/diary/map", mapData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("현재 위치 일기 목록", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
