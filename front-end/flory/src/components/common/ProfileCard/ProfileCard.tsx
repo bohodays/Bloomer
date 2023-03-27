@@ -38,11 +38,12 @@ function ProfileCard(props:any) {
             }
             sx={{
                 width: width || "100%",
-                // height: height || "inherit"
+                height: height || "inherit"
             }}
             style={{
-                overflow : 'auto',
-                boxShadow : "none"
+                // overflow : 'auto',
+                boxShadow: "none",
+                padding: "10px"
             }}
         />
     );
