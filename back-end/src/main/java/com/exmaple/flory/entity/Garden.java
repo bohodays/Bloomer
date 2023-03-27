@@ -47,6 +47,6 @@ public class Garden extends BaseTime {
     public GardenDiaryDto toDiaryDto(){
 
         return GardenDiaryDto.builder()
-                .id(id).deadLine(deadLine).member(MemberResponseDto.of(member)).music(music).build();
+                .id(id).deadLine(deadLine).member(MemberResponseDto.of(member)).musicTitle(music.getTitle()).build();
     }
 }
