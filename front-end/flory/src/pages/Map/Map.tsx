@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,8 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
+import { getAllDiary } from "../../redux/modules/diary";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 
 const DIARY_LIST = [
   {
@@ -141,6 +143,12 @@ const DIARY_LIST = [
 
 const Map = () => {
   // const navigate = useNavigate();
+  const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    console.log("오잉");
+    dispatch(getAllDiary());
+  }, [dispatch]);
 
   // 내 주변 보기
   const mapPanel = (

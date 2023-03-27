@@ -23,6 +23,8 @@ import Loading from "../Loading/Loading";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { getDiaryListAction } from "../../redux/modules/diary";
 
+let isInitial = true;
+
 const Scene = () => {
   return (
     <>
@@ -53,8 +55,11 @@ const Garden = () => {
       gardenId,
       requestId,
     };
-    dispatch(getDiaryListAction(inputData));
-  });
+    console.log(gardenId, requestId);
+    if (gardenId) {
+      dispatch(getDiaryListAction(inputData));
+    }
+  }, [gardenId, dispatch]);
 
   return (
     <SMain>

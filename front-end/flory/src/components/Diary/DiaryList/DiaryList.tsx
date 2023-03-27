@@ -1,4 +1,4 @@
-import DiaryListItem from "../DiaryListItem/DiaryListItem"
+import DiaryListItem from "../DiaryListItem/DiaryListItem";
 
 const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
   return (
@@ -14,6 +14,6 @@ const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
         // )
       }
     </div>
-  )
-}
-export default DiaryList
+  );
+};
+export default DiaryList;

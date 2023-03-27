@@ -96,3 +96,23 @@ export const getDiaryListAction = createAsyncThunk(
     }
   }
 );
+
+// 전체 공개 일기 목록 가져오기
+export const getAllDiary = createAsyncThunk(
+  "GET_ALL_DIARY",
+  async (_, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get("/api/diary/list/all", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

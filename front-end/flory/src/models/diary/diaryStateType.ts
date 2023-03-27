@@ -5,4 +5,5 @@ export type DiaryStateType = {
   diaryData: any;
   create: ReduxStateType;
   positionUpdate: ReduxStateType;
+  allDiaryList: any[];
 };
