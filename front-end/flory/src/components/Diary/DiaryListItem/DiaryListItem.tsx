@@ -4,6 +4,7 @@ import { faComment, faImage, faLock } from "@fortawesome/free-solid-svg-icons";
 import { SIcon, SItem, SMain } from "./styles";
 
 import testFlower from "../../../assets/imgs/flower_icon/Violet Flower.png";
+import { DiaryType } from "../../../models/diary/diaryType";
 
 // "기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"
 const convertEmotionFormat = (emotion: string) => {
@@ -25,7 +26,7 @@ const convertEmotionFormat = (emotion: string) => {
   }
 };
 
-const convertTimeFormat = (date: Date) => {
+const convertTimeFormat = (date: string | Date) => {
   const target = new Date(date);
   const hour = target.getHours();
   const minute = target.getMinutes();
@@ -42,26 +43,37 @@ const contentContentToMaxLength = (content: string) => {
   }
 };
 
-const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
+const convertNumFormat = (num: number) => {
+  let sNum = String(num);
+  if (sNum.length < 2) {
+    sNum = "0" + sNum;
+  }
+  return sNum;
+};
+
+const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
   const isDiaryPage = props.page === "diary";
   const isPrivate = props.diary.publicStatus === "비공개";
   const isContainImage = props.diary.imgSrc !== "";
   const time = convertTimeFormat(props.diary.createdTime);
-  const emotion = convertEmotionFormat(props.diary.flower.emotion.type);
+  const emotion = convertEmotionFormat(props.diary.flowerEmotion.largeCategory);
   const content = contentContentToMaxLength(props.diary.content);
+  const flowerIdx = convertNumFormat(props.diary.flowerEmotion.fid);
+  const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${flowerIdx}.png`);
+  const iconRoute = require(`../../../assets/imgs/flower_icon/icon_f${flowerIdx}.png`);
 
   return (
     <SMain>
       {isDiaryPage && (
         // <div className="page-flower__wrapper">
-        <img src={testFlower} alt="flower" className="flower-image-border" />
+        <img src={iconRoute} alt="flower" className="flower-image-border" />
         // <div className="line" />
         // </div>
       )}
       <SItem isDiaryPage={isDiaryPage}>
         {!isDiaryPage && (
-          <img src={testFlower} alt="flower" className="flower-image" />
+          <img src={iconRoute_bg} alt="flower" className="flower-image" />
         )}
         <div>
           <div className="title-container">
@@ -73,7 +85,7 @@ const DiaryListItem: React.FC<{ diary: any; page: string }> = (props) => {
             <div>{isContainImage && <SIcon icon={faImage} />}</div>
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
-              <span>{props.diary.flower.commentList.length}</span>
+              <span>{props.diary.commentList.length}</span>
             </span>
             <div>{time}</div>
           </div>

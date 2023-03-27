@@ -13,7 +13,9 @@ function BasicModal({
 
   const handleClick = () => {
     setOpen(false);
-    dispatchAction();
+    if (dispatchAction) {
+      dispatchAction();
+    }
   };
 
   const ModalContent = (
