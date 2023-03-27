@@ -67,7 +67,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
     <SMain>
       {isDiaryPage && (
         // <div className="page-flower__wrapper">
-        <img src={iconRoute} alt="flower" className="flower-image-border" />
+        <img src={iconRoute_bg} alt="flower" className="flower-image-border" />
         // <div className="line" />
         // </div>
       )}

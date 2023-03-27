@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
 import BackButton from "../../components/common/BackButton/BackButton";
 import { useSelect } from "@react-three/drei";
-import { useAppSelector } from "../../redux/store.hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryWithDate } from "../../redux/modules/diary";
 
 // const CARDS = 1;
 const MAX_VISIBILITY = 3;
@@ -103,14 +104,25 @@ const Carousel = ({ children, setActiveIdx, activeIdx }: any) => {
 
 const GardenList = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   // const gardenList = useAppSelector((state) => state.garden.gardenList);
   const CARDS_LENGTH = TEST_DATA.length;
   const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH - 1);
   const target = new Date(TEST_DATA[activeIdx].deadline);
   const year = target.getFullYear();
   const month = target.getMonth() + 1;
+  const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
+  const dateData = {
+    id: 1,
+    year,
+    month,
+  };
 
-  useEffect(() => {}, [activeIdx]);
+  useEffect(() => {
+    console.log("1");
+
+    dispatch(getDiaryWithDate(dateData));
+  }, [activeIdx]);
 
   return (
     <SMain>
@@ -135,7 +147,7 @@ const GardenList = () => {
         </Carousel>
       </div>
       <div className="calendar__wrapper">
-        <GardenCalendar year={year} month={month} />
+        <GardenCalendar dateData={dateData} diaryList={monthDiaryList} />
       </div>
     </SMain>
   );

@@ -117,7 +117,7 @@ export const getAllDiary = createAsyncThunk(
   }
 );
 
-// 전체 공개 일기 목록 가져오기
+// 년/월에 따른 일기 목록 가져오기
 export const getDiaryWithDate = createAsyncThunk(
   "GET_DIARY_WITH_DATE",
   async (dateData: any, { rejectWithValue }) => {
@@ -132,7 +132,7 @@ export const getDiaryWithDate = createAsyncThunk(
           },
         }
       );
-      console.log(data);
+      console.log("api성공", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
