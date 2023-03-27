@@ -24,7 +24,7 @@ public class DiaryTeam {
     @Column(name = "did")
     private Long diaryId;
 
-    @Column(name = "gid")
+    @Column(name = "tid")
     private Long groupId;
 
 //    public DiaryTeamDto toDto(){
