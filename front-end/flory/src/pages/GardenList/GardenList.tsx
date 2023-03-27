@@ -8,12 +8,14 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
 import BackButton from "../../components/common/BackButton/BackButton";
+import { useSelect } from "@react-three/drei";
+import { useAppSelector } from "../../redux/store.hooks";
 
 const CARDS = 10;
 const MAX_VISIBILITY = 3;
 
 const Carousel = ({ children }: any) => {
-  const [active, setActive] = useState<number>(2);
+  const [active, setActive] = useState<number>(0);
   const count = React.Children.count(children);
 
   return (
@@ -52,6 +54,9 @@ const Carousel = ({ children }: any) => {
 
 const GardenList = () => {
   const navigate = useNavigate();
+  const gardenList = useAppSelector((state) => state.garden.gardenList);
+
+  console.log("정원정보리스트", gardenList);
 
   const handleBack = () => {
     navigate("/garden");
