@@ -85,7 +85,9 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
             <div>{isContainImage && <SIcon icon={faImage} />}</div>
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
-              <span>{props.diary.commentList.length}</span>
+              <span>
+                {props.diary.commentList ? props.diary.commentList.length : 0}
+              </span>
             </span>
             <div>{time}</div>
           </div>
