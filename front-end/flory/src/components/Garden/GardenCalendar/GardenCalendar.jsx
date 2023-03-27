@@ -380,7 +380,6 @@ const GardenCalendar = ({ year, month }) => {
     <div className="calendar__wrapper" onClick={handleClickCalendar}>
       <Calendar
         activeStartDate={new Date(year, month - 1)}
-        locale="en-EN"
         formatDay={(locale, date) => moment(date).format("DD")}
         showNeighboringMonth={false}
         showNavigation={false}
