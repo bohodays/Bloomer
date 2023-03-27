@@ -43,13 +43,14 @@ const MyPageEditModal = () => {
   const handleUpdateInfo = () => {
     const userData = {
       nickname,
+      img: pickedIdx,
       email: userInfo.email,
     };
 
     if(pickedIdx === "11"){
       dispatch(updateUserInfoAction({userData, imgFile}));
     }else{
-      dispatch(updateUserInfoAction({userData, imgFile: pickedIdx}));
+      dispatch(updateUserInfoAction({userData, imgFile: ""}));
     }
   };
 
