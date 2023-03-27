@@ -6,6 +6,7 @@ import {
   logoutAction,
   getUserDataToTokenAction,
   updateAccessToken,
+  updateUserInfoAction
 } from "./user-action";
 
 const initialState: UserStateType = {
@@ -51,7 +52,23 @@ const userSlice = createSlice({
         state.axiosState.loading = false;
         state.axiosState.data = null;
         state.axiosState.error = payload;
-      });
+      })
+      // 유저 정보 업데이트
+      .addCase(updateUserInfoAction.fulfilled, (state, { payload }) => {
+        state.axiosState.loading = false;
+        state.axiosState.data = payload;
+        state.axiosState.error = null;
+        state.userData.userId = payload.response.userId;
+        state.userData.nickname = payload.response.nickname;
+        state.userData.email = payload.response.email;
+        state.userData.img = payload.response.img;
+      })
+      .addCase(updateUserInfoAction.rejected, (state, { payload }) => {
+        state.axiosState.loading = false;
+        state.axiosState.data = null;
+        state.axiosState.error = payload;
+      })
+      ;
 
     // 로딩 액션 필요시 참고
     // .addCase(logoutAction.pending, (state) => {
