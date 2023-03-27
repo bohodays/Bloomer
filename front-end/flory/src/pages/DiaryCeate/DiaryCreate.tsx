@@ -283,6 +283,8 @@ const DiaryCreate = () => {
             borderRadius: "16px",
             color: "#ffffff",
             fontSize: "1rem",
+            boxShadow:
+              "rgba(0, 0, 0, 0.25) 0px 2px 8px, rgba(0, 0, 0, 0.25) 0px 2px 8px",
           }}
         />
       </div>
