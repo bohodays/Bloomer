@@ -22,6 +22,8 @@ const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
   let isGeolocation = geolocation.latitude != null;
   let bounds;
 
+  let map: any;
+
   var iconRoute_bg1 = `../../../assets/imgs/flower_bgicon/bgicon_f01.png`;
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
 
-    let map = new window.kakao.maps.Map(mapContainer, mapOptions); //지도 생성 및 객체 리턴
+    map = new window.kakao.maps.Map(mapContainer, mapOptions); //지도 생성 및 객체 리턴
 
     // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     kakao.maps.event.addListener(map, "dragend", function () {
@@ -96,12 +98,41 @@ const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
     }
   }, [bounds, isGeolocation]);
 
-  return (
-    <div>
-      <SMap id="map" />
-      <img src={require(`../../../assets/imgs/flower_bgicon/bgicon_f01.png`)} />
-    </div>
-  );
+  useEffect(() => {
+    console.log("다이어리", diaries);
+    console.log("다이어리", map);
+    // 마커를 표시할 위치와 title 객체 배열입니다
+    let positions = diaries.map((diary: DiaryType) => {
+      return {
+        title: diary.content,
+        latlng: new kakao.maps.LatLng(diary.lat, diary.lng),
+        fid: convertNumFormat(diary.flowerEmotion.fid),
+      };
+    });
+
+    for (var i = 0; i < positions.length; i++) {
+      var iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${positions[i].fid}.png`);
+      // 마커 이미지의 이미지 주소입니다
+      // const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f0${positions[i].fid}.png`);
+
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new kakao.maps.Size(32, 32);
+
+      // 마커 이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(iconRoute_bg, imageSize);
+
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng, // 마커를 표시할 위치
+        title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image: markerImage, // 마커 이미지
+      });
+      marker.setMap(map);
+    }
+  }, [diaries, bounds, map]);
+
+  return <SMap id="map" />;
 };
 
 export default BasicMap;
