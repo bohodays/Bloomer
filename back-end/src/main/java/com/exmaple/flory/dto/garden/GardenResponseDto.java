@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class GardenResponseDto {
 
     private Long id;
-    private String gardenPath;
     private String nickname;
     private String artist;
     private String title; //노래 제목

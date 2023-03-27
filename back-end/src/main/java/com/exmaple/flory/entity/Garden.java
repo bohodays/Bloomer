@@ -24,9 +24,6 @@ public class Garden extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "path")
-    private String path;
-
     @Column(name = "deadline")
     private LocalDateTime deadLine;
 
@@ -42,7 +39,6 @@ public class Garden extends BaseTime {
         return GardenResponseDto
                 .builder()
                 .id(id)
-                .gardenPath(path)
                 .deadline(deadLine)
                 .nickname(member.getNickname())
                 .build();

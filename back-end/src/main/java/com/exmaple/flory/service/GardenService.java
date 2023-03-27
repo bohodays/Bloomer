@@ -68,10 +68,10 @@ public class GardenService {
         log.info(" user id  {}",gardenRequestDto.getUserId());
 
         return gardenRepository.findById(gardenRequestDto.getGardenId())
-                .map(g -> {
-                    g.setPath(gardenRequestDto.getImgSrc());
-                    return g;
-                })
+//                .map(g -> {
+//                    g.setPath(gardenRequestDto.getImgSrc());
+//                    return g;
+//                })
                 .map(gardenRepository::save)
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
