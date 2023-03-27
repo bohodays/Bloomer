@@ -11,6 +11,7 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import CommunityMap from "../../components/Map/CommunityMap/CommunityMap";
 
 const DIARY_LIST = [
   {
@@ -168,7 +169,8 @@ const Map = () => {
   const mapPanel = (
     <div>
       <div>
-        <BasicMap setBound={setBound} diaries={mapDiaryList} />
+        {/* <BasicMap setBound={setBound} diaries={mapDiaryList} /> */}
+        <CommunityMap setBound={setBound} diaries={mapDiaryList} />
       </div>
       <div>
         <DiaryList DIARY_LIST={mapDiaryList} page="map" />
