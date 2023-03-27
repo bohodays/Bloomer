@@ -36,7 +36,6 @@ const FlowersWrapper = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const dispatch = useAppDispatch();
 
   const handleMoveToDetail = (diaryId: number, item?: any) => {
