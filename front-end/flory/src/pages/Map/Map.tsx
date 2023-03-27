@@ -155,6 +155,25 @@ const Map = () => {
     </div>
   );
 
+  // 모든 감정 보기
+  const allPanel = (
+    <div>
+      <div>
+        <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
+      </div>
+    </div>
+  );
+
+  // 그룹 감정 보기
+  const groupPanel = (
+    <div>
+      <div>
+        <MapFilterModal />
+        <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
+      </div>
+    </div>
+  );
+
   return (
     <SMain>
       <div className="header">
@@ -171,14 +190,10 @@ const Map = () => {
             label: "내 주변 보기",
             panel: mapPanel,
           },
-          { label: "모든 감정 보기", panel: <div>야호</div> },
+          { label: "모든 감정 보기", panel: allPanel },
           {
             label: "그룹 감정 보기",
-            panel: (
-              <div>
-                <MapFilterModal />
-              </div>
-            ),
+            panel: groupPanel,
           },
         ]}
       />
