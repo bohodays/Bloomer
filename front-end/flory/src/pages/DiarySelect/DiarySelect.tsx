@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
 
-const MAX_VISIBILITY = 3;
+const MAX_VISIBILITY = 5;
 
 const Card = ({ title, content }: any) => (
   <div className="card">
@@ -98,6 +98,8 @@ const DiarySelect = () => {
 
   const CARDS = flowerData.length;
 
+  const newFlowerData = flowerData.slice(0, 5);
+
   return (
     <SMain>
       <div className="info__wrapper">
@@ -127,7 +129,7 @@ const DiarySelect = () => {
       {/* 선택된 감정 */}
       <div className="wrapper">
         <Carousel>
-          {flowerData.map((item: any, i: number) => (
+          {newFlowerData.map((item: any, i: number) => (
             // <Card title={"Card " + (i + 1)}>
             <>
               <div key={item.id} className="emotion">
