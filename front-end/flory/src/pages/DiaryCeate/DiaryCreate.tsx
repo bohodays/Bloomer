@@ -110,10 +110,12 @@ const DiaryCreate = () => {
     }
     reader.onloadend = () => {
       const previewImgUrl = reader.result as string;
+
       if (previewImgUrl) {
+        const previewImgUrlSub = previewImgUrl.toString();
         setSelectedImg({
           image_file: imgFile,
-          preview_URL: previewImgUrl,
+          preview_URL: previewImgUrlSub,
         });
       }
     };
@@ -145,7 +147,7 @@ const DiaryCreate = () => {
   const onCreateDiary = () => {
     const diaryData = {
       content: contentInput.current?.value,
-      imgSrc: selectedImg.image_file,
+      imgSrc: selectedImg.preview_URL,
       lat: place.lat,
       lng: place.lng,
       // 그룹 설정 수정해야 됨
