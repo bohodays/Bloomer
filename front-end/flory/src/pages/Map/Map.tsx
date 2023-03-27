@@ -146,7 +146,6 @@ const Map = () => {
   const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log("오잉");
     dispatch(getAllDiary());
   }, [dispatch]);
 
@@ -157,7 +156,7 @@ const Map = () => {
         <BasicMap />
       </div>
       <div>
-        <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
+        <DiaryList DIARY_LIST={allDiaryList} page="map" />
         {/* <DiaryList /> */}
       </div>
     </div>
@@ -167,7 +166,7 @@ const Map = () => {
   const allPanel = (
     <div>
       <div>
-        <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
+        <DiaryList DIARY_LIST={allDiaryList} page="map" />
       </div>
     </div>
   );
@@ -177,7 +176,7 @@ const Map = () => {
     <div>
       <div>
         <MapFilterModal />
-        <DiaryList DIARY_LIST={DIARY_LIST} page="map" />
+        <DiaryList DIARY_LIST={allDiaryList} page="map" />
       </div>
     </div>
   );
