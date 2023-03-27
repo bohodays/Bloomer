@@ -7,5 +7,5 @@ export type DiaryStateType = {
   create: ReduxStateType;
   positionUpdate: ReduxStateType;
   allDiaryList: DiaryType[];
-  mapDiaryList: DiaryType[];
+  monthDiaryList: DiaryType[];
 };

@@ -9,6 +9,7 @@ const DiaryDatePicker = ({
   open,
   handleClose,
 }) => {
+  const today = new Date();
   const [time, setTime] = useState(new Date(year, month - 1));
 
   const dateConfig = {
@@ -33,7 +34,6 @@ const DiaryDatePicker = ({
   });
 
   // picker 값 확정하고 버튼 누르면 화면에 보여질 년도 및 월 업데이트
-  // API 요청 로직 필요
   const handleSelect = useCallback((time) => {
     setYear(time.getFullYear());
     setMonth(time.getMonth() + 1);
@@ -47,15 +47,15 @@ const DiaryDatePicker = ({
         isOpen={open}
         dateConfig={dateConfig}
         showHeader={false}
-        min={new Date(2021, 1)} // 보유한 일기 중 최소 날짜
-        max={new Date(2023, 3)} // 보유한 일기 중 최대 날짜
+        min={new Date(2022, 12)} // 보유한 일기 중 최소 날짜
+        max={new Date(today.getFullYear(), today.getMonth())} // 보유한 일기 중 최대 날짜
         onChange={handleChange}
         onSelect={handleSelect}
         onCancel={handleClose}
         confirmText={`${time.getFullYear()}년 ${
           time.getMonth() + 1
         }월 일기 보러가기`}
-        cancelText="취소"
+        cancelText=""
       />
     </>
   );

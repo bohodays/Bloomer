@@ -1,4 +1,5 @@
 import React from "react";
+import { DiaryType } from "../../../models/diary/diaryType";
 import { useAppSelector } from "../../../redux/store.hooks";
 import DiaryList from "../DiaryList/DiaryList";
 import { SMain } from "./styles";
@@ -15,8 +16,8 @@ import { SMain } from "./styles";
 const DiaryTotalList = ({ DIARY_LIST }: any): JSX.Element => {
   return (
     <>
-      {/* {SAMPLE_DIARY_LIST.length !== 0 ? (
-        SAMPLE_DIARY_LIST.map((diaries, idx) => {
+      {DIARY_LIST.length !== 0 ? (
+        DIARY_LIST.map((diaries: any, idx: number) => {
           return (
             <SMain key={idx}>
               <div className="date">12월 {diaries.day}일</div>
@@ -32,7 +33,7 @@ const DiaryTotalList = ({ DIARY_LIST }: any): JSX.Element => {
         })
       ) : (
         <div>피드가 없습니다.</div>
-      )} */}
+      )}
     </>
   );
 };

@@ -13,6 +13,8 @@ import useGeolocation from "react-hook-geolocation";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { getWeatherAction } from "../../redux/modules/weather/weather-action";
 import { WeatherRequiredType } from "../../models/weather/weatherRequiredType";
+import { useLocation } from "react-router-dom";
+import { getDiaryWithDate } from "../../redux/modules/diary";
 
 const createLottieOptions = (type: string | null) => {
   return {
@@ -26,26 +28,45 @@ const createLottieOptions = (type: string | null) => {
 };
 
 const Diary = () => {
+  let isInitial = true;
   const geoLocation = useGeolocation();
   const dispatch = useAppDispatch();
   const lat = geoLocation.latitude;
   const lon = geoLocation.longitude;
   const weatherData = useSelector((state: any) => state.weather.weatherData);
-  const myDiaryList = useAppSelector((state) => state.diary.allDiaryList);
-  const currentTime = new Date().toTimeString();
+  const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
+
+  const today = new Date();
+  const currentTime = today.toTimeString();
   const backoption = createLottieOptions(
     weatherData.sunrise <= currentTime && weatherData.sunset > currentTime
       ? "day"
       : "night"
   );
+  const initialDiaryData = {
+    id: 1,
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+  };
+  const location = useLocation();
+  const diaryData = location.state
+    ? location.state.diaryData
+    : initialDiaryData;
 
   useEffect(() => {
-    let requiredData: WeatherRequiredType;
-    requiredData = {
-      lat: lat,
-      lon: lon,
-    };
-    dispatch(getWeatherAction(requiredData));
+    dispatch(getDiaryWithDate(diaryData));
+  }, []);
+
+  useEffect(() => {
+    if (isInitial) {
+      let requiredData: WeatherRequiredType;
+      requiredData = {
+        lat: lat,
+        lon: lon,
+      };
+      dispatch(getWeatherAction(requiredData));
+    }
+    isInitial = false;
   }, [lat]);
 
   return (
@@ -66,12 +87,12 @@ const Diary = () => {
             }}
           />
         )}
-        <DiaryDate />
+        <DiaryDate diaryData={diaryData} />
       </div>
       <div className="content-container">
         <div className="line"></div>
         <div className="diary-section">
-          <DiaryTotalList DIARY_LIST={myDiaryList} />
+          <DiaryTotalList DIARY_LIST={monthDiaryList} />
           <div className="empty-space"></div>
         </div>
       </div>

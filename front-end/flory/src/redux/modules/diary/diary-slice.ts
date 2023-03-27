@@ -4,6 +4,7 @@ import {
   createDiaryAction,
   getAllDiary,
   getDiaryListAction,
+  getDiaryWithDate,
   getEmotionAction,
   getDiaryWithMap,
   updatePositionAction,
@@ -14,6 +15,7 @@ const initialState: DiaryStateType = {
   create: { loading: false, data: null, error: null },
   positionUpdate: { loading: false, data: null, error: null },
   allDiaryList: [],
+  monthDiaryList: [],
   mapDiaryList: [],
 };
 
@@ -73,6 +75,9 @@ const diarySlice = createSlice({
       .addCase(getAllDiary.fulfilled, (state, { payload }) => {
         state.allDiaryList = payload.response;
       })
+      .addCase(getDiaryWithDate.fulfilled, (state, { payload }) => {
+        state.monthDiaryList = payload.response;
+})
       .addCase(getDiaryWithMap.fulfilled, (state, { payload }) => {
         state.mapDiaryList = payload.response;
       });
