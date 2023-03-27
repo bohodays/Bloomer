@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SMain } from "./styles";
 import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti";
 import testGarden from "../../assets/imgs/test_garden.png";
@@ -72,25 +72,24 @@ const Carousel = ({ children, setActiveIdx, activeIdx }: any) => {
           </button>
         )}
         {React.Children.map(children, (child, i: any) => (
-          <>
-            <div
-              className="card-container"
-              style={
-                {
-                  "--active": i === active ? 1 : 0,
-                  "--offset": (active - i) / 1.2,
-                  "--direction": Math.sign(active - i),
-                  "--abs-offset": Math.abs(active - i) / 3,
-                  "pointer-events": active === i ? "auto" : "none",
-                  opacity: Math.abs(active - i) >= MAX_VISIBILITY ? "0" : "1",
-                  display:
-                    Math.abs(active - i) > MAX_VISIBILITY ? "none" : "flex",
-                } as React.CSSProperties
-              }
-            >
-              {child}
-            </div>
-          </>
+          <div
+            key={i}
+            className="card-container"
+            style={
+              {
+                "--active": i === active ? 1 : 0,
+                "--offset": (active - i) / 1.2,
+                "--direction": Math.sign(active - i),
+                "--abs-offset": Math.abs(active - i) / 3,
+                "pointer-events": active === i ? "auto" : "none",
+                opacity: Math.abs(active - i) >= MAX_VISIBILITY ? "0" : "1",
+                display:
+                  Math.abs(active - i) > MAX_VISIBILITY ? "none" : "flex",
+              } as React.CSSProperties
+            }
+          >
+            {child}
+          </div>
         ))}
         {active < count - 1 && (
           <button className="nav right" onClick={() => handleClickRight()}>
@@ -111,6 +110,8 @@ const GardenList = () => {
   const year = target.getFullYear();
   const month = target.getMonth() + 1;
 
+  useEffect(() => {}, [activeIdx]);
+
   return (
     <SMain>
       <BackButton
@@ -122,20 +123,18 @@ const GardenList = () => {
 
       <div className="info__wrapper">
         <div className="background">
-          <p>
-            {year}년 {month}월
-          </p>
+          {year}년 {month}월
         </div>
       </div>
       {/* 기간별 정원 */}
       <div className="wrapper">
         <Carousel setActiveIdx={setActiveIdx} activeIdx={activeIdx}>
           {TEST_DATA.map((_, i) => (
-            <img src={testGarden} alt="" />
+            <img src={testGarden} alt="" key={i} />
           ))}
         </Carousel>
       </div>
-      <div>
+      <div className="calendar__wrapper">
         <GardenCalendar year={year} month={month} />
       </div>
     </SMain>
