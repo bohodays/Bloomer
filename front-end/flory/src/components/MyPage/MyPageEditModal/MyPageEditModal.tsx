@@ -1,30 +1,56 @@
-import React, { useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useRef, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "../../common/Avatar/Avatar";
 import BasicModal from "../../common/Modal/BasicModal";
 import { ImgIcon, SForm } from "./styles";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { updateUserInfoAction } from "../../../redux/modules/user";
 import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png";
 import cameraButtonImg from "../../../assets/imgs/button/cameraButton.png";
 
-const returnPickStatus = (idx: number, pickedIdx: number) => {
+const returnPickStatus = (idx: string, pickedIdx: string) => {
   return idx === pickedIdx ? "pick" : "";
 };
 
 const MyPageEditModal = () => {
   const imgIdxList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  const userInfo = useSelector((state: any) => state.AuthReducer);
-  const [nickName, setNickName] = useState("");
-  const [pickedIdx, setPickedIdx] = useState(0);
+  const userInfo = useAppSelector((state) => state.user.userData);
+  const dispatch = useAppDispatch();
+
+  const [nickname, setNickname] = useState(userInfo.nickname);
+  const [pickedIdx, setPickedIdx] = useState(userInfo.img);
+  // const [password, setPassword] = useState(userInfo.password);
+  const [email, setEmail]  = useState(userInfo.email);
+
+  useEffect(() => {
+    if (userInfo.img.length > 1) {
+      setPickedIdx("0");
+    } else {
+      setPickedIdx("1");
+    }
+  }, [userInfo.img]);
 
   const selectFile = useRef<HTMLInputElement | null>(null); // Icon onClick에 input File을 달기 위한 ref
 
   const [previewImg, setpreviewImg] = useState(""); // 미리보기 파일(출력을 위한)
   const [imgFile, setImgFile] = useState(""); // 미리보기 실제 파일(저장을 위한)
 
-  const handlePickImg = (idx: number) => {
+  const handlePickImg = (idx: string) => {
     setPickedIdx(idx);
+  };
+
+  const handleUpdateInfo = () => {
+    const userData = {
+      nickname,
+      email: userInfo.email,
+    };
+
+    if(pickedIdx === "11"){
+      dispatch(updateUserInfoAction({userData, imgFile}));
+    }else{
+      dispatch(updateUserInfoAction({userData, imgFile: pickedIdx}));
+    }
   };
 
   // 선택이미지 미리보기
@@ -42,7 +68,7 @@ const MyPageEditModal = () => {
           var base64Sub = base64.toString();
           setpreviewImg(base64Sub); // 파일 base64 상태 업데이트
           setImgFile(e.target.files[0]); //저장을 위한 파일
-          console.log(previewImg);
+          // console.log(previewImg);
           console.log(imgFile);
         }
       };
@@ -54,14 +80,17 @@ const MyPageEditModal = () => {
       modalButton={
         <button>
           <ImgIcon
-            onClick={() => {
-              //
-            }}
           >
             <Avatar size={"big"} imgIdx={0} />
-            <img src={ModifyButtonImg} className="modifyButtonImg"></img>
+            <img 
+              src={ModifyButtonImg} 
+              className="modifyButtonImg"
+            ></img>
           </ImgIcon>
         </button>
+      }
+      dispatchAction={
+        handleUpdateInfo
       }
     >
       <h3>프로필 설정</h3>
@@ -72,8 +101,8 @@ const MyPageEditModal = () => {
           <input
             className="input__section"
             type="text"
-            placeholder="전 닉네임"
-            onChange={(e) => console.log(e.target.value)}
+            placeholder={userInfo.nickname}
+            onChange={(e: any) => setNickname(e.target.value)}
           />
         </div>
         <p>프로필 사진 변경</p>
@@ -81,7 +110,7 @@ const MyPageEditModal = () => {
           <span
             key={11}
             className="image__btn"
-            onClick={() => handlePickImg(11)}
+            onClick={() => handlePickImg("11")}
           >
             <input
               type="file"
@@ -96,10 +125,10 @@ const MyPageEditModal = () => {
               onClick={() => selectFile.current?.click()}
               size="medium"
               tmpsrc={previewImg}
-              // src={userInfo.imgUrl}
+              src={userInfo.img}
               imgIdx={11}
               key={11}
-              status={returnPickStatus(11, pickedIdx)}
+              status={returnPickStatus("11", pickedIdx)}
             />
             <img src={cameraButtonImg} className="cameraButtonImg"></img>
           </span>
@@ -108,13 +137,13 @@ const MyPageEditModal = () => {
               <span
                 key={idx}
                 className="image__btn"
-                onClick={() => handlePickImg(idx)}
+                onClick={() => handlePickImg(item)}
               >
                 <Avatar
                   imgIdx={item}
                   size="medium"
                   key={idx}
-                  status={returnPickStatus(idx, pickedIdx)}
+                  status={returnPickStatus(item, pickedIdx)}
                 />
               </span>
             );

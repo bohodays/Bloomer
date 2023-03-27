@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
-import { getAllDiary } from "../../redux/modules/diary";
+import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 
 const DIARY_LIST = [
@@ -143,20 +143,35 @@ const DIARY_LIST = [
 
 const Map = () => {
   // const navigate = useNavigate();
+
+  const [bound, setBound] = useState<any>({
+    lat1: "37.51369914424146",
+    lng1: "127.0259808088334",
+    lat2: "37.51189830901963",
+    lng2: "127.03085648636002",
+  });
   const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
+  const mapDiaryList = useAppSelector((store) => store.diary.mapDiaryList);
+  const userId = useAppSelector((store) => store.user.userData.userId);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getAllDiary());
   }, [dispatch]);
 
+  useEffect(() => {
+    const mapData = { ...bound, requestId: userId };
+    console.log("요청 보낼거임", mapData);
+    dispatch(getDiaryWithMap(mapData));
+  }, [bound]);
+
   // 내 주변 보기
   const mapPanel = (
     <div>
       <div>
-        <BasicMap />
+        <BasicMap setBound={setBound} diaries={mapDiaryList} />
       </div>
       <div>
-        <DiaryList DIARY_LIST={allDiaryList} page="map" />
+        <DiaryList DIARY_LIST={mapDiaryList} page="map" />
         {/* <DiaryList /> */}
       </div>
     </div>

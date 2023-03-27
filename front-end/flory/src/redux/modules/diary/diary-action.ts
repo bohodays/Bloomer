@@ -139,3 +139,23 @@ export const getDiaryWithDate = createAsyncThunk(
     }
   }
 );
+
+// 주변 일기 목록 가져오기
+export const getDiaryWithMap = createAsyncThunk(
+  "GET_DIARY_WITH_MAP",
+  async (mapData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.post("/api/diary/map", mapData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("현재 위치 일기 목록", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
