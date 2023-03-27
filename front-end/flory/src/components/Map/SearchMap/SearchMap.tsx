@@ -124,7 +124,11 @@ function SearchMap({ func }: any): JSX.Element {
     }
   }, [func.keyword]);
 
-  return <SMap id="map" />;
+  return (
+    <SMap id="map">
+      <img src={require("../../../assets/imgs/map_marker.png")} />
+    </SMap>
+  );
 }
 
 export default SearchMap;

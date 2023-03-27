@@ -37,9 +37,10 @@ function DiaryLocationModal({ place, setPlace }: any): JSX.Element {
         page="map"
       />
       <SearchMap func={func} />
+
       <p>{place.placeName ? place.placeName : place.address}</p>
 
-      <div style={{ width: "100%", height: "200px", overflowY: "auto" }}>
+      <div style={{ width: "100%", overflowY: "auto" }}>
         <LocaList func={func} />
       </div>
     </BasicModal>

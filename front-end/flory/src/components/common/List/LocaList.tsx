@@ -26,7 +26,9 @@ function LocaList({ func }: any): JSX.Element {
   };
 
   return (
-    <List sx={{ width: "100%", height: "200px", bgcolor: "background.paper" }}>
+    <List
+      sx={{ width: "100%", maxHeight: "200px", bgcolor: "background.paper" }}
+    >
       {func.locations.map((location: any, idx: any) => {
         return (
           <LocalListItem
