@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   height: 100%;
@@ -15,7 +15,7 @@ export const SMain = styled.main`
     align-items: center;
     transform: translateY(-2rem);
   }
-`;
+`
 
 export const SSection = styled.section`
   z-index: 100;
@@ -68,6 +68,7 @@ export const SSection = styled.section`
       right: 7.5%;
       border: 2px solid black;
       border-radius: 50%;
+      cursor: pointer;
     }
   }
 
@@ -138,4 +139,4 @@ export const SSection = styled.section`
     padding: 0.5rem;
     margin: 0.5rem 0 1.6rem 0;
   }
-`;
+`
