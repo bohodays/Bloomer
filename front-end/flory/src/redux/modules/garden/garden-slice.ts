@@ -10,9 +10,7 @@ const initialState: GardenStateType = {
   gardenList: [],
   gardenData: {
     nickname: "",
-
     deadline: "",
-
     userId: null,
     gardenId: null,
     musicTitle: null,

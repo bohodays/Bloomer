@@ -40,6 +40,7 @@ const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
 const GuestBookCreate = React.lazy(
   () => import("./pages/GuestBookCreate/GuestBookCreate")
 );
+const Info = React.lazy(() => import("./pages/Info/Info"));
 
 let isInitial = true;
 function App() {
@@ -86,6 +87,7 @@ function App() {
             <Route path="/guestbook/create" element={<GuestBookCreate />} />
             <Route path="/setting" element={<Setting />} />
             <Route path="/group/list" element={<GroupList />} />
+            <Route path="/info" element={<Info />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

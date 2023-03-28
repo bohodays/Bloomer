@@ -120,11 +120,14 @@ export const updateAccessToken = createAsyncThunk(
 // 유저 정보 변경
 export const updateUserInfoAction = createAsyncThunk(
   "UPDATE_USERINFO",
-  async ({ userData, imgFile }: { userData: UpdateInfoType, imgFile: string }, { rejectWithValue }) => {
+  async (
+    { userData, imgFile }: { userData: UpdateInfoType; imgFile: string },
+    { rejectWithValue }
+  ) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-     
+
       const formData = new FormData();
       const blob = new Blob([JSON.stringify(userData)], {
         type: "application/json",
@@ -135,8 +138,8 @@ export const updateUserInfoAction = createAsyncThunk(
       const { data } = await axios.put(`/api/user`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       return data;
     } catch (e: any) {

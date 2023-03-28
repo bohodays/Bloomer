@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   width: 100%;
@@ -115,4 +115,4 @@ export const SMain = styled.main<any>`
       opacity: 0;
     }
   }
-`
+`;

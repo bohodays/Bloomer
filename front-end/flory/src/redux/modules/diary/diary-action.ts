@@ -5,18 +5,24 @@ import { localData } from "../user/token";
 // 일기 생성
 export const createDiaryAction = createAsyncThunk(
   "CREATE",
-  async (diaryData: any, { rejectWithValue }) => {
+  async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      const { data } = await axios.post(`/api/diary`, diaryData, {
+
+      const formData = new FormData();
+      const blob = new Blob([JSON.stringify(diaryData)], {
+        type: "application/json",
+      });
+      formData.append("diary", blob);
+      formData.append("imgSrc", imgFile);
+
+      const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
         },
       });
-      console.log("요청 보낸 데이터", diaryData);
-
-      console.log("일기 생성 요청 후 받는 데이터", data);
 
       return data;
     } catch (e) {
