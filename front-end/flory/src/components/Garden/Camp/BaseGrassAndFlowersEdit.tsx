@@ -13,6 +13,7 @@ import {
 import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import FlowersWrapper from "../../Flowers/FlowersWrapper";
+import CurrentFlower from "../../FlowerCreate/CurrentFlower";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -126,13 +127,15 @@ export function BaseGrass(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-function BaseGrassAndFlowers() {
+function BassGrassAndFlowersEdit() {
   return (
     <>
       <BaseGrass />
+      {/* 현재 작성 중인 일기의 꽃 */}
+      <CurrentFlower />
       <FlowersWrapper />
     </>
   );
 }
 
-export default BaseGrassAndFlowers;
+export default BassGrassAndFlowersEdit;

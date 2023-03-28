@@ -9,12 +9,12 @@ import {
 const initialState: GardenStateType = {
   gardenList: [],
   gardenData: {
-    id: null,
-    gardenPath: null,
     nickname: "",
-    artist: null,
-    title: null,
-    deadline: null,
+    deadline: "",
+    userId: null,
+    gardenId: null,
+    musicTitle: null,
+    img: null,
   },
 };
 

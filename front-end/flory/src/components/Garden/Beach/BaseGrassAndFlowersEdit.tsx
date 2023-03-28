@@ -76,7 +76,12 @@ export function BaseGrass(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Sand.geometry} material={materials.Sand} />
+      <mesh
+        geometry={nodes.Sand.geometry}
+        material={materials.Sand}
+        receiveShadow={true}
+        userData={{ ground: true }}
+      />
     </group>
   );
 }

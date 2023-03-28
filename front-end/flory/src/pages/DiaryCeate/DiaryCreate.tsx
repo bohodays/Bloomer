@@ -25,7 +25,10 @@ import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { createDiaryAction, getEmotionAction } from "../../redux/modules/diary";
 import { useNavigate } from "react-router-dom";
 import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
-import { emotionDataSave } from "../../redux/modules/diaryCreate/diaryCreate-slice";
+import {
+  emotionDataSave,
+  imgDataSave,
+} from "../../redux/modules/diaryCreate/diaryCreate-slice";
 
 declare global {
   interface Window {
@@ -143,12 +146,15 @@ const DiaryCreate = () => {
 
   // 다이어리 생성
   const dispatch = useAppDispatch();
-  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+
+  console.log(selectedImg.image_file, "파일");
 
   const onCreateDiary = () => {
     const diaryData = {
       content: contentInput.current?.value,
-      imgSrc: selectedImg.preview_URL,
+      // 이미지 수정해야 됨
+      // imgSrc: selectedImg.preview_URL,
       lat: place.lat,
       lng: place.lng,
       // 그룹 설정 수정해야 됨
@@ -174,6 +180,8 @@ const DiaryCreate = () => {
           dispatch(emotionDataSave(res));
           // 꽃 선택 페이지로 가기 전에 현재 입력 상태 저장
           dispatch(createInfoSaveAction(diaryData));
+          // 이미지 데이터 저장
+          dispatch(imgDataSave(selectedImg.image_file));
         })
         .then(() => {
           navigate("/diary/select");

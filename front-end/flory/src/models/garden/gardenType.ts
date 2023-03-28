@@ -1,10 +1,10 @@
 export type gardenType = {
-  id: number | null;
-  gardenPath: string | null;
   nickname: string;
-  artist: string | null;
-  title: string | null;
-  deadline: string | null;
+  userId: number | null;
+  gardenId: number | null;
+  musicTitle: string | null;
+  img: string | null;
+  deadline: string;
 };
 
 export type PositionType = {

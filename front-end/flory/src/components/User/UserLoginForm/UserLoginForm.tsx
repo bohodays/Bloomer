@@ -23,7 +23,7 @@ const UserLoginForm = () => {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
   const userId = useAppSelector((state) => state.user.userData.userId);
 
   // 모달 상태 관리

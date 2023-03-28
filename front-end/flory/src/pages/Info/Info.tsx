@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { SMain } from "./styles";
 
 const Info = () => {
+  // const letterRefs = ["꽃", "피", "우", "다"].map(() =>
+  //   useRef<HTMLSpanElement>(null)
+  // );
+  // const regTextRef = useRef<HTMLSpanElement>(null);
+
+  // useEffect(() => {
+  //   const addLoadedClass = (ref: React.RefObject<HTMLSpanElement>) => {
+  //     if (ref.current) {
+  //       ref.current.classList.add("loaded");
+  //     }
+  //   };
+  //   const timeoutId = setTimeout(() => {
+  //     addLoadedClass(regTextRef);
+  //     letterRefs.forEach(addLoadedClass);
+  //   }, 1000);
+
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [letterRefs, regTextRef]);
+
   return (
     <SMain>
       <div className="head">
         <h1 id="title">Bloomer</h1>
-        <p id="sub-title">Let emotion bloom</p>
-        <p id="sub-title">감정을 꽃 피우다</p>
+        {/* <div className="text-container">
+          <span ref={regTextRef} className="reg-text">
+            감정을
+          </span>
+          {letterRefs.map((letterRef, index) => (
+            <span key={index} ref={letterRef} className="letter">
+              {letterRef.current?.textContent}
+            </span>
+          ))}
+        </div> */}
       </div>
 
       <section className="service__info-1">
