@@ -7,6 +7,7 @@ function CreateInputLine({
   placeholder,
   contentInput,
   setContentInput,
+  refVal,
 }: any): JSX.Element {
   return (
     <SDiv>
@@ -19,6 +20,7 @@ function CreateInputLine({
         onChange={(e: any) => setContentInput(e.target.value)}
         // type="text"
         placeholder={placeholder}
+        ref={refVal}
       />
     </SDiv>
   );
