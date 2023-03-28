@@ -1,4 +1,22 @@
 --감정목록
+CREATE TABLE IF NOT EXISTS `emotion` (
+                                         `id` BIGINT NOT NULL,
+                                         `large_category` VARCHAR(255) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `music` (
+                                       `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                       `title` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `flower` (
+                                        `id` BIGINT NOT NULL,
+                                        `language` VARCHAR(255) NULL DEFAULT NULL,
+    `name` VARCHAR(255) NULL DEFAULT NULL,
+    `small_category` VARCHAR(255) NULL DEFAULT NULL,
+    `eid` BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`id`));
+
 insert into emotion (id,large_category) values (1,'기쁨');
 insert into emotion (id,large_category) values (2,'안정');
 insert into emotion (id,large_category) values (3,'당황');
