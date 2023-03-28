@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.div<any>`
   box-shadow: 4px 4px 8px rgba(144, 144, 144, 0.25);
@@ -58,13 +58,13 @@ export const SMain = styled.div<any>`
     gap: 0.5rem;
   }
 
-  &:hover {
+  /* &:hover {
     transform: scale(1.02);
-  }
+  } */
 
   .register__form {
   }
-`
+`;
 
 export const SForm = styled.form<any>`
   margin-top: 20px;
@@ -90,4 +90,4 @@ export const SForm = styled.form<any>`
       cursor: pointer;
     }
   }
-`
+`;

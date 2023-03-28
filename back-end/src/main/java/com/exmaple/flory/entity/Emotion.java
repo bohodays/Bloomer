@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name="emotion")
+@Entity
+@Table(name = "emotion")
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Builder
-@Slf4j
 public class Emotion {
     @Id
     @Column(name = "id")

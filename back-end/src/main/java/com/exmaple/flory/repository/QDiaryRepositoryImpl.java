@@ -28,6 +28,7 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
                 .selectFrom(diary)
                 .leftJoin(diary.garden, garden)
                 .on(garden.id.eq(gardenId))
+                .where(diary.garden.id.eq(gardenId))
                 .fetch();
     }
 
@@ -59,7 +60,7 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
                 .selectFrom(diary)
                 .leftJoin(diary.garden, garden)
                 .on(garden.id.eq(gardenId))
-                .where(diary.publicStatus.eq("전체공개"))
+                .where(diary.publicStatus.eq("전체공개").and(diary.garden.id.eq(gardenId)))
                 .fetch();
     }
 
@@ -69,7 +70,7 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
                 .selectFrom(diary)
                 .leftJoin(diary.garden, garden)
                 .on(garden.id.eq(gardenId))
-                .where(diary.publicStatus.eq("그룹공개"))
+                .where(diary.publicStatus.eq("그룹공개").and(diary.garden.id.eq(gardenId)))
                 .fetch();
     }
 

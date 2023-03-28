@@ -5,6 +5,7 @@ import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
@@ -187,6 +188,20 @@ public class DiaryController {
         try{
             List<DiaryDto> result = diaryService.getPublicDiaryList();
             return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/list/team")
+    public ResponseEntity<?> getTeamDiaryList(@RequestBody TeamIdListDto teamIdListDto){
+        try{
+            List<DiaryDto> result = diaryService.getDiaryListInTeam(teamIdListDto);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        } catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);

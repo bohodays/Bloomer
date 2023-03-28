@@ -12,7 +12,10 @@ import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
 import GroupList from "./pages/GroupList/GroupList";
-import { createGardenAction } from "./redux/modules/garden";
+import {
+  createGardenAction,
+  getGardenListAction,
+} from "./redux/modules/garden";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -38,18 +41,25 @@ const GuestBookCreate = React.lazy(
   () => import("./pages/GuestBookCreate/GuestBookCreate")
 );
 
+let isInitial = true;
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.userData);
   const gardenId = useAppSelector((state) => state.garden.gardenData.id);
 
   useEffect(() => {
-    if (localData.getAccessToken()) {
-      if (user.userId === 0) {
-        dispatch(getUserDataToTokenAction());
+    if (isInitial) {
+      if (localData.getAccessToken()) {
+        if (user.userId === 0) {
+          dispatch(getUserDataToTokenAction()).then((data: any) => {
+            console.log("data", data);
+            // dispatch(getGardenListAction(data.payload.response.userId));
+          });
+        }
       }
+      isInitial = false;
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="app">

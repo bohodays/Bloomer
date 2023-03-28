@@ -1,7 +1,8 @@
 // three
+import React, { useState, useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF, OrthographicCamera, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense } from "react";
 import { SMain } from "./styles";
 
@@ -41,7 +42,7 @@ const Scene = (props: any) => {
       return <F01 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
     } else if (flower.flowerName === "은방울꽃") {
       return <F02 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
-    } else if (flower.flowerName === "빨간 튤립") {
+    } else if (flower.flowerName === "빨강 튤립") {
       return <F03 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;
     } else if (flower.flowerName === "칼랑코에") {
       return <F04 flowerPosition={{ x: 0, y: -0.6, z: 0 }} scale={10} />;

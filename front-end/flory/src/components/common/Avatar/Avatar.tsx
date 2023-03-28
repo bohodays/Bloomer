@@ -65,8 +65,17 @@ function Avatar({
     sizeRem = "5rem";
   }
 
+  let borderColor =
+    "linear-gradient(#fff, #fff), linear-gradient(#DEC5FD, #DEC5FD)";
+  if (status === "pick") {
+    borderColor =
+      "linear-gradient(#fff, #fff), linear-gradient(to right, #BD00FF, #FF00D6)";
+  } else if (status === "comment") {
+    borderColor = "linear-gradient(#fff, #fff)";
+  }
+
   return (
-    <SAvatar size={sizeRem} status={status} onClick={onClick}>
+    <SAvatar size={sizeRem} borderColor={borderColor} onClick={onClick}>
       <img src={imgSrc} />
     </SAvatar>
   );

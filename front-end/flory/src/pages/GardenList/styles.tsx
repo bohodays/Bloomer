@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 export const SMain = styled.main`
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
+  /* justify-content: space-around; */
   justify-content: center;
+  gap: 4%;
   width: 100%;
   height: 100%;
   background: rgb(144, 91, 241);
@@ -14,6 +16,7 @@ export const SMain = styled.main`
     rgba(232, 73, 158, 1) 100%
   );
   overflow: hidden;
+  /* overflow-y: auto; */
 
   .back-icon {
     cursor: pointer;
@@ -31,21 +34,21 @@ export const SMain = styled.main`
 
   /* 기간을 보여주는 div를 묶는 wrapper */
   .info__wrapper {
+    /* margin-top: 35px; */
     width: 100%;
-    /* height: 25%; */
+    /* height: 20%; */
     display: flex;
     justify-content: center;
     align-items: center;
 
     .background {
       background-color: rgba(255, 255, 255, 0.32);
-      padding: 0.6rem 1.6rem;
-      border-radius: 16px;
-      border: 2px solid var(--color-white);
-    }
+      padding: 0.4rem 1.4rem;
+      border-radius: 12px;
+      border: 2.4px solid var(--color-white);
 
-    p {
-      font-size: 1.6rem;
+      font-family: "S-CoreDream-5Medium";
+      font-size: 1.3rem;
       color: var(--color-white);
       z-index: 10;
     }
@@ -56,12 +59,12 @@ export const SMain = styled.main`
     position: relative;
     display: flex;
     justify-content: center;
-    height: 23rem;
+    height: 17rem;
     /* margin-bottom: 2.5rem; */
   }
 
   img {
-    width: 22rem;
+    width: 18rem;
   }
 
   .carousel {
@@ -132,5 +135,10 @@ export const SMain = styled.main`
       right: 0;
       transform: translateX(100%) translatey(-50%);
     }
+  }
+
+  .calendar__wrapper {
+    width: 95%;
+    margin: 0 auto;
   }
 `;

@@ -96,3 +96,89 @@ export const getDiaryListAction = createAsyncThunk(
     }
   }
 );
+
+// 전체 공개 일기 목록 가져오기
+export const getAllDiary = createAsyncThunk(
+  "GET_ALL_DIARY",
+  async (_, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get("/api/diary/list/all", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 년/월에 따른 일기 목록 가져오기
+export const getDiaryWithDate = createAsyncThunk(
+  "GET_DIARY_WITH_DATE",
+  async (dateData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(
+        `/api/diary?id=${dateData.id}&year=${dateData.year}&month=${dateData.month}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("api성공", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 주변 일기 목록 가져오기
+export const getDiaryWithMap = createAsyncThunk(
+  "GET_DIARY_WITH_MAP",
+  async (mapData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.post("/api/diary/map", mapData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("현재 위치 일기 목록", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 일기 생성
+export const createCommentAction = createAsyncThunk(
+  "CREATE_COMMENT",
+  async (commentData: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.post(`/api/comment`, commentData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("댓글 요청 보낸 데이터", commentData);
+
+      console.log("댓글 생성 요청 후 받는 데이터", data);
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

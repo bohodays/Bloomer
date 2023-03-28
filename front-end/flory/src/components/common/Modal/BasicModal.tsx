@@ -12,8 +12,19 @@ function BasicModal({
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
-    setOpen(false);
-    dispatchAction();
+    // setOpen(false);
+    if (dispatchAction) {
+      dispatchAction().then((res: any) => {
+        if (res) {
+          setOpen(false);
+        }
+      });
+
+      // if (isDispatch) {
+      // }
+    } else {
+      setOpen(false);
+    }
   };
 
   const ModalContent = (

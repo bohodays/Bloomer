@@ -2,8 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DiaryStateType } from "../../../models/diary/diaryStateType";
 import {
   createDiaryAction,
+  getAllDiary,
   getDiaryListAction,
+  getDiaryWithDate,
   getEmotionAction,
+  getDiaryWithMap,
   updatePositionAction,
 } from "./diary-action";
 
@@ -11,6 +14,9 @@ const initialState: DiaryStateType = {
   diaryData: [],
   create: { loading: false, data: null, error: null },
   positionUpdate: { loading: false, data: null, error: null },
+  allDiaryList: [],
+  monthDiaryList: [],
+  mapDiaryList: [],
 };
 
 const diarySlice = createSlice({
@@ -35,12 +41,12 @@ const diarySlice = createSlice({
         state.create.loading = true;
         state.create.data = null;
         state.create.error = null;
-        console.log("일기작성 성공!");
       })
       .addCase(createDiaryAction.fulfilled, (state, { payload }) => {
         state.create.loading = false;
         state.create.data = payload;
         state.create.error = null;
+        console.log("일기작성 성공!");
       })
       .addCase(createDiaryAction.rejected, (state, { payload }) => {
         state.create.loading = false;
@@ -65,6 +71,15 @@ const diarySlice = createSlice({
       })
       .addCase(getDiaryListAction.fulfilled, (state, { payload }) => {
         state.diaryData = [...payload.response];
+      })
+      .addCase(getAllDiary.fulfilled, (state, { payload }) => {
+        state.allDiaryList = payload.response;
+      })
+      .addCase(getDiaryWithDate.fulfilled, (state, { payload }) => {
+        state.monthDiaryList = payload.response;
+})
+      .addCase(getDiaryWithMap.fulfilled, (state, { payload }) => {
+        state.mapDiaryList = payload.response;
       });
   },
 });

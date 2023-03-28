@@ -1,13 +1,16 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.garden.GardenInsertResponseDto;
 import com.exmaple.flory.dto.garden.GardenRequestDto;
 import com.exmaple.flory.dto.garden.GardenResponseDto;
 import com.exmaple.flory.entity.Garden;
 import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.entity.Music;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.GardenRepository;
 import com.exmaple.flory.repository.MemberRepository;
+import com.exmaple.flory.repository.MusicRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,8 @@ public class GardenService {
     private final GardenRepository gardenRepository;
     private final MemberRepository memberRepository;
 
+    private final MusicRepository musicRepository;
+
     public GardenResponseDto getDetail(Long id) {
 
         return gardenRepository.findById(id)
@@ -31,21 +36,20 @@ public class GardenService {
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }
 
-    public GardenResponseDto insert(GardenRequestDto gardenRequestDto) {
+    public GardenInsertResponseDto insert(GardenRequestDto gardenRequestDto) {
 
         Long memberId = gardenRequestDto.getUserId();
 
-        Optional<Member> result = memberRepository.findById(memberId);
+        Member member = memberRepository.findById(memberId).get();
 
         //계정이 없다면
-        if(!result.isPresent()) {
-            throw new CustomException(ErrorCode.NO_USER);
-        }
+        if(member == null) throw new CustomException(ErrorCode.NO_USER);
+
+        Garden garden = gardenRequestDto.toEntity();
+
+        garden.setMember(member);
 
         LocalDateTime today = LocalDateTime.now();
-
-        Garden garden = new Garden();
-        garden.setMember(result.get());
 
         LocalDateTime nxtMonth = LocalDateTime.of(today.getYear(),
                 today.getMonthValue()+1,
@@ -58,18 +62,26 @@ public class GardenService {
 
         //마감날짜세팅
         garden.setDeadLine(deadLine);
-        Garden res = gardenRepository.save(garden);
 
-        return res.toResponseDto();
+        gardenRepository.save(garden);
+        return garden.toInsertResponseDto();
     }
 
     public GardenResponseDto update(GardenRequestDto gardenRequestDto) {
 
         log.info(" user id  {}",gardenRequestDto.getUserId());
 
+        Music music = musicRepository.findByTitle(gardenRequestDto.getMusicTitle());
+
+        if(music == null) throw new CustomException(ErrorCode.NO_MUSIC);
+
         return gardenRepository.findById(gardenRequestDto.getGardenId())
                 .map(g -> {
-                    g.setPath(gardenRequestDto.getImgSrc());
+                    g.setImg(gardenRequestDto.getImg());
+                    return g;
+                })
+                .map(g->{
+                    g.setMusic(music);
                     return g;
                 })
                 .map(gardenRepository::save)
@@ -83,9 +95,9 @@ public class GardenService {
         gardenRepository.deleteById(garden_id);
     }
 
-    public GardenResponseDto getGardenByMonth(Integer year,Integer month) {
+    public GardenResponseDto getGardenByMonth(Long user_id,Integer year,Integer month) {
 
-        return gardenRepository.findByDate(year,month)
+        return gardenRepository.findByDate(user_id,year,month)
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }

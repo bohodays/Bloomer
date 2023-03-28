@@ -47,12 +47,15 @@ public class MemberService {
     public MemberResponseDto updateMember(MemberRequestDto memberRequestDto, MultipartFile multipartFile) throws IOException {
         Member member = memberRepository.findByEmail(memberRequestDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
         if(multipartFile !=null) {
             String storedFileName = s3Uploader.upload(multipartFile);
             member.updateImg(storedFileName);
+        }else{
+            member.updateImg(memberRequestDto.getImg());
         }
 
-        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getPassword(), passwordEncoder);
+        member.updateMember(memberRequestDto.getNickname());
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
