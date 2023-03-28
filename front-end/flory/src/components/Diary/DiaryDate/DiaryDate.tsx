@@ -4,13 +4,7 @@ import { Dropdown } from "semantic-ui-react";
 import DiaryDatePicker from "../DiaryDatePicker/DiaryDatePicker";
 import { useAppDispatch } from "../../../redux/store.hooks";
 import { getDiaryWithDate } from "../../../redux/modules/diary";
-
-// 월 주차 계산 함수
-const convertWeekIdx = (date: Date) => {
-  const currentDate = date.getDate();
-  const firstDay = new Date(date.setDate(1)).getDay();
-  return Math.ceil((currentDate + firstDay) / 7);
-};
+import { convertWeekIdx } from "../../../utils/utils";
 
 const DiaryDate = ({ diaryData }: any) => {
   const dispatch = useAppDispatch();

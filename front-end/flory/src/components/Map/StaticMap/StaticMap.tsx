@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import useGeolocation from "react-hook-geolocation";
+import { convertNumFormat } from "../../../utils/utils";
 import { SMap } from "./styles";
 
 declare global {
@@ -7,14 +8,6 @@ declare global {
     kakao: any;
   }
 }
-
-const convertNumFormat = (num: number) => {
-  let sNum = String(num);
-  if (sNum.length < 2) {
-    sNum = "0" + sNum;
-  }
-  return sNum;
-};
 
 function StaticMap({ lat, lng, fid }: any): JSX.Element {
   useEffect(() => {
