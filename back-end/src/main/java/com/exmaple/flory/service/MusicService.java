@@ -28,7 +28,7 @@ public class MusicService {
         RestTemplate restTemplate = new RestTemplate();
         StringBuilder url = new StringBuilder();
         url.append("https://j8a205.p.ssafy.io/")
-                .append("/domain/emotions/")
+                .append("domain/emotions/")
                 .append(emotion+"/")
                 .append("near-user/")
                 .append(user_id);
