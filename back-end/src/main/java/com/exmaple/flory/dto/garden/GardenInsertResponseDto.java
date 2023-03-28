@@ -9,12 +9,11 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
-public class GardenResponseDto {
+public class GardenInsertResponseDto {
 
     private Long userId;
     private String nickname;
     private Long gardenId;
-    private String musicTitle; //노래 제목
     private LocalDateTime deadline;
     private String img;
 }

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface QGardenRepository {
 
-    public Optional<Garden> findByDate(Integer year,Integer month);
+    public Optional<Garden> findByDate(Long user_id,Integer year,Integer month);
     public List<Garden> findAllByUserId(Long userId);
 }
