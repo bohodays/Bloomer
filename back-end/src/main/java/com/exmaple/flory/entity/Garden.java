@@ -45,8 +45,15 @@ public class Garden extends BaseTime {
     }
 
     public GardenDiaryDto toDiaryDto(){
+        if(music==null){
+            return GardenDiaryDto.builder()
+                    .id(id).deadLine(deadLine).member(MemberResponseDto.of(member)).build();
+        }
 
-        return GardenDiaryDto.builder()
-                .id(id).deadLine(deadLine).member(MemberResponseDto.of(member)).musicTitle(music.getTitle()).build();
+        else{
+            return GardenDiaryDto.builder()
+                    .id(id).deadLine(deadLine).member(MemberResponseDto.of(member)).musicTitle(music.getTitle()).build();
+        }
+
     }
 }
