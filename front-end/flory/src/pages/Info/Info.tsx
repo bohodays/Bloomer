@@ -1,42 +1,16 @@
 import React, { useEffect, useRef } from "react";
+import SubTitle from "../../components/Info/SubTitle/SubTitle";
 import { SMain } from "./styles";
 
 const Info = () => {
-  // const letterRefs = ["꽃", "피", "우", "다"].map(() =>
-  //   useRef<HTMLSpanElement>(null)
-  // );
-  // const regTextRef = useRef<HTMLSpanElement>(null);
-
-  // useEffect(() => {
-  //   const addLoadedClass = (ref: React.RefObject<HTMLSpanElement>) => {
-  //     if (ref.current) {
-  //       ref.current.classList.add("loaded");
-  //     }
-  //   };
-  //   const timeoutId = setTimeout(() => {
-  //     addLoadedClass(regTextRef);
-  //     letterRefs.forEach(addLoadedClass);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearTimeout(timeoutId);
-  //   };
-  // }, [letterRefs, regTextRef]);
-
   return (
     <SMain>
       <div className="head">
         <h1 id="title">Bloomer</h1>
-        {/* <div className="text-container">
-          <span ref={regTextRef} className="reg-text">
-            감정을
-          </span>
-          {letterRefs.map((letterRef, index) => (
-            <span key={index} ref={letterRef} className="letter">
-              {letterRef.current?.textContent}
-            </span>
-          ))}
-        </div> */}
+        <div className="text-container">
+          {/* 감정을 꽃 피우다 블러 이벤트있는 컴포넌트 */}
+          <SubTitle />
+        </div>
       </div>
 
       <section className="service__info-1">
