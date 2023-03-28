@@ -14,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +55,12 @@ public class DiaryControllerTest {
     @DisplayName("일기 등록 테스트")
     @Test
     public void insertDiaryTest() throws Exception {
-        when(diaryService.insertDiary(any())).thenReturn(diaryDto);
+        when(diaryService.insertDiary(any(),any())).thenReturn(diaryDto);
+        String json = new ObjectMapper().writeValueAsString(diaryDto.toEntity());
+        MockMultipartFile file = new MockMultipartFile("diary", "diary", "application/json", json.getBytes(StandardCharsets.UTF_8));
 
-        mockMvc.perform(post("/api/diary").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(diaryDto.toEntity())))
+        mockMvc.perform(multipart(HttpMethod.POST,"/api/diary")
+                        .file(file).with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -65,23 +69,29 @@ public class DiaryControllerTest {
     @DisplayName("일기 등록 커스텀 오류 테스트")
     @Test
     public void insertDiaryCustomExceptionTest() throws Exception{
-        when(diaryService.insertDiary(any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+        when(diaryService.insertDiary(any(),any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-        mockMvc.perform(post("/api/diary").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(diaryDto.toEntity())))
+        String json = new ObjectMapper().writeValueAsString(diaryDto.toEntity());
+        MockMultipartFile file = new MockMultipartFile("diary", "diary", "application/json", json.getBytes(StandardCharsets.UTF_8));
+
+        mockMvc.perform(multipart(HttpMethod.POST,"/api/diary")
+                        .file(file).with(csrf()))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
+
     }
 
     @DisplayName("일기 등록 오류 테스트")
     @Test
     public void insertDiaryExceptionTest() throws Exception{
-        when(diaryService.insertDiary(any())).thenThrow(new RuntimeException());
+        when(diaryService.insertDiary(any(),any())).thenThrow(new RuntimeException());
 
-        mockMvc.perform(post("/api/diary").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(diaryDto.toEntity())))
+        String json = new ObjectMapper().writeValueAsString(diaryDto.toEntity());
+        MockMultipartFile file = new MockMultipartFile("diary", "diary", "application/json", json.getBytes(StandardCharsets.UTF_8));
+
+
+        mockMvc.perform(multipart(HttpMethod.POST,"/api/diary")
+                        .file(file).with(csrf()))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
