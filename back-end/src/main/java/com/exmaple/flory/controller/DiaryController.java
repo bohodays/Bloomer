@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -29,16 +31,18 @@ public class DiaryController {
     DiaryService diaryService;
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody DiaryRequestDto diaryDto){
+    public ResponseEntity<?> insert(@RequestPart("diary") DiaryRequestDto diaryDto, @RequestPart(value = "imgSrc", required = false) final MultipartFile multipartFile){
         try{
-            DiaryDto result = diaryService.insertDiary(diaryDto);
+            log.info("DiaryRequest: {}",diaryDto);
+            log.info("file: {}",multipartFile);
+            DiaryDto result = diaryService.insertDiary(diaryDto, Optional.ofNullable(multipartFile));
 
             log.info("Diary 생성: {}",diaryDto);
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         }catch (CustomException e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -91,7 +91,7 @@ public class DiaryServiceTest {
             .garden(garden.toDiaryDto()).flowerEmotion(flowerEmotionDto).musicTitle("title").createdTime(new Date()).build();
 
     private final DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
-            .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("그룹공개").x("x").y("y").z("z")
+            .id(1L).content("content").lat(10.0).lng(10.0).publicStatus("그룹공개").x("x").y("y").z("z")
             .fid(1L).gid(1L).musicTitle("title").build();
 
     private final Comment comment = Comment.builder()
@@ -104,7 +104,7 @@ public class DiaryServiceTest {
             .userTeamId(1L).tid(team).uid(member).build();
     @DisplayName("일기 등록하기 테스트")
     @Test
-    public void insertDiaryTest(){
+    public void insertDiaryTest() throws Exception{
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
         Diary diary = diaryDto.toEntity();
@@ -121,14 +121,14 @@ public class DiaryServiceTest {
         DiaryRequestDto diaryRequestDto = DiaryRequestDto.builder()
                 .content(diaryDto.getContent()).x(diaryDto.getX()).y(diaryDto.getY()).z(diaryDto.getZ()).publicStatus("전체공개").build();
 
-        DiaryDto result = diaryService.insertDiary(diaryRequestDto);
+        DiaryDto result = diaryService.insertDiary(diaryRequestDto,Optional.ofNullable(null));
 
         assertEquals(diaryDto.getContent(),result.getContent());
     }
 
     @DisplayName("일기 그룹공개 등록하기 테스트")
     @Test
-    public void insertDiaryMemberTest(){
+    public void insertDiaryMemberTest() throws Exception{
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
         diaryRequestDto.setGroupList(info);
@@ -145,7 +145,7 @@ public class DiaryServiceTest {
         when(musicRepository.findByTitle(any())).thenReturn(music);
         when(teamRepository.findById(any())).thenReturn(Optional.of(team));
 
-        DiaryDto result = diaryService.insertDiary(diaryRequestDto);
+        DiaryDto result = diaryService.insertDiary(diaryRequestDto,Optional.ofNullable(null));
 
         assertEquals(diaryDto.getContent(),result.getContent());
     }
