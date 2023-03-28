@@ -11,6 +11,7 @@ import {
   convertTimeFormat,
   convertEmotionFormat,
 } from "../../../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
@@ -24,8 +25,21 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${flowerIdx}.png`);
   const iconRoute = require(`../../../assets/imgs/flower_icon/icon_f${flowerIdx}.png`);
 
+  const navigate = useNavigate();
+  const handleMoveToDetail = (diaryId: number, item?: any) => {
+    navigate(`/diary/${diaryId}`, {
+      state: {
+        diaryData: item,
+      },
+    });
+  };
+
   return (
-    <SMain>
+    <SMain
+      onClick={() => {
+        handleMoveToDetail(props.diary.id, props.diary);
+      }}
+    >
       {isDiaryPage && (
         // <div className="page-flower__wrapper">
         <img src={iconRoute_bg} alt="flower" className="flower-image-border" />
