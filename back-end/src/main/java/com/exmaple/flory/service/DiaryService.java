@@ -21,14 +21,20 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 @Slf4j
 public class DiaryService {
+
+    @Autowired
+    private S3Uploader s3Uploader;
+
     @Autowired
     private MusicRepository musicRepository;
     @Autowired
@@ -57,7 +63,7 @@ public class DiaryService {
     private UserTeamRepository userTeamRepository;
 
     @Transactional
-    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto){
+    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto, Optional<MultipartFile> multipartFile) throws IOException {
         Diary diary = diaryRequestDto.toEntity();
         log.info("Diary: {}",diaryRequestDto);
 
@@ -78,6 +84,11 @@ public class DiaryService {
         diary.setGarden(garden.get());
         diary.setFlower(flowerData);
         diary.setMusic(music.get());
+
+        if(!multipartFile.isEmpty()){
+            String uploadImg = s3Uploader.upload(multipartFile.get());
+            diary.setImgSrc(uploadImg);
+        }
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         result.setFlowerEmotion(getFlowerEmotion(flowerData));
@@ -653,7 +664,6 @@ public class DiaryService {
         diary.setLat(diaryRequestDto.getLat());
         diary.setLng(diaryRequestDto.getLng());
         diary.setContent(diaryRequestDto.getContent());
-        diary.setImgSrc(diaryRequestDto.getImgSrc());
         diary.setAddress(diaryRequestDto.getAddress());
 
     }
