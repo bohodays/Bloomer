@@ -14,7 +14,12 @@ const initialState: GardenStateType = {
     nickname: "",
     artist: null,
     title: null,
-    deadline: null,
+    deadline: "",
+
+    userId: null,
+    gardenId: null,
+    musicTitle: null,
+    img: null,
   },
 };
 

@@ -1,10 +1,16 @@
 export type gardenType = {
+  // 이후 지울거
   id: number | null;
   gardenPath: string | null;
-  nickname: string;
   artist: string | null;
   title: string | null;
-  deadline: string | null;
+
+  nickname: string;
+  userId: number | null;
+  gardenId: number | null;
+  musicTitle: string | null;
+  img: string | null;
+  deadline: string;
 };
 
 export type PositionType = {
