@@ -3,16 +3,17 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
 
-import Base_map_new from "../../components/Garden/Base_map_new";
+import Base_map_new from "../../components/Garden/Park/Park_map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
-import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
+import Base_map_new_edit from "../../components/Garden/Park/Park_map_edit";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import {
   createDiaryAction,
   updatePositionAction,
 } from "../../redux/modules/diary";
+import Beach_map_edit from "../../components/Garden/Beach/Beach_map_edit";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -21,7 +22,9 @@ const Scene = () => {
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />
         {/* <Base_map_new /> */}
-        <Base_map_new_edit />
+        {/* <Base_map_new_edit /> */}
+
+        <Beach_map_edit />
 
         {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
