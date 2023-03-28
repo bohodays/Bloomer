@@ -46,12 +46,13 @@ function Avatar({
     }
   }, [src]);
 
-  if (tmpsrc != null) {
-    // 파일 미리 보기 (아직 저장이 안된 상태)
-    imgSrc = tmpsrc;
-  } else if (imgIdx === "11") {
+  if (imgIdx === "11" || tmpsrc === "") {
     // s3에서 가져오기
     imgSrc = imageUrl;
+  }
+  else if (tmpsrc != null) {
+    // 파일 미리 보기 (아직 저장이 안된 상태)
+    imgSrc = tmpsrc;
   } else {
     imgSrc = imgIdx
       ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
