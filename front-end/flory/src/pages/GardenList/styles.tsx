@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   /* position: relative; */
@@ -6,7 +6,7 @@ export const SMain = styled.main`
   flex-direction: column;
   /* justify-content: space-around; */
   justify-content: center;
-  gap: 4%;
+  gap: 5%;
   width: 100%;
   height: 100%;
   background: rgb(144, 91, 241);
@@ -141,4 +141,4 @@ export const SMain = styled.main`
     width: 95%;
     margin: 0 auto;
   }
-`;
+`
