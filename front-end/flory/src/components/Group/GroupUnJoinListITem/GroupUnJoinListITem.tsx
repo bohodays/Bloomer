@@ -1,50 +1,58 @@
-import React, { useRef, useState } from "react"
-import { AiTwotoneCalendar } from "react-icons/ai"
-import { FiCalendar, FiUser } from "react-icons/fi"
-import { FaLock } from "react-icons/fa"
-import { RiFilePaper2Line } from "react-icons/ri"
-import { SForm, SMain } from "./styles"
-import CreateInput from "../../common/CreateInput/CreateInput"
-import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType"
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
-import { requestJoinGroup } from "../../../redux/modules/group"
+import React, { useRef, useState } from "react";
+import { AiTwotoneCalendar } from "react-icons/ai";
+import { FiCalendar, FiUser } from "react-icons/fi";
+import { FaLock } from "react-icons/fa";
+import { RiFilePaper2Line } from "react-icons/ri";
+import { SForm, SMain } from "./styles";
+import CreateInput from "../../common/CreateInput/CreateInput";
+import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { requestJoinGroup } from "../../../redux/modules/group";
 
 const convertDateFormat = (date: string) => {
-  const target = new Date(date)
-  const year = target.getFullYear()
-  const month = target.getMonth() + 1
-  const day = target.getDate()
-  return year + "." + month + "." + day
-}
+  const target = new Date(date);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
+  const day = target.getDate();
+  return year + "." + month + "." + day;
+};
 
 const GroupUnJoinListITem = ({ group }: any) => {
-  const userInfo = useAppSelector((state) => state.user.userData)
-  const [isDetail, setIsDetail] = useState(false)
-  const contentInput = useRef<HTMLInputElement>(null)
-  const dispatch = useAppDispatch()
-  const [isRequest, setIsRequest] = useState(false)
+  const userInfo = useAppSelector((state) => state.user.userData);
+  const [isDetail, setIsDetail] = useState(false);
+  const contentInput = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+  const [isRequest, setIsRequest] = useState(false);
 
   const handleClickDetail = () => {
-    setIsDetail(!isDetail)
-  }
+    setIsDetail(!isDetail);
+  };
   const handleClickFormArea = (e: any) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
   const handleSubmitForm = async (e: any) => {
-    e.preventDefault()
-    const groupJoinData: GroupJoinRequestType = {
-      teamId: group.teamId,
-      userId: userInfo.userId,
-      message: contentInput.current?.value,
-    }
+    e.preventDefault();
 
-    // 가입 api 쏘기
-    await dispatch(requestJoinGroup(groupJoinData))
-    setIsRequest(true)
-    // if (contentInput.current) {
-    //   contentInput.current.value = ""
-    // }
-  }
+    const contentInputVal = contentInput.current?.value;
+
+    if (
+      !group.open &&
+      (!contentInputVal || contentInputVal.trim().length === 0)
+    ) {
+      contentInput.current?.focus();
+      return;
+    } else {
+      const groupJoinData: GroupJoinRequestType = {
+        teamId: group.teamId,
+        userId: userInfo.userId,
+        message: contentInput.current?.value,
+      };
+
+      // 가입 api 쏘기
+      await dispatch(requestJoinGroup(groupJoinData));
+      setIsRequest(true);
+    }
+  };
 
   return (
     <SMain onClick={handleClickDetail}>
@@ -103,7 +111,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
         )}
       </div>
     </SMain>
-  )
-}
+  );
+};
 
-export default GroupUnJoinListITem
+export default GroupUnJoinListITem;
