@@ -4,7 +4,7 @@ import animationData from "../../assets/imgs/lotties/84142-gradient-background.j
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
 import { faLocationDot, faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { SMain } from "./styles";
 import { borderRadius } from "@mui/system";
@@ -12,6 +12,8 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../components/common/Avatar/Avatar";
 import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
 import BackButton from "../../components/common/BackButton/BackButton";
+import CreateInput from "../../components/common/CreateInput/CreateInput";
+import CommentInput from "../../components/common/CommentInput/CommentInput";
 
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
@@ -20,6 +22,7 @@ const DiaryDetail = () => {
   const location = useLocation();
   const diary = location.state.diaryData;
   const navigate = useNavigate();
+  const conmmentInput = useRef<HTMLInputElement>(null);
 
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
@@ -90,6 +93,10 @@ const DiaryDetail = () => {
         )}
 
         {/* 덧글 영역 */}
+        <CommentInput
+          contentInput={CommentInput}
+          placeholder="덧글을 입력해주세요"
+        />
         {diary.commentList.map((comment: any) => {
           return <DiaryComment comment={comment} />;
         })}
