@@ -4,5 +4,5 @@ export type DiaryGardenType = {
   id: number;
   deadLine: string;
   member: DiaryMemberType;
-  music: string | null;
+  musicTitle: string | null;
 };
