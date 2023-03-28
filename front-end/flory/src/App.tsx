@@ -45,7 +45,7 @@ let isInitial = true;
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.userData);
-  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   useEffect(() => {
     if (isInitial) {
