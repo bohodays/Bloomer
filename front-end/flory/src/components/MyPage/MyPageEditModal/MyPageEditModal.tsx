@@ -21,10 +21,10 @@ const MyPageEditModal = () => {
   const [nickname, setNickname] = useState(userInfo.nickname);
   const [pickedIdx, setPickedIdx] = useState(userInfo.img);
   // const [password, setPassword] = useState(userInfo.password);
-  const [email, setEmail]  = useState(userInfo.email);
+  const [email, setEmail] = useState(userInfo.email);
 
   useEffect(() => {
-    if (userInfo.img.length > 1) {
+    if (userInfo.img && userInfo.img.length > 1) {
       setPickedIdx("0");
     } else {
       setPickedIdx("1");
@@ -46,10 +46,10 @@ const MyPageEditModal = () => {
       email: userInfo.email,
     };
 
-    if(pickedIdx === "11"){
-      dispatch(updateUserInfoAction({userData, imgFile}));
-    }else{
-      dispatch(updateUserInfoAction({userData, imgFile: pickedIdx}));
+    if (pickedIdx === "11") {
+      dispatch(updateUserInfoAction({ userData, imgFile }));
+    } else {
+      dispatch(updateUserInfoAction({ userData, imgFile: pickedIdx }));
     }
   };
 
@@ -79,19 +79,13 @@ const MyPageEditModal = () => {
     <BasicModal
       modalButton={
         <button>
-          <ImgIcon
-          >
+          <ImgIcon>
             <Avatar size={"big"} imgIdx={0} />
-            <img 
-              src={ModifyButtonImg} 
-              className="modifyButtonImg"
-            ></img>
+            <img src={ModifyButtonImg} className="modifyButtonImg"></img>
           </ImgIcon>
         </button>
       }
-      dispatchAction={
-        handleUpdateInfo
-      }
+      dispatchAction={handleUpdateInfo}
     >
       <h3>프로필 설정</h3>
       <SForm>
