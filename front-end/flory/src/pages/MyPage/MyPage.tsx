@@ -20,7 +20,7 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const userState = useAppSelector((state) => state.user.userData);
+  const userInfo = useAppSelector((state) => state.user.userData);
 
   const handleMove = (target: string) => {
     navigate(target);
@@ -110,9 +110,9 @@ const MyPage = () => {
       <ProfileCard
         width="100%"
         header={<MyPageEditModal />}
-        name={userState.nickname}
+        name={userInfo.nickname}
         body={
-          <div style={{ textAlign: "center", padding: "1px" }}>{ userState.email }</div>
+          <div style={{ textAlign: "center", padding: "1px" }}>{ userInfo.email }</div>
         }
         height="100%"
         className="profile"

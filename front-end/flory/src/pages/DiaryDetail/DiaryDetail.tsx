@@ -4,7 +4,7 @@ import animationData from "../../assets/imgs/lotties/84142-gradient-background.j
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
 import { faLocationDot, faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { SMain } from "./styles";
 import { borderRadius } from "@mui/system";
@@ -12,6 +12,10 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../components/common/Avatar/Avatar";
 import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
 import BackButton from "../../components/common/BackButton/BackButton";
+import CreateInput from "../../components/common/CreateInput/CreateInput";
+import CommentInput from "../../components/common/CommentInput/CommentInput";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { createCommentAction } from "../../redux/modules/diary";
 
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
@@ -19,8 +23,10 @@ const DiaryDetail = () => {
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
   const diary = location.state.diaryData;
+  const userId = useAppSelector((state) => state.user.userData.userId);
   const navigate = useNavigate();
-
+  const commentInput = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
     setMapView(!mapView);
@@ -39,13 +45,22 @@ const DiaryDetail = () => {
     },
   };
 
+  const createCommentHandler = () => {
+    const commentData = {
+      content: commentInput.current?.value,
+      uid: userId,
+      did: diary.id,
+    };
+    dispatch(createCommentAction(commentData));
+  };
+
   return (
     <SMain>
       {/* 헤더 영역 */}
       <div className="header_back">
         <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          <p>abstract world</p>
+          <p>{diary.musicTitle}</p>
         </div>
         <div className="header-circle"></div>
         <Lottie
@@ -81,9 +96,20 @@ const DiaryDetail = () => {
           <FontAwesomeIcon icon={faLocationDot} />
           <p>{diary.address}</p>
         </div>
-        {mapView && <StaticMap lng={diary.lng} lat={diary.lat} />}
+        {mapView && (
+          <StaticMap
+            lng={diary.lng}
+            lat={diary.lat}
+            fid={diary.flowerEmotion.fid}
+          />
+        )}
 
         {/* 덧글 영역 */}
+        <CommentInput
+          contentInput={commentInput}
+          placeholder="덧글을 입력해주세요"
+          createCommentHandler={createCommentHandler}
+        />
         {diary.commentList.map((comment: any) => {
           return <DiaryComment comment={comment} />;
         })}

@@ -14,12 +14,14 @@ import BackButton from "../../components/common/BackButton/BackButton";
 
 const Setting = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
     dispatch(logoutAction(accessToken)).then(() => {
       localData.clear();
     });
+    navigate("/");
   };
 
   const contents = (

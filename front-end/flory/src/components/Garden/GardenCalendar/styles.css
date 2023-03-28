@@ -1,13 +1,13 @@
 .react-calendar {
-  width: 350px;
-  max-width: 100%;
-  margin: auto;
+  /* width: 350px;
+  max-width: 100%; */
+  width: 100%;
   background: rgba(255, 255, 255);
   /* background: transparent; */
   /* border: 1px solid transparent; */
-  border-radius: 20px;
+  border-radius: 10px;
 
-  line-height: 3em;
+  line-height: 2rem;
 }
 
 /* .react-calendar--doubleView {
@@ -69,7 +69,7 @@
   font-size: 0.8em;
   background-color: #dbafff;
   /* background-color: rgba(255, 255, 255, 0.606); */
-  border-radius: 20px 20px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 .react-calendar__month-view__weekdays__weekday {
@@ -186,6 +186,6 @@
   transition: all 0.3s linear;
 }
 .calendar__wrapper:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
   cursor: pointer;
 }

@@ -21,6 +21,8 @@ export const getCurrentGardenAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(data, "현재 정원 확인");
+
       return data;
     } catch (e: any) {
       console.log("오잉?");

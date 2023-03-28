@@ -9,10 +9,7 @@ export const SAvatar = styled.div<any>`
     props.size === "small"
       ? "2px solid transparent"
       : "3.5px solid transparent"};
-  background-image: ${(props) =>
-    props.status === "pick"
-      ? "linear-gradient(#fff, #fff), linear-gradient(to right, #BD00FF, #FF00D6)"
-      : "linear-gradient(#fff, #fff), linear-gradient(#DEC5FD, #DEC5FD)"};
+  background-image: ${(props) => props.borderColor};
   background-origin: border-box;
   background-clip: content-box, border-box;
 

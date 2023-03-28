@@ -58,7 +58,6 @@ const GardenEdit = () => {
       dispatch(updatePositionAction(diaryData))
         .then(() => {
           console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
-
           dispatch(createDiaryAction(currentCreateDiaryData));
         })
         .then(() => {

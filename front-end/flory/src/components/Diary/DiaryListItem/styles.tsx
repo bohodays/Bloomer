@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   width: 100%;
@@ -15,7 +15,7 @@ export const SMain = styled.main<any>`
     background-color: #ffe897;
     border-radius: 50%;
     height: 2.3rem;
-    padding: 0.4rem;
+    /* padding: 0.4rem; */
     border: 3px solid #ececec;
     z-index: -1;
   }
@@ -28,7 +28,7 @@ export const SMain = styled.main<any>`
   /* left: 1.15rem; */
   /* overflow-y: hidden; */
   /* } */
-`
+`;
 
 export const SItem = styled.div<any>`
   flex: auto;
@@ -46,7 +46,7 @@ export const SItem = styled.div<any>`
     background-color: #ffe897;
     border-radius: 50%;
     height: 3rem;
-    padding: 7px;
+    /* padding: 7px; */
   }
 
   .title-container {
@@ -87,10 +87,10 @@ export const SItem = styled.div<any>`
       gap: 0.2rem;
     }
   }
-`
+`;
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`
+`;
