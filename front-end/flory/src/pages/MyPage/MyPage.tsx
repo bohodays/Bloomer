@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import BasicModal from "../../components/User/UserLoginErrorModal/UserLoginErrorModal";
 import MyPageEditModal from "../../components/MyPage/MyPageEditModal/MyPageEditModal";
-import Pie from "../../components/common/Pie/Pie";
+import Pie from "../../components/common/Graph/Pie/Pie";
+import Bar from "../../components/common/Graph/Bar/Bar";
 import FlowerImg from "../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../components/common/Post/Post";
 import Navbar from "../../components/common/Navbar/Navbar";
@@ -15,6 +16,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
 import Avatar from "../../components/common/Avatar/Avatar";
 import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
+import iconRoute_bg from "../../assets/imgs/flower_bgicon/bgicon_f01.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ const MyPage = () => {
     navigate("/group/list");
   };
 
-  const data = [
+  const Piedata = [
     {
       id: "기쁨",
       label: "기쁨",
@@ -75,6 +77,16 @@ const MyPage = () => {
     },
   ];
 
+  const Bardata = [
+    [
+      {
+        "emotion": "01",
+        "count": 188,
+        "emotionColor": "hsl(354, 70%, 50%)",
+      }
+    ]
+  ];
+
   const distPanel = (
     <div>
       <div className="totalFlower">
@@ -88,11 +100,18 @@ const MyPage = () => {
             <div className="inner-title">
               이번 달 현재까지 가장 많이 기록된 감정은 기쁨입니다
             </div>
-            <Pie data={data} />
+            <Pie data={Piedata} />
           </div>
         }
       />
-      <Post title="지난주 대비 감정 분포" content={"hi"} />
+      <Post 
+        title="지난주 대비 감정 분포" 
+        content={
+          <div>
+            <Bar data={Bardata[0]} />
+          </div>
+          } 
+      />
     </div>
   );
 
@@ -117,7 +136,6 @@ const MyPage = () => {
         height="100%"
         className="profile"
       />
-
       <BasicTabs
         tabs={[
           {

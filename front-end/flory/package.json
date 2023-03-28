@@ -15,6 +15,7 @@
     "@mui/joy": "^5.0.0-alpha.72",
     "@mui/material": "^5.11.12",
     "@mui/styled-engine-sc": "^5.11.11",
+    "@nivo/bar": "^0.80.0",
     "@nivo/core": "^0.80.0",
     "@nivo/pie": "^0.80.0",
     "@react-three/drei": "^9.57.3",

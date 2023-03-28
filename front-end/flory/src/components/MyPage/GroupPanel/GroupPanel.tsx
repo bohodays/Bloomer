@@ -10,7 +10,6 @@ import { SGroupPanel, SMember } from "./styles";
 import GroupCreateModal from "../GroupCreateModal/GroupCreateModal"
 import { getGroupInfoAction } from "../../../redux/modules/group/group-action"
 
-let isInital = true
 function GroupPanel({}): JSX.Element {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -19,11 +18,8 @@ function GroupPanel({}): JSX.Element {
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
   
   useEffect(() => {
-    if (isInital) {
-      isInital = false
-      dispatch(getGroupInfoAction())
-    }
-  }, [dispatch]);
+    dispatch(getGroupInfoAction());
+  }, []);
     
   // console.log(userGroupList);
   return (
