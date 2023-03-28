@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { SMyPage } from "./styles";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ const MyPage = () => {
 
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userData);
+
 
   const handleMove = (target: string) => {
     navigate(target);
