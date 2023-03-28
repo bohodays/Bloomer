@@ -1,4 +1,22 @@
 --감정목록
+CREATE TABLE IF NOT EXISTS `emotion` (
+                                         `id` BIGINT NOT NULL,
+                                         `large_category` VARCHAR(255) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `music` (
+                                       `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                       `title` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `flower` (
+                                        `id` BIGINT NOT NULL,
+                                        `language` VARCHAR(255) NULL DEFAULT NULL,
+    `name` VARCHAR(255) NULL DEFAULT NULL,
+    `small_category` VARCHAR(255) NULL DEFAULT NULL,
+    `eid` BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`id`));
+
 insert into emotion (id,large_category) values (1,'기쁨');
 insert into emotion (id,large_category) values (2,'안정');
 insert into emotion (id,large_category) values (3,'당황');
@@ -33,7 +51,6 @@ insert into flower (id,name,language,small_category,eid) values(22,'찔레꽃','
 insert into flower (id,name,language,small_category,eid) values(23,'노란 카네이션','후회','후회',7);
 insert into flower (id,name,language,small_category,eid) values(24,'층꽃나무','허무한 삶','허무',7);
 insert into flower (id,name,language,small_category,eid) values(25,'제라늄','우울함','우울',7);
-
 
 insert into music (id, title) values(1,'218-westernet-141021');
 insert into music (id, title) values(2,'5-islamic-background-sounds-alfa-relaxing-music-126059');

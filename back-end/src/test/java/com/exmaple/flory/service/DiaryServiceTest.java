@@ -67,15 +67,15 @@ public class DiaryServiceTest {
             .nickname("abcd")
             .build();
 
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
+
     private final Garden garden = Garden
             .builder()
             .id(1L)
             .member(member)
-            .path("/usr/app")
+            .music(music)
             .build();
-
-    private final Music music = Music.builder()
-            .id(1L).title("title").build();
 
     private final Emotion emotion = Emotion.builder()
             .id(1L).largeCategory("large").build();

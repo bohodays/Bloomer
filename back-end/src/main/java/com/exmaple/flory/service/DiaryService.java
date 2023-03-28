@@ -10,6 +10,7 @@ import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
@@ -58,10 +59,15 @@ public class DiaryService {
     @Transactional
     public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto){
         Diary diary = diaryRequestDto.toEntity();
+        log.info("Diary: {}",diaryRequestDto);
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
         Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryRequestDto.getMusicTitle()));
+
+        log.info("Garden: {}",garden.get());
+        log.info("Flower: {}",flower.get());
+        log.info("Music: {}",music.get());
 
         if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
         if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
@@ -437,6 +443,60 @@ public class DiaryService {
             setGroupList(diaryDto);
 
             result.add(diaryDto);
+        }
+
+        return result;
+    }
+
+    public List<DiaryDto> getDiaryListInTeam(TeamIdListDto teamIdListDto){
+       List<DiaryDto> result = new ArrayList<>();
+       List<Long> idList = teamIdListDto.getTeamIdList();
+       log.info("idList: {}",idList);
+       Set<Long> userIdSet = new LinkedHashSet<>();
+       List<TeamDto> teamDtoList = new ArrayList<>();
+
+       for(Long id: idList){
+            Optional<Team> team = teamRepository.findById(id);
+
+            if(team.isEmpty()) throw new CustomException(ErrorCode.INVALID_TEAM);
+
+            TeamDto teamDto = TeamDto.of(team.get());
+
+            for(MemberResponseDto member: teamDto.getUserTeamList()){
+                userIdSet.add(member.getUserId());
+            }
+
+            log.info("User id set: {}",userIdSet);
+       }
+
+        for(Long uid: userIdSet){
+            List<Diary> diaries = diaryRepository.findPublicByMemberId(uid);
+
+            for(Diary diary: diaries){
+                DiaryDto diaryDto = diary.toDto();
+
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                diaryDto.setCommentList(getCommentList(diaryDto));
+
+                result.add(diaryDto);
+            }
+        }
+
+        for(Long tid: idList){
+            List<Long> diaryIdList = diaryTeamRepository.getDiaryByTid(tid);
+
+            for(Long did:diaryIdList){
+                Optional<Diary> diary = diaryRepository.findById(did);
+
+                if(diary.isEmpty()) continue;
+
+                DiaryDto diaryDto = diary.get().toDto();
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
+                diaryDto.setCommentList(getCommentList(diaryDto));
+                setGroupList(diaryDto);
+
+                result.add(diaryDto);
+            }
         }
 
         return result;

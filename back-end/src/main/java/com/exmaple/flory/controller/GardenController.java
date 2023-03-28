@@ -28,6 +28,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.getDetail(garden_id)), HttpStatus.OK);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,6 +40,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.insert(gardenRequestDto)), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
         }
     }
@@ -50,6 +52,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.update(gardenRequestDto)),HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
@@ -67,12 +70,12 @@ public class GardenController {
         }
     }
 
-    @GetMapping("/date/{year}/{month}")
-    public ResponseEntity<?> getGardenDetailByMonth(@PathVariable Integer year, @PathVariable Integer month) {
+    @GetMapping("/user/{user_id}/date/{year}/{month}")
+    public ResponseEntity<?> getGardenDetailByMonth(@PathVariable Long user_id,@PathVariable Integer year, @PathVariable Integer month) {
         log.info("GardenController - garden detail by month 호출");
 
         try {
-            return new ResponseEntity<>(new SuccessResponse(gardenService.getGardenByMonth(year,month)), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(gardenService.getGardenByMonth(user_id,year,month)), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
@@ -86,6 +89,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.getAllGardenByUserId(user_id)), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
