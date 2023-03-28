@@ -49,7 +49,7 @@ tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #csv파일 가져오기
-music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv",index_col=0)
+music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv")
 
 #음악 content에 있는 모든 태그 가져오기
 music_content = music_data['content']
@@ -76,7 +76,8 @@ def nearestUser(request, emotion,user_id):
     if request.method == 'GET':
         
         emotions = ["기쁨","안정","당황","분노","불안","상처","슬픔"]
-
+        print("현재 감정")
+        print(emotions[emotion])
         #member table에서 전체 유저 정보 가져오기
         members = Member.objects.all()
 
@@ -88,13 +89,14 @@ def nearestUser(request, emotion,user_id):
 
         #[classic,jazz,pop,reggae,RnB,electronic]을 벡터화 하기 true면 1 false면 0
         jenre_vector = [] # 장르 벡터 2d array
-
+        
         for member in members:
             cur = convertVector(member)
             jenre_vector.append((cur,member.user_id))
 
         #각 유저별로 코사인 유사도계산
-
+        print("장르벡터")
+        print(jenre_vector)
         curUserVector = convertVector(idToUser[user_id]) # 현재 유저의 음악 벡터
 
         result = [] #결과 계산값
@@ -203,23 +205,23 @@ def cos_sim(A, B):
 
 def convertVector(member):
     cur = []
-    #클래식
-    cur.append(member.classic)
+    #클래식]
+    cur.append(int.from_bytes(member.classic, byteorder='big', signed=False))
 
     #재즈
-    cur.append(member.jazz)
+    cur.append(int.from_bytes(member.jazz, byteorder='big', signed=False))
 
     #pop
-    cur.append(member.pop)
+    cur.append(int.from_bytes(member.pop, byteorder='big', signed=False))
 
     #reggae
-    cur.append(member.reggae)
+    cur.append(int.from_bytes(member.reggae, byteorder='big', signed=False))
     
     #RnB
-    cur.append(member.RnB)
+    cur.append(int.from_bytes(member.RnB, byteorder='big', signed=False))
 
     #electronic
-    cur.append(member.electronic)
+    cur.append(int.from_bytes(member.electronic, byteorder='big', signed=False))
 
     return cur
     
