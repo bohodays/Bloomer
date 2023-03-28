@@ -64,12 +64,21 @@ public class GardenRepositoryTest {
                 .builder()
                 .build();
 
+        Member member = Member.builder()
+                .email("cksgnlcjswo@naver.com")
+                .nickname("abcd")
+                .password("1234")
+                .build();
+
+        Member info = memberRepository.save(member);
+
+        garden.setMember(member);
         gardenRepository.save(garden);
 
         int month = LocalDateTime.now().getMonthValue();
         int year = LocalDateTime.now().getYear();
 
-        Optional<Garden> result = gardenRepository.findByDate(year,month);
+        Optional<Garden> result = gardenRepository.findByDate(info.getUserId(),year,month);
 
         assertThat(result.get().getDeadLine()).isEqualTo(garden.getDeadLine());
     }
