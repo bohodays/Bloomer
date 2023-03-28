@@ -60,7 +60,7 @@ const DiaryDetail = () => {
       <div className="header_back">
         <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          <p>abstract world</p>
+          <p>{diary.musicTitle}</p>
         </div>
         <div className="header-circle"></div>
         <Lottie
