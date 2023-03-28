@@ -14,6 +14,8 @@ import DiaryComment from "../../components/Diary/DiaryComment/DiaryComment";
 import BackButton from "../../components/common/BackButton/BackButton";
 import CreateInput from "../../components/common/CreateInput/CreateInput";
 import CommentInput from "../../components/common/CommentInput/CommentInput";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { createCommentAction } from "../../redux/modules/diary";
 
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
@@ -21,9 +23,10 @@ const DiaryDetail = () => {
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
   const diary = location.state.diaryData;
+  const userId = useAppSelector((state) => state.user.userData.userId);
   const navigate = useNavigate();
-  const conmmentInput = useRef<HTMLInputElement>(null);
-
+  const commentInput = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
   const [mapView, setMapView] = useState<boolean>(false);
   const onClickLocation = () => {
     setMapView(!mapView);
@@ -40,6 +43,15 @@ const DiaryDetail = () => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const createCommentHandler = () => {
+    const commentData = {
+      content: commentInput.current?.value,
+      uid: userId,
+      did: diary.id,
+    };
+    dispatch(createCommentAction(commentData));
   };
 
   return (
@@ -94,8 +106,9 @@ const DiaryDetail = () => {
 
         {/* 덧글 영역 */}
         <CommentInput
-          contentInput={CommentInput}
+          contentInput={commentInput}
           placeholder="덧글을 입력해주세요"
+          createCommentHandler={createCommentHandler}
         />
         {diary.commentList.map((comment: any) => {
           return <DiaryComment comment={comment} />;

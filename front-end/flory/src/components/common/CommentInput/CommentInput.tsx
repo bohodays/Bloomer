@@ -6,7 +6,12 @@ import SendIcon from "@mui/icons-material/Send";
 import { StyledSendIcon } from "../StyledIcons/styledIcons";
 import { IconButton } from "@mui/material";
 
-function CommentInput({ contentInput, placeholder, page }: any): JSX.Element {
+function CommentInput({
+  contentInput,
+  placeholder,
+  createCommentHandler,
+  page,
+}: any): JSX.Element {
   return (
     <SDiv>
       <div className="avatar wrapper">
@@ -23,7 +28,7 @@ function CommentInput({ contentInput, placeholder, page }: any): JSX.Element {
         </div>
       </STextarea>
       <div className="icon wrapper">
-        <StyledSendIcon />
+        <StyledSendIcon onClick={createCommentHandler} />
       </div>
     </SDiv>
   );
