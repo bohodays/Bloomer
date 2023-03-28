@@ -165,3 +165,46 @@ export const getDiaryWithMap = createAsyncThunk(
     }
   }
 );
+
+// 그룹 일기 목록 가져오기
+export const getDiaryWithGroup = createAsyncThunk(
+  "GET_DIARY_WITH_Group",
+  async (groupData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.post("/api/diary/list/team", groupData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("그룹 일기 목록", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 덧글 생성
+export const createCommentAction = createAsyncThunk(
+  "CREATE_COMMENT",
+  async (commentData: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.post(`/api/comment`, commentData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("댓글 요청 보낸 데이터", commentData);
+
+      console.log("댓글 생성 요청 후 받는 데이터", data);
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

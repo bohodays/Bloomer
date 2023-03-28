@@ -9,138 +9,16 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
-import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
+import {
+  getAllDiary,
+  getDiaryWithGroup,
+  getDiaryWithMap,
+} from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import CommunityMap from "../../components/Map/CommunityMap/CommunityMap";
+import { getGroupInfoAction } from "../../redux/modules/group";
 
-const DIARY_LIST = [
-  {
-    id: 1,
-    content: "내용111",
-    imgSrc: "",
-    lat: "37.195",
-    lng: "128.5",
-    publicStatus: "그룹공개",
-    x: "10",
-    y: "10",
-    z: "10",
-    createdTime: "2023-03-13 04:23:16",
-    garden: {
-      createdDate: "2023-03-15T13:20:26.98129",
-      modifiedDate: "2023-03-15T13:20:26.98129",
-      id: 1,
-      path: null,
-      deadLine: "2023-04-15T13:20:26.97729",
-      member: {
-        createdDate: "2023-03-15T13:20:13.840834",
-        modifiedDate: "2023-03-15T13:20:13.840834",
-        userId: 1,
-        nickname: "jisoo",
-        password:
-          "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
-        img: "기본",
-        email: "user1",
-        refreshToken: null,
-        authority: "ROLE_USER",
-      },
-      music: null,
-    },
-    flower: {
-      id: 1,
-      name: "크로커스",
-      language: "믿는 기쁨",
-      emotion: {
-        id: 1,
-        type: "기쁨",
-      },
-      commentList: ["2222", "2222"],
-    },
-  },
-  {
-    id: 2,
-    content: "내용111",
-    imgSrc: "path",
-    lat: "37.195",
-    lng: "128.5",
-    publicStatus: "그룹공개",
-    x: "10",
-    y: "10",
-    z: "10",
-    createdTime: "2023-03-13 04:23:16",
-    garden: {
-      createdDate: "2023-03-15T13:20:26.98129",
-      modifiedDate: "2023-03-15T13:20:26.98129",
-      id: 1,
-      path: null,
-      deadLine: "2023-04-15T13:20:26.97729",
-      member: {
-        createdDate: "2023-03-15T13:20:13.840834",
-        modifiedDate: "2023-03-15T13:20:13.840834",
-        userId: 1,
-        nickname: "jisoo",
-        password:
-          "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
-        img: "기본",
-        email: "user1",
-        refreshToken: null,
-        authority: "ROLE_USER",
-      },
-      music: null,
-    },
-    flower: {
-      id: 1,
-      name: "크로커스",
-      language: "믿는 기쁨",
-      emotion: {
-        id: 1,
-        type: "기쁨",
-      },
-      commentList: ["2222", "2222"],
-    },
-  },
-  {
-    id: 3,
-    content: "내용111",
-    imgSrc: "path",
-    lat: "37.195",
-    lng: "128.5",
-    publicStatus: "그룹공개",
-    x: "10",
-    y: "10",
-    z: "10",
-    createdTime: "2023-03-13 04:23:16",
-    garden: {
-      createdDate: "2023-03-15T13:20:26.98129",
-      modifiedDate: "2023-03-15T13:20:26.98129",
-      id: 1,
-      path: null,
-      deadLine: "2023-04-15T13:20:26.97729",
-      member: {
-        createdDate: "2023-03-15T13:20:13.840834",
-        modifiedDate: "2023-03-15T13:20:13.840834",
-        userId: 1,
-        nickname: "jisoo",
-        password:
-          "$2a$10$2gGRO4.tvNv4G2XgC31BRuLitdzseuc0Y/K.zDXMp77PCV62ioBue",
-        img: "기본",
-        email: "user1",
-        refreshToken: null,
-        authority: "ROLE_USER",
-      },
-      music: null,
-    },
-    flower: {
-      id: 1,
-      name: "크로커스",
-      language: "믿는 기쁨",
-      emotion: {
-        id: 1,
-        type: "기쁨",
-      },
-      commentList: ["2222", "2222"],
-    },
-  },
-];
+let isInitial = true;
 
 const Map = () => {
   // const navigate = useNavigate();
@@ -153,10 +31,28 @@ const Map = () => {
   });
   const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
   const mapDiaryList = useAppSelector((store) => store.diary.mapDiaryList);
+  const groupDiaryList = useAppSelector((store) => store.diary.groupDiaryList);
   const userId = useAppSelector((store) => store.user.userData.userId);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getAllDiary());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      dispatch(getGroupInfoAction()).then((data) => {
+        console.log("group", data);
+        let teamIdList = [];
+        for (let i of data.payload.response) {
+          teamIdList.push(i.teamId);
+        }
+        const groupData = {
+          teamIdList,
+        };
+        dispatch(getDiaryWithGroup(groupData));
+      });
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -193,7 +89,7 @@ const Map = () => {
     <div>
       <div>
         <MapFilterModal />
-        <DiaryList DIARY_LIST={allDiaryList} page="map" />
+        <DiaryList DIARY_LIST={groupDiaryList} page="map" />
       </div>
     </div>
   );
