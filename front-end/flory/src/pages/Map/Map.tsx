@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,17 +38,18 @@ const Map = () => {
     dispatch(getAllDiary());
   }, [dispatch]);
 
+  // let teamIdList: number[] = [];
+  const teamIdList = useRef<number[]>([]);
   useEffect(() => {
     if (isInitial) {
       isInitial = false;
       dispatch(getGroupInfoAction()).then((data) => {
         console.log("group", data);
-        let teamIdList = [];
         for (let i of data.payload.response) {
-          teamIdList.push(i.teamId);
+          teamIdList.current.push(i.teamId);
         }
         const groupData = {
-          teamIdList,
+          teamIdList: teamIdList.current,
         };
         dispatch(getDiaryWithGroup(groupData));
       });
@@ -88,7 +89,7 @@ const Map = () => {
   const groupPanel = (
     <div>
       <div>
-        <MapFilterModal />
+        <MapFilterModal teamIdList={teamIdList} />
         <DiaryList DIARY_LIST={groupDiaryList} page="map" />
       </div>
     </div>
