@@ -48,7 +48,7 @@ public class SignUpRequestDto {
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .nickname(nickname)
-                .img("기본")
+                .img("1")
                 .email(email)
                 .classic(classic)
                 .jazz(jazz)
