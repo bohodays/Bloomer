@@ -1,4 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store.hooks";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 
@@ -184,16 +186,15 @@ export const getDiaryWithMap = createAsyncThunk(
 // 그룹 일기 목록 가져오기
 export const getDiaryWithGroup = createAsyncThunk(
   "GET_DIARY_WITH_Group",
-  async (groupData: any, { rejectWithValue }) => {
+  async (teamIdList: any, { rejectWithValue }) => {
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
-      const { data } = await axios.post("/api/diary/list/team", groupData, {
+      const { data } = await axios.post("/api/diary/list/team", teamIdList, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("그룹 일기 목록", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
