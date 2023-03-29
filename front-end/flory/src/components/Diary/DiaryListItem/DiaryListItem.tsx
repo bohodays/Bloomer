@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faImage, faLock } from "@fortawesome/free-solid-svg-icons";
 import { SIcon, SItem, SMain } from "./styles";
 
-import testFlower from "../../../assets/imgs/flower_icon/Violet Flower.png";
+import testFlower from "../../../assets/imgs/day_background.png";
 import { DiaryType } from "../../../models/diary/diaryType";
 import {
   convertContentToMaxLength,
@@ -47,9 +47,12 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
             {isPrivate && <SIcon icon={faLock} />}
             {emotion} 순간
           </div>
+          {/* 이미지 경로 받았을 때 수정되어야 함! */}
+          {isContainImage && (
+            <img src={testFlower} alt="img" className="img-container" />
+          )}
           <div className="content-container">{content}</div>
           <div className="info-container">
-            <div>{isContainImage && <SIcon icon={faImage} />}</div>
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
               <span>

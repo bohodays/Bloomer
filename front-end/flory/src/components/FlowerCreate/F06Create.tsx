@@ -5,7 +5,7 @@ Command: npx gltfjsx@6.1.4 ./public/models/flowers/f06.glb -t
 
 import * as THREE from "three";
 import React, { useRef, useState, useEffect } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Sparkles, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PositionType } from "../../models/garden/gardenType";
 import { useLocation } from "react-router-dom";
