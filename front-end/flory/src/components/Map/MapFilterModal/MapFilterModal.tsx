@@ -1,4 +1,4 @@
-import { Checkbox } from "@mui/material";
+import { Checkbox, IconButton } from "@mui/material";
 import { useState } from "react";
 import { GroupType } from "../../../models/Group/GroupType";
 import { getDiaryWithGroup } from "../../../redux/modules/diary";
@@ -8,11 +8,8 @@ import BasicModal from "../../common/Modal/BasicModal";
 import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUser,
-  faPenToSquare,
-  faHome,
-  faListUl,
-  faLocationDot,
+  faFilter,
+  faUserGroup,
   faSquareCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { groupActions } from "../../../redux/modules/group/group-slice";
@@ -24,15 +21,30 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     dispatch(groupActions.check({ idx: idx }));
   };
 
-  const dispatchAction = () => {};
+  const dispatchAction = () => {
+    let lst = [];
+    for (let i of groupCheckList) {
+      if (i.check) {
+        lst.push(i.teamId);
+      }
+    }
+    const groupData = {
+      teamIdList: lst,
+    };
+    dispatch(getDiaryWithGroup(groupData));
+  };
 
   return (
     <BasicModal
-      modalButton={<button>모달 열기</button>}
+      modalButton={
+        <IconButton size="small">
+          <FontAwesomeIcon icon={faUserGroup} style={{ color: "#612fab" }} />
+        </IconButton>
+      }
       dispatchAction={dispatchAction}
     >
-      <h3>그룹 설정</h3>
-      <div style={{ width: "100%" }}>
+      <h3>그룹 선택</h3>
+      <div style={{ width: "100%", margin: "1rem 0 1rem" }}>
         {groupCheckList &&
           groupCheckList.map((group: any, idx: number) => (
             <div
@@ -40,19 +52,21 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
               style={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              {group.name}
+              <div className="radio__wrapper">
+                {group.name}
 
-              <FontAwesomeIcon
-                className={group.check ? "active" : "disabled"}
-                icon={faSquareCheck}
-                onClick={() => {
-                  handleCheck(group.teamId);
-                }}
-              />
+                <FontAwesomeIcon
+                  className={group.check ? "active" : "disabled"}
+                  icon={faSquareCheck}
+                  onClick={() => {
+                    handleCheck(group.teamId);
+                  }}
+                />
+              </div>
             </div>
           ))}
       </div>
