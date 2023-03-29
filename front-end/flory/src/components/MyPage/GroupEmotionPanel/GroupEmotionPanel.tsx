@@ -12,7 +12,7 @@ const GroupEmotionPanel = ({}: any): JSX.Element => {
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
 
   useEffect(() => {
-    dispatch(getGroupInfoAction()).then((data) => {
+    dispatch(getGroupInfoAction()).then((data: any) => {
       let lst = [];
       for (let i of data.payload.response) {
         lst.push(i.teamId);
@@ -20,14 +20,15 @@ const GroupEmotionPanel = ({}: any): JSX.Element => {
       const groupData = {
         teamIdList: lst,
       };
-      console.log(groupData);
       dispatch(getDiaryWithGroup(groupData));
     });
   }, [dispatch]);
   return (
     <div>
       <div>
-        <MapFilterModal />
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <MapFilterModal />
+        </div>
         <DiaryList DIARY_LIST={groupDiaryList} page="map" />
       </div>
     </div>

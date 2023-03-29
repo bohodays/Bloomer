@@ -5,30 +5,30 @@ import {
   faVolumeOff,
   faVolumeXmark,
   faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { SNav } from "./styles";
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { SNav } from "./styles"
 
-const ToggleButton = () => {
-  const [toggleOnOff, setToggleOnOff] = useState(false);
-  const [volumeMute, setVolumeMute] = useState(false);
-  const navigate = useNavigate();
+const ToggleButton = ({ state }: any) => {
+  const [toggleOnOff, setToggleOnOff] = useState(false)
+  const [volumeMute, setVolumeMute] = useState(false)
+  const navigate = useNavigate()
 
   // 토글 핸들러 함수
   const handleToggleOnOff = () => {
-    setToggleOnOff(!toggleOnOff);
-  };
+    setToggleOnOff(!toggleOnOff)
+  }
 
   // 소리 음소거 핸들러 함수
   const handleVolumeOnOff = () => {
-    setVolumeMute(!volumeMute);
-  };
+    setVolumeMute(!volumeMute)
+  }
 
   const handleMoveToGardenList = () => {
-    navigate("/garden/list");
-  };
+    navigate("/garden/list")
+  }
 
   return (
     <SNav>
@@ -50,9 +50,14 @@ const ToggleButton = () => {
           <FontAwesomeIcon className="lines" icon={faBars} />
         )}
       </label>
-      <button className="menu-item gardenList" onClick={handleMoveToGardenList}>
-        <FontAwesomeIcon icon={faLayerGroup} />
-      </button>
+      {state !== "other" && (
+        <button
+          className="menu-item gardenList"
+          onClick={handleMoveToGardenList}
+        >
+          <FontAwesomeIcon icon={faLayerGroup} />
+        </button>
+      )}
       <button className="menu-item volume" onClick={handleVolumeOnOff}>
         {volumeMute ? (
           <FontAwesomeIcon icon={faVolumeOff} />
@@ -64,7 +69,7 @@ const ToggleButton = () => {
         <FontAwesomeIcon icon={faCamera} />
       </button>
     </SNav>
-  );
-};
+  )
+}
 
-export default ToggleButton;
+export default ToggleButton

@@ -3,6 +3,7 @@ import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
+import { groupActions } from "./group-slice";
 
 // 토큰으로 내 그룹 목록 가져오기
 export const getGroupInfoAction = createAsyncThunk(
@@ -16,7 +17,11 @@ export const getGroupInfoAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+      let lst = [];
+      for (let i of data.response) {
+        lst.push({ name: i.name, teamId: i.teamId, check: true });
+      }
+      dispatch(groupActions.replaceCheck({ checkList: lst }));
       return data;
     } catch (e: any) {
       // dispatch(updateAccessToken());
