@@ -15,11 +15,14 @@ import {
   faLocationDot,
   faSquareCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { groupActions } from "../../../redux/modules/group/group-slice";
 const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
-  // const userGroupList = useAppSelector((state) => state.group.userGroupList);
+  const groupCheckList = useAppSelector((state) => state.group.groupCheckList);
   const dispatch = useAppDispatch();
   // 체크 관리
-  const handleCheck = (idx: number) => {};
+  const handleCheck = (idx: number) => {
+    dispatch(groupActions.check({ idx: idx }));
+  };
 
   const dispatchAction = () => {};
 
@@ -30,8 +33,8 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     >
       <h3>그룹 설정</h3>
       <div style={{ width: "100%" }}>
-        {teamIdList &&
-          teamIdList.map((group: any, idx: number) => (
+        {groupCheckList &&
+          groupCheckList.map((group: any, idx: number) => (
             <div
               key={idx}
               style={{
@@ -44,10 +47,10 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
               {group.name}
 
               <FontAwesomeIcon
-                // className={initialList[idx] ? "active" : "disabled"}
+                className={group.check ? "active" : "disabled"}
                 icon={faSquareCheck}
                 onClick={() => {
-                  handleCheck(idx);
+                  handleCheck(group.teamId);
                 }}
               />
             </div>
