@@ -1,36 +1,28 @@
 import { Checkbox } from "@mui/material";
 import { useState } from "react";
 import { GroupType } from "../../../models/Group/GroupType";
-import { useAppSelector } from "../../../redux/store.hooks";
+import { getDiaryWithGroup } from "../../../redux/modules/diary";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
 import BasicModal from "../../common/Modal/BasicModal";
-
+import React, { useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faPenToSquare,
+  faHome,
+  faListUl,
+  faLocationDot,
+  faSquareCheck,
+} from "@fortawesome/free-solid-svg-icons";
 const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
-  const userGroupList = useAppSelector((state) => state.group.userGroupList);
-
+  // const userGroupList = useAppSelector((state) => state.group.userGroupList);
+  const dispatch = useAppDispatch();
   // 체크 관리
-  const [check, setCheck] = useState(Array(userGroupList.length).fill(true));
-  const handleCheck = (idx: number) => {
-    setCheck(
-      check.map((c, i) => {
-        if (i === idx) {
-          return !c;
-        } else {
-          return c;
-        }
-      })
-    );
-  };
+  const handleCheck = (idx: number) => {};
 
-  const dispatchAction = () => {
-    let lst = [];
-    for (let i in check) {
-      if (check[i]) {
-        lst.push(i);
-      }
-    }
-    teamIdList.current = lst;
-  };
+  const dispatchAction = () => {};
+
   return (
     <BasicModal
       modalButton={<button>모달 열기</button>}
@@ -38,26 +30,28 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     >
       <h3>그룹 설정</h3>
       <div style={{ width: "100%" }}>
-        {userGroupList.map((group: GroupType, idx) => (
-          <div
-            key={idx}
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            {group.name}
-            <Checkbox
-              // color="secondary"
-              checked={check[idx]}
-              onClick={() => {
-                handleCheck(idx);
+        {teamIdList &&
+          teamIdList.map((group: any, idx: number) => (
+            <div
+              key={idx}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
-            />
-          </div>
-        ))}
+            >
+              {group.name}
+
+              <FontAwesomeIcon
+                // className={initialList[idx] ? "active" : "disabled"}
+                icon={faSquareCheck}
+                onClick={() => {
+                  handleCheck(idx);
+                }}
+              />
+            </div>
+          ))}
       </div>
     </BasicModal>
   );
