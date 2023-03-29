@@ -18,6 +18,7 @@ import {
 } from "./redux/modules/garden";
 import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
 import Signup from "./pages/Signup/Signup";
+import GardenOther from "./pages/GardenOther/GardenOther";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -83,6 +84,7 @@ function App() {
             <Route path="/diary" element={<Diary />} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />
             <Route path="/garden" element={<Garden />} />
+            <Route path="/garden/:userEmail" element={<GardenOther />} />
             <Route path="/garden/edit" element={<GardenEdit />} />
             <Route path="/garden/list" element={<GardenList />} />
             <Route path="/guestbook" element={<GuestBook />} />
