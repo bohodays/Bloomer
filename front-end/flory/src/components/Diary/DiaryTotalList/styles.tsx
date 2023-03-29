@@ -1,14 +1,14 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
-  display: flex;
-  /* gap: 0.3rem; */
   .date {
-    width: 3.3rem;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     font-weight: bold;
+    white-space: nowrap;
   }
   .diary-content {
     flex: auto;
+    margin-left: 3.4rem;
+    margin-top: -1.1rem;
   }
-`
+`;

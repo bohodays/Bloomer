@@ -44,7 +44,7 @@ const Diary = () => {
       : "night"
   );
   const initialDiaryData = {
-    id: 1,
+    id: 2,
     year: today.getFullYear(),
     month: today.getMonth() + 1,
   };
@@ -55,7 +55,7 @@ const Diary = () => {
 
   useEffect(() => {
     dispatch(getDiaryWithDate(diaryData));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {
@@ -92,7 +92,7 @@ const Diary = () => {
       <div className="content-container">
         <div className="line"></div>
         <div className="diary-section">
-          <DiaryTotalList DIARY_LIST={monthDiaryList} />
+          <DiaryTotalList DIARY_LIST={monthDiaryList} month={diaryData.month} />
           <div className="empty-space"></div>
         </div>
       </div>
