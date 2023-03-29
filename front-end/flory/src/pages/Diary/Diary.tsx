@@ -92,7 +92,7 @@ const Diary = () => {
       <div className="content-container">
         <div className="line"></div>
         <div className="diary-section">
-          <DiaryTotalList DIARY_LIST={monthDiaryList} />
+          <DiaryTotalList DIARY_LIST={monthDiaryList} month={diaryData.month} />
           <div className="empty-space"></div>
         </div>
       </div>
