@@ -28,7 +28,6 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.getDetail(garden_id)), HttpStatus.OK);
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -40,7 +39,6 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.insert(gardenRequestDto)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
         }
     }
@@ -52,7 +50,6 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.update(gardenRequestDto)),HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
@@ -89,7 +86,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.getAllGardenByUserId(user_id)), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
+
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }
