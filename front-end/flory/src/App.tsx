@@ -17,11 +17,12 @@ import {
   getGardenListAction,
 } from "./redux/modules/garden";
 import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
+import Signup from "./pages/Signup/Signup";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
 const Login = React.lazy(() => import("./pages/Login/Login"));
-const Signup = React.lazy(() => import("./pages/Signup/Signup"));
+// const Signup = React.lazy(() => import("./pages/Signup/Signup"));
 // const SignupMusicSelect = React.lazy(
 //   () => import("./pages/SignupMusicSelect/SignupMusicSelect")
 // );
