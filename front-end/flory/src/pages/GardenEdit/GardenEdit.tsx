@@ -62,24 +62,43 @@ const GardenEdit = () => {
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
 
+  function base64toFile(base_data: any, filename: any) {
+    var arr = base_data.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
   const base64String: string | null = localStorage.getItem("imgFile");
-  const replacedBase64String: any = base64String?.replace(
-    /^data:image\/\w+;base64,/,
-    ""
-  );
-  const blob = new Blob([replacedBase64String], { type: "image/png" });
-  const formData: any = new FormData();
-  formData.append("file", blob);
-  console.log(typeof formData, "asdasdasdasd");
-  console.log(formData, "asdasdasdasd1111111");
-  for (let value of formData.values()) {
-    console.log(value, "value");
-  }
-  for (let key of formData.keys()) {
-    console.log(key, "key");
-  }
-  const imgSrc = formData.get("file");
-  console.log(imgSrc, "뭔가 이상한거 같음...");
+  const file = base64toFile(base64String, "image_file.png");
+  const form_data = new FormData();
+  form_data.append("file", file);
+  console.log(form_data, form_data.get("file"), "제발");
+
+  // const replacedBase64String: any = base64String?.replace(
+  //   /^data:image\/\w+;base64,/,
+  //   ""
+  // );
+  // const blob = new Blob([replacedBase64String], { type: "image/png" });
+  // const formData: any = new FormData();
+  // formData.append("file", blob);
+  // console.log(typeof formData, "asdasdasdasd");
+  // console.log(formData, "asdasdasdasd1111111");
+  // for (let value of formData.values()) {
+  //   console.log(value, "value");
+  // }
+  // for (let key of formData.keys()) {
+  //   console.log(key, "key");
+  // }
+  // const imgSrc = formData.get("file");
+  // console.log(imgSrc, "뭔가 이상한거 같음...");
 
   const handlePositionUpdate = () => {
     if (fromGarden) {
@@ -89,14 +108,17 @@ const GardenEdit = () => {
         .then(() => {
           console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
           console.log(
-            { diaryData: currentCreateDiaryData, imgFile: imgSrc },
+            {
+              diaryData: currentCreateDiaryData,
+              imgFile: form_data.get("file"),
+            },
             "확인확인"
           );
 
           dispatch(
             createDiaryAction({
               diaryData: currentCreateDiaryData,
-              imgFile: imgSrc,
+              imgFile: form_data.get("file"),
             })
           );
         })

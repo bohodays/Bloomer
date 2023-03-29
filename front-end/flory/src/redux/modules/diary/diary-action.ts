@@ -17,7 +17,11 @@ export const createDiaryAction = createAsyncThunk(
         type: "application/json",
       });
       formData.append("diary", blob);
+
       formData.append("imgSrc", imgFile);
+      console.log(typeof imgFile, "타입 확인!!");
+
+      // 테스트
       for (let value of formData.values()) {
         console.log(value, "value");
       }
