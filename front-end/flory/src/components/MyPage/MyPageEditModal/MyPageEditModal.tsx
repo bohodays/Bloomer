@@ -24,7 +24,7 @@ const MyPageEditModal = () => {
   const [email, setEmail] = useState(userInfo.email);
 
   useEffect(() => {
-    if (userInfo.img.length > 2) {
+    if (userInfo.img && userInfo.img.length > 2) {
       setPickedIdx("11");
     } else {
       setPickedIdx(userInfo.img || "");
@@ -85,7 +85,9 @@ const MyPageEditModal = () => {
             <Avatar
               size="big"
               src={userInfo.img}
-              imgIdx={userInfo.img.length > 2 ? "11" : userInfo.img}
+              imgIdx={
+                userInfo.img && userInfo.img.length > 2 ? "11" : userInfo.img
+              }
             />
             <img src={ModifyButtonImg} className="modifyButtonImg"></img>
           </ImgIcon>
