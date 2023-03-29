@@ -5,18 +5,34 @@ import { localData } from "../user/token";
 // 일기 생성
 export const createDiaryAction = createAsyncThunk(
   "CREATE",
-  async (diaryData: any, { rejectWithValue }) => {
+  async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
+    console.log(imgFile, "asdasdasdasdasdasd");
+
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      const { data } = await axios.post(`/api/diary`, diaryData, {
+
+      const formData: any = new FormData();
+      const blob = new Blob([JSON.stringify(diaryData)], {
+        type: "application/json",
+      });
+      formData.append("diary", blob);
+      formData.append("imgSrc", imgFile);
+      for (let value of formData.values()) {
+        console.log(value, "value");
+      }
+      for (let key of formData.keys()) {
+        console.log(key, "key");
+      }
+
+      const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
         },
       });
-      console.log("요청 보낸 데이터", diaryData);
 
-      console.log("일기 생성 요청 후 받는 데이터", data);
+      console.log(data, "일기 생성 요청 후 반환 값");
 
       return data;
     } catch (e) {
@@ -160,7 +176,27 @@ export const getDiaryWithMap = createAsyncThunk(
   }
 );
 
-// 일기 생성
+// 그룹 일기 목록 가져오기
+export const getDiaryWithGroup = createAsyncThunk(
+  "GET_DIARY_WITH_Group",
+  async (groupData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.post("/api/diary/list/team", groupData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("그룹 일기 목록", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 덧글 생성
 export const createCommentAction = createAsyncThunk(
   "CREATE_COMMENT",
   async (commentData: any, { rejectWithValue }) => {
@@ -176,6 +212,27 @@ export const createCommentAction = createAsyncThunk(
 
       console.log("댓글 생성 요청 후 받는 데이터", data);
 
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 상세 일기 가져오기
+
+export const getDetailDiary = createAsyncThunk(
+  "GET_DETAIL",
+  async (diaryId: number, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(`/api/diary/${diaryId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("디테일 데이터 가져오기", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);

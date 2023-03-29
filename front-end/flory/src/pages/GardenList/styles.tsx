@@ -6,7 +6,7 @@ export const SMain = styled.main`
   flex-direction: column;
   /* justify-content: space-around; */
   justify-content: center;
-  gap: 4%;
+  gap: 5%;
   width: 100%;
   height: 100%;
   background: rgb(144, 91, 241);
@@ -17,20 +17,6 @@ export const SMain = styled.main`
   );
   overflow: hidden;
   /* overflow-y: auto; */
-
-  .back-icon {
-    cursor: pointer;
-    color: var(--color-white);
-    background-color: #612fab;
-    position: absolute;
-    font-size: 1.8rem;
-    left: 1rem;
-    top: 1rem;
-    padding: 0.5rem;
-    border-radius: 50%;
-    width: 1.4rem;
-    height: 1.4rem;
-  }
 
   /* 기간을 보여주는 div를 묶는 wrapper */
   .info__wrapper {

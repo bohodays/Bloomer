@@ -9,4 +9,5 @@ export type DiaryStateType = {
   allDiaryList: DiaryType[];
   monthDiaryList: DiaryType[];
   mapDiaryList: DiaryType[];
+  groupDiaryList: DiaryType[];
 };

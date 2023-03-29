@@ -32,7 +32,6 @@ import F25 from "./F25"; // 제라늄
 
 const FlowersWrapper = () => {
   const diary = useAppSelector((state) => state.diary.diaryData);
-  console.log(diary, "꽃 심자");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,7 +40,7 @@ const FlowersWrapper = () => {
   const handleMoveToDetail = (diaryId: number, item?: any) => {
     navigate(`/diary/${diaryId}`, {
       state: {
-        diaryData: item,
+        page: "/garden",
       },
     });
   };

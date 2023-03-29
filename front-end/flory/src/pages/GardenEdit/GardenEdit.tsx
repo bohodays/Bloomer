@@ -3,26 +3,37 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
 
-import Base_map_new from "../../components/Garden/Base_map_new";
+import Base_map_new from "../../components/Garden/Park/Park_map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
-import Base_map_new_edit from "../../components/Garden/Base_map_new_edit";
+// import Base_map_new_edit from "../../components/Garden/Park/Park_map_edit";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import {
   createDiaryAction,
   updatePositionAction,
 } from "../../redux/modules/diary";
+import Beach_map_edit from "../../components/Garden/Beach/Beach_map_edit";
+import Camp_map_edit from "../../components/Garden/Camp/Camp_map_edit";
+import Park_map_edit from "../../components/Garden/Park/Park_map_edit";
+import Loading from "../Loading/Loading";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
   return (
     <>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
         {/* <Base_map_new /> */}
-        <Base_map_new_edit />
+        {/* Park 맵 */}
+        {/* <Park_map_edit /> */}
+        {/* <Base_map_new_edit /> */}
 
+        {/* Beach 맵 */}
+        {/* <Beach_map_edit /> */}
+
+        {/* Camp 맵 */}
+        <Camp_map_edit />
         {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
@@ -51,6 +62,25 @@ const GardenEdit = () => {
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
 
+  const base64String: string | null = localStorage.getItem("imgFile");
+  const replacedBase64String: any = base64String?.replace(
+    /^data:image\/\w+;base64,/,
+    ""
+  );
+  const blob = new Blob([atob(replacedBase64String)], { type: "image/png" });
+  const formData: any = new FormData();
+  formData.append("file", blob);
+  console.log(typeof formData, "asdasdasdasd");
+  console.log(formData, "asdasdasdasd1111111");
+  for (let value of formData.values()) {
+    console.log(value, "value");
+  }
+  for (let key of formData.keys()) {
+    console.log(key, "key");
+  }
+  const imgSrc = formData.get("file");
+  console.log(imgSrc, "뭔가 이상한거 같음...");
+
   const handlePositionUpdate = () => {
     if (fromGarden) {
       dispatch(updatePositionAction(diaryData)).then(() => navigate("/garden"));
@@ -58,7 +88,17 @@ const GardenEdit = () => {
       dispatch(updatePositionAction(diaryData))
         .then(() => {
           console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
-          dispatch(createDiaryAction(currentCreateDiaryData));
+          console.log(
+            { diaryData: currentCreateDiaryData, imgFile: imgSrc },
+            "확인확인"
+          );
+
+          dispatch(
+            createDiaryAction({
+              diaryData: currentCreateDiaryData,
+              imgFile: imgSrc,
+            })
+          );
         })
         .then(() => {
           navigate("/garden");

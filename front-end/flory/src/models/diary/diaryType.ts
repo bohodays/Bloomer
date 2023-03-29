@@ -14,8 +14,8 @@ export type DiaryType = {
   y: number | string;
   z: number | string;
   address: string;
-  createdTime: string | Date;
-  garden: DiaryGardenType;
+  createdTime: string;
+  garden: DiaryGardenType | null;
   flowerEmotion: DiaryFlowerType;
   groupList: DiaryGroupType[] | null;
   musicTitle: string;

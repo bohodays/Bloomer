@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const SButton = styled.button<any>`
-  left: 0;
-  top: 0;
+  left: 16px;
+  top: 16px;
   position: absolute;
+  z-index: 2;
   .back-icon {
     cursor: pointer;
     font-size: 1.8rem;

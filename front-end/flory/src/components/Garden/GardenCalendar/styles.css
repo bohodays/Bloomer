@@ -186,6 +186,6 @@
   transition: all 0.3s linear;
 }
 .calendar__wrapper:hover {
-  transform: scale(1.01);
+  /* transform: scale(1.01); */
   cursor: pointer;
 }
