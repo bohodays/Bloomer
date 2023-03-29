@@ -16,14 +16,15 @@ import {
   createGardenAction,
   getGardenListAction,
 } from "./redux/modules/garden";
+import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Signup = React.lazy(() => import("./pages/Signup/Signup"));
-const SignupMusicSelect = React.lazy(
-  () => import("./pages/SignupMusicSelect/SignupMusicSelect")
-);
+// const SignupMusicSelect = React.lazy(
+//   () => import("./pages/SignupMusicSelect/SignupMusicSelect")
+// );
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
