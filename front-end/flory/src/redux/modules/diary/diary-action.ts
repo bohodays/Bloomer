@@ -2,14 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "../../store.hooks";
 import { axiosInitializer } from "../../utils/axiosInitializer";
+import { dataReset } from "../diaryCreate/diaryCreate-slice";
 import { localData } from "../user/token";
 
 // 일기 생성
 export const createDiaryAction = createAsyncThunk(
   "CREATE",
   async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
-    console.log(imgFile, "asdasdasdasdasdasd");
-
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
@@ -21,16 +20,6 @@ export const createDiaryAction = createAsyncThunk(
       formData.append("diary", blob);
 
       formData.append("imgSrc", imgFile);
-      console.log(typeof imgFile, "타입 확인!!");
-
-      // 테스트
-      for (let value of formData.values()) {
-        console.log(value, "value");
-      }
-      for (let key of formData.keys()) {
-        console.log(key, "key");
-      }
-      console.log(imgFile, "뭐라고 뜨지?");
 
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
