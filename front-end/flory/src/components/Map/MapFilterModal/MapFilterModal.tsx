@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
 import BasicModal from "../../common/Modal/BasicModal";
 
-const MapFilterModal = () => {
+const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
 
   // 체크 관리
@@ -22,8 +22,20 @@ const MapFilterModal = () => {
     );
   };
 
+  const dispatchAction = () => {
+    let lst = [];
+    for (let i in check) {
+      if (check[i]) {
+        lst.push(i);
+      }
+    }
+    teamIdList.current = lst;
+  };
   return (
-    <BasicModal modalButton={<button>모달 열기</button>}>
+    <BasicModal
+      modalButton={<button>모달 열기</button>}
+      dispatchAction={dispatchAction}
+    >
       <h3>그룹 설정</h3>
       <div style={{ width: "100%" }}>
         {userGroupList.map((group: GroupType, idx) => (
