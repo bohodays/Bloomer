@@ -17,20 +17,6 @@ export const SMain = styled.main`
     margin-bottom: 2rem;
   }
 
-  .back-icon {
-    cursor: pointer;
-    color: var(--color-white);
-    background-color: #612fab;
-    position: absolute;
-    font-size: 1.8rem;
-    left: 1rem;
-    top: 1rem;
-    padding: 0.5rem;
-    border-radius: 50%;
-    width: 1.4rem;
-    height: 1.4rem;
-  }
-
   .header {
     /* position: absolute;
     top: 0; */

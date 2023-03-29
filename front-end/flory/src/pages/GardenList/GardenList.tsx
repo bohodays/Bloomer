@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react"
-import { SMain } from "./styles"
-import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti"
-import testGarden from "../../assets/imgs/test_garden.png"
-import Button from "../../components/common/Button/Button"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate } from "react-router-dom"
-import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar"
-import BackButton from "../../components/common/BackButton/BackButton"
-import { useSelect } from "@react-three/drei"
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
-import { getDiaryWithDate } from "../../redux/modules/diary"
-import Tooltip from "@mui/material/Tooltip"
+import React, { useState, useEffect } from "react";
+import { SMain } from "./styles";
+import { TiChevronRightOutline, TiChevronLeftOutline } from "react-icons/ti";
+import testGarden from "../../assets/imgs/test_garden.png";
+import Button from "../../components/common/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import GardenCalendar from "../../components/Garden/GardenCalendar/GardenCalendar";
+import BackButton from "../../components/common/BackButton/BackButton";
+import { useSelect } from "@react-three/drei";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryWithDate } from "../../redux/modules/diary";
+import Tooltip from "@mui/material/Tooltip";
 
 // const CARDS = 1;
-const MAX_VISIBILITY = 3
+const MAX_VISIBILITY = 3;
 
 const TEST_DATA = [
   {
@@ -49,21 +49,21 @@ const TEST_DATA = [
     nickname: "12345",
     title: null,
   },
-]
+];
 
 const Carousel = ({ children, setActiveIdx, activeIdx }: any) => {
-  const count = React.Children.count(children)
-  const [active, setActive] = useState<number>(count - 1)
+  const count = React.Children.count(children);
+  const [active, setActive] = useState<number>(count - 1);
 
   const handleClickRight = () => {
-    setActive((i) => i + 1)
-    setActiveIdx(activeIdx + 1)
-  }
+    setActive((i) => i + 1);
+    setActiveIdx(activeIdx + 1);
+  };
 
   const handleClickLeft = () => {
-    setActive((i) => i - 1)
-    setActiveIdx(activeIdx - 1)
-  }
+    setActive((i) => i - 1);
+    setActiveIdx(activeIdx - 1);
+  };
 
   return (
     <>
@@ -100,36 +100,36 @@ const Carousel = ({ children, setActiveIdx, activeIdx }: any) => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
 const GardenList = () => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   // const gardenList = useAppSelector((state) => state.garden.gardenList);
-  const CARDS_LENGTH = TEST_DATA.length
-  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH - 1)
-  const target = new Date(TEST_DATA[activeIdx].deadline)
-  const year = target.getFullYear()
-  const month = target.getMonth() + 1
-  const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList)
+  const CARDS_LENGTH = TEST_DATA.length;
+  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH - 1);
+  const target = new Date(TEST_DATA[activeIdx].deadline);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
+  const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
   const dateData = {
     // 조회할 사용자 유저 아이디
     id: 1,
     year,
     month,
-  }
+  };
 
   useEffect(() => {
-    dispatch(getDiaryWithDate(dateData))
-  }, [activeIdx])
+    dispatch(getDiaryWithDate(dateData));
+  }, [activeIdx]);
 
   return (
     <SMain>
       <BackButton
         color="purple"
         onClickAction={() => {
-          navigate("/garden")
+          navigate("/garden");
         }}
       />
 
@@ -160,7 +160,7 @@ const GardenList = () => {
         </div>
       </Tooltip>
     </SMain>
-  )
-}
+  );
+};
 
-export default GardenList
+export default GardenList;

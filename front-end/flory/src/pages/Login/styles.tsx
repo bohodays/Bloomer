@@ -38,15 +38,6 @@ export const SMain = styled.main`
     margin: 0 1rem;
   }
 
-  .back-icon {
-    cursor: pointer;
-    color: var(--color-white);
-    position: absolute;
-    font-size: 1.8rem;
-    left: 1rem;
-    top: 1rem;
-  }
-
   /* 테스트 */
   .header {
     /* position: absolute;
