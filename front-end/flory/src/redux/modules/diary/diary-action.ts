@@ -208,3 +208,24 @@ export const createCommentAction = createAsyncThunk(
     }
   }
 );
+
+// 상세 일기 가져오기
+
+export const getDetailDiary = createAsyncThunk(
+  "GET_DETAIL",
+  async (diaryId: number, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(`/api/diary/${diaryId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("디테일 데이터 가져오기", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

@@ -27,11 +27,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
 
   const navigate = useNavigate();
   const handleMoveToDetail = (diaryId: number, item?: any) => {
-    navigate(`/diary/${diaryId}`, {
-      state: {
-        diaryData: item,
-      },
-    });
+    navigate(`/diary/${diaryId}`);
   };
 
   return (

@@ -40,7 +40,7 @@ const FlowersWrapper = () => {
   const handleMoveToDetail = (diaryId: number, item?: any) => {
     navigate(`/diary/${diaryId}`, {
       state: {
-        diaryData: item,
+        page: "/garden",
       },
     });
   };
