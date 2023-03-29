@@ -67,7 +67,7 @@ const GardenEdit = () => {
     /^data:image\/\w+;base64,/,
     ""
   );
-  const blob = new Blob([atob(replacedBase64String)], { type: "image/png" });
+  const blob = new Blob([replacedBase64String], { type: "image/png" });
   const formData: any = new FormData();
   formData.append("file", blob);
   console.log(typeof formData, "asdasdasdasd");
