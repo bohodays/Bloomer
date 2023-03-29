@@ -5,8 +5,6 @@ import DiaryList from "../DiaryList/DiaryList";
 import { SMain } from "./styles";
 
 const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
-  console.log(DIARY_LIST, ",,");
-
   return (
     <>
       {DIARY_LIST.length !== 0 ? (

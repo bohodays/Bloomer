@@ -44,7 +44,7 @@ const Diary = () => {
       : "night"
   );
   const initialDiaryData = {
-    id: 1,
+    id: 2,
     year: today.getFullYear(),
     month: today.getMonth() + 1,
   };
@@ -55,7 +55,7 @@ const Diary = () => {
 
   useEffect(() => {
     dispatch(getDiaryWithDate(diaryData));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {

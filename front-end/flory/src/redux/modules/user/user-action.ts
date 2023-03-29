@@ -141,6 +141,8 @@ export const updateUserInfoAction = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log("변경값", data);
+
       return data;
     } catch (e: any) {
       alert("회원정보 업데이트 실패");

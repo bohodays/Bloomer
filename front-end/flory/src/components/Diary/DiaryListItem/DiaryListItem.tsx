@@ -23,7 +23,6 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   const content = convertContentToMaxLength(props.diary.content);
   const flowerIdx = convertNumFormat(props.diary.flowerEmotion.fid);
   const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${flowerIdx}.png`);
-  const iconRoute = require(`../../../assets/imgs/flower_icon/icon_f${flowerIdx}.png`);
 
   const navigate = useNavigate();
   const handleMoveToDetail = (diaryId: number, item?: any) => {
@@ -41,16 +40,13 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
       }}
     >
       {isDiaryPage && (
-        // <div className="page-flower__wrapper">
         <img src={iconRoute_bg} alt="flower" className="flower-image-border" />
-        // <div className="line" />
-        // </div>
       )}
       <SItem isDiaryPage={isDiaryPage}>
         {!isDiaryPage && (
           <img src={iconRoute_bg} alt="flower" className="flower-image" />
         )}
-        <div>
+        <div className="wrapper">
           <div className="title-container">
             {isPrivate && <SIcon icon={faLock} />}
             {emotion} 순간
