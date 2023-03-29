@@ -37,9 +37,12 @@ function BasicModal({
           width: "320px",
           height: "3rem",
           color: "#ffffff",
-          background1: "rgb(101,182,255)",
+          // background1: "rgb(101,182,255)",
+          // background2:
+          //   "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
+          background1: "rgb(244,175,255)",
           background2:
-            "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
+            "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
           borderRadius: "24px",
         }}
         contents="확인"

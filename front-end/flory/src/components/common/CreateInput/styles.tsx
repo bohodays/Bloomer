@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const STextarea = styled.textarea<any>`
-  height: ${(props) => (props.page === "group" ? "60px" : "50%")};
+  height: ${(props) =>
+    props.page === "group" ? "60px" : props.isTotal ? "60%" : "50%"};
   width: ${(props) => (props.page === "group" ? "100%" : "90%")};
   background: #f2f2fc;
   border-radius: ${(props) => (props.page === "group" ? "10px" : "15px")};

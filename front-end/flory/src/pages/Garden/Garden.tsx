@@ -17,7 +17,7 @@ import { SMain } from "./styles";
 
 // import Base_map_new from "../../components/Garden/Park/Park_map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
+import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
@@ -86,6 +86,10 @@ const Garden = () => {
         />
         <Scene></Scene>
       </Canvas>
+      {/* 이용안내 이동 버튼 */}
+      <button onClick={() => navigate("/info")} className="moveToInfo">
+        <FontAwesomeIcon icon={faQuestion} />
+      </button>
       {/* 정원 편집 모드 버튼 */}
       <button
         onClick={() =>
