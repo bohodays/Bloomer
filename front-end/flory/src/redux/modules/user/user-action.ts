@@ -132,7 +132,7 @@ export const updateUserInfoAction = createAsyncThunk(
       const blob = new Blob([JSON.stringify(userData)], {
         type: "application/json",
       }); //이미지 전송
-      formData.append("image", imgFile);
+      formData.append("img", imgFile);
       formData.append("memberRequestDto", blob);
 
       const { data } = await axios.put(`/api/user`, formData, {

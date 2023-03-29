@@ -24,10 +24,10 @@ const MyPageEditModal = () => {
   const [email, setEmail] = useState(userInfo.email);
 
   useEffect(() => {
-    if (userInfo.img && userInfo.img.length > 1) {
-      setPickedIdx("0");
+    if (userInfo.img.length > 2) {
+      setPickedIdx("11");
     } else {
-      setPickedIdx("1");
+      setPickedIdx(userInfo.img || "");
     }
   }, [userInfo.img]);
 
@@ -43,13 +43,14 @@ const MyPageEditModal = () => {
   const handleUpdateInfo = () => {
     const userData = {
       nickname,
+      img: pickedIdx,
       email: userInfo.email,
     };
 
-    if (pickedIdx === "11") {
-      dispatch(updateUserInfoAction({ userData, imgFile }));
-    } else {
-      dispatch(updateUserInfoAction({ userData, imgFile: pickedIdx }));
+    if(pickedIdx === "11"){
+      dispatch(updateUserInfoAction({userData, imgFile}));
+    }else{
+      dispatch(updateUserInfoAction({userData, imgFile: ""}));
     }
   };
 
@@ -69,7 +70,7 @@ const MyPageEditModal = () => {
           setpreviewImg(base64Sub); // 파일 base64 상태 업데이트
           setImgFile(e.target.files[0]); //저장을 위한 파일
           // console.log(previewImg);
-          console.log(imgFile);
+          console.log(typeof imgFile);
         }
       };
     }
@@ -79,9 +80,17 @@ const MyPageEditModal = () => {
     <BasicModal
       modalButton={
         <button>
-          <ImgIcon>
-            <Avatar size={"big"} imgIdx={0} />
-            <img src={ModifyButtonImg} className="modifyButtonImg"></img>
+          <ImgIcon
+          >
+            <Avatar
+              size="big"
+              src={userInfo.img}
+              imgIdx={userInfo.img.length > 2 ? "11" : userInfo.img}
+            />
+            <img 
+              src={ModifyButtonImg} 
+              className="modifyButtonImg"
+            ></img>
           </ImgIcon>
         </button>
       }
@@ -120,7 +129,7 @@ const MyPageEditModal = () => {
               size="medium"
               tmpsrc={previewImg}
               src={userInfo.img}
-              imgIdx={11}
+              imgIdx={"11"}
               key={11}
               status={returnPickStatus("11", pickedIdx)}
             />

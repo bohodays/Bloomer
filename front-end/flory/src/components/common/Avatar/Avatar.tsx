@@ -19,9 +19,7 @@ function Avatar({
   tmpsrc,
   src,
 }: AvatarProps): JSX.Element {
-  let imgSrc = imgIdx
-    ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
-    : require(`../../../assets/imgs/profile_icon/profile0.png`);
+  let imgSrc;
 
   // tmpsrc : 클라이언트에서 바로 가져오는 이미지src
   // src : s3에서 불러오는 이미지 키값
@@ -37,21 +35,24 @@ function Avatar({
   });
 
   useEffect(() => {
-    const params = {
-      Bucket: "bloomer205",
-      Key: `${src}`,
-    };
-    s3.getSignedUrlPromise("getObject", params)
-      .then((url) => setImageUrl(url))
-      .catch((err) => console.error(err));
+    if (imgIdx === "11" && src != null) {
+      const params = {
+        Bucket: "bloomer205",
+        Key: `${src}`,
+      };
+      s3.getSignedUrlPromise("getObject", params)
+        .then((url) => setImageUrl(url))
+        .catch((err) => console.error(err));
+    }
   }, [src]);
 
-  if (tmpsrc != null) {
-    // 파일 미리 보기 (아직 저장이 안된 상태)
-    imgSrc = tmpsrc;
-  } else if (imgIdx === 11) {
+  if (imgIdx === "11" || tmpsrc === "") {
     // s3에서 가져오기
     imgSrc = imageUrl;
+  }
+  else if (tmpsrc != null) {
+    // 파일 미리 보기 (아직 저장이 안된 상태)
+    imgSrc = tmpsrc;
   } else {
     imgSrc = imgIdx
       ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
