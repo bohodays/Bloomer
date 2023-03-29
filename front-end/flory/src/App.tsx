@@ -18,6 +18,10 @@ import {
 } from "./redux/modules/garden";
 import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
 import Signup from "./pages/Signup/Signup";
+import DiarySelect from "./pages/DiarySelect/DiarySelect";
+import DiaryCreate from "./pages/DiaryCeate/DiaryCreate";
+import Garden from "./pages/Garden/Garden";
+import GardenEdit from "./pages/GardenEdit/GardenEdit";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -29,10 +33,10 @@ const Login = React.lazy(() => import("./pages/Login/Login"));
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
-const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
-const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
-const Garden = React.lazy(() => pMinDelay(import("./pages/Garden/Garden"), 0));
-const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
+// const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
+// const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
+// const Garden = React.lazy(() => pMinDelay(import("./pages/Garden/Garden"), 0));
+// const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
 const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
 const Setting = React.lazy(() => import("./pages/Setting/Setting"));
 const DiaryMusicSlect = React.lazy(
