@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { stringify } from "querystring"
 import { useAppSelector } from "../../store.hooks"
 import { axiosInitializer } from "../../utils/axiosInitializer"
 import { localData } from "../user/token"
@@ -24,12 +23,9 @@ export const getCurrentGardenAction = createAsyncThunk(
           },
         }
       )
-
       return data
     } catch (e: any) {
-      console.log("오잉?")
       const user = useAppSelector((state) => state.user.userData)
-      console.log(user)
       return rejectWithValue(e)
     }
   }

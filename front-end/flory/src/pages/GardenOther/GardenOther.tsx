@@ -25,6 +25,8 @@ import Beach_map from "../../components/Garden/Beach/Beach_map"
 import Camp_map from "../../components/Garden/Camp/Camp_map"
 import Park_map from "../../components/Garden/Park/Park_map"
 import { getCurrentGardenAction } from "../../redux/modules/garden"
+import BackButton from "../../components/common/BackButton/BackButton"
+import { Translate } from "aws-sdk"
 
 let isInitial = true
 
@@ -57,12 +59,13 @@ const GardenOther = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const [isExist, setIsExist] = useState(false)
+  const otherGardenData = useAppSelector(
+    (state) => state.garden.otherGardenData
+  )
 
   // 보고싶은 정원 ID
-  const gardenId = useAppSelector(
-    (state) => state.garden.otherGardenData.gardenId
-  )
-  // 요청하는 user ID
+  const gardenId = otherGardenData.gardenId
+  // 보고싶은 user ID
   const requestId = parseInt(location.pathname.slice(8))
 
   useEffect(() => {
@@ -84,6 +87,19 @@ const GardenOther = () => {
     <>
       {isExist && (
         <>
+          <BackButton color="white" />
+          <div
+            style={{
+              position: "absolute",
+              top: "1.5rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: "10",
+              color: "white",
+            }}
+          >
+            {otherGardenData.nickname}님의 감정 공간입니다
+          </div>
           <ToggleButton state="other" />
           <Canvas shadows={true}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
