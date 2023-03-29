@@ -40,6 +40,11 @@ const DiaryCreate = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [groupSetting, setGroupSetting] = useState({
+    0: false,
+    1: false,
+    2: false,
+  });
 
   const navigate = useNavigate();
 
@@ -250,7 +255,12 @@ const DiaryCreate = () => {
             <h3>공개 설정</h3>
             <div className="radio__wrapper">
               <p>전체 공개</p>
-              <Radio {...controlProps("a")} />
+              <Radio
+                {...controlProps("a")}
+                // onClick={() => {
+                //   setGroupSetting(...groupSetting, groupSetting[0] :true)
+                // }}
+              />
             </div>
             <div className="radio__wrapper">
               <p>그룹 공개</p>
