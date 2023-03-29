@@ -16,14 +16,15 @@ import {
   createGardenAction,
   getGardenListAction,
 } from "./redux/modules/garden";
+import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Signup = React.lazy(() => import("./pages/Signup/Signup"));
-const SignupMusicSelect = React.lazy(
-  () => import("./pages/SignupMusicSelect/SignupMusicSelect")
-);
+// const SignupMusicSelect = React.lazy(
+//   () => import("./pages/SignupMusicSelect/SignupMusicSelect")
+// );
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
@@ -40,12 +41,13 @@ const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
 const GuestBookCreate = React.lazy(
   () => import("./pages/GuestBookCreate/GuestBookCreate")
 );
+const Info = React.lazy(() => import("./pages/Info/Info"));
 
 let isInitial = true;
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.userData);
-  const gardenId = useAppSelector((state) => state.garden.gardenData.id);
+  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   useEffect(() => {
     if (isInitial) {
@@ -86,6 +88,7 @@ function App() {
             <Route path="/guestbook/create" element={<GuestBookCreate />} />
             <Route path="/setting" element={<Setting />} />
             <Route path="/group/list" element={<GroupList />} />
+            <Route path="/info" element={<Info />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

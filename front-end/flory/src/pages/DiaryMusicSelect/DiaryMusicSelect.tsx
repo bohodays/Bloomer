@@ -87,6 +87,8 @@ const DiaryMusicSelect = () => {
       const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
+        console.log(res, "음악데이터");
+        
         setMusicData(res.payload.response);
       });
     }

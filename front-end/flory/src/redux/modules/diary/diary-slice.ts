@@ -8,6 +8,7 @@ import {
   getEmotionAction,
   getDiaryWithMap,
   updatePositionAction,
+  getDiaryWithGroup,
 } from "./diary-action";
 
 const initialState: DiaryStateType = {
@@ -17,6 +18,7 @@ const initialState: DiaryStateType = {
   allDiaryList: [],
   monthDiaryList: [],
   mapDiaryList: [],
+  groupDiaryList: [],
 };
 
 const diarySlice = createSlice({
@@ -77,9 +79,12 @@ const diarySlice = createSlice({
       })
       .addCase(getDiaryWithDate.fulfilled, (state, { payload }) => {
         state.monthDiaryList = payload.response;
-})
+      })
       .addCase(getDiaryWithMap.fulfilled, (state, { payload }) => {
         state.mapDiaryList = payload.response;
+      })
+      .addCase(getDiaryWithGroup.fulfilled, (state, { payload }) => {
+        state.groupDiaryList = payload.response;
       });
   },
 });

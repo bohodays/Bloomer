@@ -11,6 +11,7 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import { useSelect } from "@react-three/drei";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { getDiaryWithDate } from "../../redux/modules/diary";
+import Tooltip from "@mui/material/Tooltip";
 
 // const CARDS = 1;
 const MAX_VISIBILITY = 3;
@@ -113,14 +114,13 @@ const GardenList = () => {
   const month = target.getMonth() + 1;
   const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
   const dateData = {
+    // 조회할 사용자 유저 아이디
     id: 1,
     year,
     month,
   };
 
   useEffect(() => {
-    console.log("1");
-
     dispatch(getDiaryWithDate(dateData));
   }, [activeIdx]);
 
@@ -142,13 +142,23 @@ const GardenList = () => {
       <div className="wrapper">
         <Carousel setActiveIdx={setActiveIdx} activeIdx={activeIdx}>
           {TEST_DATA.map((_, i) => (
-            <img src={testGarden} alt="" key={i} />
+            <Tooltip
+              title={`${year.toString().slice(2)}년 ${month}월 공간 보러가기`}
+              placement="bottom"
+            >
+              <img src={testGarden} alt="" key={i} />
+            </Tooltip>
           ))}
         </Carousel>
       </div>
-      <div className="calendar__wrapper">
-        <GardenCalendar dateData={dateData} diaryList={monthDiaryList} />
-      </div>
+      <Tooltip
+        title={`${year.toString().slice(2)}년 ${month}월 일기 보러가기`}
+        placement="bottom"
+      >
+        <div className="calendar__wrapper">
+          <GardenCalendar dateData={dateData} diaryList={monthDiaryList} />
+        </div>
+      </Tooltip>
     </SMain>
   );
 };

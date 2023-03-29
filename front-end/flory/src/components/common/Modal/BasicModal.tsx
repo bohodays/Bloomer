@@ -14,11 +14,8 @@ function BasicModal({
   const handleClick = () => {
     // setOpen(false);
     if (dispatchAction) {
-      dispatchAction().then((res: any) => {
-        if (res) {
-          setOpen(false);
-        }
-      });
+      dispatchAction();
+      setOpen(false);
 
       // if (isDispatch) {
       // }

@@ -1,18 +1,20 @@
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import TabList from "./TabList";
-import { TabType } from "../../../models/common/tabType";
+import * as React from "react"
+import Tabs from "@mui/material/Tabs"
+import Tab from "@mui/material/Tab"
+import Typography from "@mui/material/Typography"
+import Box from "@mui/material/Box"
+import TabList from "./TabList"
+import { TabType } from "../../../models/common/tabType"
+import { useLocation, useNavigate } from "react-router-dom"
+
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+  children?: React.ReactNode
+  index: number
+  value: number
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -24,20 +26,28 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && <div>{children}</div>}
     </div>
-  );
+  )
 }
 
 const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [value, setValue] = React.useState(() => {
+    const params = new URLSearchParams(location.search)
+    return Number(params.get("tab")) || 0
+  })
 
   const switchTab = (newValue: number) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+    const params = new URLSearchParams(location.search)
+    params.set("tab", String(newValue))
+    navigate(`?${params.toString()}`, { replace: true })
+  }
 
   return (
-    <div style={{ width: "90%" }}>
+    <div style={{ width: "90%", paddingBottom:"40px" }}>
       <div>
-        <TabList tabs={props.tabs} handleChange={switchTab} value={value}/>
+        <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
       </div>
       {props.tabs.map((tab, idx) => (
         <TabPanel key={idx} value={value} index={idx}>
@@ -45,7 +55,7 @@ const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
         </TabPanel>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default BasicTabs;
+export default BasicTabs

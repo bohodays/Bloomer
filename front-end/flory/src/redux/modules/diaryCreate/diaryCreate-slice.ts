@@ -9,7 +9,6 @@ const initialState: DiaryCreateStateType = {
     fid: null,
     gid: null,
     groupList: null,
-    imgSrc: "",
     lat: "",
     lng: "",
     musicTitle: null,
@@ -18,6 +17,7 @@ const initialState: DiaryCreateStateType = {
     y: 0,
     z: 0,
   },
+  imgSrc: null,
   currentEmotionData: [],
   currentFlowerData: [],
   currentMusicData: [],
@@ -27,6 +27,9 @@ const diaryCreateSlice = createSlice({
   name: "diaryCreate",
   initialState,
   reducers: {
+    imgDataSave: (state, action) => {
+      state.imgSrc = action.payload;
+    },
     emotionDataSave: (state, action) => {
       const emotionData = action.payload.payload.response.emotions;
       const flowerData = action.payload.payload.response.flowers;
@@ -52,7 +55,7 @@ const diaryCreateSlice = createSlice({
   },
 });
 
-export const { emotionDataSave, createFlowerPosition } =
+export const { imgDataSave, emotionDataSave, createFlowerPosition } =
   diaryCreateSlice.actions;
 
 export default diaryCreateSlice.reducer;
