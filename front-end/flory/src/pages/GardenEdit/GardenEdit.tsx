@@ -120,7 +120,7 @@ const GardenEdit = () => {
         <Scene></Scene>
       </Canvas>
       <div className="info__wrapper">
-        <div className="background" onClick={() => handlePositionUpdate()}>
+        <div className="background" onClick={handlePositionUpdate}>
           <p>완료</p>
         </div>
       </div>

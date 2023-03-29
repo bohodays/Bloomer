@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./App.css";
-import DiaryDetail from "./pages/DiaryDetail/DiaryDetail";
+// import DiaryDetail from "./pages/DiaryDetail/DiaryDetail";
 import pMinDelay from "p-min-delay";
 
 // 유저 정보 관련
@@ -18,10 +18,7 @@ import {
 } from "./redux/modules/garden";
 import SignupMusicSelect from "./pages/SignupMusicSelect/SignupMusicSelect";
 import Signup from "./pages/Signup/Signup";
-import DiarySelect from "./pages/DiarySelect/DiarySelect";
-import DiaryCreate from "./pages/DiaryCeate/DiaryCreate";
-import Garden from "./pages/Garden/Garden";
-import GardenEdit from "./pages/GardenEdit/GardenEdit";
+import DiaryMusicSelect from "./pages/DiaryMusicSelect/DiaryMusicSelect";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -33,20 +30,34 @@ const Login = React.lazy(() => import("./pages/Login/Login"));
 const Map = React.lazy(() => import("./pages/Map/Map"));
 const MyPage = React.lazy(() => import("./pages/MyPage/MyPage"));
 const Diary = React.lazy(() => import("./pages/Diary/Diary"));
-// const DiaryCreate = React.lazy(() => import("./pages/DiaryCeate/DiaryCreate"));
-// const DiarySelect = React.lazy(() => import("./pages/DiarySelect/DiarySelect"));
-// const Garden = React.lazy(() => pMinDelay(import("./pages/Garden/Garden"), 0));
-// const GardenEdit = React.lazy(() => import("./pages/GardenEdit/GardenEdit"));
-const GardenList = React.lazy(() => import("./pages/GardenList/GardenList"));
-const Setting = React.lazy(() => import("./pages/Setting/Setting"));
-const DiaryMusicSlect = React.lazy(
-  () => import("./pages/DiaryMusicSelect/DiaryMusicSelect")
+const DiaryCreate = React.lazy(() =>
+  pMinDelay(import("./pages/DiaryCeate/DiaryCreate"), 1000)
 );
+const DiarySelect = React.lazy(() =>
+  pMinDelay(import("./pages/DiarySelect/DiarySelect"), 1000)
+);
+const Garden = React.lazy(() =>
+  pMinDelay(import("./pages/Garden/Garden"), 1000)
+);
+const GardenEdit = React.lazy(() =>
+  pMinDelay(import("./pages/GardenEdit/GardenEdit"), 1000)
+);
+const GardenList = React.lazy(() =>
+  pMinDelay(import("./pages/GardenList/GardenList"), 1000)
+);
+const Setting = React.lazy(() => import("./pages/Setting/Setting"));
+// const DiaryMusicSlect = React.lazy(
+//   () => import("./pages/DiaryMusicSelect/DiaryMusicSelect")
+// );
 const GuestBook = React.lazy(() => import("./pages/GuestBook/GuestBook"));
 const GuestBookCreate = React.lazy(
   () => import("./pages/GuestBookCreate/GuestBookCreate")
 );
 const Info = React.lazy(() => import("./pages/Info/Info"));
+
+const DiaryDetail = React.lazy(() =>
+  pMinDelay(import("./pages/DiaryDetail/DiaryDetail"), 1000)
+);
 
 let isInitial = true;
 function App() {
@@ -82,7 +93,7 @@ function App() {
             <Route path="/map" element={<Map />} />
             <Route path="/diary/create" element={<DiaryCreate />} />
             <Route path="/diary/select" element={<DiarySelect />} />
-            <Route path="/diary/select/music" element={<DiaryMusicSlect />} />
+            <Route path="/diary/select/music" element={<DiaryMusicSelect />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/diary" element={<Diary />} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />
