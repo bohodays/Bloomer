@@ -24,6 +24,7 @@ export const createDiaryAction = createAsyncThunk(
       for (let key of formData.keys()) {
         console.log(key, "key");
       }
+      console.log(imgFile, "뭐라고 뜨지?");
 
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
