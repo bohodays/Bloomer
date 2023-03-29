@@ -62,7 +62,24 @@ const GardenEdit = () => {
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
 
-  const imgFile = useAppSelector((state) => state.diaryCreate.imgSrc);
+  const base64String: string | null = localStorage.getItem("imgFile");
+  const replacedBase64String: any = base64String?.replace(
+    /^data:image\/\w+;base64,/,
+    ""
+  );
+  const blob = new Blob([atob(replacedBase64String)], { type: "image/png" });
+  const formData: any = new FormData();
+  formData.append("file", blob);
+  console.log(typeof formData, "asdasdasdasd");
+  console.log(formData, "asdasdasdasd1111111");
+  for (let value of formData.values()) {
+    console.log(value, "value");
+  }
+  for (let key of formData.keys()) {
+    console.log(key, "key");
+  }
+  const imgSrc = formData.get("file");
+  console.log(imgSrc, "뭔가 이상한거 같음...");
 
   const handlePositionUpdate = () => {
     if (fromGarden) {
@@ -72,12 +89,15 @@ const GardenEdit = () => {
         .then(() => {
           console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
           console.log(
-            { diaryData: currentCreateDiaryData, imgFile },
+            { diaryData: currentCreateDiaryData, imgFile: imgSrc },
             "확인확인"
           );
 
           dispatch(
-            createDiaryAction({ diaryData: currentCreateDiaryData, imgFile })
+            createDiaryAction({
+              diaryData: currentCreateDiaryData,
+              imgFile: imgSrc,
+            })
           );
         })
         .then(() => {

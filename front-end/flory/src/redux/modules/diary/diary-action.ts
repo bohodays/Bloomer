@@ -6,16 +6,24 @@ import { localData } from "../user/token";
 export const createDiaryAction = createAsyncThunk(
   "CREATE",
   async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
+    console.log(imgFile, "asdasdasdasdasdasd");
+
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
 
-      const formData = new FormData();
+      const formData: any = new FormData();
       const blob = new Blob([JSON.stringify(diaryData)], {
         type: "application/json",
       });
       formData.append("diary", blob);
       formData.append("imgSrc", imgFile);
+      for (let value of formData.values()) {
+        console.log(value, "value");
+      }
+      for (let key of formData.keys()) {
+        console.log(key, "key");
+      }
 
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
@@ -23,6 +31,8 @@ export const createDiaryAction = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log(data, "일기 생성 요청 후 반환 값");
 
       return data;
     } catch (e) {
