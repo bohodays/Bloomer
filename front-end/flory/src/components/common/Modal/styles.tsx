@@ -51,4 +51,10 @@ export const SModalContent = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .active {
+    color: red;
+  }
+  .disabled {
+    color: grey;
+  }
 `;
