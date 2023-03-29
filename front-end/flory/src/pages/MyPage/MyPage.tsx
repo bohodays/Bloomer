@@ -80,18 +80,62 @@ const MyPage = () => {
   const Bardata = [
     [
       {
-        "emotion": "01",
+        "emotion": "기쁨",
+        "count": 3,
+        "color": {
+          "type": "linearGradient",
+          "id": "gradient",
+          "colors": [
+            {
+              "offset": "0%",
+              "color": "#FFE897"
+            },
+            {
+              "offset": "100%",
+              "color": "#ff6b6b"
+            }
+          ]
+        }
+      },
+      {
+        "emotion": "안정",
         "count": 1,
-        "emotionColor": "hsl(354, 70%, 50%)",
+        "color": "linear-gradient(to right, #FFE897, #ff6b6b)",
+      },
+      {
+        "emotion": "불안",
+        "count": 1,
+        "color": "linear-gradient(to right, #FFE897, #ff6b6b)",
+      },
+      {
+        "emotion": "당황",
+        "count": 1,
+        "color": "hsl(354, 70%, 50%)",
+      },
+      {
+        "emotion": "슬픔",
+        "count": 1,
+        "color": "hsl(354, 70%, 50%)",
+      },
+      {
+        "emotion": "상처",
+        "count": 1,
+        "color": "hsl(354, 70%, 50%)",
+      },
+      {
+        "emotion": "분노",
+        "count": 1,
+        "color": "hsl(354, 70%, 50%)",
       }
     ]
   ];
 
   const bgIcons = [];
   const keys = ["01", "06", "09", "12", "15", "18", "21"]
-  for (var i = 0; i < 6; i++) {
+  const emotions =["기쁨", "안정","불안","당황","슬픔","상처","분노"];
+  for (var i = 0; i < 7; i++) {
     var img_icon = require(`../../assets/imgs/flower_bgicon/bgicon_f${keys[i]}.png`);
-    bgIcons.push(<img className="emotion__flower" key={i} src={img_icon} />);
+    bgIcons.push(<img className="emotion__flower" key={i} src={img_icon}/>);
   }
 
   const distPanel = (
@@ -119,7 +163,6 @@ const MyPage = () => {
             <div style={{display:"flex"}}>
               {bgIcons}
             </div>
-            
           </div>
           } 
       />

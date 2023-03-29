@@ -16,6 +16,7 @@ export const SPost = styled.div`
     -webkit-background-clip: text;
     font-weight: bolder;
     display: inline-block;
+    padding-bottom:5px;
   }
 
   .addition{
