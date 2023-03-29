@@ -211,4 +211,26 @@ public class DiaryController {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/statistics/week/{userId}")
+    public ResponseEntity<?> getEmotionsInWeek(@PathVariable Long userId){
+        try{
+            Map<String,Integer> result = diaryService.getEmotionsInWeek(userId);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/statistics/month/{userId}")
+    public ResponseEntity<?> getEmotionsInMonth(@PathVariable Long userId){
+        try{
+            Map<String,Integer> result = diaryService.getEmotionsInMonth(userId);
+            return new ResponseEntity<>(new SuccessResponse(result),HttpStatus.OK);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

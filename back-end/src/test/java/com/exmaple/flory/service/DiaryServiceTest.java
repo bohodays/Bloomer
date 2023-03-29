@@ -78,10 +78,10 @@ public class DiaryServiceTest {
             .build();
 
     private final Emotion emotion = Emotion.builder()
-            .id(1L).largeCategory("large").build();
+            .id(1L).largeCategory("기쁨").build();
 
     private final Flower flower = Flower.builder()
-            .id(1L).name("flower").language("language").smallCategory("small").emotion(emotion).build();
+            .id(1L).name("flower").language("language").smallCategory("기쁨").emotion(emotion).build();
 
     private final FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
             .fid(1L).eid(1L).largeCategory(emotion.getLargeCategory()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).language(flower.getLanguage()).build();
@@ -568,5 +568,49 @@ public class DiaryServiceTest {
         List<DiaryDto> result = diaryService.getPublicDiaryList();
 
         assertEquals(result.size(),diaries.size());
+    }
+
+    @DisplayName("지난주 대비 감정 통계")
+    @Test
+    public void getEmotionsInWeekTest(){
+        List<Diary> diaries = new ArrayList<>();
+        List<Garden> gardenList = new ArrayList<>();
+
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+        diary.setFlower(flower);
+        diary.setMusic(music);
+
+        diaries.add(diary);
+        gardenList.add(garden);
+
+        when(gardenRepository.findAllByUserId(any())).thenReturn(gardenList);
+        when(diaryRepository.findDiaryInWeek(any())).thenReturn(diaries);
+
+        Map<String,Integer> result = diaryService.getEmotionsInWeek(1L);
+
+        assertEquals(result.get("기쁨"),1);
+    }
+
+    @DisplayName("이번달 감정 통계")
+    @Test
+    public void getEmotionsInMonthTest(){
+        List<Diary> diaries = new ArrayList<>();
+        List<Garden> gardenList = new ArrayList<>();
+
+        Diary diary = diaryDto.toEntity();
+        diary.setGarden(garden);
+        diary.setFlower(flower);
+        diary.setMusic(music);
+
+        diaries.add(diary);
+        gardenList.add(garden);
+
+        when(gardenRepository.findAllByUserId(any())).thenReturn(gardenList);
+        when(diaryRepository.findDiaryInMonth(any())).thenReturn(diaries);
+
+        Map<String,Integer> result = diaryService.getEmotionsInMonth(1L);
+
+        assertEquals(result.get("기쁨"),1);
     }
 }
