@@ -28,7 +28,6 @@ function Bar(props: Props) {
         borderRadius={5}
         enableGridY={false}
         legends={[]}
-        // add custom tooltip for the emotion property
         tooltip={(bar) => (
           <div>
             <strong>{bar.data.emotion}</strong>
@@ -36,12 +35,10 @@ function Bar(props: Props) {
             Count: {bar.data.count}
           </div>
         )}
-        // render emotion property as an image
         layers={[
           "bars",
           "markers",
-          "legends",
-          CustomEmotionLayer
+          "legends"
         ]}
       />
     </BarBody>
@@ -49,30 +46,6 @@ function Bar(props: Props) {
   );
 }
 
-const CustomEmotionLayer = (props:any) => {
-  const { bars, xScale, yScale } = props;
-
-  return (
-    <g>
-      {bars.map((bar:any) => {
-        if (bar.data && bar.data.emotion) {
-          return (
-            <image
-              key={bar.id}
-              x={xScale(bar.data.emotion) + xScale.bandwidth() / 2 - 8}
-              y={yScale(bar.data.count) - 30}
-              width={16}
-              height={16}
-              xlinkHref={require(`../../../../assets/imgs/flower_bgicon/bgicon_f${bar.data.emotion}.png`).default}
-            />
-          );
-        } else {
-          return null;
-        }
-      })}
-    </g>
-  );
-};
 
 const BarBody = styled.div`
   // display: flex;

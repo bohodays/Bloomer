@@ -16,7 +16,6 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
 import Avatar from "../../components/common/Avatar/Avatar";
 import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
-import iconRoute_bg from "../../assets/imgs/flower_bgicon/bgicon_f01.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -82,11 +81,18 @@ const MyPage = () => {
     [
       {
         "emotion": "01",
-        "count": 188,
+        "count": 1,
         "emotionColor": "hsl(354, 70%, 50%)",
       }
     ]
   ];
+
+  const bgIcons = [];
+  const keys = ["01", "06", "09", "12", "15", "18", "21"]
+  for (var i = 0; i < 6; i++) {
+    var img_icon = require(`../../assets/imgs/flower_bgicon/bgicon_f${keys[i]}.png`);
+    bgIcons.push(<img className="emotion__flower" key={i} src={img_icon} />);
+  }
 
   const distPanel = (
     <div>
@@ -110,6 +116,10 @@ const MyPage = () => {
         content={
           <div>
             <Bar data={Bardata[0]} />
+            <div style={{display:"flex"}}>
+              {bgIcons}
+            </div>
+            
           </div>
           } 
       />

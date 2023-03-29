@@ -57,7 +57,6 @@ function Avatar({
     console.log("미리보기");
     imgSrc = tmpsrc;
   } else if(imgIdx !="11"){
-    console.log(imgIdx);
     imgSrc = imgIdx
       ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
       : require(`../../../assets/imgs/profile_icon/profile0.png`);
