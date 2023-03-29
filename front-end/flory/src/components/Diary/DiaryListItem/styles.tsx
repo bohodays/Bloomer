@@ -46,6 +46,10 @@ export const SItem = styled.div<any>`
       font-size: 0.8rem;
       font-weight: bold;
     }
+    .img-container {
+      width: 100%;
+      border-radius: 18px;
+    }
     .content-container {
       margin: 0 !important;
       width: 100% !important;

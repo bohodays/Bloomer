@@ -85,4 +85,4 @@ function Avatar({
     </SAvatar>
   );
 }
-export default React.memo(Avatar);
+export default Avatar;
