@@ -132,7 +132,7 @@ const MyPage = () => {
         header={<MyPageEditModal />}
         name={userInfo.nickname}
         body={
-          <div style={{ textAlign: "center", padding: "1px" }}>{ userInfo.email }</div>
+          <div style={{ textAlign: "center", padding: "1px", color:"gray", fontSize:"14px" }}>{ userInfo.email }</div>
         }
         height="100%"
         className="profile"
