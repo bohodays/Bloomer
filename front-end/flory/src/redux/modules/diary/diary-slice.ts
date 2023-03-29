@@ -9,6 +9,7 @@ import {
   getDiaryWithMap,
   updatePositionAction,
   getDiaryWithGroup,
+  getStatisticsMonth
 } from "./diary-action";
 
 const initialState: DiaryStateType = {
@@ -19,6 +20,7 @@ const initialState: DiaryStateType = {
   monthDiaryList: [],
   mapDiaryList: [],
   groupDiaryList: [],
+  monthStat: []
 };
 
 const diarySlice = createSlice({
@@ -85,7 +87,11 @@ const diarySlice = createSlice({
       })
       .addCase(getDiaryWithGroup.fulfilled, (state, { payload }) => {
         state.groupDiaryList = payload.response;
-      });
+      })
+      .addCase(getStatisticsMonth.fulfilled, (state, { payload }) => {
+        state.monthStat = payload.response;
+      })
+      ;
   },
 });
 

@@ -208,3 +208,25 @@ export const createCommentAction = createAsyncThunk(
     }
   }
 );
+
+//사용자의 작성했던 이번달 일기들의 감정 통계
+export const getStatisticsMonth = createAsyncThunk(
+  "GET_STatistiCES_MONTH",
+  async (userId: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(
+        `/api/diary/statistics/month/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
