@@ -28,6 +28,7 @@ import json
 from .models import Emotion, Flower, Diary, Garden, Music,Member
 from django.core import serializers
 from django.db.models import Q, F, Value
+from django.db.models import Count
 max_len = 64
 batch_size = 64
 
@@ -126,14 +127,24 @@ def nearestUser(request, emotion,user_id):
     'fid__eid__large_category', 'mid__title'
 ).first()
 
-        music = ''
-        serialized_list = 'there is no recommendation'
+        serialized_list = ''
 
         if queryset:
             music = queryset['mid__title']
             music_list = get_recommendations(music)
             print(music_list)
             serialized_list = json.dumps(music_list)
+
+        else:
+            print("대응되는 queryset 없음")
+            result = (Music.objects.annotate(count=Count('diary')).order_by('-count')[:5].values('id', 'title', 'count'))
+
+            ret = []
+
+            for music in result:
+                ret.append(music['title'])
+
+            serialized_list = json.dumps(ret)
 
         return JsonResponse({"result" : serialized_list})
         
@@ -205,7 +216,7 @@ def cos_sim(A, B):
 
 def convertVector(member):
     cur = []
-    #클래식]
+    #클래식
     cur.append(int.from_bytes(member.classic, byteorder='big', signed=False))
 
     #재즈
