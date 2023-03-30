@@ -23,6 +23,9 @@ import {
 import { DiaryType } from "../../models/diary/diaryType";
 import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
 import { convertMusicFormat } from "../../utils/utils";
+import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
+import { FormControlLabel, FormGroup, Radio } from "@mui/material";
+import GroupItems from "../../components/Diary/GroupItems/GroupItems";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -59,16 +62,17 @@ const DiaryDetail = () => {
   };
   const [diary, setDiary] = useState<DiaryType>(initialDiary);
   const userId = useAppSelector((state) => state.user.userData.userId);
+  const navigate = useNavigate();
+  const commentInput = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+  const [mapView, setMapView] = useState<boolean>(false);
+
   let isSelf = false;
   if (diary !== initialDiary) {
     if (diary.garden?.member.userId === userId) {
       isSelf = true;
     }
   }
-  const navigate = useNavigate();
-  const commentInput = useRef<HTMLInputElement>(null);
-  const dispatch = useAppDispatch();
-  const [mapView, setMapView] = useState<boolean>(false);
 
   const onClickLocation = () => {
     setMapView(!mapView);
@@ -114,6 +118,8 @@ const DiaryDetail = () => {
     navigate("/garden");
   };
 
+  const editAction = () => {};
+
   const updateDiary = () => {
     dispatch(getDetailDiary(diaryId)).then((data: any) => {
       setDiary(data.payload.response);
@@ -152,14 +158,19 @@ const DiaryDetail = () => {
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
+        {/* 본인 글일 때 수정 삭제 하는 부분 */}
         {isSelf && (
           <div className="setting">
-            <SettingPopover color="black" deleteAction={deleteAction} />
+            <SettingPopover
+              color="black"
+              deleteAction={deleteAction}
+              editAction={editAction}
+            />
           </div>
         )}
 
         {/* 다이어리 내용 영역 */}
-        <img className="diary-img" src={diary.imgSrc} />
+        <img className="diary-img" src={diary.imgSrc} alt="img-loading,," />
         <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
