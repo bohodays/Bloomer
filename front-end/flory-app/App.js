@@ -8,8 +8,10 @@ export default function App() {
       <View style={{ width: "100%", height: "100%" }}>
         <WebView
           source={{ uri: "https://j8a205.p.ssafy.io/" }}
+          javaScriptEnabled={true}
           onLoad={console.log("Loaded!")}
-          style={{ marginTop: 20 }}
+          domStorageEnabled={true}
+          geolocationEnabled={true}
         />
       </View>
     </View>
