@@ -64,17 +64,23 @@ const DiaryMusicSelect = () => {
   const getMusicUrls = (musicArray: any) => {
     let test: any = [];
 
+    console.log("s3에 넘길 음악 데이터", musicArray);
+
     musicArray.map((item: any) => {
       const params = {
         Bucket: "bloomer205",
         Key: `music/${item.title}.mp3`,
       };
+      console.log("s3에 넘기는 음악 제목", item.title);
+
       s3.getSignedUrlPromise("getObject", params)
         .then((url) => {
           test.push(url);
         })
         .catch((err) => console.error(err))
         .finally(() => {
+          console.log("최종 데이터", test);
+
           setMusicUrls(test);
         });
     });
@@ -87,7 +93,7 @@ const DiaryMusicSelect = () => {
       const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
-        console.log(res, "음악데이터");
+        console.log(res, "dispatch로 받은 음악데이터");
 
         setMusicData(res.payload.response);
       });
@@ -97,6 +103,8 @@ const DiaryMusicSelect = () => {
     if (musicData !== null) {
       getMusicUrls(musicData);
       if (musicData.length === 5 && musicUrls.length === 5) {
+        console.log(musicData, musicUrls);
+
         const newItem = [];
         for (let i = 0; i < 5; i++) {
           const splitedTitle = musicData[i].title.split("-");
@@ -106,10 +114,14 @@ const DiaryMusicSelect = () => {
 
           newItem.push([newTitle, musicUrls[i]]);
         }
+        console.log(newItem, "새로운 데이터");
+
         setTotalData(newItem);
       }
     }
   }, [dispatch, musicData]);
+
+  console.log("전체 음악", totalData);
 
   const handleItemClick = (key: string) => {
     setSelectedItems({ ...initItem, [key]: !selectedItems[key] });
@@ -139,6 +151,8 @@ const DiaryMusicSelect = () => {
       </div>
       {totalData.length > 0 &&
         totalData.map((item: any, i: number) => {
+          console.log("돌리는 값", item);
+
           return (
             <DiaryMusicItem
               isSelected={selectedItems[i + 1]}

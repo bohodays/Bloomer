@@ -23,7 +23,6 @@ export const getMusicInfoAction = createAsyncThunk(
           },
         }
       );
-      console.log(data, "음악 데이터");
 
       return data;
     } catch (e) {
