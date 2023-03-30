@@ -103,6 +103,8 @@ const DiaryMusicSelect = () => {
     if (musicData !== null) {
       getMusicUrls(musicData);
       if (musicData.length === 5 && musicUrls.length === 5) {
+        console.log(musicData, musicUrls);
+
         const newItem = [];
         for (let i = 0; i < 5; i++) {
           const splitedTitle = musicData[i].title.split("-");
@@ -112,10 +114,14 @@ const DiaryMusicSelect = () => {
 
           newItem.push([newTitle, musicUrls[i]]);
         }
+        console.log(newItem, "새로운 데이터");
+
         setTotalData(newItem);
       }
     }
   }, [dispatch, musicData]);
+
+  console.log("전체 음악", totalData);
 
   const handleItemClick = (key: string) => {
     setSelectedItems({ ...initItem, [key]: !selectedItems[key] });
@@ -145,6 +151,8 @@ const DiaryMusicSelect = () => {
       </div>
       {totalData.length &&
         totalData.map((item: any, i: number) => {
+          console.log("돌리는 값", item);
+
           return (
             <DiaryMusicItem
               isSelected={selectedItems[i + 1]}
