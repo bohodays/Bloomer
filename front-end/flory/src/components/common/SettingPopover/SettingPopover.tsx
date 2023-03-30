@@ -54,11 +54,11 @@ const SettingPopover = ({
       >
         <ListItemButton onClick={handleEdit} dense>
           {/* <ListItemText primary="Spam" /> */}
-          <p style={{ fontSize: "10px" }}>수정</p>
+          <p style={{ fontSize: "0.75rem" }}>수정</p>
         </ListItemButton>
         <ListItemButton onClick={handleDelete}>
           {/* <ListItemText primary="Spam" /> */}
-          <p>삭제</p>
+          <p style={{ fontSize: "0.75rem" }}>삭제</p>
         </ListItemButton>
       </Popover>
     </div>
