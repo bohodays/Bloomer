@@ -88,7 +88,7 @@ const DiaryMusicSelect = () => {
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
         console.log(res, "음악데이터");
-        
+
         setMusicData(res.payload.response);
       });
     }
@@ -137,7 +137,7 @@ const DiaryMusicSelect = () => {
       <div className="info__wrapper">
         <p>일기의 배경음악을 선택해주세요.</p>
       </div>
-      {totalData.length &&
+      {totalData.length > 0 &&
         totalData.map((item: any, i: number) => {
           return (
             <DiaryMusicItem
