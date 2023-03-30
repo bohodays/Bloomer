@@ -35,9 +35,9 @@ export const getUserDataToTokenAction = createAsyncThunk(
       });
       // dispatch(getCurrentGardenAction(data.response.userId));
       dispatch(getGardenListAction(data.response.userId));
+      dispatch(updateAccessToken());
       return data;
     } catch (e: any) {
-      dispatch(updateAccessToken());
       return rejectWithValue(e);
     }
   }
@@ -108,10 +108,12 @@ export const updateAccessToken = createAsyncThunk(
           localData.setRefreshToken(data.data.response.refreshToken);
         })
         .then(() => {
-          dispatch(getUserDataToTokenAction());
+          // dispatch(getUserDataToTokenAction());
         });
-      return await dispatch(getUserDataToTokenAction());
+      // return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
+      localData.remove("accessToken");
+      localData.remove("refreshToken");
       return rejectWithValue(e);
     }
   }

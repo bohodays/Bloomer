@@ -1,14 +1,14 @@
-import React from "react"
-import Navbar from "../../components/common/Navbar/Navbar"
-import { logoutAction } from "../../redux/modules/user"
-import { localData } from "../../redux/modules/user/token"
-import { useAppDispatch } from "../../redux/store.hooks"
-import { SMain } from "./styles"
+import React, { useState } from "react";
+import Navbar from "../../components/common/Navbar/Navbar";
+import { logoutAction } from "../../redux/modules/user";
+import { localData } from "../../redux/modules/user/token";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { SMain } from "./styles";
 
-import { ReactComponent as LoadingImg } from "../../assets/imgs/loading.svg"
-import Loading from "../Loading/Loading"
-import { useNavigate } from "react-router"
-import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAsset"
+import { ReactComponent as LoadingImg } from "../../assets/imgs/loading.svg";
+import Loading from "../Loading/Loading";
+import { useNavigate } from "react-router";
+import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAsset";
 
 // const Snowflake = ({ style }: any) => {
 //   return (
@@ -41,8 +41,8 @@ import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAss
 // )
 
 const Main = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   // 로그아웃 연습
   // const handleLogout = () => {
   //   const accessToken = localData.getAccessToken();
@@ -52,11 +52,11 @@ const Main = () => {
   // };
 
   const handleMoveLogin = () => {
-    navigate("/login")
-  }
+    navigate("/login");
+  };
   const handleMoveSignUp = () => {
-    navigate("signup")
-  }
+    navigate("signup");
+  };
 
   return (
     <SMain>
@@ -78,7 +78,7 @@ const Main = () => {
       </div>
       {/* <Navbar /> */}
     </SMain>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

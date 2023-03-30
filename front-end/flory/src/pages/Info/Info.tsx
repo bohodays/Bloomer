@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
+import BackButton from "../../components/common/BackButton/BackButton";
 import SubTitle from "../../components/Info/SubTitle/SubTitle";
 import { SMain } from "./styles";
 
 const Info = () => {
   return (
     <SMain>
+      <BackButton color="purple" />
       <div className="head">
         <h1 id="title">Bloomer</h1>
         <div className="text-container">
