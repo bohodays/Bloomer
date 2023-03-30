@@ -52,6 +52,15 @@ export const convertTimeFormat = (date: string | Date) => {
   );
 };
 
+// 년.월.일 형식으로 바꾸기
+export const convertDateFormat = (date: string) => {
+  const target = new Date(date);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
+  const day = target.getDate();
+  return year + "." + month + "." + day;
+};
+
 // 내용 미리보기 형식
 export const convertContentToMaxLength = (content: string) => {
   if (content.length > 10) {

@@ -5,6 +5,7 @@ import garden from "./modules/garden";
 import weather from "./modules/weather";
 import diaryCreate from "./modules/diaryCreate";
 import group from "./modules/group";
+import guestBook from "./modules/guestBook";
 
 export const reducer = combineReducers({
   user,
@@ -13,4 +14,5 @@ export const reducer = combineReducers({
   diaryCreate,
   weather,
   group,
+  guestBook,
 });
