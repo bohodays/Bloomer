@@ -12,6 +12,7 @@ import {
   convertEmotionFormat,
 } from "../../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import Avatar from "../../common/Avatar/Avatar";
 
 const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
@@ -39,13 +40,25 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
         <img src={iconRoute_bg} alt="flower" className="flower-image-border" />
       )}
       <SItem isDiaryPage={isDiaryPage}>
-        {!isDiaryPage && (
-          <img src={iconRoute_bg} alt="flower" className="flower-image" />
-        )}
         <div className="wrapper">
           <div className="title-container">
-            {isPrivate && <SIcon icon={faLock} />}
-            {emotion} 순간
+            {!isDiaryPage && (
+              <img src={iconRoute_bg} alt="flower" className="flower-image" />
+            )}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {!isDiaryPage && (
+                <p style={{ fontSize: "0.75rem" }}>
+                  {props.diary.garden?.member.nickname}
+                </p>
+              )}
+              {isPrivate && <SIcon icon={faLock} />}
+              {emotion} 순간
+            </div>
           </div>
           {/* 이미지 경로 받았을 때 수정되어야 함! */}
           {isContainImage && (
