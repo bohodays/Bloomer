@@ -46,7 +46,7 @@ export const SMain = styled.main`
     background: linear-gradient(
       60deg,
       rgba(84, 58, 183, 1) 0%,
-      rgba(0, 172, 193, 1) 100%
+      rgba(255, 160, 211, 1) 100%
     );
     color: white;
   }

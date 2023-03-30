@@ -25,7 +25,6 @@ const SettingPopover = ({
   setSelectedGroupIds,
   diary,
 }: any): JSX.Element => {
-  console.log(diary);
   let currentDiary: any;
   if (diary) {
     currentDiary = {
