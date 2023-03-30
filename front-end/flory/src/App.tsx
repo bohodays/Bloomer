@@ -46,6 +46,7 @@ const GuestBookCreate = React.lazy(
   () => import("./pages/GuestBookCreate/GuestBookCreate")
 );
 const Info = React.lazy(() => import("./pages/Info/Info"));
+const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
 
 let isInitial = true;
 function App() {
@@ -85,6 +86,7 @@ function App() {
             <Route path="/mypage" element={withAuth(<MyPage />)} />
             <Route path="/diary" element={withAuth(<Diary />)} />
             <Route path="/diary/:diaryId" element={<DiaryDetail />} />
+            <Route path="/gardenTheme" element={<GardenTheme />} />
             <Route path="/garden" element={withAuth(<Garden />)} />
             <Route path="/garden/:userId" element={<GardenOther />} />
             <Route path="/garden/edit" element={<GardenEdit />} />
