@@ -16,7 +16,7 @@ import Modal from "@mui/material/Modal";
 
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
-import BasicModal from "../../components/common/Modal/BasicModal";
+import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 import { PlaceType } from "../../models/map/placeType";

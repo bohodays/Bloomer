@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "../../common/Avatar/Avatar";
-import BasicModal from "../../common/Modal/BasicModal";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import { ImgIcon, SForm } from "./styles";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { updateUserInfoAction } from "../../../redux/modules/user";

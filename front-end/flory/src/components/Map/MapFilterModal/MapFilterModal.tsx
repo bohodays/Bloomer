@@ -4,7 +4,7 @@ import { GroupType } from "../../../models/Group/GroupType";
 import { getDiaryWithGroup } from "../../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Button from "../../common/Button/Button";
-import BasicModal from "../../common/Modal/BasicModal";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
