@@ -26,6 +26,7 @@ import { convertMusicFormat } from "../../utils/utils";
 import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
+import { getGroupInfoAction } from "../../redux/modules/group";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -66,6 +67,12 @@ const DiaryDetail = () => {
   const commentInput = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const [mapView, setMapView] = useState<boolean>(false);
+
+  // 그룹 수정 관련
+  const [groupSetting, setGroupSetting] = useState("전체공개");
+  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+  const [group, setGroup] = useState<any>(null);
+  const [selectedValue, setSelectedValue] = React.useState("a");
 
   let isSelf = false;
   if (diary !== initialDiary) {
@@ -126,10 +133,28 @@ const DiaryDetail = () => {
     });
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const controlProps = (item: string) => ({
+    checked: selectedValue === item,
+    onChange: handleChange,
+    value: item,
+    name: "color-radio-button-demo",
+    inputProps: { "aria-label": item },
+  });
+
   useEffect(() => {
     if (diary === initialDiary) {
       // isInitial = false;
       updateDiary();
+    }
+
+    if (group === null) {
+      dispatch(getGroupInfoAction()).then((res) => {
+        setGroup(res.payload.response);
+      });
     }
   }, []);
 
@@ -165,6 +190,12 @@ const DiaryDetail = () => {
               color="black"
               deleteAction={deleteAction}
               editAction={editAction}
+              group={group}
+              groupSetting={groupSetting}
+              setGroupSetting={setGroupSetting}
+              selectedGroupIds={selectedGroupIds}
+              setSelectedGroupIds={setSelectedGroupIds}
+              diary={diary}
             />
           </div>
         )}
