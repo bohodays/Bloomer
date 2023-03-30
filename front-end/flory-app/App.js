@@ -7,11 +7,12 @@ export default function App() {
     <View style={styles.container}>
       <View style={{ width: "100%", height: "100%" }}>
         <WebView
-          source={{ uri: "https://j8a205.p.ssafy.io/" }}
+          source={{ uri: "http://j8a205.p.ssafy.io/" }}
           javaScriptEnabled={true}
           onLoad={console.log("Loaded!")}
           domStorageEnabled={true}
           geolocationEnabled={true}
+          cacheEnabled={true}
         />
       </View>
     </View>
