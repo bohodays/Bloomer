@@ -1,6 +1,7 @@
 import { faMusic, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
+import { convertMusicFormat } from "../../../utils/utils";
 import { SMusicWrapper } from "./styles";
 
 interface Props {
@@ -47,7 +48,10 @@ const DiaryMusicItem = ({
   return (
     <SMusicWrapper isSelected={isSelected} onClick={handlePlay}>
       <FontAwesomeIcon className="icon music" icon={faMusic} />
-      <p>{musicTitle.slice(0, 28)}...</p>
+      <p>
+        {convertMusicFormat(musicTitle).slice(0, 28)}{" "}
+        {musicTitle.length > 28 ? "…" : null}
+      </p>
       <audio ref={audioControl} src={musicUrl} controls id="myAudio"></audio>
       <FontAwesomeIcon
         className={`icon play`}

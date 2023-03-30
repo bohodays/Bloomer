@@ -19,8 +19,12 @@ export const convertMusicFormat = (title: string) => {
       idx = i;
     }
   }
-  let newTitle = title.slice(0, idx);
+  let newTitle = title;
+  if (idx > 0) {
+    newTitle = title.slice(0, idx);
+  }
   newTitle = newTitle.replace(/-/g, " ");
+  newTitle = newTitle.replace(/_/g, " ");
   return newTitle;
 };
 
