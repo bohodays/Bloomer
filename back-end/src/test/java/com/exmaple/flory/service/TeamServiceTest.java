@@ -319,8 +319,10 @@ class TeamServiceTest {
 
         when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
         when(userTeamRepository.findAllByTidAndStatus(any(Team.class), eq(0))).thenReturn(userTeamList);
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
+        when(userTeamRepository.findByUidAndTid(any(), any())).thenReturn(Optional.ofNullable(userTeam));
 
-        List<TeamMemberResponseDto> result = teamService.signTeamMember(teamId);
+        List<TeamMemberResponseDto> result = teamService.signTeamMember(teamId, 1L);
 
         assertThat(result.size()).isEqualTo(teamMemberResponseDtoList.size());
     }
