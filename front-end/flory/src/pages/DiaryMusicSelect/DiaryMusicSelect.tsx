@@ -100,7 +100,7 @@ const DiaryMusicSelect = () => {
     }
 
     // let test;
-    if (musicData !== null) {
+    if (musicData !== null && !totalData.length) {
       getMusicUrls(musicData);
       if (musicData.length === 5 && musicUrls.length === 5) {
         console.log(musicData, musicUrls);
@@ -119,7 +119,7 @@ const DiaryMusicSelect = () => {
         setTotalData(newItem);
       }
     }
-  }, [dispatch, musicData]);
+  }, [dispatch, musicData, totalData]);
 
   console.log("전체 음악", totalData);
 

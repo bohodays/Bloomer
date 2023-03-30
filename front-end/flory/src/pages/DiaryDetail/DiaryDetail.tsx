@@ -184,7 +184,7 @@ const DiaryDetail = () => {
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
         {/* 본인 글일 때 수정 삭제 하는 부분 */}
-        {isSelf && (
+        {isSelf && diary && (
           <div className="setting">
             <SettingPopover
               color="black"
