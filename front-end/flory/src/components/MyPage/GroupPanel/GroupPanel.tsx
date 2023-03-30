@@ -14,12 +14,20 @@ function GroupPanel({}): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // const [userGroupList, setUserGroupList] = useState(null);``
+  const bgIcons: JSX.Element[] = [];
 
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
 
   useEffect(() => {
     dispatch(getGroupInfoAction());
   }, []);
+
+  for (var i = 1; i < 26; i++) {
+    var img_icon;
+    if(i<10) img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`);
+    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`);
+    bgIcons.push(<img className="icon_flower" key={i} src={img_icon}/>);
+  }
 
   // console.log(userGroupList);
   return (
@@ -35,17 +43,26 @@ function GroupPanel({}): JSX.Element {
               <Accordion
                 key={group.teamId}
                 title={`${group.name} (${group.userTeamList.length})`}
-                contents={group.userTeamList.map((member: any) => (
-                  <SMember key={member.userId}>
-                    <Avatar
-                      size="small"
-                      // tmpsrc={}
-                      imgIdx={1}
-                      key={1}
-                    />
-                    <div className="memberName">{member.nickname}</div>
-                  </SMember>
-                ))}
+                contents={group.userTeamList.map((member: any, index:any) => {
+                  const random = Math.floor(Math.random() * bgIcons.length);
+                  return (
+                    <SMember key={member.userId}>
+                      {member.img && member.img.length > 2 ? (
+                        <Avatar
+                          size="small"
+                          src={member.img}
+                          imgIdx={"11"}
+                          key={index}
+                        />
+                      ) : (
+                        <Avatar size="small" imgIdx={member.img} key={index} />
+                      )}
+                      <br />
+                      <div className="memberName">{member.nickname}</div>
+                      {bgIcons[random]}
+                    </SMember>
+                  );
+                })}
               />
             ))}
           </div>

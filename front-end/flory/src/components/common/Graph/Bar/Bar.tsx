@@ -30,33 +30,51 @@ function Bar(props: Props) {
         indexBy="emotion"
         // padding={0.3}
         groupMode="grouped"
-        valueScale={{ type: "linear" }}
-        indexScale={{ type: "band", round: true }}
-        borderRadius={15}
-        enableGridY={false}
-        legends={[]}
+        // valueScale={{ type: "linear", min: -20, max: 20 }}
+        indexScale={{ type: "band"}}
+        
+        // axisBottom={{
+        //   tickSize: 0,
+        //   legend: "",
+        //   axisLine: {
+        //     stroke: "#999999",
+        //     strokeWidth: 1
+        //   }
+        // }}        
+        
         layers={[
           // "bars",
+          "axes",
           "legends",
           (props) => {
             const { bars } = props;
+
+            const gradients = data.map((d: any) => {
+              const stops = d.color.colors.map((stop: any, i: number) => (
+                <stop key={i} offset={stop.offset} stopColor={stop.color} />
+              ));
+              return (
+                <linearGradient key={d.emotion} id={d.color.id}>
+                  {stops}
+                </linearGradient>
+              );
+            });
+
             return (
               <g>
-                <defs>
-                  <linearGradient id="gradient">
-                    {data[0].color.colors.map((stop: any, i: number) => (
-                      <stop key={i} offset={stop.offset} stopColor={stop.color} />
-                    ))}
-                  </linearGradient>
-                </defs>
+                <defs>{gradients}</defs>
                 {bars.map((bar: any, index: number) => (
                   <React.Fragment key={bar.key}>
                     <rect
-                      x={bar.x + 14} // transform 값 변경
+                      x={bar.x + 17}
                       y={bar.y}
                       rx={10}
                       ry={15}
-                      fill={hoveredBarIndex === index ? "#FFE897" : "url(#gradient)"}
+                      fill={
+                        hoveredBarIndex === index
+                          ? "#C2F9B9"
+                          : `url(#gradient-${index})`
+                      }
                       width={bar.width - 35}
                       height={bar.height}
                       onMouseOver={() => handleBarMouseOver(index)}
@@ -64,7 +82,7 @@ function Bar(props: Props) {
                     />
                     {hoveredBarIndex === index && (
                       <text
-                        x={bar.x + bar.width / 2 -5}
+                        x={bar.x + bar.width / 2 - 5}
                         y={bar.y + bar.height / 2}
                         dy=".35em"
                         textAnchor="middle"
@@ -74,9 +92,8 @@ function Bar(props: Props) {
                           {bar.data.data.emotion}
                         </tspan>
                         <tspan x={bar.x + bar.width / 2 - 5} dy="1.2em">
-                          {bar.data.data.count}
+                          {bar.data.value}
                         </tspan>
-
                       </text>
                     )}
                   </React.Fragment>
@@ -91,12 +108,12 @@ function Bar(props: Props) {
 }
 
 const BarBody = styled.div`
-  // display: flex;
   align-items: center;
   cursor: pointer;
-
-  height: 200px;
-
+  height: 180px;
+  user-select: none;
+  padding-top: 15px;
 `;
 
 export default Bar;
+

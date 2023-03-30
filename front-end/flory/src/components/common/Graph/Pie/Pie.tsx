@@ -91,9 +91,11 @@ const PieBody = styled.div`
   // display: flex;
   align-items: center;
   cursor: pointer;
-
-  height: 20vh;
-  margin-bottom : 5vh;
+  padding-top: 10px;
+  height: 200px;
+  user-select: none;
+  margin-bottom : 10px;
+  overflow: visible 
 `;
 export default Pie;
 

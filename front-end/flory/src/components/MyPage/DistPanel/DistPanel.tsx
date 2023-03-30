@@ -28,9 +28,11 @@ function DistPanel({}): JSX.Element {
 
     const bgIcons = [];
     const keys = ["01", "06", "09", "12", "15", "18", "21"]
-    const emotions =["기쁨", "안정", "불안", "당황", "슬픔", "상처", "분노"];
+    const emotions = ["기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"];
     const emotionKey = ["joy", "stable", "flustered", "angry", "anxiety", "hurt", "sadness"];
+    const colorKey = ["#FFE897", "#C2F9B9", "#D4AAFA", "#FFB59E", "#A5DFFF", "#6972C0", "#FF8C9B"];
     let monthCnt = 0, weekCnt = 0;
+    let maxCnt = 0, maxEmotion = "기쁨";
 
     for (var i = 0; i < 7; i++) {
       //한달
@@ -41,6 +43,11 @@ function DistPanel({}): JSX.Element {
       });
       monthCnt += monthStat[emotionKey[i]];
 
+      if(maxCnt < monthStat[emotionKey[i]]){
+        maxCnt = monthStat[emotionKey[i]];
+        maxEmotion = emotions[i];
+      }
+
       //지난주
       var img_icon = require(`../../../assets/imgs/flower_bgicon/bgicon_f${keys[i]}.png`);
       bgIcons.push(<img className="emotion__flower" key={i} src={img_icon}/>);
@@ -49,20 +56,21 @@ function DistPanel({}): JSX.Element {
         count: weekStat[emotionKey[i]],
         color:{
           type: "linearGradient",
-            id: "gradient",
-            colors: [
-              {
-                "offset": "0%",
-                "color": "#FFE897"
-              },
-              {
-                "offset": "100%",
-                "color": "#ff6b6b"
-              }
-            ]
+          id: `gradient-${i}`,
+          colors: [
+            {
+              "offset": "0%",
+              "color": colorKey[i]
+            },
+            {
+              "offset": "100%",
+              "color": "#ffffff"
+            }
+          ]
         }
       })
       weekCnt += weekStat[emotionKey[i]];
+      
     }
       
     return (
@@ -78,7 +86,7 @@ function DistPanel({}): JSX.Element {
             monthCnt > 0 ? (
               <div>
                 <div className="inner-title">
-                  이번 달 현재까지 가장 많이 기록된 감정은 기쁨입니다
+                  이번 달 현재까지 가장 많이 기록된 감정은 <span style={{color:"red"}}>{maxEmotion}</span>입니다
                 </div>
                 <Pie data={Piedata} />
               </div>
@@ -98,7 +106,7 @@ function DistPanel({}): JSX.Element {
                 </div>
             </div>
             ) : (
-              <div>감정을 기록해보세요</div>
+              <div className="default">감정을 기록해보세요</div>
             )
           } 
         />
