@@ -11,6 +11,7 @@ import {
   getAllGuestBookList,
 } from "../../redux/modules/guestBook"
 import { useLocation, useNavigate } from "react-router"
+import { gardenType } from "../../models/garden/gardenType"
 
 const GuestBookCreate = () => {
   const [backgroundColor, setBackGroundColor] = useState("#f4f39e")
@@ -18,7 +19,8 @@ const GuestBookCreate = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const gardenId = location.state.gardenId
+  const gardenData = location.state.gardenData
+  const gardenId = gardenData.gardenId
   const userId = useAppSelector((state) => state.user.userData.userId)
 
   const handleChangeBackGroundColor = () => {}
@@ -35,7 +37,7 @@ const GuestBookCreate = () => {
       color: backgroundColor,
     }
     dispatch(addGuestBook(guestData)).then(() => {
-      navigate("/guestBook", { state: { gardenId } })
+      navigate("/guestBook", { state: { gardenData } })
     })
   }
 

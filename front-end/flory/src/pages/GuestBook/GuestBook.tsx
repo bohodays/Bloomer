@@ -12,29 +12,51 @@ const GuestBook = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const gardenId = location.state.gardenId
+  const gardenData = location.state !== null ? location.state.gardenData : null
+  const gardenId = gardenData !== null ? gardenData.gardenId : null
+
+  console.log(gardenData, "sssssssssssssss")
 
   const guestBookList = useAppSelector((state) => state.guestBook.guestBookList)
 
   useEffect(() => {
-    dispatch(getAllGuestBookList(gardenId))
-  }, [location])
+    if (gardenId !== null) {
+      dispatch(getAllGuestBookList(gardenId))
+    }
+  }, [])
 
   const degArray = [2, -2, 0, 2, 2, -2]
 
+  console.log("받은 코멘트 리스트", guestBookList)
+
   return (
-    <SMain>
-      <BackButton color="black" />
-      <div
-        className="create"
-        onClick={() => navigate("/guestbook/create", { state: { gardenId } })}
-      >
-        <FontAwesomeIcon icon={faPenToSquare} />
-      </div>
-      {guestBookList.map((item, index) => {
-        return <GuestBookComment info={item} deg={degArray[index % 6]} />
-      })}
-    </SMain>
+    <>
+      {gardenId === null ? (
+        <div>잘못된 접근입니다</div>
+      ) : (
+        <SMain>
+          <BackButton color="black" />
+          <div>{gardenData.nickname}님의 방명록입니다</div>
+          <div
+            className="create"
+            onClick={() =>
+              navigate("/guestbook/create", { state: { gardenData } })
+            }
+          >
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </div>
+          {guestBookList.map((item, index) => {
+            return (
+              <GuestBookComment
+                info={item}
+                deg={degArray[index % 6]}
+                key={index}
+              />
+            )
+          })}
+        </SMain>
+      )}
+    </>
   )
 }
 

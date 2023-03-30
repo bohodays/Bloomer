@@ -36,6 +36,8 @@ export const SSection = styled.section<any>`
     margin-top: 1rem;
     text-align: left;
     font-size: 0.85rem;
+    width: 100%;
+    word-break: break-all;
   }
 
   .note {
@@ -55,6 +57,7 @@ export const SSection = styled.section<any>`
     -ms-transform: rotate(2deg);
     transform: rotate(${(props) => props.deg}deg);
     width: 20rem;
+    /* width: 10rem; */
     font-size: 1em;
   }
   .note:after {

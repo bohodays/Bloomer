@@ -103,7 +103,6 @@ export const getAllGuestBookList = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       })
-
       return data
     } catch (e) {
       return rejectWithValue(e)

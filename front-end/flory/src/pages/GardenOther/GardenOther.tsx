@@ -72,7 +72,7 @@ const GardenOther = () => {
   const handleMoveToGuestBook = () => {
     navigate("/guestbook", {
       state: {
-        gardenId,
+        gardenData: otherGardenData,
       },
     })
   }
