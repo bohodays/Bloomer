@@ -1,15 +1,25 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"
 
 export const SSection = styled.section<any>`
+  position: relative;
   padding: 2rem 0;
+  display: grid;
 
   .header {
     display: flex;
     align-items: center;
+    gap: 10px;
   }
 
   .user-name {
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1rem;
+  }
+
+  .setting {
+    position: absolute;
+    top: 10px;
+    right: 20px;
   }
 
   .fhywNn {
@@ -24,6 +34,8 @@ export const SSection = styled.section<any>`
 
   .comment {
     margin-top: 1rem;
+    text-align: left;
+    font-size: 0.85rem;
   }
 
   .note {
@@ -63,5 +75,6 @@ export const SSection = styled.section<any>`
   .date {
     margin-top: 1rem;
     text-align: right;
+    font-size: 0.7rem;
   }
-`;
+`

@@ -58,6 +58,7 @@ const Scene = () => {
 const GardenOther = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [isExist, setIsExist] = useState(false)
   const otherGardenData = useAppSelector(
     (state) => state.garden.otherGardenData
@@ -67,6 +68,14 @@ const GardenOther = () => {
   const gardenId = otherGardenData.gardenId
   // 보고싶은 user ID
   const requestId = parseInt(location.pathname.slice(8))
+
+  const handleMoveToGuestBook = () => {
+    navigate("/guestbook", {
+      state: {
+        gardenId,
+      },
+    })
+  }
 
   useEffect(() => {
     dispatch(getCurrentGardenAction(requestId))
@@ -88,6 +97,7 @@ const GardenOther = () => {
       {isExist && (
         <>
           <BackButton color="white" />
+
           <div
             style={{
               position: "absolute",
@@ -100,6 +110,7 @@ const GardenOther = () => {
           >
             {otherGardenData.nickname}님의 감정 공간입니다
           </div>
+          <button onClick={handleMoveToGuestBook}>방명록</button>
           <ToggleButton state="other" />
           <Canvas shadows={true}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}

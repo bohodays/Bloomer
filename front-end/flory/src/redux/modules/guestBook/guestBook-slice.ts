@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { GuestBookStateType } from "../../../models/guestBook/GuestBookStateType";
-import { getAllGuestBookList } from "./guestBook-action";
+import { createSlice } from "@reduxjs/toolkit"
+import { GuestBookStateType } from "../../../models/guestBook/GuestBookStateType"
+import { addGuestBook, getAllGuestBookList } from "./guestBook-action"
 
 // const initialState: GroupStateType = {
 //   userGroupList: [],
@@ -13,7 +13,7 @@ import { getAllGuestBookList } from "./guestBook-action";
 // };
 const initialState: GuestBookStateType = {
   guestBookList: [],
-};
+}
 
 const guestBookSlice = createSlice({
   name: "guestBook",
@@ -33,13 +33,10 @@ const guestBookSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAllGuestBookList.fulfilled, (state, { payload }) => {
-      state.guestBookList = payload.response;
-    });
-    // .addCase(getGroupInfoAction.rejected, (state, { payload }) => {
-    //   console.log("그룹 불러오기 실패");
-    // });
+      state.guestBookList = payload.response
+    })
   },
-});
+})
 
-export default guestBookSlice.reducer;
+export default guestBookSlice.reducer
 // export const guestBookActions = guestBookSlice.actions;
