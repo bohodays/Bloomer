@@ -6,35 +6,19 @@ export const SMain = styled.main<any>`
   display: flex;
   gap: 0.3rem;
 
-  /* .page-flower__wrapper {
-    position: relative;
-    z-index: -10;
-  } */
-
   .flower-image-border {
-    background-color: #ffe897;
     border-radius: 50%;
     height: 2.3rem;
-    /* padding: 0.4rem; */
     border: 3px solid #ececec;
     z-index: -1;
   }
-
-  /* & .line { */
-  /* position: absolute; */
-  /* border-left: 4px solid #ececec; */
-  /* height: 130px; */
-  /* z-index: -4; */
-  /* left: 1.15rem; */
-  /* overflow-y: hidden; */
-  /* } */
 `;
 
 export const SItem = styled.div<any>`
   flex: auto;
   display: flex;
   gap: 1rem;
-  align-items: center;
+  /* align-items: center; */
   z-index: -2;
 
   background-color: #f6f2ff;
@@ -49,42 +33,53 @@ export const SItem = styled.div<any>`
     /* padding: 7px; */
   }
 
-  .title-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 0.4rem;
-  }
-
-  .content-container {
+  .wrapper {
     width: 100%;
-    margin-bottom: 0.4rem;
-
-    font-size: 0.5rem;
-    line-height: 1.25rem;
-    /* 줄바꿈 관련 */
-    /* word-break: break-all;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2; */
-    margin: 0;
-  }
-
-  .info-container {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    align-items: center;
-    color: #8a8a8a;
-    font-size: 0.4rem;
+    flex-direction: column;
+    gap: 5px;
 
-    .comment-section {
+    .title-container {
       display: flex;
-      gap: 0.2rem;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .img-container {
+      width: 100%;
+      border-radius: 18px;
+    }
+    .content-container {
+      margin: 0 !important;
+      width: 100% !important;
+      /* margin-bottom: 0.4rem; */
+
+      font-size: 0.5rem;
+      line-height: 1.25rem;
+      /* 줄바꿈 관련 */
+      /* word-break: break-all;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; */
+      /* margin: 0; */
+    }
+
+    .info-container {
+      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      align-items: center;
+      color: #8a8a8a;
+      font-size: 0.4rem;
+
+      .comment-section {
+        display: flex;
+        gap: 0.2rem;
+      }
     }
   }
 `;

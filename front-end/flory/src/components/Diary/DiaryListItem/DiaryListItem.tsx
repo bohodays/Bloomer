@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faImage, faLock } from "@fortawesome/free-solid-svg-icons";
 import { SIcon, SItem, SMain } from "./styles";
 
-import testFlower from "../../../assets/imgs/flower_icon/Violet Flower.png";
+import testFlower from "../../../assets/imgs/day_background.png";
 import { DiaryType } from "../../../models/diary/diaryType";
 import {
   convertContentToMaxLength,
@@ -23,7 +23,6 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   const content = convertContentToMaxLength(props.diary.content);
   const flowerIdx = convertNumFormat(props.diary.flowerEmotion.fid);
   const iconRoute_bg = require(`../../../assets/imgs/flower_bgicon/bgicon_f${flowerIdx}.png`);
-  const iconRoute = require(`../../../assets/imgs/flower_icon/icon_f${flowerIdx}.png`);
 
   const navigate = useNavigate();
   const handleMoveToDetail = (diaryId: number, item?: any) => {
@@ -37,23 +36,23 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
       }}
     >
       {isDiaryPage && (
-        // <div className="page-flower__wrapper">
         <img src={iconRoute_bg} alt="flower" className="flower-image-border" />
-        // <div className="line" />
-        // </div>
       )}
       <SItem isDiaryPage={isDiaryPage}>
         {!isDiaryPage && (
           <img src={iconRoute_bg} alt="flower" className="flower-image" />
         )}
-        <div>
+        <div className="wrapper">
           <div className="title-container">
             {isPrivate && <SIcon icon={faLock} />}
             {emotion} 순간
           </div>
+          {/* 이미지 경로 받았을 때 수정되어야 함! */}
+          {isContainImage && (
+            <img src={testFlower} alt="img" className="img-container" />
+          )}
           <div className="content-container">{content}</div>
           <div className="info-container">
-            <div>{isContainImage && <SIcon icon={faImage} />}</div>
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
               <span>

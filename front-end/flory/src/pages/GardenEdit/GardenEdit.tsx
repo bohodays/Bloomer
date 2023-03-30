@@ -17,6 +17,7 @@ import Beach_map_edit from "../../components/Garden/Beach/Beach_map_edit";
 import Camp_map_edit from "../../components/Garden/Camp/Camp_map_edit";
 import Park_map_edit from "../../components/Garden/Park/Park_map_edit";
 import Loading from "../Loading/Loading";
+import { dataReset } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
 const Scene = () => {
@@ -26,14 +27,14 @@ const Scene = () => {
         <ambientLight intensity={0.4} />
         {/* <Base_map_new /> */}
         {/* Park 맵 */}
-        {/* <Park_map_edit /> */}
+        <Park_map_edit />
         {/* <Base_map_new_edit /> */}
 
         {/* Beach 맵 */}
         {/* <Beach_map_edit /> */}
 
         {/* Camp 맵 */}
-        <Camp_map_edit />
+        {/* <Camp_map_edit /> */}
         {/* <Base_map /> */}
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
@@ -62,45 +63,67 @@ const GardenEdit = () => {
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
 
-  const base64String: string | null = localStorage.getItem("imgFile");
-  const replacedBase64String: any = base64String?.replace(
-    /^data:image\/\w+;base64,/,
-    ""
-  );
-  const blob = new Blob([atob(replacedBase64String)], { type: "image/png" });
-  const formData: any = new FormData();
-  formData.append("file", blob);
-  console.log(typeof formData, "asdasdasdasd");
-  console.log(formData, "asdasdasdasd1111111");
-  for (let value of formData.values()) {
-    console.log(value, "value");
+  function base64toFile(base_data: any, filename: any) {
+    var arr = base_data.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
   }
-  for (let key of formData.keys()) {
-    console.log(key, "key");
-  }
-  const imgSrc = formData.get("file");
-  console.log(imgSrc, "뭔가 이상한거 같음...");
+
+  // const replacedBase64String: any = base64String?.replace(
+  //   /^data:image\/\w+;base64,/,
+  //   ""
+  // );
+  // const blob = new Blob([replacedBase64String], { type: "image/png" });
+  // const formData: any = new FormData();
+  // formData.append("file", blob);
+  // console.log(typeof formData, "asdasdasdasd");
+  // console.log(formData, "asdasdasdasd1111111");
+  // for (let value of formData.values()) {
+  //   console.log(value, "value");
+  // }
+  // for (let key of formData.keys()) {
+  //   console.log(key, "key");
+  // }
+  // const imgSrc = formData.get("file");
+  // console.log(imgSrc, "뭔가 이상한거 같음...");
 
   const handlePositionUpdate = () => {
+    // 가든에서 왔으면 꽃 움직이게만 하기
     if (fromGarden) {
       dispatch(updatePositionAction(diaryData)).then(() => navigate("/garden"));
+      // 일기 작성 flow에서 왔으면 일기 저장 로직 수행
     } else {
       dispatch(updatePositionAction(diaryData))
         .then(() => {
-          console.log(currentCreateDiaryData, "요청 보내기 직전 정보");
-          console.log(
-            { diaryData: currentCreateDiaryData, imgFile: imgSrc },
-            "확인확인"
-          );
+          const base64String: string | null = localStorage.getItem("imgFile");
+
+          let imgFile = null;
+          if (base64String) {
+            const file = base64toFile(base64String, "image_file.png");
+            const form_data = new FormData();
+            form_data.append("file", file);
+
+            imgFile = form_data.get("file");
+          }
 
           dispatch(
             createDiaryAction({
               diaryData: currentCreateDiaryData,
-              imgFile: imgSrc,
+              imgFile,
             })
           );
+          dispatch(dataReset());
         })
         .then(() => {
+          localStorage.removeItem("imgFile");
           navigate("/garden");
         });
     }
@@ -120,7 +143,7 @@ const GardenEdit = () => {
         <Scene></Scene>
       </Canvas>
       <div className="info__wrapper">
-        <div className="background" onClick={() => handlePositionUpdate()}>
+        <div className="background" onClick={handlePositionUpdate}>
           <p>완료</p>
         </div>
       </div>

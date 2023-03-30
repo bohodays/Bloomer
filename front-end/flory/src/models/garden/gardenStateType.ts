@@ -1,7 +1,8 @@
-import { ReduxStateType } from "../reduxStateType";
-import { gardenType } from "./gardenType";
+import { ReduxStateType } from "../reduxStateType"
+import { gardenType } from "./gardenType"
 
 export type GardenStateType = {
-  gardenList: gardenType[];
-  gardenData: gardenType;
-};
+  gardenList: gardenType[]
+  gardenData: gardenType
+  otherGardenData: gardenType
+}
