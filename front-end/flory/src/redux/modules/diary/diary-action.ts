@@ -18,7 +18,6 @@ export const createDiaryAction = createAsyncThunk(
         type: "application/json",
       });
       formData.append("diary", blob);
-
       formData.append("imgSrc", imgFile);
 
       const { data } = await axios.post(`/api/diary`, formData, {
@@ -29,6 +28,58 @@ export const createDiaryAction = createAsyncThunk(
       });
 
       console.log(data, "일기 생성 요청 후 반환 값");
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 일기 삭제
+export const deleteDiaryAction = createAsyncThunk(
+  "DELETE",
+  async (diary_id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/diary/${diary_id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("일기 삭제 완료", data);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 일기 수정
+export const modifyDiaryAction = createAsyncThunk(
+  "MODIFY",
+  async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+
+      const formData: any = new FormData();
+      const blob = new Blob([JSON.stringify(diaryData)], {
+        type: "application/json",
+      });
+      formData.append("diary", blob);
+      formData.append("imgSrc", imgFile);
+
+      const { data } = await axios.put(`/api/diary`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(data, "일기 수정 요청 후 반환 값");
 
       return data;
     } catch (e) {
@@ -215,7 +266,6 @@ export const createCommentAction = createAsyncThunk(
 );
 
 // 상세 일기 가져오기
-
 export const getDetailDiary = createAsyncThunk(
   "GET_DETAIL",
   async (diaryId: number, { rejectWithValue }) => {
