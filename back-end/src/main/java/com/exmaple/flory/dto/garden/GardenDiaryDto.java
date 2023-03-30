@@ -1,7 +1,6 @@
 package com.exmaple.flory.dto.garden;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
-import com.exmaple.flory.entity.Music;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +18,6 @@ public class GardenDiaryDto {
 
     private MemberResponseDto member;
 
-    private Music music;
+    private String musicTitle;
 
 }

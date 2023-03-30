@@ -9,6 +9,7 @@ import com.exmaple.flory.service.MemberService;
 import com.exmaple.flory.util.ResponseHandler;
 import com.exmaple.flory.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -29,8 +32,9 @@ public class MemberController {
         try{
             MemberResponseDto memberResponseDto = memberService.findMemberInfoByUserId(SecurityUtil.getCurrentMemberId());
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -40,18 +44,21 @@ public class MemberController {
         try{
             MemberResponseDto memberResponseDto = memberService.findMemberInfoByEmail(email);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(RuntimeException e) {
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/logout")
     public ResponseEntity<?> logout() {
-        try{
+        try {
             memberService.logout(SecurityUtil.getCurrentMemberId()); // SecurityContext에 저장된 id값을 가져온다.
             return new ResponseEntity<>(new SuccessResponse("로그아웃"), HttpStatus.OK);
-        }catch (Exception e){
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -62,8 +69,11 @@ public class MemberController {
         try{
             MemberResponseDto memberResponseDto = memberService.updateMember(memberRequestDto, multipartFile);
             return new ResponseEntity<>(new SuccessResponse(memberResponseDto),HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch(IOException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -73,7 +83,9 @@ public class MemberController {
         try{
             memberService.deleteMember(email);
             return new ResponseEntity<>(new SuccessResponse("멤버 삭제 되었습니다."),HttpStatus.OK);
-        }catch (Exception e){
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }

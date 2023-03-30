@@ -1,26 +1,40 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
+import com.exmaple.flory.dto.emotion.EmotionDataDto;
+import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.entity.*;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 @Slf4j
 public class DiaryService {
+
+    @Autowired
+    private S3Uploader s3Uploader;
+
     @Autowired
     private MusicRepository musicRepository;
     @Autowired
@@ -49,27 +63,35 @@ public class DiaryService {
     private UserTeamRepository userTeamRepository;
 
     @Transactional
-    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto) throws Exception {
+    public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto, Optional<MultipartFile> multipartFile) throws IOException {
         Diary diary = diaryRequestDto.toEntity();
+        log.info("Diary: {}",diaryRequestDto);
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
-        Optional<Music> music = musicRepository.findById(diaryRequestDto.getMid());
+        Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryRequestDto.getMusicTitle()));
 
-        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
+        log.info("Garden: {}",garden.get());
+        log.info("Flower: {}",flower.get());
+        log.info("Music: {}",music.get());
+
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+        if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
+        if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
         Flower flowerData = flower.get();
 
         diary.setGarden(garden.get());
         diary.setFlower(flowerData);
         diary.setMusic(music.get());
-        diary.setX("0");
-        diary.setY("0");
-        diary.setZ("0");
+
+        if(!multipartFile.isEmpty()){
+            String uploadImg = s3Uploader.upload(multipartFile.get());
+            diary.setImgSrc(uploadImg);
+        }
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         result.setFlowerEmotion(getFlowerEmotion(flowerData));
-        result.setMusic(music.get());
 
         if(diaryRequestDto.getPublicStatus().equals("그룹공개")){
             List<Long> groups = diaryRequestDto.getGroupList();
@@ -86,7 +108,7 @@ public class DiaryService {
             for(Long id: diaryRequestDto.getGroupList()){
                 Optional<Team> team = teamRepository.findById(id);
 
-                if(team.isEmpty()) throw new Exception();
+                if(team.isEmpty()) throw new CustomException(ErrorCode.INVALID_TEAM);
 
                 groupList.add(team.get());
             }
@@ -101,17 +123,16 @@ public class DiaryService {
         return result;
     }
 
-    public DiaryDto getDiary(Long diaryId) throws Exception {
+    public DiaryDto getDiary(Long diaryId){
         Optional<Diary> diary = diaryRepository.findById(diaryId);
 
         if(diary.isEmpty()){
-            throw new Exception();
+            throw new CustomException(ErrorCode.NO_DIARY);
         }
 
         DiaryDto result = diary.get().toDto();
         result.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
         result.setCommentList(getCommentList(result));
-        result.setMusic(diary.get().getMusic());
 
         if(result.getPublicStatus().equals("그룹공개")){
             setGroupList(result);
@@ -129,27 +150,28 @@ public class DiaryService {
             return 1;
         }
         else{
-            return 0;
+            throw new CustomException(ErrorCode.NO_DIARY);
         }
     }
 
     @Transactional
-    public DiaryDto updateDiary(DiaryRequestDto diaryDto) throws Exception{
+    public DiaryDto updateDiary(DiaryRequestDto diaryDto){
         Optional<Diary> dir = diaryRepository.findById(diaryDto.getId());
 
-        if(dir.isEmpty()) throw new Exception();
+        if(dir.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
 
         Optional<Garden> garden = gardenRepository.findById(diaryDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryDto.getFid());
-        Optional<Music> music = musicRepository.findById(diaryDto.getMid());
+        Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryDto.getMusicTitle()));
 
-        if(garden.isEmpty() || flower.isEmpty() || music.isEmpty()) throw new Exception();
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+        if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
+        if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
         Diary diary = dir.get();
         log.info("Diary: {}",diary);
 
         setUpdateDiary(diaryDto,diary);
-
 
         diary.setGarden(garden.get());
         diary.setFlower(flower.get());
@@ -178,17 +200,16 @@ public class DiaryService {
         result.setCreatedTime(dir.get().getCreatedTime());
         result.setCommentList(getCommentList(result));
         result.setFlowerEmotion(getFlowerEmotion(flower.get()));
-        result.setMusic(music.get());
         setGroupList(result);
 
         return result;
     }
 
-    public List<DiaryDto> getDiaryListByGarden(Long gardenId, Long requestId) throws Exception {
+    public List<DiaryDto> getDiaryListByGarden(Long gardenId, Long requestId){
 
         Optional<Garden> garden = gardenRepository.findById(gardenId);
         List<Diary> diaryList;
-        if(garden.isEmpty()) throw new Exception();
+        if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
 
         log.info("생성자:{}, 요청:{}",garden.get().getMember().getUserId(),requestId);
 
@@ -216,7 +237,6 @@ public class DiaryService {
             DiaryDto diaryDto = diary.toDto();
             diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
             diaryDto.setCommentList(getCommentList(diaryDto));
-            diaryDto.setMusic(diary.getMusic());
             setGroupList(diaryDto);
 
             if(diary.getPublicStatus().equals("그룹공개")){
@@ -229,7 +249,7 @@ public class DiaryService {
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListByUser(Long memberId, Long requestId) throws Exception {
+    public List<DiaryDto> getDiaryListByUser(Long memberId, Long requestId){
 
         List<Diary> diaryList = getDiaryListInUser(memberId, requestId);
         List<DiaryDto> diaryDtoList = new ArrayList<>();
@@ -239,14 +259,13 @@ public class DiaryService {
             diaryDto.setCommentList(getCommentList(diaryDto));
             diaryDto.setFlowerEmotion(getFlowerEmotion(diaryList.get(i).getFlower()));
             setGroupList(diaryDto);
-            diaryDto.setMusic(diaryList.get(i).getMusic());
             diaryDtoList.add(diaryDto);
         }
 
         return diaryDtoList;
     }
 
-    public List<DiaryDto> getDiaryListInMap(Map<String, String> info) throws Exception {
+    public List<DiaryDto> getDiaryListInMap(Map<String, String> info){
         double lat1 = Double.parseDouble(info.get("lat1"));
         double lng1 = Double.parseDouble(info.get("lng1"));
         double lat2 = Double.parseDouble(info.get("lat2"));
@@ -262,7 +281,6 @@ public class DiaryService {
                 DiaryDto diaryDto = diary.toDto();
 
                 diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                diaryDto.setMusic(diary.getMusic());
                 setGroupList(diaryDto);
                 diaryDto.setCommentList(getCommentList(diaryDto));
                 result.add(diaryDto);
@@ -273,7 +291,6 @@ public class DiaryService {
                     DiaryDto diaryDto = diary.toDto();
 
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                    diaryDto.setMusic(diary.getMusic());
                     setGroupList(diaryDto);
 
                     result.add(diaryDto);
@@ -283,7 +300,6 @@ public class DiaryService {
                         DiaryDto diaryDto = diary.toDto();
 
                         diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-                        diaryDto.setMusic(diary.getMusic());
                         setGroupList(diaryDto);
 
                         result.add(diaryDto);
@@ -295,7 +311,7 @@ public class DiaryService {
         return result;
     }
 
-    public DiaryDto getDiaryByLocation(Map<String, String> info) throws Exception {
+    public DiaryDto getDiaryByLocation(Map<String, String> info){
         Long gardenId = Long.parseLong(info.get("gardenId"));
         String x = info.get("x");
         String y = info.get("y");
@@ -305,11 +321,10 @@ public class DiaryService {
 
         if(diary!=null){
             DiaryDto diaryDto = diary.toDto();
-            List<CommentListDto> comments = commentService.getCommentList(diaryDto.getId());
+            List<CommentResponseDto> comments = commentService.getCommentList(diaryDto.getId());
 
             diaryDto.setCommentList(comments);
             diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
-            diaryDto.setMusic(diary.getMusic());
             setGroupList(diaryDto);
 
             return diaryDto;
@@ -361,7 +376,6 @@ public class DiaryService {
                     List<DiaryDto> diaries = diaryDayDto.getDiaryList();
                     DiaryDto diaryDto = diary.toDto();
                     diaryDto.setCommentList(getCommentList(diaryDto));
-                    diaryDto.setMusic(diary.getMusic());
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
                     setGroupList(diaryDto);
                     diaries.add(diaryDto);
@@ -375,7 +389,6 @@ public class DiaryService {
                 List<DiaryDto> diaryList1 = new ArrayList<>();
                 DiaryDto diaryDto = diary.toDto();
                 diaryDto.setCommentList(getCommentList(diaryDto));
-                diaryDto.setMusic(diary.getMusic());
                 diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
                 setGroupList(diaryDto);
                 diaryList1.add(diaryDto);
@@ -389,38 +402,263 @@ public class DiaryService {
         return diaryDayDtoList;
     }
 
-    public List<CommentListDto> getCommentList(DiaryDto diaryDto) throws Exception{
-        List<CommentListDto> comments = new ArrayList<>();
+    @Transactional
+    public List<DiaryDto> updateDiaryLocation(List<DiaryDto> diaries){
+        List<DiaryDto> result = new ArrayList<>();
+
+        for(DiaryDto diaryDto: diaries){
+            log.info("DiaryDto: {}",diaryDto);
+            Diary diary = diaryDto.toEntity();
+            log.info("diary: {}",diary);
+
+            Optional<Garden> garden = gardenRepository.findById(diaryDto.getGarden().getId());
+            Optional<Emotion> emotion = emotionRepository.findById(diaryDto.getFlowerEmotion().getEid());
+            Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryDto.getMusicTitle()));
+
+            if(emotion.isEmpty()) throw new CustomException(ErrorCode.NO_EMOTION);
+
+            Flower flower = Flower.builder()
+                    .id(diaryDto.getFlowerEmotion().getFid()).name(diaryDto.getFlowerEmotion().getFlowerName())
+                    .smallCategory(diaryDto.getFlowerEmotion().getSmallCategory()).emotion(emotion.get()).language(diaryDto.getFlowerEmotion().getLanguage()).build();
+            if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
+            if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
+
+            diary.setGarden(garden.get());
+            diary.setMusic(music.get());
+            diary.setFlower(flower);
+
+            log.info("Set diary: {}",diary);
+
+            DiaryDto diaryDto1 = diaryRepository.save(diary).toDto();
+
+            diaryDto1.setGarden(diaryDto.getGarden());
+            diaryDto1.setFlowerEmotion(diaryDto.getFlowerEmotion());
+            diaryDto1.setGroupList(diaryDto.getGroupList());
+            diaryDto1.setCommentList(diaryDto.getCommentList());
+
+            result.add(diaryDto1);
+        }
+
+        return result;
+    }
+
+    public List<DiaryDto> getPublicDiaryList(){
+        List<DiaryDto> result = new ArrayList<>();
+        List<Diary> diaries = diaryRepository.findAllPublic();
+
+        for(Diary diary:diaries){
+            DiaryDto diaryDto = diary.toDto();
+
+            diaryDto.setCommentList(getCommentList(diaryDto));
+            diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+            setGroupList(diaryDto);
+
+            result.add(diaryDto);
+        }
+
+        return result;
+    }
+
+    public List<DiaryDto> getDiaryListInTeam(TeamIdListDto teamIdListDto){
+       List<DiaryDto> result = new ArrayList<>();
+       List<Long> idList = teamIdListDto.getTeamIdList();
+       log.info("idList: {}",idList);
+       Set<Long> userIdSet = new LinkedHashSet<>();
+       List<TeamDto> teamDtoList = new ArrayList<>();
+
+       for(Long id: idList){
+            Optional<Team> team = teamRepository.findById(id);
+
+            if(team.isEmpty()) throw new CustomException(ErrorCode.INVALID_TEAM);
+
+            TeamDto teamDto = TeamDto.of(team.get());
+
+            for(MemberResponseDto member: teamDto.getUserTeamList()){
+                userIdSet.add(member.getUserId());
+            }
+
+            log.info("User id set: {}",userIdSet);
+       }
+
+        for(Long uid: userIdSet){
+            List<Diary> diaries = diaryRepository.findPublicByMemberId(uid);
+
+            for(Diary diary: diaries){
+                DiaryDto diaryDto = diary.toDto();
+
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                diaryDto.setCommentList(getCommentList(diaryDto));
+
+                result.add(diaryDto);
+            }
+        }
+
+        for(Long tid: idList){
+            List<Long> diaryIdList = diaryTeamRepository.getDiaryByTid(tid);
+
+            for(Long did:diaryIdList){
+                Optional<Diary> diary = diaryRepository.findById(did);
+
+                if(diary.isEmpty()) continue;
+
+                DiaryDto diaryDto = diary.get().toDto();
+                diaryDto.setFlowerEmotion(getFlowerEmotion(diary.get().getFlower()));
+                diaryDto.setCommentList(getCommentList(diaryDto));
+                setGroupList(diaryDto);
+
+                result.add(diaryDto);
+            }
+        }
+
+        return result;
+    }
+
+    public List<CommentResponseDto> getCommentList(DiaryDto diaryDto){
+        List<CommentResponseDto> comments = new ArrayList<>();
         List<Comment> commentList = commentRepository.findByDid(diaryDto.getId());
 
         for(int i=0;i<commentList.size();i++){
             CommentDto commentDto = commentList.get(i).toDto();
             Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
-            if(member.isEmpty()) throw new Exception();
+            if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
-            CommentListDto commentListDto = CommentListDto.builder()
+            CommentResponseDto commentResponseDto = CommentResponseDto.builder()
                     .id(commentDto.getId()).member(MemberResponseDto.of(member.get())).content(commentDto.getContent()).createdTime(commentDto.getCreatedTime()).build();
 
-            comments.add(commentListDto);
+            comments.add(commentResponseDto);
         }
 
         return comments;
     }
 
-    public FlowerEmotionDto getFlowerEmotion(Flower flowerData) throws Exception{
+    public FlowerEmotionDataDto getFlowerEmotionData(Map<String,String> data){
+        List<EmotionDataDto> emotionData = new ArrayList<>();
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://j8a205.p.ssafy.io/domain/emotions/analysis/";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(data, headers);
+
+        Map<String,List<String>> resultData = restTemplate.exchange(
+                url, HttpMethod.POST, entity ,new ParameterizedTypeReference<Map<String,List<String>>>() {}
+        ).getBody();
+
+        List<Double> percents = new ArrayList<>();
+
+        for(String str: resultData.get("result")){
+            percents.add(Double.parseDouble(str));
+        }
+
+        log.info("Emotion Analysis Data: {}",percents);
+
+        for(int i=0;i<percents.size();i++){
+            EmotionDataDto emoData = EmotionDataDto.builder()
+                    .largeCategory(emotions[i]).analysis(100*percents.get(i)).build();
+
+            log.info("Emotion Data: {}",emoData);
+
+            emotionData.add(emoData);
+        }
+
+        Collections.sort(emotionData);
+
+        List<FlowerEmotionDto> flowerData = new ArrayList<>();
+
+        List<Flower> flowers = flowerRepository.getFlowers(emotionData.get(0).getLargeCategory());
+
+        for(Flower flower: flowers){
+            FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
+                    .fid(flower.getId()).largeCategory(emotionData.get(0).getLargeCategory()).eid(flower.getEmotion().getId())
+                    .language(flower.getLanguage()).smallCategory(flower.getSmallCategory()).flowerName(flower.getName()).build();
+
+            flowerData.add(flowerEmotionDto);
+        }
+
+        FlowerEmotionDataDto flowerEmotionDataDto = FlowerEmotionDataDto.builder()
+                .flowers(flowerData).emotions(emotionData).build();
+
+        return flowerEmotionDataDto;
+    }
+
+    public FlowerEmotionDto getFlowerEmotion(Flower flowerData){
         Long emotionId = flowerRepository.getEmotionKey(flowerData.getId()).get(0);
 
         Optional<Emotion> emotion = emotionRepository.findById(emotionId);
 
-        if(emotion.isEmpty()) throw new Exception();
+        if(emotion.isEmpty()) throw new CustomException(ErrorCode.NO_EMOTION);
 
         FlowerEmotionDto flowerEmotionDto = FlowerEmotionDto.builder()
                 .fid(flowerData.getId()).eid(emotionId).flowerName(flowerData.getName()).language(flowerData.getLanguage())
-                .largeCategory(emotion.get().getLargeCategory()).smallCategory(emotion.get().getSmallCategory()).build();
+                .largeCategory(emotion.get().getLargeCategory()).smallCategory(flowerData.getSmallCategory()).build();
 
         return flowerEmotionDto;
     }
+
+    public Map<String,Integer> getEmotionsInWeek(Long userId){
+        List<Garden> gardenList = gardenRepository.findAllByUserId(userId);
+        Map<String,Integer> result = new LinkedHashMap<>();
+        List<Diary> diaries_thisWeek = new ArrayList<>();
+        List<Diary> diaries_lastWeek = new ArrayList<>();
+
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+        int[] count_thisWeek = new int[emotions.length];
+        int[] count_lastWeek = new int[emotions.length];
+
+        for(Garden garden : gardenList){
+            diaries_thisWeek.addAll(diaryRepository.findDiaryInWeek(garden.getId()));
+            diaries_lastWeek.addAll(diaryRepository.findDiaryInLastWeek(garden.getId()));
+        }
+
+        for(Diary diary: diaries_thisWeek){
+            Flower flower = diary.getFlower();
+
+            count_thisWeek[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(Diary diary: diaries_lastWeek){
+            Flower flower = diary.getFlower();
+
+            count_lastWeek[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(int i=0;i<emotions.length;i++){
+            result.put(emotions[i],count_thisWeek[i]-count_lastWeek[i]);
+        }
+
+        return result;
+    }
+
+    public Map<String,Integer> getEmotionsInMonth(Long userId){
+        List<Garden> gardenList = gardenRepository.findAllByUserId(userId);
+
+        Map<String,Integer> result = new LinkedHashMap<>();
+        List<Diary> diaries = new ArrayList<>();
+
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+        int[] count = new int[emotions.length];
+
+        for(Garden garden : gardenList){
+            diaries.addAll(diaryRepository.findDiaryInMonth(garden.getId()));
+        }
+
+        for(Diary diary: diaries){
+            Flower flower = diary.getFlower();
+
+            count[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(int i=0;i<emotions.length;i++){
+            result.put(emotions[i],count[i]);
+        }
+
+        log.info("result: {}",result);
+        return result;
+    }
+
 
     public boolean isInTeam(Long diaryId, Long memberId){
         List<Long> groupList = diaryTeamRepository.getGroup(diaryId);
@@ -428,7 +666,7 @@ public class DiaryService {
         Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) return false;
 
-        List<UserTeam> teamList = userTeamRepository.findAllByUid(member.get());
+        List<UserTeam> teamList = userTeamRepository.findAllByUidAndStatus(member.get(), 1);
 
         for(int i=0;i<teamList.size();i++) {
             if(groupList.contains(teamList.get(i).getTid().getTeamId())){
@@ -488,7 +726,6 @@ public class DiaryService {
         diary.setLat(diaryRequestDto.getLat());
         diary.setLng(diaryRequestDto.getLng());
         diary.setContent(diaryRequestDto.getContent());
-        diary.setImgSrc(diaryRequestDto.getImgSrc());
         diary.setAddress(diaryRequestDto.getAddress());
 
     }

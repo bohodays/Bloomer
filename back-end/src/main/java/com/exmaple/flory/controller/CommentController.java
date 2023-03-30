@@ -1,7 +1,8 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
+import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
 import com.exmaple.flory.response.SuccessResponse;
@@ -25,9 +26,12 @@ public class CommentController {
     @GetMapping("/{diaryId}")
     public ResponseEntity<?> getCommentList(@PathVariable Long diaryId){
         try{
-            List<CommentListDto> comments = commentService.getCommentList(diaryId);
+            List<CommentResponseDto> comments = commentService.getCommentList(diaryId);
 
             return new ResponseEntity(new SuccessResponse(comments), HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -37,9 +41,12 @@ public class CommentController {
     @PutMapping
     public ResponseEntity<?> updateComment(@RequestBody Map<String,String> updateInfo){
         try {
-            CommentDto updatedComment = commentService.updateComment(updateInfo);
+            CommentResponseDto updatedComment = commentService.updateComment(updateInfo);
 
             return new ResponseEntity(new SuccessResponse(updatedComment),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -49,10 +56,13 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<?> insertComment(@RequestBody CommentDto commentDto){
         try{
-            CommentDto insert = commentService.insertComment(commentDto);
+            CommentResponseDto insert = commentService.insertComment(commentDto);
 
             log.info("댓글 생성: {}",commentDto);
             return new ResponseEntity(new SuccessResponse(insert),HttpStatus.OK);
+        }catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,8 +74,13 @@ public class CommentController {
         try {
             int result = commentService.deleteComment(commentId);
 
+            if(result==0) throw new CustomException(ErrorCode.NO_DIARY);
+
             return new ResponseEntity(new SuccessResponse("삭제가 완료되었습니다."),HttpStatus.OK);
-        } catch (Exception e){
+        } catch (CustomException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }

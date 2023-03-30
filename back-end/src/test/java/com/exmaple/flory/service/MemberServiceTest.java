@@ -103,7 +103,7 @@ class MemberServiceTest {
     void updateMember() throws IOException {
         //given
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("rename").password("password").email("email").build();
+                .nickname("rename").email("email").build();
 
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
@@ -112,7 +112,7 @@ class MemberServiceTest {
                 userId(1L).nickname("rename").img("img").email("email").build();
 
         when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
-        member.updateMember(memberRequestDto.getNickname(), memberRequestDto.getPassword(), passwordEncoder);
+        member.updateMember(memberRequestDto.getNickname());
         when(memberRepository.save(any())).thenReturn(member);
 
         //when

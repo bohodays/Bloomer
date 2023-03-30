@@ -27,13 +27,38 @@ public class SignUpRequestDto {
     @Size(min = 5, max = 100)
     private String email;
 
+    @NotNull
+    private boolean classic;
+
+    @NotNull
+    private boolean jazz;
+
+    @NotNull
+    private boolean pop;
+
+    @NotNull
+    private boolean reggae;
+
+    @NotNull
+    private boolean RnB;
+
+    @NotNull
+    private boolean electronic;
+
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .nickname(nickname)
-                .img("기본")
+                .img("1")
                 .email(email)
+                .classic(classic)
+                .jazz(jazz)
+                .pop(pop)
+                .reggae(reggae)
+                .RnB(RnB)
+                .electronic(electronic)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
                 .build();
     }
+
 }

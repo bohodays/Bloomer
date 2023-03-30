@@ -1,13 +1,12 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
-import com.exmaple.flory.dto.team.TeamDto;
-import com.exmaple.flory.dto.team.TeamInsertRequestDto;
-import com.exmaple.flory.dto.team.TeamMemberRequestDto;
-import com.exmaple.flory.dto.team.TeamReNameRequestDto;
+import com.exmaple.flory.dto.team.*;
 import com.exmaple.flory.entity.Team;
 import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.UserTeam;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.TeamRepository;
 import com.exmaple.flory.repository.MemberRepository;
 import com.exmaple.flory.repository.UserTeamRepository;
@@ -33,25 +32,56 @@ public class TeamService {
     public TeamDto getTeam(Long teamId) {
         return teamRepository.findById(teamId)
                 .map(TeamDto::of)
-                .orElseThrow(() -> new RuntimeException("해당 그룹 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamDto> getAllTeamByKeyWord(String keyword, Long userId){
+
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+        List<Team> teamList = teamRepository.getAllTeamByKeyWord(keyword, userId);
+        List<TeamDto> teamDtoList = new ArrayList<>();
+        for(Team team : teamList){
+            teamDtoList.add(TeamDto.of(team,member));
+        }
+
+        return teamDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamDto> getAllTeam(Long userId){
+
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+        List<Team> teamList = teamRepository.getAllTeam(userId);
+        System.out.println(teamList.size());
+        List<TeamDto> teamDtoList = new ArrayList<>();
+        for(Team team : teamList){
+            teamDtoList.add(TeamDto.of(team,member));
+        }
+
+        return teamDtoList;
     }
 
     @Transactional
     public TeamDto insertTeam(TeamInsertRequestDto teamInsertRequestDto){
 
         Team team = teamRepository.save(teamInsertRequestDto.toGroup());
-
         List<MemberResponseDto> memberList = new ArrayList<>();
-        for(Long memberId : teamInsertRequestDto.getParticipant()){
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new RuntimeException("멤버 정보가 없습니다."));
+        Member member = memberRepository.findById(teamInsertRequestDto.getHostId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
-            UserTeam userTeam = UserTeam.builder()
-                    .tid(team)
-                    .uid(member)
-                    .build();
-            memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
-        }
+        UserTeam userTeam = UserTeam.builder()
+                .tid(team)
+                .uid(member)
+                .status(1)
+                .manager(0) //관리자
+                .build();
+        
+        memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
 
 //        return teamRepository.findById(team.getTeamId())
 //                .map(TeamDto::of)
@@ -62,16 +92,16 @@ public class TeamService {
     @Transactional
     public void deleteTeam(Long teamId){
         teamRepository.delete(
-                teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("해당 그룹이 존재하지 않습니다."))
+                teamRepository.findById(teamId).orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM))
         );
     }
 
     @Transactional
-    public TeamDto updateTeamName(TeamReNameRequestDto teamReNameRequestDto){
-        Team team = teamRepository.findById(teamReNameRequestDto.getTeamId())
-                .orElseThrow(() -> new RuntimeException("해당 그룹 정보가 없습니다."));
+    public TeamDto updateTeam(TeamUpdateRequestDto teamUpdateRequestDto){
+        Team team = teamRepository.findById(teamUpdateRequestDto.getTeamId())
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        team.updateName(teamReNameRequestDto.getName());
+        team.updateTeam(teamUpdateRequestDto.getName(), teamUpdateRequestDto.getInfo(), teamUpdateRequestDto.getOpen());
         return TeamDto.of(teamRepository.save(team));
     }
 
@@ -79,9 +109,9 @@ public class TeamService {
     public List<TeamDto> getUserTeam(Long userId){
 
         Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("멤버 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
-        List<UserTeam> userTeamList = userTeamRepository.findAllByUid(member);
+        List<UserTeam> userTeamList = userTeamRepository.findAllByUidAndStatus(member, 1); //승인된 내용만 조회
         List<TeamDto> teamDtoList = new ArrayList<>();
         for(UserTeam team : userTeamList){
             teamDtoList.add(TeamDto.of(team.getTid()));
@@ -90,37 +120,80 @@ public class TeamService {
     }
 
     @Transactional
-    public TeamDto insertTeamMember(TeamMemberRequestDto teamMemberRequestDto){
-        Team team = teamRepository.findById(teamMemberRequestDto.getTeamId())
-                .orElseThrow(() -> new RuntimeException("그룹이 존재하지 않습니다."));
+    public TeamDto insertTeamMember(TeamMemberDto teamMemberDto){
+        Team team = teamRepository.findById(teamMemberDto.getTeamId())
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        Member member = memberRepository.findById(teamMemberRequestDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("멤버가 존재하지 않습니다."));
+        Member member = memberRepository.findById(teamMemberDto.getUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         if(userTeamRepository.existsByUidAndTid(member,team)){
-            throw new RuntimeException("이미 그룹에 멤버가 존재합니다.");
+            throw new CustomException(ErrorCode.TEAM_DUPLICATION);
         }
 
-        UserTeam userTeam = UserTeam.builder()
-                .tid(team)
-                .uid(member)
-                .build();
+        UserTeam userTeam = null;
+        if(team.getOpen()){ //공개 그룹이면
+            userTeam = UserTeam.builder()
+                    .tid(team)
+                    .uid(member)
+                    .status(1) //자동 가입
+                    .message(teamMemberDto.getMessage())
+                    .manager(1) //멤버로
+                    .build();
+        }else{
+            userTeam = UserTeam.builder()
+                    .tid(team)
+                    .uid(member)
+                    .status(0) //가입 대기
+                    .message(teamMemberDto.getMessage())
+                    .manager(1) //멤버로
+                    .build();
+        }
 
-        return TeamDto.of(userTeamRepository.save(userTeam).getTid());
+
+        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
     }
 
     @Transactional
-    public int deleteTeamMember(TeamMemberRequestDto teamMemberRequestDto){
-        Team team = teamRepository.findById(teamMemberRequestDto.getTeamId())
-                .orElseThrow(() -> new RuntimeException("그룹이 존재하지 않습니다."));
+    public TeamDto approveTeamMember(TeamApproveRequestDto teamApproveRequestDto){
+        Team team = teamRepository.findById(teamApproveRequestDto.getTeamId())
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        Member member = memberRepository.findById(teamMemberRequestDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("멤버가 존재하지 않습니다."));
+        Member member = memberRepository.findById(teamApproveRequestDto.getUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
-                .orElseThrow(() -> new RuntimeException("해당 그룹에 해당 멤버가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
+
+        userTeam.updateUserTeam(1); //가입 승인 상태로
+        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
+    }
+
+    @Transactional
+    public int deleteTeamMember(TeamApproveRequestDto teamApproveRequestDto){
+        Team team = teamRepository.findById(teamApproveRequestDto.getTeamId())
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
+
+        Member member = memberRepository.findById(teamApproveRequestDto.getUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+        UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
 
         userTeamRepository.deleteById(userTeam.getUserTeamId());
         return 1;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamMemberResponseDto> signTeamMember(Long teamId){
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
+        List<UserTeam> userTeamList = userTeamRepository.findAllByTidAndStatus(team, 0);
+        List<TeamMemberResponseDto> teamMemberResponseDtoList = new ArrayList<>();
+        for(UserTeam userTeam : userTeamList){
+            teamMemberResponseDtoList.add(TeamMemberResponseDto.of(userTeam));
+        }
+
+        return teamMemberResponseDtoList;
     }
 }

@@ -1,12 +1,9 @@
 package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.comment.CommentDto;
-import com.exmaple.flory.dto.comment.CommentListDto;
+import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
-import com.exmaple.flory.entity.Comment;
-import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.entity.Garden;
-import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.entity.*;
 import com.exmaple.flory.repository.CommentRepository;
 import com.exmaple.flory.repository.DiaryRepository;
 import com.exmaple.flory.repository.MemberRepository;
@@ -45,11 +42,14 @@ public class CommentServiceTest {
             .nickname("abcd")
             .build();
 
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
+
     private final Garden garden = Garden
             .builder()
             .id(1L)
             .member(member)
-            .path("/usr/app")
+            .music(music)
             .build();
 
     private final DiaryDto diaryDto = DiaryDto.builder()
@@ -64,12 +64,13 @@ public class CommentServiceTest {
 
     @DisplayName("댓글 수정 테스트")
     @Test
-    public void updateCommentTest() throws Exception{
+    public void updateCommentTest(){
         Map<String,String> info = new HashMap<>();
         Member member = Member.builder()
                 .userId(1L).email("email").nickname("name").build();
         Diary diary = diaryDto.toEntity();
         diary.setGarden(garden);
+        diary.setMusic(music);
 
         info.put("id","1");
         info.put("content","content");
@@ -82,43 +83,45 @@ public class CommentServiceTest {
         when(commentRepository.save(any())).thenReturn(comment);
         when(commentRepository.findById(any())).thenReturn(Optional.of(comment));
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
-        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diary));
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
 
-        CommentDto result = commentService.updateComment(info);
+        CommentResponseDto result = commentService.updateComment(info);
 
         assertEquals(commentDto.getContent(),result.getContent());
     }
 
     @DisplayName("댓글 생성 테스트")
     @Test
-    public void insertCommentTest() throws Exception {
+    public void insertCommentTest(){
         Diary diary = diaryDto.toEntity();
         diary.setGarden(garden);
+        diary.setMusic(music);
 
-        when(diaryRepository.findById(any())).thenReturn(Optional.ofNullable(diary));
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(commentRepository.save(any())).thenReturn(comment);
 
         commentDto.setDiary(diaryDto);
 
-        CommentDto result = commentService.insertComment(commentDto);
+        CommentResponseDto result = commentService.insertComment(commentDto);
 
         assertEquals(result.getContent(),commentDto.getContent());
     }
 
     @DisplayName("댓글 목록 조회 테스트")
     @Test
-    public void getCommentListTest() throws Exception{
+    public void getCommentListTest(){
         List<Comment> comments = new ArrayList<>();
         Diary diary = diaryDto.toEntity();
         diary.setGarden(garden);
+        diary.setMusic(music);
 
         comment.setDiary(diary);
         comments.add(comment);
         when(commentRepository.findByDid(any())).thenReturn(comments);
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
 
-        List<CommentListDto> result = commentService.getCommentList(1L);
+        List<CommentResponseDto> result = commentService.getCommentList(1L);
 
         assertEquals(result.size(),comments.size());
     }

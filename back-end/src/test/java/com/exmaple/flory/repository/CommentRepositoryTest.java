@@ -2,10 +2,7 @@ package com.exmaple.flory.repository;
 
 import com.exmaple.flory.config.TestConfig;
 import com.exmaple.flory.dto.diary.DiaryDto;
-import com.exmaple.flory.entity.Comment;
-import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.entity.Garden;
-import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,10 +34,13 @@ public class CommentRepositoryTest {
             .nickname("abcd")
             .build();
 
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
+
     private final Garden garden = Garden
             .builder()
             .member(member)
-            .path("/usr/app")
+            .music(music)
             .build();
 
     private final Diary diary = Diary.builder()
