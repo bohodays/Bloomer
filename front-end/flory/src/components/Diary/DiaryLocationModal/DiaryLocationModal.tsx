@@ -1,4 +1,4 @@
-import BasicModal from "../../common/Modal/BasicModal";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import SearchMap from "../../Map/SearchMap/SearchMap";
 import { useState, useRef } from "react";
 import LocaList from "../../common/List/LocaList";

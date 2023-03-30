@@ -20,7 +20,7 @@ function GroupPanel({}): JSX.Element {
   useEffect(() => {
     dispatch(getGroupInfoAction());
   }, []);
-    
+
   // console.log(userGroupList);
   return (
     <SGroupPanel>

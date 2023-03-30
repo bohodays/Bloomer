@@ -9,14 +9,10 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
-import {
-  getAllDiary,
-  getDiaryWithGroup,
-  getDiaryWithMap,
-} from "../../redux/modules/diary";
+import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import CommunityMap from "../../components/Map/CommunityMap/CommunityMap";
-import { getGroupInfoAction } from "../../redux/modules/group";
+import GroupEmotionPanel from "../../components/MyPage/GroupEmotionPanel/GroupEmotionPanel";
 
 let isInitial = true;
 
@@ -31,7 +27,6 @@ const Map = () => {
   });
   const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
   const mapDiaryList = useAppSelector((store) => store.diary.mapDiaryList);
-  const groupDiaryList = useAppSelector((store) => store.diary.groupDiaryList);
   const userId = useAppSelector((store) => store.user.userData.userId);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -39,26 +34,9 @@ const Map = () => {
   }, [dispatch]);
 
   // let teamIdList: number[] = [];
-  const teamIdList = useRef<number[]>([]);
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      dispatch(getGroupInfoAction()).then((data) => {
-        console.log("group", data);
-        for (let i of data.payload.response) {
-          teamIdList.current.push(i.teamId);
-        }
-        const groupData = {
-          teamIdList: teamIdList.current,
-        };
-        dispatch(getDiaryWithGroup(groupData));
-      });
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     const mapData = { ...bound, requestId: userId };
-    console.log("요청 보낼거임", mapData);
     dispatch(getDiaryWithMap(mapData));
   }, [bound]);
 
@@ -66,12 +44,10 @@ const Map = () => {
   const mapPanel = (
     <div>
       <div>
-        {/* <BasicMap setBound={setBound} diaries={mapDiaryList} /> */}
         <CommunityMap setBound={setBound} diaries={mapDiaryList} />
       </div>
       <div>
         <DiaryList DIARY_LIST={mapDiaryList} page="map" />
-        {/* <DiaryList /> */}
       </div>
     </div>
   );
@@ -86,14 +62,7 @@ const Map = () => {
   );
 
   // 그룹 감정 보기
-  const groupPanel = (
-    <div>
-      <div>
-        <MapFilterModal teamIdList={teamIdList} />
-        <DiaryList DIARY_LIST={groupDiaryList} page="map" />
-      </div>
-    </div>
-  );
+  const groupPanel = <GroupEmotionPanel />;
 
   return (
     <SMain>

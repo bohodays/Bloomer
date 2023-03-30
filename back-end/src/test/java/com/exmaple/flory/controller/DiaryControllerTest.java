@@ -4,6 +4,7 @@ import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.service.DiaryService;
@@ -534,6 +535,63 @@ public class DiaryControllerTest {
         when(diaryService.getEmotionsInWeek(any())).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/diary/statistics/week/{userId}",1L))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryMemberTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenReturn(diaries);
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 custom 오류 테스트")
+    @Test
+    public void getDiaryMemberCustomExceptionTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 오류 테스트")
+    @Test
+    public void getDiaryMemberExceptionTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
