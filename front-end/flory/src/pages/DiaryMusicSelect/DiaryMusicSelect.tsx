@@ -149,7 +149,7 @@ const DiaryMusicSelect = () => {
       <div className="info__wrapper">
         <p>일기의 배경음악을 선택해주세요.</p>
       </div>
-      {totalData.length &&
+      {totalData.length > 0 &&
         totalData.map((item: any, i: number) => {
           console.log("돌리는 값", item);
 
