@@ -22,6 +22,7 @@ import {
 } from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
 import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
+import { convertMusicFormat } from "../../utils/utils";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -113,12 +114,16 @@ const DiaryDetail = () => {
     navigate("/garden");
   };
 
+  const updateDiary = () => {
+    dispatch(getDetailDiary(diaryId)).then((data: any) => {
+      setDiary(data.payload.response);
+    });
+  };
+
   useEffect(() => {
     if (diary === initialDiary) {
       // isInitial = false;
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response);
-      });
+      updateDiary();
     }
   }, []);
 
@@ -129,7 +134,7 @@ const DiaryDetail = () => {
       <div className="header_back">
         <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          <p>{diary.musicTitle}</p>
+          <p>{convertMusicFormat(diary.musicTitle)}</p>
         </div>
         <div className="header-circle"></div>
         <Lottie
@@ -155,6 +160,7 @@ const DiaryDetail = () => {
 
         {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
+        <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
           <p>
@@ -186,7 +192,13 @@ const DiaryDetail = () => {
         />
         {diary.commentList &&
           diary.commentList.map((comment: any, idx: number) => {
-            return <DiaryComment comment={comment} key={idx} />;
+            return (
+              <DiaryComment
+                comment={comment}
+                key={idx}
+                updateDiary={updateDiary}
+              />
+            );
           })}
       </div>
     </SMain>

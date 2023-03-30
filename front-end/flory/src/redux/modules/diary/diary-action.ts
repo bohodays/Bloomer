@@ -265,6 +265,28 @@ export const createCommentAction = createAsyncThunk(
   }
 );
 
+// 덧글 삭제
+export const deleteCommentAction = createAsyncThunk(
+  "DELETE_COMMENT",
+  async (commentId: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log("댓글 삭제 요청 후 받는 데이터", data);
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 // 상세 일기 가져오기
 export const getDetailDiary = createAsyncThunk(
   "GET_DETAIL",

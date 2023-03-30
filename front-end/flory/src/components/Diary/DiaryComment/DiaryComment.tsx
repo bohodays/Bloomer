@@ -1,18 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { JsxElement } from "typescript";
+import { deleteCommentAction } from "../../../redux/modules/diary";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Avatar from "../../common/Avatar/Avatar";
 import SettingPopover from "../../common/SettingPopover/SettingPopover";
 
 import { SMain } from "./styles";
-function DiaryComment({ comment }: any): JSX.Element {
+function DiaryComment({ comment, updateDiary }: any): JSX.Element {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((store) => store.user.userData.userId);
   const handleMoveToOtherGarden = () => {
     navigate(`/garden/${comment.member.userId}`);
   };
 
   const editAction = () => {};
-  const deleteAction = () => {};
+  const deleteAction = () => {
+    dispatch(deleteCommentAction(comment.id)).then(() => {
+      updateDiary();
+    });
+  };
 
   return (
     <SMain style={{ display: "flex", flexDirection: "column" }}>
@@ -28,7 +35,9 @@ function DiaryComment({ comment }: any): JSX.Element {
         >
           {comment.member.nickname}
         </p>
-        <SettingPopover editAction={editAction} deleteAction={deleteAction} />
+        {comment.member.userId === userId && (
+          <SettingPopover editAction={editAction} deleteAction={deleteAction} />
+        )}
       </div>
       <p>{comment.content}</p>
       <p

@@ -36,10 +36,10 @@ const Scene = () => {
         <ambientLight intensity={0.4} />
         {/* Park 맵 */}
         {/* <Base_map_new /> */}
-        {/* <Park_map /> */}
+        <Park_map />
 
         {/* Beach 맵 */}
-        <Beach_map />
+        {/* <Beach_map /> */}
 
         {/* Camp 맵 */}
         {/* <Camp_map /> */}
