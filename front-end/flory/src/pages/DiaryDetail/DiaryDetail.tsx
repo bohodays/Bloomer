@@ -15,8 +15,13 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import CreateInput from "../../components/common/CreateInput/CreateInput";
 import CommentInput from "../../components/common/CommentInput/CommentInput";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { createCommentAction, getDetailDiary } from "../../redux/modules/diary";
+import {
+  createCommentAction,
+  deleteDiaryAction,
+  getDetailDiary,
+} from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
+import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -55,7 +60,7 @@ const DiaryDetail = () => {
   const userId = useAppSelector((state) => state.user.userData.userId);
   let isSelf = false;
   if (diary !== initialDiary) {
-    if (diary.garden!.member.userId === userId) {
+    if (diary.garden?.member.userId === userId) {
       isSelf = true;
     }
   }
@@ -63,9 +68,11 @@ const DiaryDetail = () => {
   const commentInput = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const [mapView, setMapView] = useState<boolean>(false);
+
   const onClickLocation = () => {
     setMapView(!mapView);
   };
+
   const handleGoBack = () => {
     // 뒤로가기
     if (backpage) {
@@ -98,6 +105,12 @@ const DiaryDetail = () => {
         commentInput.current.value = "";
       }
     });
+  };
+
+  const deleteAction = async () => {
+    alert(`해당 일기를 삭제하시겠습니까?`);
+    await dispatch(deleteDiaryAction(diaryId));
+    navigate("/garden");
   };
 
   useEffect(() => {
@@ -134,7 +147,11 @@ const DiaryDetail = () => {
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
-        <button>수정</button>
+        {isSelf && (
+          <div className="setting">
+            <SettingPopover color="black" deleteAction={deleteAction} />
+          </div>
+        )}
 
         {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
