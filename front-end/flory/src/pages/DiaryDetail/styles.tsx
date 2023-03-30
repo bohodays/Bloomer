@@ -38,6 +38,11 @@ export const SMain = styled.main`
   .content-box {
     margin: 40px 5%;
   }
+  .setting {
+    position: absolute;
+    right: 10px;
+  }
+
   .flower-title {
     display: flex;
     justify-content: center;
