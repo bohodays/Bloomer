@@ -95,12 +95,15 @@ const DiaryDetail = () => {
     });
   };
 
+  const updateDiary = () => {
+    dispatch(getDetailDiary(diaryId)).then((data: any) => {
+      setDiary(data.payload.response);
+    });
+  };
   useEffect(() => {
     if (diary === initialDiary) {
       // isInitial = false;
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response);
-      });
+      updateDiary();
     }
   }, []);
 
@@ -163,7 +166,13 @@ const DiaryDetail = () => {
         />
         {diary.commentList &&
           diary.commentList.map((comment: any, idx: number) => {
-            return <DiaryComment comment={comment} key={idx} />;
+            return (
+              <DiaryComment
+                comment={comment}
+                key={idx}
+                updateDiary={updateDiary}
+              />
+            );
           })}
       </div>
     </SMain>
