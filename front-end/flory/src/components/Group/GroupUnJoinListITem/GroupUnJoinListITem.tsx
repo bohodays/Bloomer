@@ -8,14 +8,7 @@ import CreateInput from "../../common/CreateInput/CreateInput";
 import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { requestJoinGroup } from "../../../redux/modules/group";
-
-const convertDateFormat = (date: string) => {
-  const target = new Date(date);
-  const year = target.getFullYear();
-  const month = target.getMonth() + 1;
-  const day = target.getDate();
-  return year + "." + month + "." + day;
-};
+import { convertDateFormat } from "../../../utils/utils";
 
 const GroupUnJoinListITem = ({ group }: any) => {
   const userInfo = useAppSelector((state) => state.user.userData);

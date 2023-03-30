@@ -3,10 +3,11 @@ import Avatar from "../../common/Avatar/Avatar";
 import { SSection } from "./styles";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { convertDateFormat } from "../../../utils/utils";
 
 const GuestBookComment = (props: any) => {
   const commentRef = useRef<HTMLElement>(null);
-  console.log(props);
+  // console.log(props);
 
   const commentData = props.info;
 
@@ -51,18 +52,18 @@ const GuestBookComment = (props: any) => {
   };
 
   return (
-    <SSection deg={props.deg} ref={commentRef}>
+    <SSection deg={props.deg} ref={commentRef} color={commentData.color}>
       <div className="post-it" data-aos={checkDeg(props.deg)}>
         <p className="note">
           <div className="header">
             {/* 작성자 프로필 이미지 */}
             <Avatar size={"medium"} imgIdx={0} />
             {/* 작성자 이름 */}
-            <p className="user-name">{commentData.name}</p>
+            <p className="user-name">{commentData.nickName}</p>
           </div>
           {/* 작성 내용 */}
-          <p className="comment">{commentData.comment}</p>
-          <p className="date">2023. 03. 25.</p>
+          <p className="comment">{commentData.contents}</p>
+          <p className="date">{convertDateFormat(commentData.created_time)}</p>
         </p>
       </div>
     </SSection>

@@ -29,7 +29,7 @@ export const SSection = styled.section<any>`
   .note {
     -webkit-box-shadow: #ddd 0px 1px 2px;
     position: relative;
-    background-color: #f4f39e;
+    background-color: ${(props) => props.color};
     border-color: #dee184;
     text-align: center;
     margin: 1em auto;
