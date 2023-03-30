@@ -25,22 +25,26 @@ const SettingPopover = ({
   setSelectedGroupIds,
   diary,
 }: any): JSX.Element => {
-  const currentDiary = {
-    id: diary.id,
-    content: diary.content,
-    imgSrc: diary.imgSrc,
-    lat: diary.lat,
-    lng: diary.lng,
-    publicStatus: diary.publicStatus,
-    groupList: diary.groupList,
-    fid: diary.flowerEmotion.fid,
-    x: diary.x,
-    y: diary.y,
-    z: diary.z,
-    gid: diary.garden.id,
-    musicTitle: diary.musicTitle,
-    address: diary.address,
-  };
+  console.log(diary);
+  let currentDiary: any;
+  if (diary) {
+    currentDiary = {
+      id: diary.id,
+      content: diary.content,
+      imgSrc: diary.imgSrc,
+      lat: diary.lat,
+      lng: diary.lng,
+      publicStatus: diary.publicStatus,
+      groupList: diary.groupList,
+      fid: diary.flowerEmotion.fid,
+      x: diary.x,
+      y: diary.y,
+      z: diary.z,
+      gid: diary.garden.id,
+      musicTitle: diary.musicTitle,
+      address: diary.address,
+    };
+  }
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -111,7 +115,7 @@ const SettingPopover = ({
         id={id}
         open={open}
         anchorEl={anchorEl}
-        // onClose={handleClose}
+        onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
@@ -152,6 +156,11 @@ const SettingPopover = ({
           <p>그룹 공개</p>
           <Radio
             {...controlProps("b")}
+            disabled={
+              !group !== null && group !== undefined && group.length
+                ? false
+                : true
+            }
             onClick={() => {
               setGroupSetting("그룹공개");
             }}
