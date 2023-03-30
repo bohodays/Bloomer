@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react"
-import BackButton from "../../components/common/BackButton/BackButton"
-import GroupSearchInput from "../../components/Group/GroupSearchInput/GroupSearchInput"
-import GroupUnJoinList from "../../components/Group/GroupUnJoinList/GroupUnJoinList"
-import { getAllGroupAction } from "../../redux/modules/group"
-import { useAppDispatch } from "../../redux/store.hooks"
-import { SMain } from "./styles"
+import React, { useEffect, useState } from "react";
+import BackButton from "../../components/common/BackButton/BackButton";
+import GroupSearchInput from "../../components/Group/GroupSearchInput/GroupSearchInput";
+import GroupUnJoinList from "../../components/Group/GroupUnJoinList/GroupUnJoinList";
+import { getAllGroupAction } from "../../redux/modules/group";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { SMain } from "./styles";
 
 const GroupList = () => {
-  let isInitial = true
-  const dispatch = useAppDispatch()
-  const [unJoinGroups, setUnJoinGroups] = useState([])
+  let isInitial = true;
+  const dispatch = useAppDispatch();
+  const [unJoinGroups, setUnJoinGroups] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await dispatch(getAllGroupAction())
+      const res = await dispatch(getAllGroupAction());
       const filtered = res.payload.filter((item: any) => {
-        return item.status !== 1
-      })
-      setUnJoinGroups(filtered)
-    }
+        return item.status !== 1;
+      });
+      setUnJoinGroups(filtered);
+    };
     if (isInitial) {
-      isInitial = false
-      fetchData()
+      isInitial = false;
+      fetchData();
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <SMain>
+      <BackButton color="black" />
       <div className="search__wrapper">
-        <BackButton color="black" />
         <GroupSearchInput setUnJoinGroups={setUnJoinGroups} />
       </div>
       <div className="grouplist__wrapper">
@@ -39,7 +39,7 @@ const GroupList = () => {
         )}
       </div>
     </SMain>
-  )
-}
+  );
+};
 
-export default GroupList
+export default GroupList;

@@ -34,17 +34,15 @@ export const SMain = styled.main`
     height: 160px;
     border-radius: 200px 200px 0 0;
   }
-  .back-icon {
-    cursor: pointer;
-    color: var(--color-white);
-    position: absolute;
-    font-size: 1.8rem;
-    left: 16px;
-    top: 16px;
-  }
+
   .content-box {
     margin: 40px 5%;
   }
+  .setting {
+    position: absolute;
+    right: 10px;
+  }
+
   .flower-title {
     display: flex;
     justify-content: center;

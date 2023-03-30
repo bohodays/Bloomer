@@ -2,20 +2,13 @@ import React from "react";
 import GroupTag from "../GroupTag/GroupTag";
 import { SWrapper } from "./styles";
 
-const GroupTagWrapper = () => {
-  const tagList = [
-    "# 운동 모임",
-    "# 운동 모임",
-    "# 운동 모임",
-    "# 운동 모임",
-    "# 운동 모임",
-  ];
+const GroupTagWrapper = (props: any) => {
+  const groupList = props.groupList;
 
   return (
     <SWrapper>
-      {tagList.map((item) => (
-        <GroupTag item={item} />
-      ))}
+      {groupList !== null &&
+        groupList.map((item: any) => <GroupTag item={item.name} />)}
     </SWrapper>
   );
 };

@@ -15,25 +15,72 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import CreateInput from "../../components/common/CreateInput/CreateInput";
 import CommentInput from "../../components/common/CommentInput/CommentInput";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { createCommentAction } from "../../redux/modules/diary";
+import {
+  createCommentAction,
+  deleteDiaryAction,
+  getDetailDiary,
+} from "../../redux/modules/diary";
+import { DiaryType } from "../../models/diary/diaryType";
+import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
+import { convertMusicFormat } from "../../utils/utils";
 
+let isInitial = true;
 const DiaryDetail = () => {
   // 정원에서 해당 꽃을 누르면 이 페이지(일기 상세)로 이동하며
   // useNavigate로 일기의 id를 전달한다.
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
-  const diary = location.state.diaryData;
+  const diaryId = Number(location.pathname.slice(7));
+  const backpage = location.state ? location.state.page : null;
+  const initialDiary: DiaryType = {
+    id: 0,
+    content: "",
+    imgSrc: "",
+    lat: 0,
+    lng: 0,
+    publicStatus: "전체공개",
+    x: 0,
+    y: 0,
+    z: 0,
+    address: "",
+    createdTime: "",
+    garden: null,
+    flowerEmotion: {
+      fid: 0,
+      eid: 0,
+      flowerName: "",
+      language: "",
+      largeCategory: "",
+      smallCategory: "",
+    },
+    groupList: [],
+    musicTitle: "",
+    commentList: [],
+  };
+  const [diary, setDiary] = useState<DiaryType>(initialDiary);
   const userId = useAppSelector((state) => state.user.userData.userId);
+  let isSelf = false;
+  if (diary !== initialDiary) {
+    if (diary.garden?.member.userId === userId) {
+      isSelf = true;
+    }
+  }
   const navigate = useNavigate();
   const commentInput = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const [mapView, setMapView] = useState<boolean>(false);
+
   const onClickLocation = () => {
     setMapView(!mapView);
   };
+
   const handleGoBack = () => {
     // 뒤로가기
-    navigate(-1);
+    if (backpage) {
+      navigate(backpage);
+    } else {
+      navigate(-1);
+    }
   };
 
   const defaultOptions = {
@@ -51,16 +98,43 @@ const DiaryDetail = () => {
       uid: userId,
       did: diary.id,
     };
-    dispatch(createCommentAction(commentData));
+    dispatch(createCommentAction(commentData)).then(() => {
+      dispatch(getDetailDiary(diaryId)).then((data: any) => {
+        setDiary(data.payload.response);
+      });
+      if (commentInput.current) {
+        commentInput.current.value = "";
+      }
+    });
   };
+
+  const deleteAction = async () => {
+    alert(`해당 일기를 삭제하시겠습니까?`);
+    await dispatch(deleteDiaryAction(diaryId));
+    navigate("/garden");
+  };
+
+  const updateDiary = () => {
+    dispatch(getDetailDiary(diaryId)).then((data: any) => {
+      setDiary(data.payload.response);
+    });
+  };
+
+  useEffect(() => {
+    if (diary === initialDiary) {
+      // isInitial = false;
+      updateDiary();
+    }
+  }, []);
 
   return (
     <SMain>
       {/* 헤더 영역 */}
+
       <div className="header_back">
         <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          <p>{diary.musicTitle}</p>
+          <p>{convertMusicFormat(diary.musicTitle)}</p>
         </div>
         <div className="header-circle"></div>
         <Lottie
@@ -73,14 +147,20 @@ const DiaryDetail = () => {
       <DiaryFlower flower={diary.flowerEmotion} />
       <div className="header"></div>
       {/* 뒤로 가기 아이콘 */}
-      <BackButton color="white" />
+      <BackButton color="white" onClickAction={handleGoBack} />
       <div className="content-box">
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
+        {isSelf && (
+          <div className="setting">
+            <SettingPopover color="black" deleteAction={deleteAction} />
+          </div>
+        )}
 
         {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
+        <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
           <p>
@@ -110,9 +190,16 @@ const DiaryDetail = () => {
           placeholder="덧글을 입력해주세요"
           createCommentHandler={createCommentHandler}
         />
-        {diary.commentList.map((comment: any) => {
-          return <DiaryComment comment={comment} />;
-        })}
+        {diary.commentList &&
+          diary.commentList.map((comment: any, idx: number) => {
+            return (
+              <DiaryComment
+                comment={comment}
+                key={idx}
+                updateDiary={updateDiary}
+              />
+            );
+          })}
       </div>
     </SMain>
   );

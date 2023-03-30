@@ -13,13 +13,7 @@ export const SMain = styled.main`
     margin-bottom: 2rem;
   }
 
-  .back-icon {
-    cursor: pointer;
-    color: black;
-    position: absolute;
-    font-size: 1.8rem;
-    left: 16px;
-  }
+
 
   .header {
     /* position: absolute;

@@ -1,25 +1,25 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons"
-import React, { useEffect, useState, useRef } from "react"
-import Navbar from "../../components/common/Navbar/Navbar"
-import CreateInput from "../../components/common/CreateInput/CreateInput"
-import { SMain, SSection } from "./styles"
-import useGeolocation from "react-hook-geolocation"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState, useRef } from "react";
+import Navbar from "../../components/common/Navbar/Navbar";
+import CreateInput from "../../components/common/CreateInput/CreateInput";
+import { SMain, SSection } from "./styles";
+import useGeolocation from "react-hook-geolocation";
 
 // mui
-import FormGroup from "@mui/material/FormGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Switch from "@mui/material/Switch"
-import Radio from "@mui/material/Radio"
-import Typography from "@mui/material/Typography"
-import Modal from "@mui/material/Modal"
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import Radio from "@mui/material/Radio";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
-import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper"
-import Button from "../../components/common/Button/Button"
-import BasicModal from "../../components/common/Modal/BasicModal"
-import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal"
+import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
+import Button from "../../components/common/Button/Button";
+import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
+import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
-import { PlaceType } from "../../models/map/placeType"
+import { PlaceType } from "../../models/map/placeType";
 
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { createDiaryAction, getEmotionAction } from "../../redux/modules/diary";
@@ -29,41 +29,46 @@ import {
   emotionDataSave,
   imgDataSave,
 } from "../../redux/modules/diaryCreate/diaryCreate-slice";
+import GroupItems from "../../components/Diary/GroupItems/GroupItems";
+import { getGroupInfoAction } from "../../redux/modules/group";
 
 declare global {
   interface Window {
-    kakao: any
+    kakao: any;
   }
 }
 
 const DiaryCreate = () => {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [groupSetting, setGroupSetting] = useState("전체공개");
+  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+  const [group, setGroup] = useState<any>(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const contentInput = useRef<HTMLInputElement>(null)
+  const contentInput = useRef<HTMLInputElement>(null);
 
-  const [selectedValue, setSelectedValue] = React.useState("a")
+  const [selectedValue, setSelectedValue] = React.useState("a");
 
   // ============이미지 삽입 관련 변수=============
   const [selectedImg, setSelectedImg] = useState({
     image_file: "",
     preview_URL: "",
-  })
-  const fileInput = React.useRef<HTMLInputElement>(null)
+  });
+  const fileInput = React.useRef<HTMLInputElement>(null);
   // =============현재 주소 관련 변수=============
-  const geolocation = useGeolocation()
-  let isGeolocation = geolocation.latitude != null
+  const geolocation = useGeolocation();
+  let isGeolocation = geolocation.latitude != null;
   const [place, setPlace] = useState<PlaceType>({
     placeName: isGeolocation ? "" : "멀티캠퍼스 역삼",
     address: "",
     lng: isGeolocation ? geolocation.longitude : 128.5,
     lat: isGeolocation ? geolocation.latitude : 37.5,
-  })
+  });
 
-  let geocoder = new kakao.maps.services.Geocoder()
+  let geocoder = new kakao.maps.services.Geocoder();
 
   function searchDetailAddrFromCoords(callback: any) {
     // 좌표로 법정동 상세 주소 정보를 요청합니다
@@ -72,7 +77,7 @@ const DiaryCreate = () => {
       geolocation.longitude,
       geolocation.latitude,
       callback
-    )
+    );
   }
 
   // 현재 위치 반환
@@ -82,60 +87,66 @@ const DiaryCreate = () => {
         if (status === kakao.maps.services.Status.OK) {
           var detailAddr = !!result[0].road_address
             ? result[0].road_address.address_name
-            : result[0].address.address_name
+            : result[0].address.address_name;
 
-          console.log(detailAddr)
+          console.log(detailAddr);
           setPlace({
             placeName: "",
             address: detailAddr,
             lng: geolocation.longitude,
             lat: geolocation.latitude,
-          })
+          });
         }
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    getGeo()
-  }, [geolocation])
+    getGeo();
+
+    if (group === null) {
+      dispatch(getGroupInfoAction()).then((res) => {
+        setGroup(res.payload.response);
+      });
+    }
+  }, [geolocation]);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
-    fileInput.current!.click()
-  }
+    fileInput.current!.click();
+  };
 
   const handleImgChange = (e: any) => {
-    const imgFile = e.target.files[0]
-    console.log(typeof imgFile)
+    const imgFile = e.target.files[0];
 
-    let reader = new FileReader()
+    let reader = new FileReader();
     if (imgFile) {
-      reader.readAsDataURL(imgFile)
+      reader.readAsDataURL(imgFile);
     }
     reader.onloadend = () => {
-      const previewImgUrl = reader.result as string
+      const previewImgUrl = reader.result as string;
       if (previewImgUrl) {
-        const previewImgUrlSub = previewImgUrl.toString()
+        const previewImgUrlSub = previewImgUrl.toString();
         setSelectedImg({
           image_file: imgFile,
           preview_URL: previewImgUrlSub,
-        })
+        });
+
         // 같은 이미지 올리면 변화 감지 안됨 => 초기화 필요
-        e.target.value = ""
+        e.target.value = "";
       }
-    }
-  }
+    };
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value)
-  }
+    setSelectedValue(event.target.value);
+  };
 
   const handleDeletePreviewImg = () => {
     setSelectedImg({
       image_file: "",
       preview_URL: "",
-    })
-  }
+    });
+  };
 
   const controlProps = (item: string) => ({
     checked: selectedValue === item,
@@ -143,15 +154,15 @@ const DiaryCreate = () => {
     value: item,
     name: "color-radio-button-demo",
     inputProps: { "aria-label": item },
-  })
+  });
 
   // 다이어리 생성
   const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
-  console.log(selectedImg.image_file, "파일");
-
   const onCreateDiary = () => {
+    const groupList = selectedGroupIds.length ? selectedGroupIds : null;
+
     const diaryData = {
       content: contentInput.current?.value,
       // 이미지 수정해야 됨
@@ -159,9 +170,9 @@ const DiaryCreate = () => {
       lat: place.lat,
       lng: place.lng,
       // 그룹 설정 수정해야 됨
-      publicStatus: "전체공개",
+      publicStatus: groupSetting,
       // 전체 공개 아니면 그룹 리스트 배열 넣기
-      groupList: null,
+      groupList,
       fid: null,
       gid: gardenId,
       musicTitle: null,
@@ -169,26 +180,32 @@ const DiaryCreate = () => {
       x: 0,
       y: 0,
       z: 0,
-    }
+    };
 
     if (!diaryData.content?.trim()) {
-      handleOpen()
+      handleOpen();
     } else {
       // 입력된 텍스트로 감정 분석하기
       dispatch(getEmotionAction(contentInput.current?.value))
         .then((res) => {
           // 분석된 감정과 꽃 정보 저장
-          dispatch(emotionDataSave(res))
+          dispatch(emotionDataSave(res));
           // 꽃 선택 페이지로 가기 전에 현재 입력 상태 저장
           dispatch(createInfoSaveAction(diaryData));
           // 이미지 데이터 저장
-          dispatch(imgDataSave(selectedImg.image_file));
+          // dispatch(imgDataSave(selectedImg.image_file));
+          localStorage.setItem("imgFile", selectedImg.preview_URL);
+          // console.log(
+          //   selectedImg.image_file,
+          //   selectedImg.preview_URL,
+          //   "이미지 정보"
+          // );
         })
         .then(() => {
-          navigate("/diary/select")
-        })
+          navigate("/diary/select");
+        });
     }
-  }
+  };
 
   const style: any = {
     position: "absolute" as "absolute",
@@ -199,7 +216,7 @@ const DiaryCreate = () => {
     bgcolor: "#ffffff",
     boxShadow: 24,
     // p: 3,
-  }
+  };
 
   return (
     <SMain>
@@ -208,6 +225,13 @@ const DiaryCreate = () => {
         <CreateInput
           contentInput={contentInput}
           placeholder="어떤 일이 있었나요?"
+          isTotal={
+            groupSetting === "전체공개"
+              ? true
+              : groupSetting === "비공개"
+              ? true
+              : false
+          }
         />
         <div className="input__wrapper">
           <button className="image__button">
@@ -233,7 +257,13 @@ const DiaryCreate = () => {
             modalButton={
               <FormGroup>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={
+                    groupSetting === "전체공개" ? (
+                      <Switch checked={true} />
+                    ) : (
+                      <Switch checked={false} />
+                    )
+                  }
                   label="전체 공개"
                 />
               </FormGroup>
@@ -242,15 +272,44 @@ const DiaryCreate = () => {
             <h3>공개 설정</h3>
             <div className="radio__wrapper">
               <p>전체 공개</p>
-              <Radio {...controlProps("a")} />
+              <Radio
+                {...controlProps("a")}
+                onClick={() => {
+                  setGroupSetting("전체공개");
+                }}
+                color={"secondary"}
+              />
             </div>
             <div className="radio__wrapper">
               <p>그룹 공개</p>
-              <Radio {...controlProps("b")} />
+              <Radio
+                {...controlProps("b")}
+                onClick={() => {
+                  setGroupSetting("그룹공개");
+                }}
+                color={"secondary"}
+              />
             </div>
+            {group !== null &&
+              groupSetting === "그룹공개" &&
+              group.map((item: any) => {
+                return (
+                  <GroupItems
+                    props={item}
+                    selectedGroupIds={selectedGroupIds}
+                    setSelectedGroupIds={setSelectedGroupIds}
+                  />
+                );
+              })}
             <div className="radio__wrapper last__radio">
-              <p>나만 공개</p>
-              <Radio {...controlProps("c")} />
+              <p>나만 보기</p>
+              <Radio
+                {...controlProps("c")}
+                onClick={() => {
+                  setGroupSetting("비공개");
+                }}
+                color={"secondary"}
+              />
             </div>
           </BasicModal>
         </div>
@@ -272,7 +331,7 @@ const DiaryCreate = () => {
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
         {/* 그룹 태그 */}
-        <GroupTagWrapper />
+        {groupSetting === "그룹공개" && <GroupTagWrapper groupList={group} />}
         <div className="location__wrapper">
           <div>기록 위치</div>
           <div className="location">
@@ -327,7 +386,7 @@ const DiaryCreate = () => {
         </div>
       </Modal>
     </SMain>
-  )
-}
+  );
+};
 
-export default DiaryCreate
+export default DiaryCreate;

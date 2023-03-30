@@ -9,33 +9,22 @@ export const SAccordion = styled.main`
   border-radius: 4px;
   border-bottom: 1px solid silver;
 
-  .back-icon {
-    cursor: pointer;
+  .title {
+    float: left;
     color: black;
-    position: absolute;
-    font-size: 1.8rem;
-    left: 16px;
-    top: 16px;
-  }
-
-  .title{
-    float:left;
-    color: black;
-  
   }
 
   .select-icon {
     cursor: pointer;
     color: black;
-    float:left;
+    float: left;
     font-size: 1.8rem;
     margin-right: 1vw;
   }
 
-  .down-icon{
+  .down-icon {
     cursor: pointer;
     color: black;
     float: right;
   }
-
 `;

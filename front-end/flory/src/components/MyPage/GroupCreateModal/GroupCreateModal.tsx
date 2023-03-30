@@ -1,4 +1,4 @@
-import BasicModal from "../../common/Modal/BasicModal";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateInput from "../../common/CreateInput/CreateInput";

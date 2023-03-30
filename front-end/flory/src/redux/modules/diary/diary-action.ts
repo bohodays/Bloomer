@@ -1,5 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store.hooks";
 import { axiosInitializer } from "../../utils/axiosInitializer";
+import { dataReset } from "../diaryCreate/diaryCreate-slice";
 import { localData } from "../user/token";
 
 // 일기 생성
@@ -10,7 +13,7 @@ export const createDiaryAction = createAsyncThunk(
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
 
-      const formData = new FormData();
+      const formData: any = new FormData();
       const blob = new Blob([JSON.stringify(diaryData)], {
         type: "application/json",
       });
@@ -23,6 +26,60 @@ export const createDiaryAction = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log(data, "일기 생성 요청 후 반환 값");
+
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 일기 삭제
+export const deleteDiaryAction = createAsyncThunk(
+  "DELETE",
+  async (diary_id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/diary/${diary_id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("일기 삭제 완료", data);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 일기 수정
+export const modifyDiaryAction = createAsyncThunk(
+  "MODIFY",
+  async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+
+      const formData: any = new FormData();
+      const blob = new Blob([JSON.stringify(diaryData)], {
+        type: "application/json",
+      });
+      formData.append("diary", blob);
+      formData.append("imgSrc", imgFile);
+
+      const { data } = await axios.put(`/api/diary`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(data, "일기 수정 요청 후 반환 값");
 
       return data;
     } catch (e) {
@@ -169,16 +226,15 @@ export const getDiaryWithMap = createAsyncThunk(
 // 그룹 일기 목록 가져오기
 export const getDiaryWithGroup = createAsyncThunk(
   "GET_DIARY_WITH_Group",
-  async (groupData: any, { rejectWithValue }) => {
+  async (teamIdList: any, { rejectWithValue }) => {
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
-      const { data } = await axios.post("/api/diary/list/team", groupData, {
+      const { data } = await axios.post("/api/diary/list/team", teamIdList, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("그룹 일기 목록", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -208,6 +264,47 @@ export const createCommentAction = createAsyncThunk(
     }
   }
 );
+
+export const deleteCommentAction = createAsyncThunk(
+  "DELETE_COMMENT",
+  async (commentId: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log("댓글 삭제 요청 후 받는 데이터", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 상세 일기 가져오기
+export const getDetailDiary = createAsyncThunk(
+  "GET_DETAIL",
+  async (diaryId: number, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(`/api/diary/${diaryId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("디테일 데이터 가져오기", data);
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 
 //사용자의 작성했던 이번달 일기들의 감정 통계
 export const getStatisticsMonth = createAsyncThunk(
@@ -252,3 +349,4 @@ export const getStatisticsLastWeek = createAsyncThunk(
     }
   }
 );
+
