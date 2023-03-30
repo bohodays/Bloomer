@@ -12,6 +12,7 @@ const SettingPopover = ({
   editAction,
   deleteAction,
   color,
+  setIsOpenModal,
 }: any): JSX.Element => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -29,6 +30,10 @@ const SettingPopover = ({
   const id = open ? "simple-popover" : undefined;
   const handleEdit = () => {
     editAction();
+    if (setIsOpenModal) {
+      setIsOpenModal(true);
+    }
+
     setAnchorEl(null);
   };
   const handleDelete = () => {
