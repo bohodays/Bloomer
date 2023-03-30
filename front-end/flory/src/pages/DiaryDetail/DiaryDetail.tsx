@@ -52,8 +52,13 @@ const DiaryDetail = () => {
     commentList: [],
   };
   const [diary, setDiary] = useState<DiaryType>(initialDiary);
-  // const diary = ;
   const userId = useAppSelector((state) => state.user.userData.userId);
+  let isSelf = false;
+  if (diary !== initialDiary) {
+    if (diary.garden!.member.userId === userId) {
+      isSelf = true;
+    }
+  }
   const navigate = useNavigate();
   const commentInput = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -129,6 +134,7 @@ const DiaryDetail = () => {
         <div className="flower-title">
           {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
         </div>
+        <button>수정</button>
 
         {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
