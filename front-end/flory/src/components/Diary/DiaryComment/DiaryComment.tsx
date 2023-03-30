@@ -19,7 +19,11 @@ function DiaryComment({ comment }: any): JSX.Element {
       <div style={{ display: "flex", marginBottom: "0.5rem" }}>
         <Avatar size="small" onClick={handleMoveToOtherGarden} />
         <p
-          style={{ marginLeft: "0.5rem", color: "#612FAB" }}
+          style={{
+            marginLeft: "0.5rem",
+            color: "#612FAB",
+            marginRight: "auto",
+          }}
           onClick={handleMoveToOtherGarden}
         >
           {comment.member.nickname}

@@ -1,7 +1,6 @@
 import SendIcon from "@mui/icons-material/Send";
 import { styled } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { makeStyles } from "@material-ui/core";
 
 export const StyledSendIcon = styled(SendIcon, {
   name: "StyledHomeIcon",

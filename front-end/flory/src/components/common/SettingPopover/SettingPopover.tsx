@@ -52,9 +52,9 @@ const SettingPopover = ({
           horizontal: "left",
         }}
       >
-        <ListItemButton onClick={handleEdit}>
+        <ListItemButton onClick={handleEdit} dense>
           {/* <ListItemText primary="Spam" /> */}
-          <p>수정</p>
+          <p style={{ fontSize: "10px" }}>수정</p>
         </ListItemButton>
         <ListItemButton onClick={handleDelete}>
           {/* <ListItemText primary="Spam" /> */}
