@@ -17,6 +17,7 @@ import CommentInput from "../../components/common/CommentInput/CommentInput";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { createCommentAction, getDetailDiary } from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
+import { convertMusicFormat } from "../../utils/utils";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -114,7 +115,7 @@ const DiaryDetail = () => {
       <div className="header_back">
         <div className="music_tag">
           <FontAwesomeIcon icon={faMusic} />
-          <p>{diary.musicTitle}</p>
+          <p>{convertMusicFormat(diary.musicTitle)}</p>
         </div>
         <div className="header-circle"></div>
         <Lottie
