@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   padding-top: 5rem;
-
   min-height: 100%;
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr); */
 
   button {
     top: 1rem;
@@ -11,7 +12,6 @@ export const SMain = styled.main`
   }
 
   .create {
-    background-color: white;
     padding: 0.5rem;
     /* width: 1rem; */
     width: 3rem;
@@ -104,4 +104,4 @@ export const SMain = styled.main`
     linear-gradient(#cdcccc, #cdcccc);
   background-size: 100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px,
     100px 100%, 100px 100%, 100px 100px, 100px 100px;
-`;
+`

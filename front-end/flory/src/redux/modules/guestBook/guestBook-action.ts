@@ -1,34 +1,33 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GroupCreateType } from "../../../models/Group/groupCreateType";
-import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
-import { GuestBookAddType } from "../../../models/guestBook/GuestBookAddType";
-import { axiosInitializer } from "../../utils/axiosInitializer";
-import { localData } from "../user/token";
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import { GroupCreateType } from "../../../models/Group/groupCreateType"
+import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType"
+import { GuestBookAddType } from "../../../models/guestBook/GuestBookAddType"
+import { axiosInitializer } from "../../utils/axiosInitializer"
+import { localData } from "../user/token"
 // import { guestBookActions } from "./guestBook-slice";
 
 // 방명록 생성
 export const addGuestBook = createAsyncThunk(
   "ADD_GUESTBOOK",
-  async (guestData: GuestBookAddType, { rejectWithValue }) => {
-    console.log("보낼 데이터", guestData);
+  async (guestData: GuestBookAddType, { dispatch, rejectWithValue }) => {
+    console.log("보낼 데이터", guestData)
 
     try {
-      const accessToken = localData.getAccessToken();
-      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken()
+      const axios = axiosInitializer()
       const { data } = await axios.post(`/api/guest`, guestData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      });
-      console.log("성공", data);
-
-      return data;
+      })
+      dispatch(getAllGuestBookList(data.response.gardenId))
+      return data
     } catch (e: any) {
       // dispatch(updateAccessToken());
-      return rejectWithValue(e);
+      return rejectWithValue(e)
     }
   }
-);
+)
 
 // // 방명록 디테일 보기
 // export const createGroupAction = createAsyncThunk(
@@ -71,45 +70,42 @@ export const addGuestBook = createAsyncThunk(
 // );
 
 // // 방명록 삭제
-// export const getAllGroupByKeywordAction = createAsyncThunk(
-//   "GET_ALL_GROUP_BY_KEYWORD",
-//   async (keyword: string, { rejectWithValue }) => {
-//     try {
-//       const accessToken = localData.getAccessToken();
-//       const axios = axiosInitializer();
-//       const { data } = await axios.get(
-//         `/api/team/all/search?keyword=${keyword}`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${accessToken}`,
-//           },
-//         }
-//       );
-//       return data.response;
-//     } catch (e) {
-//       rejectWithValue(e);
-//     }
-//   }
-// );
+export const deleteGuestBook = createAsyncThunk(
+  "DELETE_GUESTBOOK",
+  async (
+    requestData: { bookId: number; gardenId: number },
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      const accessToken = localData.getAccessToken()
+      const axios = axiosInitializer()
+      await axios.delete(`/api/guest/${requestData.bookId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      dispatch(getAllGuestBookList(requestData.gardenId))
+    } catch (e) {
+      rejectWithValue(e)
+    }
+  }
+)
 
 // 방명록 리스트 가져오기
 export const getAllGuestBookList = createAsyncThunk(
   "GET_ALL_GUESTBOOK_LIST",
   async (garden_id: number, { rejectWithValue }) => {
     try {
-      const accessToken = localData.getAccessToken();
-      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken()
+      const axios = axiosInitializer()
       const { data } = await axios.get(`/api/guest/garden/${garden_id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      });
-
-      console.log("api 성공");
-
-      return data;
+      })
+      return data
     } catch (e) {
-      return rejectWithValue(e);
+      return rejectWithValue(e)
     }
   }
-);
+)
