@@ -136,6 +136,7 @@ const DiaryDetail = () => {
 
         {/* 다이어리 내용 영역 */}
         <img className="diary-img" src={diary.imgSrc} />
+        <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
           <p>
