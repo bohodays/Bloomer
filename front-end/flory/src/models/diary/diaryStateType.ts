@@ -1,5 +1,6 @@
 import { ReduxStateType } from "../reduxStateType";
 import { DiaryType } from "./diaryType";
+import { EmotionType } from "./emotionType";
 
 export type DiaryStateType = {
   //  수정 해야 됨
@@ -10,5 +11,6 @@ export type DiaryStateType = {
   monthDiaryList: DiaryType[];
   mapDiaryList: DiaryType[];
   groupDiaryList: DiaryType[];
-  monthStat: [];
+  monthStat: EmotionType;
+  weekStat: EmotionType;
 };

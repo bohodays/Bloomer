@@ -35,7 +35,7 @@ function Avatar({
   });
 
   useEffect(() => {
-    if (imgIdx === "11" && src != null && src != "") {
+    if (imgIdx === "11" && src != null && src != "" && src.length>2) {
       console.log("s3에서 이미지 가져오기");
       const params = {
         Bucket: "bloomer205",

@@ -9,7 +9,8 @@ import {
   getDiaryWithMap,
   updatePositionAction,
   getDiaryWithGroup,
-  getStatisticsMonth
+  getStatisticsMonth,
+  getStatisticsLastWeek
 } from "./diary-action";
 
 const initialState: DiaryStateType = {
@@ -20,7 +21,8 @@ const initialState: DiaryStateType = {
   monthDiaryList: [],
   mapDiaryList: [],
   groupDiaryList: [],
-  monthStat: []
+  monthStat: {joy: 0, stable: 0, flustered: 0, angry: 0, anxiety: 0, hurt: 0, sadness: 0},
+  weekStat: {joy: 0, stable: 0, flustered: 0, angry: 0, anxiety: 0, hurt: 0, sadness: 0}
 };
 
 const diarySlice = createSlice({
@@ -89,9 +91,23 @@ const diarySlice = createSlice({
         state.groupDiaryList = payload.response;
       })
       .addCase(getStatisticsMonth.fulfilled, (state, { payload }) => {
-        state.monthStat = payload.response;
+        state.monthStat.joy = payload.response.기쁨;
+        state.monthStat.stable = payload.response.안정;
+        state.monthStat.flustered = payload.response.당황;
+        state.monthStat.angry = payload.response.분노;
+        state.monthStat.anxiety = payload.response.불안;
+        state.monthStat.hurt = payload.response.상처;
+        state.monthStat.sadness = payload.response.슬픔;
       })
-      ;
+      .addCase(getStatisticsLastWeek.fulfilled, (state, { payload }) => {
+        state.weekStat.joy = payload.response.기쁨;
+        state.weekStat.stable = payload.response.안정;
+        state.weekStat.flustered = payload.response.당황;
+        state.weekStat.angry = payload.response.분노;
+        state.weekStat.anxiety = payload.response.불안;
+        state.weekStat.hurt = payload.response.상처;
+        state.weekStat.sadness = payload.response.슬픔;
+      });
   },
 });
 
