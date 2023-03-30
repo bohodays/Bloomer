@@ -18,7 +18,7 @@ export const SItem = styled.div<any>`
   flex: auto;
   display: flex;
   gap: 1rem;
-  align-items: center;
+  /* align-items: center; */
   z-index: -2;
 
   background-color: #f6f2ff;
