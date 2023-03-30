@@ -12,7 +12,7 @@ export default function App() {
           onLoad={console.log("Loaded!")}
           domStorageEnabled={true}
           geolocationEnabled={true}
-          cacheEnabled={true}
+          // cacheEnabled={true}
         />
       </View>
     </View>
