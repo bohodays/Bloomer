@@ -11,6 +11,23 @@ export const convertNumFormat = (num: number) => {
   return sNum;
 };
 
+// 음악 제목 형식 바꾸기
+export const convertMusicFormat = (title: string) => {
+  let idx = 0;
+  for (let i = 0; i < title.length; i++) {
+    if (title[i] === "-") {
+      idx = i;
+    }
+  }
+  let newTitle = title;
+  if (idx > 0) {
+    newTitle = title.slice(0, idx);
+  }
+  newTitle = newTitle.replace(/-/g, " ");
+  newTitle = newTitle.replace(/_/g, " ");
+  return newTitle;
+};
+
 // ======================================
 // DiaryDate
 // ======================================
