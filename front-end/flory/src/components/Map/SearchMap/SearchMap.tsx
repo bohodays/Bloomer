@@ -25,8 +25,8 @@ function SearchMap({ func }: any): JSX.Element {
     let mapOptions = {
       //지도를 생성할 때 필요한 기본 옵션
       center: new window.kakao.maps.LatLng(
-        geolocation.latitude,
-        geolocation.longitude
+        geolocation.latitude ? geolocation.latitude : 37.5128064,
+        geolocation.longitude ? geolocation.longitude : 127.0284288
       ), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
