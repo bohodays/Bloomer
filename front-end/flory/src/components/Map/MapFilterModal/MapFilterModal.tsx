@@ -21,7 +21,7 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     dispatch(groupActions.check({ idx: idx }));
   };
 
-  const dispatchAction = () => {
+  const dispatchAction = async () => {
     let lst = [];
     for (let i of groupCheckList) {
       if (i.check) {
@@ -31,7 +31,8 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     const groupData = {
       teamIdList: lst,
     };
-    dispatch(getDiaryWithGroup(groupData));
+    await dispatch(getDiaryWithGroup(groupData));
+    return true;
   };
 
   return (
