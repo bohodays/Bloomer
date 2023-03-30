@@ -18,7 +18,7 @@ import { SMain } from "./styles";
 // import Base_map_new from "../../components/Garden/Park/Park_map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { getDiaryListAction } from "../../redux/modules/diary";
@@ -56,9 +56,15 @@ const Scene = () => {
 const Garden = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const gardenData = useAppSelector((state) => state.garden.gardenData);
+  const locationData = location.state !== null ? location.state : null;
 
-  // 본인 정원 ID
-  const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
+  // 보고 싶은 정원 ID
+  const gardenId =
+    locationData !== null && locationData.gid !== null
+      ? locationData.gid
+      : gardenData.gardenId;
   // 본인 ID
   const requestId = useAppSelector((state) => state.user.userData.userId);
 
@@ -74,6 +80,20 @@ const Garden = () => {
 
   return (
     <SMain>
+      {locationData !== null && (
+        <div
+          style={{
+            position: "absolute",
+            top: "1.5rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: "10",
+            color: "white",
+          }}
+        >
+          {locationData.year}/{locationData.month}
+        </div>
+      )}
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
