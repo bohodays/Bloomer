@@ -6,6 +6,7 @@ import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.repository.*;
 import org.junit.jupiter.api.DisplayName;
@@ -98,10 +99,10 @@ public class DiaryServiceTest {
             .id(1L).diary(diaryDto.toEntity()).member(member).content("content").build();
 
     private final Team team = Team.builder()
-            .teamId(1L).name("name").build();
+            .teamId(1L).name("name").info("info").open(true).build();
 
     private final UserTeam userTeam = UserTeam.builder()
-            .userTeamId(1L).tid(team).uid(member).build();
+            .userTeamId(1L).tid(team).uid(member).status(1).build();
     @DisplayName("일기 등록하기 테스트")
     @Test
     public void insertDiaryTest() throws Exception{
@@ -434,6 +435,38 @@ public class DiaryServiceTest {
         List<DiaryDto> result = diaryService.updateDiaryLocation(diaries);
 
         assertEquals(diaries.size(),result.size());
+    }
+
+    @DisplayName("그룹에 속한 일기 목록 가져오기 테스트")
+    @Test
+    public void getDiaryListInTeamTest(){
+        List<Long> idList = new ArrayList<>();
+        List<Diary> diaries = new ArrayList<>();
+        List<UserTeam> userTeams = new ArrayList<>();
+        Diary diary = diaryDto.toEntity();
+
+        userTeams.add(userTeam);
+        diary.setGarden(garden);
+        diary.setFlower(flower);
+        diary.setMusic(music);
+
+        idList.add(1L);
+        diaries.add(diary);
+        Team team1 = Team.builder()
+                .teamId(1L).open(true).info("info").userTeamList(userTeams).name("name").build();
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(idList).build();
+
+        when(teamRepository.findById(any())).thenReturn(Optional.of(team1));
+        when(diaryRepository.findPublicByMemberId(any())).thenReturn(diaries);
+        when(diaryTeamRepository.getDiaryByTid(any())).thenReturn(idList);
+        when(diaryRepository.findById(any())).thenReturn(Optional.of(diary));
+        when(flowerRepository.getEmotionKey(any())).thenReturn(idList);
+        when(emotionRepository.findById(any())).thenReturn(Optional.ofNullable(emotion));
+
+        List<DiaryDto> diaryDtoList = diaryService.getDiaryListInTeam(teamIdListDto);
+
+        assertEquals(diaryDtoList.size(),diaries.size()+1);
     }
 
     @DisplayName("댓글 목록 가져오기 테스트")
