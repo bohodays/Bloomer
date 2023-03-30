@@ -2,7 +2,7 @@
   "expo": {
     "name": "flory-app",
     "slug": "flory-app",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.erscindy.floryapp"
+      "package": "com.erscindy.floryapp",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
