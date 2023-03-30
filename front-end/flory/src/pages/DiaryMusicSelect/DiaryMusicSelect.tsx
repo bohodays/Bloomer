@@ -64,17 +64,23 @@ const DiaryMusicSelect = () => {
   const getMusicUrls = (musicArray: any) => {
     let test: any = [];
 
+    console.log("s3에 넘길 음악 데이터", musicArray);
+
     musicArray.map((item: any) => {
       const params = {
         Bucket: "bloomer205",
         Key: `music/${item.title}.mp3`,
       };
+      console.log("s3에 넘기는 음악 제목", item.title);
+
       s3.getSignedUrlPromise("getObject", params)
         .then((url) => {
           test.push(url);
         })
         .catch((err) => console.error(err))
         .finally(() => {
+          console.log("최종 데이터", test);
+
           setMusicUrls(test);
         });
     });
@@ -87,8 +93,8 @@ const DiaryMusicSelect = () => {
       const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
-        console.log(res, "음악데이터");
-        
+        console.log(res, "dispatch로 받은 음악데이터");
+
         setMusicData(res.payload.response);
       });
     }
