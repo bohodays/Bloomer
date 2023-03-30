@@ -53,12 +53,20 @@ export const SMyPage = styled.div`
 
   .inner-title{
     font-size: 12px;
-    margin-bottom:5vh;
+    margin-bottom:10px;
   }
 
   .flower-title{
     font-size: 12px;
     display:inline-block;
+  }
+
+  .emotion__flower{
+    width: 50px;
+    height: 50px;
+    /* float: left; */
+    padding: 10px;
+    margin: 0 auto;
   }
 `;
 

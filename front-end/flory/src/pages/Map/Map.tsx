@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,14 +9,10 @@ import BasicTabs from "../../components/common/Tabs/BasicTabs";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
-import {
-  getAllDiary,
-  getDiaryWithGroup,
-  getDiaryWithMap,
-} from "../../redux/modules/diary";
+import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import CommunityMap from "../../components/Map/CommunityMap/CommunityMap";
-import { getGroupInfoAction } from "../../redux/modules/group";
+import GroupEmotionPanel from "../../components/MyPage/GroupEmotionPanel/GroupEmotionPanel";
 
 let isInitial = true;
 
@@ -31,33 +27,16 @@ const Map = () => {
   });
   const allDiaryList = useAppSelector((store) => store.diary.allDiaryList);
   const mapDiaryList = useAppSelector((store) => store.diary.mapDiaryList);
-  const groupDiaryList = useAppSelector((store) => store.diary.groupDiaryList);
   const userId = useAppSelector((store) => store.user.userData.userId);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getAllDiary());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      dispatch(getGroupInfoAction()).then((data) => {
-        console.log("group", data);
-        let teamIdList = [];
-        for (let i of data.payload.response) {
-          teamIdList.push(i.teamId);
-        }
-        const groupData = {
-          teamIdList,
-        };
-        dispatch(getDiaryWithGroup(groupData));
-      });
-    }
-  }, [dispatch]);
+  // let teamIdList: number[] = [];
 
   useEffect(() => {
     const mapData = { ...bound, requestId: userId };
-    console.log("요청 보낼거임", mapData);
     dispatch(getDiaryWithMap(mapData));
   }, [bound]);
 
@@ -65,12 +44,10 @@ const Map = () => {
   const mapPanel = (
     <div>
       <div>
-        {/* <BasicMap setBound={setBound} diaries={mapDiaryList} /> */}
         <CommunityMap setBound={setBound} diaries={mapDiaryList} />
       </div>
       <div>
         <DiaryList DIARY_LIST={mapDiaryList} page="map" />
-        {/* <DiaryList /> */}
       </div>
     </div>
   );
@@ -85,14 +62,7 @@ const Map = () => {
   );
 
   // 그룹 감정 보기
-  const groupPanel = (
-    <div>
-      <div>
-        <MapFilterModal />
-        <DiaryList DIARY_LIST={groupDiaryList} page="map" />
-      </div>
-    </div>
-  );
+  const groupPanel = <GroupEmotionPanel />;
 
   return (
     <SMain>

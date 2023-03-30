@@ -598,6 +598,68 @@ public class DiaryService {
         return flowerEmotionDto;
     }
 
+    public Map<String,Integer> getEmotionsInWeek(Long userId){
+        List<Garden> gardenList = gardenRepository.findAllByUserId(userId);
+        Map<String,Integer> result = new LinkedHashMap<>();
+        List<Diary> diaries_thisWeek = new ArrayList<>();
+        List<Diary> diaries_lastWeek = new ArrayList<>();
+
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+        int[] count_thisWeek = new int[emotions.length];
+        int[] count_lastWeek = new int[emotions.length];
+
+        for(Garden garden : gardenList){
+            diaries_thisWeek.addAll(diaryRepository.findDiaryInWeek(garden.getId()));
+            diaries_lastWeek.addAll(diaryRepository.findDiaryInLastWeek(garden.getId()));
+        }
+
+        for(Diary diary: diaries_thisWeek){
+            Flower flower = diary.getFlower();
+
+            count_thisWeek[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(Diary diary: diaries_lastWeek){
+            Flower flower = diary.getFlower();
+
+            count_lastWeek[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(int i=0;i<emotions.length;i++){
+            result.put(emotions[i],count_thisWeek[i]-count_lastWeek[i]);
+        }
+
+        return result;
+    }
+
+    public Map<String,Integer> getEmotionsInMonth(Long userId){
+        List<Garden> gardenList = gardenRepository.findAllByUserId(userId);
+
+        Map<String,Integer> result = new LinkedHashMap<>();
+        List<Diary> diaries = new ArrayList<>();
+
+        String[] emotions = {"기쁨","안정","당황","분노","불안","상처","슬픔"};
+        int[] count = new int[emotions.length];
+
+        for(Garden garden : gardenList){
+            diaries.addAll(diaryRepository.findDiaryInMonth(garden.getId()));
+        }
+
+        for(Diary diary: diaries){
+            Flower flower = diary.getFlower();
+
+            count[flower.getEmotion().getId().intValue()-1]++;
+        }
+
+        for(int i=0;i<emotions.length;i++){
+            result.put(emotions[i],count[i]);
+        }
+
+        log.info("result: {}",result);
+        return result;
+    }
+
+
     public boolean isInTeam(Long diaryId, Long memberId){
         List<Long> groupList = diaryTeamRepository.getGroup(diaryId);
         log.info("groupList: {}",groupList);

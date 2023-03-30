@@ -151,19 +151,21 @@ const DiaryFlower = (props: any) => {
   const { flower } = props;
 
   return (
-    <SMain>
-      <Canvas shadows={true}>
-        {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
-        <OrbitControls
-          maxPolarAngle={0}
-          minPolarAngle={Math.PI / 3}
-          minZoom={20}
-          maxZoom={20}
-          enablePan={false}
-        />
-        <Scene flower={flower}></Scene>
-      </Canvas>
-    </SMain>
+    <Suspense fallback={null}>
+      <SMain>
+        <Canvas shadows={true}>
+          {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
+          <OrbitControls
+            maxPolarAngle={0}
+            minPolarAngle={Math.PI / 3}
+            minZoom={20}
+            maxZoom={20}
+            enablePan={false}
+          />
+          <Scene flower={flower}></Scene>
+        </Canvas>
+      </SMain>
+    </Suspense>
   );
 };
 export default DiaryFlower;

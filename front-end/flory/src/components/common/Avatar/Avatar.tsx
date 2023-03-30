@@ -35,7 +35,7 @@ function Avatar({
   });
 
   useEffect(() => {
-    if (imgIdx === "11" && src != null && src != "") {
+    if (imgIdx === "11" && src != null && src != "" && src.length>2) {
       console.log("s3에서 이미지 가져오기");
       const params = {
         Bucket: "bloomer205",
@@ -47,16 +47,16 @@ function Avatar({
     }
   }, [src]);
 
-  if (imgIdx === "11" && src && src.length>2) {
+  if (imgIdx === "11" && src && src.length > 2) {
     // s3에서 가져오기
     console.log("111 s3에서 이미지 가져오기");
     imgSrc = imageUrl;
   }
-  if (tmpsrc && tmpsrc.length>2) {
+  if (tmpsrc && tmpsrc.length > 2) {
     // 파일 미리 보기 (아직 저장이 안된 상태)
     console.log("미리보기");
     imgSrc = tmpsrc;
-  } else if(imgIdx !="11"){
+  } else if (imgIdx != "11") {
     console.log(imgIdx);
     imgSrc = imgIdx
       ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)

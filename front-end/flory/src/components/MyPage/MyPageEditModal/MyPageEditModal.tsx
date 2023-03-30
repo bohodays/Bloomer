@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "../../common/Avatar/Avatar";
-import BasicModal from "../../common/Modal/BasicModal";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import { ImgIcon, SForm } from "./styles";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { updateUserInfoAction } from "../../../redux/modules/user";
@@ -24,7 +24,7 @@ const MyPageEditModal = () => {
   const [email, setEmail] = useState(userInfo.email);
 
   useEffect(() => {
-    if (userInfo.img.length > 2) {
+    if (userInfo.img && userInfo.img.length > 2) {
       setPickedIdx("11");
     } else {
       setPickedIdx(userInfo.img || "");
@@ -40,18 +40,19 @@ const MyPageEditModal = () => {
     setPickedIdx(idx);
   };
 
-  const handleUpdateInfo = () => {
+  const handleUpdateInfo = async () => {
     const userData = {
       nickname,
       img: pickedIdx,
       email: userInfo.email,
     };
 
-    if(pickedIdx === "11"){
-      dispatch(updateUserInfoAction({userData, imgFile}));
-    }else{
-      dispatch(updateUserInfoAction({userData, imgFile: ""}));
+    if (pickedIdx === "11") {
+      await dispatch(updateUserInfoAction({ userData, imgFile }));
+    } else {
+      await dispatch(updateUserInfoAction({ userData, imgFile: "" }));
     }
+    return true;
   };
 
   // 선택이미지 미리보기
@@ -80,17 +81,15 @@ const MyPageEditModal = () => {
     <BasicModal
       modalButton={
         <button>
-          <ImgIcon
-          >
+          <ImgIcon>
             <Avatar
               size="big"
               src={userInfo.img}
-              imgIdx={userInfo.img.length > 2 ? "11" : userInfo.img}
+              imgIdx={
+                userInfo.img && userInfo.img.length > 2 ? "11" : userInfo.img
+              }
             />
-            <img 
-              src={ModifyButtonImg} 
-              className="modifyButtonImg"
-            ></img>
+            <img src={ModifyButtonImg} className="modifyButtonImg"></img>
           </ImgIcon>
         </button>
       }

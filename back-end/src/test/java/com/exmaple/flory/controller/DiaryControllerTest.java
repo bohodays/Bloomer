@@ -4,6 +4,7 @@ import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
+import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.service.DiaryService;
@@ -22,10 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -514,6 +512,109 @@ public class DiaryControllerTest {
         when(diaryService.getPublicDiaryList()).thenThrow(new RuntimeException());
 
         mockMvc.perform(get("/api/diary/list/all"))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("지난주 대비 감정 통계 테스트")
+    @Test
+    public void getEmotionsInWeekTest() throws Exception {
+        Map<String,Integer> result = new LinkedHashMap<>();
+        result.put("기쁨",1);
+
+        when(diaryService.getEmotionsInWeek(any())).thenReturn(result);
+
+        mockMvc.perform(get("/api/diary/statistics/week/{userId}",1L))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("지난주 대비 감정 통계 테스트")
+    @Test
+    public void getEmotionsInWeekExceptionTest() throws Exception {
+        when(diaryService.getEmotionsInWeek(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/statistics/week/{userId}",1L))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 테스트")
+    @Test
+    public void getDiaryMemberTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenReturn(diaries);
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 custom 오류 테스트")
+    @Test
+    public void getDiaryMemberCustomExceptionTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenThrow(new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("그룹 일기 목록 조회 오류 테스트")
+    @Test
+    public void getDiaryMemberExceptionTest() throws Exception{
+        TeamIdListDto teamIdListDto = TeamIdListDto.builder()
+                .teamIdList(new ArrayList<>()).build();
+
+        List<DiaryDto> diaries = new ArrayList<>();
+
+        diaries.add(diaryDto);
+
+        when(diaryService.getDiaryListInTeam(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(post("/api/diary/list/team").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(teamIdListDto)))
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @DisplayName("이번달 감정 통계 테스트")
+    @Test
+    public void getEmotionsInMonthTest() throws Exception {
+        Map<String,Integer> result = new LinkedHashMap<>();
+        result.put("기쁨",1);
+
+        when(diaryService.getEmotionsInMonth(any())).thenReturn(result);
+
+        mockMvc.perform(get("/api/diary/statistics/month/{userId}",1L))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("이번달 감정 통계 테스트")
+    @Test
+    public void getEmotionsInMonthExceptionTest() throws Exception {
+        when(diaryService.getEmotionsInMonth(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/diary/statistics/month/{userId}",1L))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }

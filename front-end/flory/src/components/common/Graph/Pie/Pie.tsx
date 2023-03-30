@@ -6,7 +6,6 @@ interface DataItem {
   id: string;
   label: string;
   value: number;
-  color: string;
 }
 
 type Props = {

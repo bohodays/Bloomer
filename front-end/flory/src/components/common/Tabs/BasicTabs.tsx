@@ -45,7 +45,7 @@ const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
   }
 
   return (
-    <div style={{ width: "90%", paddingBottom:"40px" }}>
+    <div style={{ width: "90%", paddingBottom:"90px" }}>
       <div>
         <TabList tabs={props.tabs} handleChange={switchTab} value={value} />
       </div>

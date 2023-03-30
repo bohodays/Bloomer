@@ -16,7 +16,7 @@ import Modal from "@mui/material/Modal";
 
 import GroupTagWrapper from "../../components/Diary/GroupTagWrapper/GroupTagWrapper";
 import Button from "../../components/common/Button/Button";
-import BasicModal from "../../components/common/Modal/BasicModal";
+import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import DiaryLocationModal from "../../components/Diary/DiaryLocationModal/DiaryLocationModal";
 
 import { PlaceType } from "../../models/map/placeType";
@@ -29,6 +29,8 @@ import {
   emotionDataSave,
   imgDataSave,
 } from "../../redux/modules/diaryCreate/diaryCreate-slice";
+import GroupItems from "../../components/Diary/GroupItems/GroupItems";
+import { getGroupInfoAction } from "../../redux/modules/group";
 
 declare global {
   interface Window {
@@ -40,6 +42,9 @@ const DiaryCreate = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [groupSetting, setGroupSetting] = useState("전체공개");
+  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+  const [group, setGroup] = useState<any>(null);
 
   const navigate = useNavigate();
 
@@ -98,6 +103,12 @@ const DiaryCreate = () => {
 
   useEffect(() => {
     getGeo();
+
+    if (group === null) {
+      dispatch(getGroupInfoAction()).then((res) => {
+        setGroup(res.payload.response);
+      });
+    }
   }, [geolocation]);
 
   const handleAddImg = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -106,8 +117,6 @@ const DiaryCreate = () => {
 
   const handleImgChange = (e: any) => {
     const imgFile = e.target.files[0];
-
-    console.log(typeof imgFile);
 
     let reader = new FileReader();
     if (imgFile) {
@@ -151,9 +160,9 @@ const DiaryCreate = () => {
   const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
-  console.log(selectedImg.image_file, "파일");
-
   const onCreateDiary = () => {
+    const groupList = selectedGroupIds.length ? selectedGroupIds : null;
+
     const diaryData = {
       content: contentInput.current?.value,
       // 이미지 수정해야 됨
@@ -161,9 +170,9 @@ const DiaryCreate = () => {
       lat: place.lat,
       lng: place.lng,
       // 그룹 설정 수정해야 됨
-      publicStatus: "전체공개",
+      publicStatus: groupSetting,
       // 전체 공개 아니면 그룹 리스트 배열 넣기
-      groupList: null,
+      groupList,
       fid: null,
       gid: gardenId,
       musicTitle: null,
@@ -186,11 +195,11 @@ const DiaryCreate = () => {
           // 이미지 데이터 저장
           // dispatch(imgDataSave(selectedImg.image_file));
           localStorage.setItem("imgFile", selectedImg.preview_URL);
-          console.log(
-            selectedImg.image_file,
-            selectedImg.preview_URL,
-            "이미지 정보"
-          );
+          // console.log(
+          //   selectedImg.image_file,
+          //   selectedImg.preview_URL,
+          //   "이미지 정보"
+          // );
         })
         .then(() => {
           navigate("/diary/select");
@@ -216,6 +225,13 @@ const DiaryCreate = () => {
         <CreateInput
           contentInput={contentInput}
           placeholder="어떤 일이 있었나요?"
+          isTotal={
+            groupSetting === "전체공개"
+              ? true
+              : groupSetting === "비공개"
+              ? true
+              : false
+          }
         />
         <div className="input__wrapper">
           <button className="image__button">
@@ -241,7 +257,13 @@ const DiaryCreate = () => {
             modalButton={
               <FormGroup>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={
+                    groupSetting === "전체공개" ? (
+                      <Switch checked={true} />
+                    ) : (
+                      <Switch checked={false} />
+                    )
+                  }
                   label="전체 공개"
                 />
               </FormGroup>
@@ -250,15 +272,44 @@ const DiaryCreate = () => {
             <h3>공개 설정</h3>
             <div className="radio__wrapper">
               <p>전체 공개</p>
-              <Radio {...controlProps("a")} />
+              <Radio
+                {...controlProps("a")}
+                onClick={() => {
+                  setGroupSetting("전체공개");
+                }}
+                color={"secondary"}
+              />
             </div>
             <div className="radio__wrapper">
               <p>그룹 공개</p>
-              <Radio {...controlProps("b")} />
+              <Radio
+                {...controlProps("b")}
+                onClick={() => {
+                  setGroupSetting("그룹공개");
+                }}
+                color={"secondary"}
+              />
             </div>
+            {group !== null &&
+              groupSetting === "그룹공개" &&
+              group.map((item: any) => {
+                return (
+                  <GroupItems
+                    props={item}
+                    selectedGroupIds={selectedGroupIds}
+                    setSelectedGroupIds={setSelectedGroupIds}
+                  />
+                );
+              })}
             <div className="radio__wrapper last__radio">
-              <p>나만 공개</p>
-              <Radio {...controlProps("c")} />
+              <p>나만 보기</p>
+              <Radio
+                {...controlProps("c")}
+                onClick={() => {
+                  setGroupSetting("비공개");
+                }}
+                color={"secondary"}
+              />
             </div>
           </BasicModal>
         </div>
@@ -280,7 +331,7 @@ const DiaryCreate = () => {
         </div>
         {/* 많아졌을 때 문제있음. API 연결하고 수정해야 됨 */}
         {/* 그룹 태그 */}
-        <GroupTagWrapper />
+        {groupSetting === "그룹공개" && <GroupTagWrapper groupList={group} />}
         <div className="location__wrapper">
           <div>기록 위치</div>
           <div className="location">
