@@ -118,7 +118,10 @@ function SearchMap({ func }: any): JSX.Element {
       ps.keywordSearch(func.keyword.word, placesSearchCB);
     } else {
       map.current.setCenter(
-        new kakao.maps.LatLng(geolocation.latitude, geolocation.longitude)
+        new kakao.maps.LatLng(
+          geolocation.latitude ? geolocation.latitude : 37.5128064,
+          geolocation.longitude ? geolocation.longitude : 127.0284288
+        )
       );
       setCenter(map.current.getCenter());
     }
