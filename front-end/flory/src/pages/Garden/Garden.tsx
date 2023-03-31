@@ -36,13 +36,13 @@ const Scene = () => {
         <ambientLight intensity={0.4} />
         {/* Park 맵 */}
         {/* <Base_map_new /> */}
-        {/* <Park_map /> */}
+        <Park_map />
 
         {/* Beach 맵 */}
         {/* <Beach_map /> */}
 
         {/* Camp 맵 */}
-        <Camp_map />
+        {/* <Camp_map /> */}
 
         {/* <EffectComposer multisampling={8}> */}
         {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
