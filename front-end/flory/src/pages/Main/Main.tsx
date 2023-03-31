@@ -53,7 +53,7 @@ const Main = () => {
   // };
 
   const handleMoveLogin = () => {
-    if (userId != 0) {
+    if (userId !== 0) {
       navigate("/garden");
     } else {
       navigate("/login");
