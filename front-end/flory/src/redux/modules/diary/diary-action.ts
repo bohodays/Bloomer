@@ -60,22 +60,14 @@ export const deleteDiaryAction = createAsyncThunk(
 // 일기 수정
 export const modifyDiaryAction = createAsyncThunk(
   "MODIFY",
-  async ({ diaryData, imgFile }: any, { rejectWithValue }) => {
+  async (diaryData: any, { rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
 
-      const formData: any = new FormData();
-      const blob = new Blob([JSON.stringify(diaryData)], {
-        type: "application/json",
-      });
-      formData.append("diary", blob);
-      formData.append("imgSrc", imgFile);
-
-      const { data } = await axios.put(`/api/diary`, formData, {
+      const { data } = await axios.put(`/api/diary`, diaryData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -305,7 +297,6 @@ export const getDetailDiary = createAsyncThunk(
   }
 );
 
-
 //사용자의 작성했던 이번달 일기들의 감정 통계
 export const getStatisticsMonth = createAsyncThunk(
   "GET_STATISTICES_MONTH",
@@ -335,18 +326,14 @@ export const getStatisticsLastWeek = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
-      const { data } = await axios.get(
-        `/api/diary/statistics/week/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`/api/diary/statistics/week/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       return data;
     } catch (e) {
       return rejectWithValue(e);
     }
   }
 );
-

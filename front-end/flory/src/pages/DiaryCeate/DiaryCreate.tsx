@@ -283,6 +283,7 @@ const DiaryCreate = () => {
             <div className="radio__wrapper">
               <p>그룹 공개</p>
               <Radio
+                disabled={group !== null && group.length ? false : true}
                 {...controlProps("b")}
                 onClick={() => {
                   setGroupSetting("그룹공개");
