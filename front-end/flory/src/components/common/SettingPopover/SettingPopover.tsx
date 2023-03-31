@@ -1,16 +1,16 @@
-import * as React from "react"
-import Popover from "@mui/material/Popover"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
+import * as React from "react";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
-import { IconButton, ListItemButton, ListItemText } from "@mui/material"
-import MoreVert from "@mui/icons-material/MoreVert"
-import { StyledMoreVertIcon } from "../StyledIcons/styledIcons"
-import BasicModal from "../Modal/BasicModal/BasicModal"
-import { FormControlLabel, FormGroup, Radio } from "@mui/material"
-import GroupItems from "../../Diary/GroupItems/GroupItems"
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
-import { modifyDiaryAction } from "../../../redux/modules/diary"
+import { IconButton, ListItemButton, ListItemText } from "@mui/material";
+import MoreVert from "@mui/icons-material/MoreVert";
+import { StyledMoreVertIcon } from "../StyledIcons/styledIcons";
+import BasicModal from "../Modal/BasicModal/BasicModal";
+import { FormControlLabel, FormGroup, Radio } from "@mui/material";
+import GroupItems from "../../Diary/GroupItems/GroupItems";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { modifyDiaryAction } from "../../../redux/modules/diary";
 
 // export default function
 const SettingPopover = ({
@@ -42,45 +42,47 @@ const SettingPopover = ({
       gid: diary.garden.id,
       musicTitle: diary.musicTitle,
       address: diary.address,
-    }
+    };
   }
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-  const [selectedValue, setSelectedValue] = React.useState("a")
-  const openRef = React.useRef<any>()
-  const dispatch = useAppDispatch()
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+  const [selectedValue, setSelectedValue] = React.useState("a");
+  const openRef = React.useRef<any>();
+  const dispatch = useAppDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
-  const open = Boolean(anchorEl)
-  const id = open ? "simple-popover" : undefined
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   const handleEdit = () => {
-    editAction()
+    editAction();
 
     // if (setIsOpenModal) {
     //   setIsOpenModal(true);
     // }
     // setIsOpenModal(false);
 
-    setAnchorEl(null)
-    openRef.current.click()
-  }
+    setAnchorEl(null);
+    openRef.current.click();
+  };
   const handleDelete = () => {
-    deleteAction()
-    setAnchorEl(null)
-  }
+    deleteAction();
+    setAnchorEl(null);
+  };
 
   // 그룹 수정 관련
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value)
-  }
+    setSelectedValue(event.target.value);
+  };
 
   const controlProps = (item: string) => ({
     checked: selectedValue === item,
@@ -88,7 +90,7 @@ const SettingPopover = ({
     value: item,
     name: "color-radio-button-demo",
     inputProps: { "aria-label": item },
-  })
+  });
 
   const dispatchAction = async () => {
     await dispatch(
@@ -97,9 +99,9 @@ const SettingPopover = ({
         publicStatus: groupSetting,
         groupList: selectedGroupIds,
       })
-    )
-    return true
-  }
+    );
+    return true;
+  };
 
   return (
     <div>
@@ -118,10 +120,12 @@ const SettingPopover = ({
           horizontal: "left",
         }}
       >
-        <ListItemButton onClick={handleEdit} dense>
-          {/* <ListItemText primary="Spam" /> */}
-          <p style={{ fontSize: "0.75rem" }}>수정</p>
-        </ListItemButton>
+        {editAction && (
+          <ListItemButton onClick={handleEdit} dense>
+            {/* <ListItemText primary="Spam" /> */}
+            <p style={{ fontSize: "0.75rem" }}>수정</p>
+          </ListItemButton>
+        )}
         <ListItemButton onClick={handleDelete}>
           {/* <ListItemText primary="Spam" /> */}
           <p style={{ fontSize: "0.75rem" }}>삭제</p>
@@ -144,7 +148,7 @@ const SettingPopover = ({
           <Radio
             {...controlProps("a")}
             onClick={() => {
-              setGroupSetting("전체공개")
+              setGroupSetting("전체공개");
             }}
             color={"secondary"}
           />
@@ -154,12 +158,12 @@ const SettingPopover = ({
           <Radio
             {...controlProps("b")}
             disabled={
-              !group !== null && group !== undefined && group.length
+              group !== null && group !== undefined && group.length
                 ? false
                 : true
             }
             onClick={() => {
-              setGroupSetting("그룹공개")
+              setGroupSetting("그룹공개");
             }}
             color={"secondary"}
           />
@@ -173,21 +177,21 @@ const SettingPopover = ({
                 selectedGroupIds={selectedGroupIds}
                 setSelectedGroupIds={setSelectedGroupIds}
               />
-            )
+            );
           })}
         <div className="radio__wrapper last__radio">
           <p>나만 보기</p>
           <Radio
             {...controlProps("c")}
             onClick={() => {
-              setGroupSetting("비공개")
+              setGroupSetting("비공개");
             }}
             color={"secondary"}
           />
         </div>
       </BasicModal>
     </div>
-  )
-}
+  );
+};
 
-export default SettingPopover
+export default SettingPopover;

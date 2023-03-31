@@ -76,25 +76,31 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             {/* 로그인 되어있으면 메인페이지로 보내기 */}
-            <Route path="/login" element={withoutAuth(<Login />)} />
-            <Route path="/signup" element={withoutAuth(<Signup />)} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/signup/music" element={<SignupMusicSelect />} />
             <Route path="/map" element={withAuth(<Map />)} />
             <Route path="/diary/create" element={withAuth(<DiaryCreate />)} />
-            <Route path="/diary/select" element={<DiarySelect />} />
-            <Route path="/diary/select/music" element={<DiaryMusicSlect />} />
+            <Route path="/diary/select" element={withAuth(<DiarySelect />)} />
+            <Route
+              path="/diary/select/music"
+              element={withAuth(<DiaryMusicSlect />)}
+            />
             <Route path="/mypage" element={withAuth(<MyPage />)} />
             <Route path="/diary" element={withAuth(<Diary />)} />
-            <Route path="/diary/:diaryId" element={<DiaryDetail />} />
-            <Route path="/gardenTheme" element={<GardenTheme />} />
+            <Route path="/diary/:diaryId" element={withAuth(<DiaryDetail />)} />
+            <Route path="/gardenTheme" element={withAuth(<GardenTheme />)} />
             <Route path="/garden" element={withAuth(<Garden />)} />
             <Route path="/garden/:userId" element={<GardenOther />} />
-            <Route path="/garden/edit" element={<GardenEdit />} />
-            <Route path="/garden/list" element={<GardenList />} />
-            <Route path="/guestbook" element={<GuestBook />} />
-            <Route path="/guestbook/create" element={<GuestBookCreate />} />
-            <Route path="/setting" element={<Setting />} />
-            <Route path="/group/list" element={<GroupList />} />
+            <Route path="/garden/edit" element={withAuth(<GardenEdit />)} />
+            <Route path="/garden/list" element={withAuth(<GardenList />)} />
+            <Route path="/guestbook" element={withAuth(<GuestBook />)} />
+            <Route
+              path="/guestbook/create"
+              element={withAuth(<GuestBookCreate />)}
+            />
+            <Route path="/setting" element={withAuth(<Setting />)} />
+            <Route path="/group/list" element={withAuth(<GroupList />)} />
             <Route path="/info" element={<Info />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>

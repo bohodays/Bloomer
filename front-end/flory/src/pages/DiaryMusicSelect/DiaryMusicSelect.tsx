@@ -39,7 +39,7 @@ const DiaryMusicSelect = () => {
   });
   const s3 = new AWS.S3();
   const [musicUrls, setMusicUrls] = useState<any>([]);
-  const [musicData, setMusicData] = useState<any>(null);
+  const [musicData, setMusicData] = useState<any>([]);
   const [totalData, setTotalData] = useState<any>([]);
 
   // 이전 페이지에서 감정을 저장시켰음
@@ -90,6 +90,7 @@ const DiaryMusicSelect = () => {
         });
     });
   };
+  
 
   // 리덕스에 있는 뮤직 데이터 ({title: "제목"}) 형태
   const storeMusicData = useAppSelector(
@@ -114,7 +115,7 @@ const DiaryMusicSelect = () => {
 
         // setMusicData(res.payload.response);
       });
-    }
+  }, []);
 
     // 음악 제목들이 리덕스에 저장되어있으면
     // 리덕스에 저장되어있는 음악 데이터를 통해 s3에 접근해서
