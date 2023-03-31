@@ -5,6 +5,7 @@ import { UpdateInfoType } from "../../../models/user/updateInfoType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "./token";
 import { getCurrentGardenAction, getGardenListAction } from "../garden";
+import { resetUser, userAction } from "./user-slice";
 
 // 로그인
 export const loginAction = createAsyncThunk(
@@ -47,7 +48,7 @@ export const getUserDataToTokenAction = createAsyncThunk(
 export const logoutAction = createAsyncThunk(
   "LOGOUT",
   // 토큰 타입 지정해줘야 됨!!!
-  async (userData: any, { rejectWithValue }) => {
+  async (userData: any, { dispatch, rejectWithValue }) => {
     try {
       const axios = axiosInitializer();
       await axios.get(`/api/user/logout`, {
@@ -55,6 +56,10 @@ export const logoutAction = createAsyncThunk(
           Authorization: `Bearer ${userData}`,
         },
       });
+      localData.clear();
+      console.log("로그아웃");
+      dispatch(resetUser());
+
       // return data;
     } catch (e: any) {
       alert(e.response.data.message);

@@ -6,7 +6,7 @@ import {
   logoutAction,
   getUserDataToTokenAction,
   updateAccessToken,
-  updateUserInfoAction
+  updateUserInfoAction,
 } from "./user-action";
 
 const initialState: UserStateType = {
@@ -22,7 +22,12 @@ const initialState: UserStateType = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    resetUser: (state) => {
+      console.log("reset 시도");
+      state.userData.userId = 0;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // 로그인
@@ -67,8 +72,7 @@ const userSlice = createSlice({
         state.axiosState.loading = false;
         state.axiosState.data = null;
         state.axiosState.error = payload;
-      })
-      ;
+      });
 
     // 로딩 액션 필요시 참고
     // .addCase(logoutAction.pending, (state) => {
@@ -79,3 +83,5 @@ const userSlice = createSlice({
   },
 });
 export default userSlice.reducer;
+export const userAction = userSlice.actions;
+export const { resetUser } = userSlice.actions;
