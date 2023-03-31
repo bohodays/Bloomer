@@ -95,6 +95,7 @@ export function F01(
             // 물체가 마우스와 만난 지점으로 위치를 업데이트합니다.
             const newPosition = found[i].point;
             setPosition({ x: newPosition.x, y: y, z: newPosition.z });
+            console.log(newPosition.x, y, newPosition.z);
           }
         }
       }
