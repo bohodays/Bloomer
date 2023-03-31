@@ -84,26 +84,27 @@ export const getGardenListAction = createAsyncThunk(
 // 정원 생성
 export const createGardenAction = createAsyncThunk(
   "CREATE",
-  async (userId: number, { dispatch, rejectWithValue }) => {
+  async (
+    gardenCreateData: { userId: number; type: number },
+    { dispatch, rejectWithValue }
+  ) => {
     try {
       console.log("정원 생성 시도합니다");
+      console.log(gardenCreateData, "생성 요청 데이터");
+
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      console.log(userId);
-      const { data } = await axios.post(
-        `/api/garden`,
-        {
-          userId: String(userId),
+      // console.log(userId);
+      const { data } = await axios.post(`/api/garden`, gardenCreateData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      });
       // const userId = useAppSelector((state) => state.user.userData.userId);
-      dispatch(getGardenListAction(userId));
+      dispatch(getGardenListAction(gardenCreateData.userId));
+      localStorage.setItem("newGarden", "Yes");
+
       return data;
     } catch (e: any) {
       return rejectWithValue(e);
