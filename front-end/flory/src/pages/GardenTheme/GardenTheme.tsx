@@ -13,6 +13,7 @@ import GardenWrapper from "../../components/GardenTheme/GardenWrapper";
 import ParkBaseMap from "../../assets/imgs/park_base.png";
 import BeachBaseMap from "../../assets/imgs/beach_base.png";
 import CampBaseMap from "../../assets/imgs/camp_base.png";
+import { createGardenAction } from "../../redux/modules/garden";
 
 const MAX_VISIBILITY = 3;
 
@@ -68,11 +69,24 @@ const Carousel = ({ active, setActive, children }: any) => {
 
 const GardenTheme = () => {
   const [active, setActive] = useState<number>(0);
+  const dispatch = useAppDispatch();
   const mapData = [
     { map: ParkBaseMap, title: "공원", content: "" },
     { map: CampBaseMap, title: "캠프", content: "" },
     { map: BeachBaseMap, title: "해변", content: "" },
   ];
+  const userId = useAppSelector((state) => state.user.userData.userId);
+  const navigate = useNavigate();
+
+  const handleCreateGarden = () => {
+    const gardenCreateData = {
+      userId,
+      type: active,
+    };
+    dispatch(createGardenAction(gardenCreateData)).then(() => {
+      navigate("/garden");
+    });
+  };
 
   return (
     <SMain active={active}>
@@ -93,7 +107,7 @@ const GardenTheme = () => {
           ))}
         </Carousel>
       </div>
-      <div className="select__wrapper">
+      <div className="select__wrapper" onClick={handleCreateGarden}>
         <div className="background">
           <p className="select__p">선택</p>
         </div>
