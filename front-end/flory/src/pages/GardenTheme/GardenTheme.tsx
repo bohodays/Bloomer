@@ -70,8 +70,8 @@ const GardenTheme = () => {
   const [active, setActive] = useState<number>(0);
   const mapData = [
     { map: ParkBaseMap, title: "공원", content: "" },
-    { map: CampBaseMap, title: "캠프", content: "" },
     { map: BeachBaseMap, title: "해변", content: "" },
+    { map: CampBaseMap, title: "캠프", content: "" },
   ];
 
   return (

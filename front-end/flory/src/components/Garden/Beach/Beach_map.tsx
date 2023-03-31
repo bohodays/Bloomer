@@ -268,12 +268,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       />
       <mesh
         geometry={nodes.Plane.geometry}
-        material={nodes.Plane.material}
+        // material={nodes.Plane.material}
         position={[0, -0.11, 0]}
         scale={[150.15, 1, 150.15]}
         castShadow={true}
         receiveShadow={true}
-      />
+      >
+        <meshStandardMaterial color={"#ff7525"} />
+      </mesh>
       <mesh
         geometry={nodes.Cube.geometry}
         material={materials.Rocks}
