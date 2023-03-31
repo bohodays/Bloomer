@@ -160,6 +160,26 @@ const DiaryCreate = () => {
   const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
+  // const gardenType = useAppSelector()
+  let gardenType = 2;
+  let setPositionX: number;
+  let setPositionY: number;
+  let setPositionZ: number;
+
+  if (gardenType === 0) {
+    setPositionX = 0;
+    setPositionY = 0;
+    setPositionZ = 0;
+  } else if (gardenType === 1) {
+    setPositionX = -2.4;
+    setPositionY = 1;
+    setPositionZ = -2.4;
+  } else if (gardenType === 2) {
+    setPositionX = 0;
+    setPositionY = 0;
+    setPositionZ = 0;
+  }
+
   const onCreateDiary = () => {
     const groupList = selectedGroupIds.length ? selectedGroupIds : null;
 
@@ -177,9 +197,9 @@ const DiaryCreate = () => {
       gid: gardenId,
       musicTitle: null,
       address: place.placeName ? place.placeName : place.address,
-      x: 0,
-      y: 0,
-      z: 0,
+      x: setPositionX,
+      y: setPositionY,
+      z: setPositionZ,
     };
 
     if (!diaryData.content?.trim()) {

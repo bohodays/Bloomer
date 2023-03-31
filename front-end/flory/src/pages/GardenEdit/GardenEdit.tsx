@@ -21,25 +21,20 @@ import Loading from "../Loading/Loading";
 import { dataReset } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
+const gardenTypeMap = (type: number) => {
+  if (type === 0) return <Park_map_edit />;
+  else if (type === 1) return <Camp_map_edit />;
+  else if (type === 2) return <Beach_map_edit />;
+};
+
 const Scene = () => {
+  const gardenType = 2;
+
   return (
     <>
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-        {/* <Base_map_new /> */}
-        {/* Park 맵 */}
-        <Park_map_edit />
-        {/* <Base_map_new_edit /> */}
-
-        {/* Beach 맵 */}
-        {/* <Beach_map_edit /> */}
-
-        {/* Camp 맵 */}
-        {/* <Camp_map_edit /> */}
-        {/* <Base_map /> */}
-        {/* <EffectComposer multisampling={8}> */}
-        {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
-        {/* </EffectComposer> */}
+        {gardenTypeMap(gardenType)}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
