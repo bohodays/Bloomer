@@ -11,6 +11,7 @@ import { logoutAction } from "../../redux/modules/user";
 import { localData } from "../../redux/modules/user/token";
 import { useAppDispatch } from "../../redux/store.hooks";
 import BackButton from "../../components/common/BackButton/BackButton";
+import { resetUser, userAction } from "../../redux/modules/user/user-slice";
 
 const Setting = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const Setting = () => {
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
     dispatch(logoutAction(accessToken)).then(() => {
+      dispatch(resetUser());
       localData.clear();
     });
     navigate("/");
