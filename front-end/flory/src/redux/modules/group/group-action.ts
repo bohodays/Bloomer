@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
+import { GroupUpdateType } from "../../../models/Group/groupUpdateType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 import { groupActions } from "./group-slice";
@@ -107,6 +108,44 @@ export const requestJoinGroup = createAsyncThunk(
       console.log(data);
       return data.response;
     } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 특정 그룹 정보 가져오기
+export const getSpeGroupInfoAction = createAsyncThunk(
+  "GET_SPECIFIC_GROUP_INFO",
+  async (group_id: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(`/api/team/${group_id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e: any) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 그룹 정보 변경
+export const updateGroupInfoAction = createAsyncThunk(
+  "UPDATE_GROUP_INFO",
+  async (groupUpdateData: GroupUpdateType, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.put(`/api/team`, groupUpdateData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e: any) {
       return rejectWithValue(e);
     }
   }
