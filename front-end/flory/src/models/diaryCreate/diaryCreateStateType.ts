@@ -17,4 +17,5 @@ export type DiaryCreateStateType = {
   currentEmotionData: any;
   currentFlowerData: any;
   currentMusicData: any;
+  currentMusicUrls: any;
 };
