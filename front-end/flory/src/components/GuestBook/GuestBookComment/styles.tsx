@@ -1,15 +1,25 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"
 
 export const SSection = styled.section<any>`
+  position: relative;
   padding: 2rem 0;
+  display: grid;
 
   .header {
     display: flex;
     align-items: center;
+    gap: 10px;
   }
 
   .user-name {
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1rem;
+  }
+
+  .setting {
+    position: absolute;
+    top: 10px;
+    right: 20px;
   }
 
   .fhywNn {
@@ -24,12 +34,16 @@ export const SSection = styled.section<any>`
 
   .comment {
     margin-top: 1rem;
+    text-align: left;
+    font-size: 0.85rem;
+    width: 100%;
+    word-break: break-all;
   }
 
   .note {
     -webkit-box-shadow: #ddd 0px 1px 2px;
     position: relative;
-    background-color: #f4f39e;
+    background-color: ${(props) => props.color};
     border-color: #dee184;
     text-align: center;
     margin: 1em auto;
@@ -43,6 +57,7 @@ export const SSection = styled.section<any>`
     -ms-transform: rotate(2deg);
     transform: rotate(${(props) => props.deg}deg);
     width: 20rem;
+    /* width: 10rem; */
     font-size: 1em;
   }
   .note:after {
@@ -63,5 +78,6 @@ export const SSection = styled.section<any>`
   .date {
     margin-top: 1rem;
     text-align: right;
+    font-size: 0.7rem;
   }
-`;
+`

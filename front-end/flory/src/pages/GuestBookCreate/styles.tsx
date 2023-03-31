@@ -105,6 +105,7 @@ export const SSection = styled.section<any>`
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border: 2px solid white;
   }
 
   textarea {

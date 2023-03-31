@@ -21,8 +21,21 @@ export const SMain = styled.main`
     text-shadow: #805f89 5px 4px 2px;
   }
 
+  /* 애니메이션 효과 */
+  .animate__animated.animate__fadeIn {
+    --animate-duration: 5s;
+  }
+
   .text-container {
     text-align: center;
     margin: 1rem 0;
+    margin-bottom: 5rem;
+  }
+
+  .service__info-1 {
+    text-align: center;
+    & > p {
+      color: #dfdede;
+    }
   }
 `;

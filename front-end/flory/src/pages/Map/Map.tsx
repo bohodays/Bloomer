@@ -43,7 +43,7 @@ const Map = () => {
   // 내 주변 보기
   const mapPanel = (
     <div>
-      <div>
+      <div style={{ marginBottom: "1rem" }}>
         <CommunityMap setBound={setBound} diaries={mapDiaryList} />
       </div>
       <div>

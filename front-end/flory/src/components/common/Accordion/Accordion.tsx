@@ -26,7 +26,7 @@ function Accordion(props: Props) {
       parentRef.current.style.background = "white";
     } else {
       parentRef.current.style.height = `${childRef.current.clientHeight}px`;
-      parentRef.current.style.background = "lightgray";
+      parentRef.current.style.background = "white";
     }
     setIsCollapse(!isCollapse);
   }, [isCollapse]);
@@ -54,24 +54,26 @@ function Accordion(props: Props) {
 }
 
 const Header = styled.div`
-  // display: flex;
-  align-items: center;
+  display: flex;
   cursor: pointer;
-
   height: 2.2rem;
-  margin: 0 32px 0 8px;
+  // margin: 0 32px 0 8px;
+
+  .down-icon {
+    margin-left: auto;
+  }
 `;
 
 const ContentsWrapper = styled.div`
   height: 0;
   width: inherit;
-  padding: 0 8px;
+  // padding: 0 8px;
   overflow: hidden;
   transition: height 0.35s ease, background 0.35s ease;
 `;
 
 const Contents = styled.div`
-  padding: 0.1px;
+  // padding: 0.1px;
 `;
 
 export default React.memo(Accordion);

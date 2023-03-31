@@ -37,7 +37,7 @@ export const SItem = styled.div<any>`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 
     .title-container {
       display: flex;

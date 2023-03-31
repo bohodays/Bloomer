@@ -49,7 +49,6 @@ function Avatar({
 
   if (imgIdx === "11" && src && src.length > 2) {
     // s3에서 가져오기
-    console.log("111 s3에서 이미지 가져오기");
     imgSrc = imageUrl;
   }
   if (tmpsrc && tmpsrc.length > 2) {
@@ -57,7 +56,6 @@ function Avatar({
     console.log("미리보기");
     imgSrc = tmpsrc;
   } else if (imgIdx != "11") {
-    console.log(imgIdx);
     imgSrc = imgIdx
       ? require(`../../../assets/imgs/profile_icon/profile${imgIdx}.png`)
       : require(`../../../assets/imgs/profile_icon/profile0.png`);
