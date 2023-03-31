@@ -14,7 +14,6 @@ function DiaryComment({ comment, updateDiary }: any): JSX.Element {
     navigate(`/garden/${comment.member.userId}`);
   };
 
-  const editAction = () => {};
   const deleteAction = () => {
     dispatch(deleteCommentAction(comment.id)).then(() => {
       updateDiary();
@@ -36,7 +35,7 @@ function DiaryComment({ comment, updateDiary }: any): JSX.Element {
           {comment.member.nickname}
         </p>
         {comment.member.userId === userId && (
-          <SettingPopover editAction={editAction} deleteAction={deleteAction} />
+          <SettingPopover deleteAction={deleteAction} />
         )}
       </div>
       <p>{comment.content}</p>
