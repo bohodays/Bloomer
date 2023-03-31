@@ -333,22 +333,22 @@ def cos_sim(A, B):
 def convertVector(member):
     cur = []
     #클래식
-    cur.append(int.from_bytes(member.classic, byteorder='big', signed=False))
+    cur.append(member.classic)
 
     #재즈
-    cur.append(int.from_bytes(member.jazz, byteorder='big', signed=False))
+    cur.append(member.jazz)
 
     #pop
-    cur.append(int.from_bytes(member.pop, byteorder='big', signed=False))
+    cur.append(member.pop)
 
     #reggae
-    cur.append(int.from_bytes(member.reggae, byteorder='big', signed=False))
+    cur.append(member.reggae)
     
     #RnB
-    cur.append(int.from_bytes(member.RnB, byteorder='big', signed=False))
+    cur.append(member.RnB)
 
     #electronic
-    cur.append(int.from_bytes(member.electronic, byteorder='big', signed=False))
+    cur.append(member.electronic)
 
     return cur
     
