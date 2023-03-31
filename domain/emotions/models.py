@@ -51,6 +51,7 @@ class Garden(models.Model):
     deadline = models.DateTimeField()
     created_time = models.DateTimeField(auto_now_add=True)
     mid = models.ForeignKey(Music, on_delete=models.CASCADE,db_column='mid')
+    type = models.IntegerField()
 
     class Meta:
         db_table = 'garden'

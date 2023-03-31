@@ -29,6 +29,9 @@ from .models import Emotion, Flower, Diary, Garden, Music,Member
 from django.core import serializers
 from django.db.models import Q, F, Value
 from django.db.models import Count
+from tqdm import tqdm, tqdm_notebook
+from sklearn.decomposition import NMF
+
 max_len = 64
 batch_size = 64
 
@@ -51,6 +54,47 @@ tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #csv파일 가져오기
 music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv")
+tag_music_data = pd.read_excel("/usr/src/app/emotions/tag_music.xlsx")
+tag_data = pd.read_excel("/usr/src/app/emotions/tag_list.xlsx")
+# music_data = pd.read_csv("C:/Users/SSAFY/git/S08P22A205/domain/emotions/music_vector.csv")
+# tag_music_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_music.xlsx")
+# tag_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_list.xlsx")
+
+tag_data['수정사항'] = tag_data['수정사항'].fillna("-")
+
+tag_dic = dict()
+
+for idx, row in tag_data.iterrows():
+    tag_dic[row['태그']]=row['수정사항']
+
+confirm_tag_dic = dict()
+all_tag_set = set()
+
+for row in tag_music_data.itertuples():
+    tag = row[2]
+    taglst = tag.split(',')
+    tagset = set()
+    for tag in taglst:
+      t = tag.strip()
+      if tag_dic.get(t):
+        if tag_dic.get(t) != "-":
+          tagset.add(tag_dic[t])
+        elif tag_dic.get(t) == "-":
+          tagset.add(t)
+    all_tag_set |= tagset        
+    confirm_tag_dic[row[1]] = tagset
+
+vector_dic = dict()
+
+for key, tags in confirm_tag_dic.items():
+  vector = []
+  for s in all_tag_set:
+    if s in tags:
+      vector.append(1)
+    else:
+      vector.append(0)
+  vector_dic[key] = vector
+
 
 #음악 content에 있는 모든 태그 가져오기
 music_content = music_data['content']
@@ -79,6 +123,78 @@ def nearestUser(request, emotion,user_id):
         emotions = ["기쁨","안정","당황","분노","불안","상처","슬픔"]
         print("현재 감정")
         print(emotions[emotion])
+
+        #만약 유저의 과거 데이터가 있다면
+        history = Diary.objects.filter(
+    Q(gid__uid=user_id) &
+    Q(fid__eid__large_category=emotions[emotion]) &
+    Q(fid__id=F('fid')) &
+    Q(mid__id=F('mid'))
+).select_related('fid__eid', 'mid').values(
+    'fid__eid__large_category', 'mid__title'
+)
+
+        if history:
+            print("유저 과거정보 존재")
+
+            #특정감정일 때 유저가 과거에 들은 음악들 모음
+            user_music = []
+
+            for h in history:
+                user_music.append(h['mid__title'])
+
+            print("유저가 과거의 들은 노래목록")
+            print(user_music)
+            #유저정보 기반으로 유저-태그 매트릭스 구성
+            len = 47
+
+            #유저-태그 매트릭스
+            user_tag_matrix = [0] * len
+
+            #유저가 과거에 들었던 모든음악의 태그를 더해서 유저-태그 매트릭스 구성
+            for title in user_music:
+
+                m_vec = vector_dic[title]
+
+                for pos in range(len):
+                    user_tag_matrix[pos] += m_vec[pos]
+
+            print("유저의 과거 데이터")
+            print(user_tag_matrix)
+
+            user_tag_matrix = np.array(user_tag_matrix).reshape(1, -1)
+
+            model = NMF(n_components=10, init='random', random_state=0)
+            user_latent_matrix = model.fit_transform(user_tag_matrix) # 유저-잠재요인 매트릭스
+            
+            #음악마다 음악-태그 매트릭스 구성해야함
+            musics_tag_matrix = [] 
+
+            for k,v in vector_dic.items():    
+                m_tag_matrix = np.array(v).reshape(1, -1)
+                W = model.fit_transform(m_tag_matrix) # 음악-잠재요인 매트릭스
+                musics_tag_matrix.append((k,W)) #(타이틀, 음악-잠재요인 매트릭스)
+
+            #결과 정리
+            total = []
+
+            for tup in musics_tag_matrix:
+                result = dot(user_latent_matrix,tup[1].T) # 유저-음악 매트릭스 만들기
+                total.append((tup[0],result))
+
+            sorted_data = sorted(total, key=lambda x: x[1], reverse=True)
+
+            #가장 유망한 5개 추출
+            recommended_list = sorted_data[:5]
+            
+            recommend_music_title = []
+
+            for tup in recommended_list:
+                recommend_music_title.append(tup[0])
+            
+            serialized_list = json.dumps(recommend_music_title)
+            return JsonResponse({"result" : serialized_list})
+
         #member table에서 전체 유저 정보 가져오기
         members = Member.objects.all()
 
@@ -113,13 +229,13 @@ def nearestUser(request, emotion,user_id):
         #가장 큰 값을 가지는 인덱스 받아서 딕셔너리로 user id가져오기
         #자기자신이 0번째니까 그다음유저가 가장 유사한 녀석임
         similarUser = idToUser[result[1][1]].user_id
-
+        print(f"유사한 유저id: {similarUser}",)
         #similarUser가 어떤 감정일 때 어떤 노래를 듣는지 찾아야함.
 
         #json_data = json.dumps(serialize_object(idToUser[result[1][1]]))
 
         queryset = Diary.objects.filter(
-    Q(gid__uid=user_id) &
+    Q(gid__uid=similarUser) &
     Q(fid__eid__large_category=emotions[emotion]) &
     Q(fid__id=F('fid')) &
     Q(mid__id=F('mid'))
