@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useAppDispatch } from "../../redux/store.hooks";
 import { positionUpdate } from "../../redux/modules/diary/diary-slice";
+import FloatWrapper from "../common/FloatWrapper/FloatWrapper";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -102,7 +103,7 @@ export function F02(
     `${process.env.PUBLIC_URL}/models/flowers/f02.glb`
   ) as GLTFResult;
 
-  return (
+  const flower = (
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
@@ -119,6 +120,8 @@ export function F02(
       </group>
     </group>
   );
+
+  return <>{isDragging ? <FloatWrapper>{flower}</FloatWrapper> : flower}</>;
 }
 
 export default F02;
