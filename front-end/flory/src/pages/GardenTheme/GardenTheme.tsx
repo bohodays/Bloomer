@@ -83,9 +83,15 @@ const GardenTheme = () => {
       userId,
       type: active,
     };
-    dispatch(createGardenAction(gardenCreateData)).then(() => {
-      navigate("/garden");
-    });
+
+    dispatch(createGardenAction(gardenCreateData))
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+      })
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+        navigate("/garden");
+      });
   };
 
   return (
