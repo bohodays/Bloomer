@@ -43,6 +43,7 @@ import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAss
 const Main = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = useAppSelector((store) => store.user.userData);
   // 로그아웃 연습
   // const handleLogout = () => {
   //   const accessToken = localData.getAccessToken();
@@ -52,7 +53,11 @@ const Main = () => {
   // };
 
   const handleMoveLogin = () => {
-    navigate("/login");
+    if (user) {
+      navigate("/garden");
+    } else {
+      navigate("/login");
+    }
   };
   const handleMoveSignUp = () => {
     navigate("signup");
