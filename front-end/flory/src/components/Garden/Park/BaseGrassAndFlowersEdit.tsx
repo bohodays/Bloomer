@@ -5,11 +5,12 @@ Command: npx gltfjsx@6.1.4 ./public/models/park_map.glb -t
 
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useGLTF, OrthographicCamera } from "@react-three/drei";
+import { useGLTF, OrthographicCamera, Float } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import FlowersWrapper from "../../Flowers/FlowersWrapper";
 import CurrentFlower from "../../FlowerCreate/CurrentFlower";
+import FloatWrapper from "../../common/FloatWrapper/FloatWrapper";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -134,7 +135,9 @@ function BassGrassAndFlowersEdit() {
     <>
       <BaseGrassEdit />
       {/* 현재 작성 중인 일기의 꽃 */}
-      <CurrentFlower />
+      <FloatWrapper>
+        <CurrentFlower />
+      </FloatWrapper>
       <FlowersWrapper />
     </>
   );

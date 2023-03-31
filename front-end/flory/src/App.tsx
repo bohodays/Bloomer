@@ -21,6 +21,7 @@ import Signup from "./pages/Signup/Signup";
 import GardenOther from "./pages/GardenOther/GardenOther";
 import withoutAuth from "./utils/withoutAuth";
 import withAuth from "./utils/withAuth";
+import checkGarden from "./utils/checkGarden";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -51,13 +52,13 @@ const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
 let isInitial = true;
 function App() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.userData);
+  const userId = useAppSelector((state) => state.user.userData.userId);
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   useEffect(() => {
     if (isInitial) {
       if (localData.getAccessToken()) {
-        if (user.userId === 0) {
+        if (userId === 0) {
           dispatch(getUserDataToTokenAction()).then((data: any) => {
             console.log("data", data);
             // dispatch(getGardenListAction(data.payload.response.userId));
@@ -90,7 +91,7 @@ function App() {
             <Route path="/diary" element={withAuth(<Diary />)} />
             <Route path="/diary/:diaryId" element={withAuth(<DiaryDetail />)} />
             <Route path="/gardenTheme" element={withAuth(<GardenTheme />)} />
-            <Route path="/garden" element={withAuth(<Garden />)} />
+            <Route path="/garden" element={withAuth(checkGarden(<Garden />))} />
             <Route path="/garden/:userId" element={<GardenOther />} />
             <Route path="/garden/edit" element={withAuth(<GardenEdit />)} />
             <Route path="/garden/list" element={withAuth(<GardenList />)} />

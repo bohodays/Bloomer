@@ -15,6 +15,7 @@ import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import FlowersWrapper from "../../Flowers/FlowersWrapper";
 import CurrentFlower from "../../FlowerCreate/CurrentFlower";
+import FloatWrapper from "../../common/FloatWrapper/FloatWrapper";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -133,13 +134,9 @@ function BassGrassAndFlowersEdit() {
     <>
       <BaseGrass />
       {/* 현재 작성 중인 일기의 꽃 */}
-      <Float
-        speed={10} // Animation speed, defaults to 1
-        rotationIntensity={0} // XYZ rotation intensity, defaults to 1
-        floatingRange={[0, 0.2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
+      <FloatWrapper>
         <CurrentFlower />
-      </Float>
+      </FloatWrapper>
       <FlowersWrapper />
     </>
   );

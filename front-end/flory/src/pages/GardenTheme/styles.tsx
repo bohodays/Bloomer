@@ -12,8 +12,8 @@ export const SMain = styled.main<any>`
     props.active === 0
       ? "linear-gradient(140deg, rgba(205, 178, 255, 1) 0%, rgba(255, 160, 211, 1) 100%)"
       : props.active === 1
-      ? "linear-gradient(140deg, rgba(209,115,81,1) 0%, rgba(242,207,141,1) 100%)"
-      : "rgb(205, 178, 255)"};
+      ? "linear-gradient(140deg, rgba(0,0,128,1) 0%, rgba(202,202,255,1) 100%)"
+      : "linear-gradient(140deg, rgba(209,115,81,1) 0%, rgba(242,207,141,1) 100%)"};
 
   .info__wrapper {
     position: absolute;
