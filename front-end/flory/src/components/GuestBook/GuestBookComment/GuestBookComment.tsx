@@ -10,6 +10,7 @@ import {
   deleteGuestBook,
   getAllGuestBookList,
 } from "../../../redux/modules/guestBook";
+import "animate.css";
 
 const GuestBookComment = (props: any) => {
   const commentRef = useRef<HTMLElement>(null);
@@ -20,44 +21,10 @@ const GuestBookComment = (props: any) => {
   const writerId: number = commentData.userId;
   const isSelf: boolean = userId === writerId ? true : false;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          AOS.init();
-          observer.unobserve(entry.target);
-        }
-      });
-    });
-    if (commentRef.current) {
-      observer.observe(commentRef.current);
-    }
-
-    const observer2 = new MutationObserver((mutationsList) => {
-      for (const mutation of mutationsList) {
-        if (mutation.attributeName === "data-aos") {
-          if (
-            (mutation.target as HTMLElement).getAttribute("data-aos") === null
-          ) {
-            AOS.refresh();
-          }
-        }
-      }
-    });
-    if (commentRef.current) {
-      observer2.observe(commentRef.current, { attributes: true });
-    }
-
-    return () => {
-      observer.disconnect();
-      observer2.disconnect();
-    };
-  }, []);
-
   const checkDeg = (num: number) => {
-    if (num > 0) return "fade-left";
-    else if (num === 0) return "fade-down";
-    else if (num < 0) return "fade-right";
+    if (num > 0) return "animate__animated animate__fadeInLeft";
+    else if (num === 0) return "animate__animated animate__fadeInDown";
+    else if (num < 0) return "animate__animated animate__fadeInRight";
   };
 
   const handleDelete = () => {
@@ -70,7 +37,7 @@ const GuestBookComment = (props: any) => {
 
   return (
     <SSection deg={props.deg} ref={commentRef} color={commentData.color}>
-      <div className="post-it" data-aos={checkDeg(props.deg)}>
+      <div className={`post-it ${checkDeg(props.deg)}`}>
         <p className="note">
           <div className="header">
             {/* 작성자 프로필 이미지 */}
