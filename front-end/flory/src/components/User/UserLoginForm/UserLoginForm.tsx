@@ -65,7 +65,11 @@ const UserLoginForm = () => {
           if (response) {
             // 로컬스토리지에 저장된 엑세스 토큰으로 유저 정보 업데이트
             dispatch(getUserDataToTokenAction()).then(() => {
-              navigate("/garden");
+              if (localStorage.getItem("newGarden") === "No") {
+                navigate("/garden");
+              } else {
+                navigate("/gardenTheme");
+              }
             });
           }
         })

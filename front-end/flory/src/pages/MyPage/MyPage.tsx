@@ -18,12 +18,10 @@ import Avatar from "../../components/common/Avatar/Avatar";
 import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
 import DistPanel from "../../components/MyPage/DistPanel/DistPanel";
 
-
 const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userData);
-
 
   const handleMove = (target: string) => {
     navigate(target);
@@ -50,7 +48,16 @@ const MyPage = () => {
         header={<MyPageEditModal />}
         name={userInfo.nickname}
         body={
-          <div style={{ textAlign: "center", padding: "1px", color:"gray", fontSize:"14px" }}>{ userInfo.email }</div>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "1px",
+              color: "gray",
+              fontSize: "14px",
+            }}
+          >
+            {userInfo.email}
+          </div>
         }
         height="100%"
         className="profile"

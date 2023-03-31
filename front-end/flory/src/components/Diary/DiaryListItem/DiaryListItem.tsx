@@ -61,9 +61,9 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
             </div>
           </div>
           {/* 이미지 경로 받았을 때 수정되어야 함! */}
-          {isContainImage && (
+          {/* {isContainImage && (
             <img src={testFlower} alt="img" className="img-container" />
-          )}
+          )} */}
           <div className="content-container">{content}</div>
           <div className="info-container">
             <span className="comment-section">

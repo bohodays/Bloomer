@@ -39,7 +39,7 @@ export const SMain = styled.main`
     margin: 40px 5%;
   }
   .setting {
-    position: absolute;
+    /* position: absolute; */
     right: 10px;
   }
 

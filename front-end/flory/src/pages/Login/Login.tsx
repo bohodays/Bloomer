@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserLoginForm from "../../components/User/UserLoginForm/UserLoginForm";
 import { SButton, SMain } from "./styles";
 import headLine from "../../assets/imgs/head_line.png";
@@ -8,10 +8,17 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Wave } from "../../assets/imgs/wave.svg";
 import BackButton from "../../components/common/BackButton/BackButton";
-
+import { localData } from "../../redux/modules/user/token";
+let isInitial = true;
 const Login = () => {
   const onClick = () => {};
 
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      localData.clear();
+    }
+  }, []);
   return (
     <SMain>
       <div className="header">

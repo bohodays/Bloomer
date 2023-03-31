@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import {
   createDiaryAction,
+  getDiaryListAction,
   updatePositionAction,
 } from "../../redux/modules/diary";
 import Beach_map_edit from "../../components/Garden/Beach/Beach_map_edit";
@@ -50,6 +51,7 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
+
   // 디버깅용
   // console.log(currentCreateDiaryData);
 
@@ -62,6 +64,8 @@ const GardenEdit = () => {
   const navigate = useNavigate();
   const diaryData = useAppSelector((state) => state.diary.diaryData);
   const dispatch = useAppDispatch();
+  const requestId = useAppSelector((state) => state.user.userData.userId);
+  const gardenId = currentCreateDiaryData.gid;
 
   function base64toFile(base_data: any, filename: any) {
     var arr = base_data.split(","),
@@ -102,7 +106,7 @@ const GardenEdit = () => {
       // 일기 작성 flow에서 왔으면 일기 저장 로직 수행
     } else {
       dispatch(updatePositionAction(diaryData))
-        .then(() => {
+        .then(async () => {
           const base64String: string | null = localStorage.getItem("imgFile");
 
           let imgFile = null;
@@ -114,7 +118,7 @@ const GardenEdit = () => {
             imgFile = form_data.get("file");
           }
 
-          dispatch(
+          await dispatch(
             createDiaryAction({
               diaryData: currentCreateDiaryData,
               imgFile,
@@ -122,8 +126,13 @@ const GardenEdit = () => {
           );
           dispatch(dataReset());
         })
-        .then(() => {
+        .then(async () => {
           localStorage.removeItem("imgFile");
+          const inputData = {
+            gardenId,
+            requestId,
+          };
+          await dispatch(getDiaryListAction(inputData));
           navigate("/garden");
         });
     }
