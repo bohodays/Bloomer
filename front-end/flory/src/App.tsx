@@ -51,13 +51,13 @@ const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
 let isInitial = true;
 function App() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.userData);
+  const userId = useAppSelector((state) => state.user.userData.userId);
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   useEffect(() => {
     if (isInitial) {
       if (localData.getAccessToken()) {
-        if (user.userId === 0) {
+        if (userId === 0) {
           dispatch(getUserDataToTokenAction()).then((data: any) => {
             console.log("data", data);
             // dispatch(getGardenListAction(data.payload.response.userId));
