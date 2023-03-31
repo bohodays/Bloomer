@@ -46,21 +46,26 @@ function GroupPanel({}): JSX.Element {
                 contents={group.userTeamList.map((member: any, index:any) => {
                   const random = Math.floor(Math.random() * bgIcons.length);
                   return (
-                    <SMember key={member.userId}>
-                      {member.img && member.img.length > 2 ? (
-                        <Avatar
-                          size="small"
-                          src={member.img}
-                          imgIdx={"11"}
-                          key={index}
-                        />
-                      ) : (
-                        <Avatar size="small" imgIdx={member.img} key={index} />
-                      )}
-                      <br />
-                      <div className="memberName">{member.nickname}</div>
-                      {bgIcons[random]}
-                    </SMember>
+                    <div>
+                      {/* <div className="BrowseGroup">
+                        환경설정
+                      </div> */}
+                      <SMember key={member.userId}>
+                        {member.img && member.img.length > 2 ? (
+                          <Avatar
+                            size="small"
+                            src={member.img}
+                            imgIdx={"11"}
+                            key={index}
+                          />
+                        ) : (
+                          <Avatar size="small" imgIdx={member.img} key={index} />
+                        )}
+                        <br />
+                        <div className="memberName">{member.nickname}</div>
+                        {bgIcons[random]}
+                      </SMember>
+                    </div>
                   );
                 })}
               />
