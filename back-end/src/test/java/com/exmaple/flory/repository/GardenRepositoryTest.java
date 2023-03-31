@@ -78,6 +78,7 @@ public class GardenRepositoryTest {
         int month = LocalDateTime.now().getMonthValue();
         int year = LocalDateTime.now().getYear();
 
+
         Optional<Garden> result = gardenRepository.findByDate(info.getUserId(),year,month);
 
         assertThat(result.get().getDeadLine()).isEqualTo(garden.getDeadLine());

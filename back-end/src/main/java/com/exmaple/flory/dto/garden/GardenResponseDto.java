@@ -17,4 +17,5 @@ public class GardenResponseDto {
     private String musicTitle; //노래 제목
     private LocalDateTime deadline;
     private String img;
+    private int type;
 }
