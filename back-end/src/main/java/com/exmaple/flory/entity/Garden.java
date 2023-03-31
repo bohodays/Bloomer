@@ -38,11 +38,15 @@ public class Garden extends BaseTime {
     @JoinColumn(name="mid")
     private Music music;
 
+    @Column(name = "type")
+    private int type;
+
     public GardenResponseDto toResponseDto() {
         return GardenResponseDto
                 .builder()
                 .id(id)
                 .gardenPath(path)
+                .type(type)
                 .deadline(deadLine)
                 .nickname(member.getNickname())
                 .build();

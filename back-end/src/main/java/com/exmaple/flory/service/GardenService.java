@@ -58,6 +58,7 @@ public class GardenService {
 
         //마감날짜세팅
         garden.setDeadLine(deadLine);
+        garden.setType(gardenRequestDto.getType());
         Garden res = gardenRepository.save(garden);
 
         return res.toResponseDto();
@@ -83,9 +84,9 @@ public class GardenService {
         gardenRepository.deleteById(garden_id);
     }
 
-    public GardenResponseDto getGardenByMonth(Integer year,Integer month) {
+    public GardenResponseDto getGardenByMonth(Long user_id,Integer year,Integer month) {
 
-        return gardenRepository.findByDate(year,month)
+        return gardenRepository.findByDate(user_id,year,month)
                 .map(Garden::toResponseDto)
                 .orElseThrow(()-> new CustomException(ErrorCode.INVALID_GARDEN));
     }
