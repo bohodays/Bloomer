@@ -275,7 +275,7 @@ class TeamControllerTest {
         List<TeamMemberResponseDto> teamDtoList = new ArrayList<>();
         teamDtoList.add(TeamMemberResponseDto.of(userTeam));
 
-        when(teamService.signTeamMember(anyLong())).thenReturn(teamDtoList);
+        when(teamService.signTeamMember(anyLong(), anyLong())).thenReturn(teamDtoList);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
                 .andExpect(status().isOk())
@@ -455,7 +455,7 @@ class TeamControllerTest {
         void signTeamMemberException() throws Exception {
             Long teamId = 1L;
 
-            when(teamService.signTeamMember(anyLong())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
+            when(teamService.signTeamMember(anyLong(), anyLong())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
 
            mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
                     .andExpect(status().isNotFound())
