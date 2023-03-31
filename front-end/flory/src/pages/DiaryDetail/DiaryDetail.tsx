@@ -27,6 +27,7 @@ import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
 import { getGroupInfoAction } from "../../redux/modules/group";
+import Navbar from "../../components/common/Navbar/Navbar";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -243,6 +244,7 @@ const DiaryDetail = () => {
             );
           })}
       </div>
+      <Navbar />
     </SMain>
   );
 };
