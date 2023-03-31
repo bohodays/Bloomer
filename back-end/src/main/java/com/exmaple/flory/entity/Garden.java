@@ -39,10 +39,14 @@ public class Garden extends BaseTime {
     @Column(name = "img")
     private String img;
 
+    @Column(name = "type")
+    private int type;
+
     public GardenResponseDto toResponseDto() {
         GardenResponseDto res = GardenResponseDto
                 .builder()
                 .userId(member.getUserId())
+                .type(type)
                 .deadline(deadLine)
                 .nickname(member.getNickname())
                 .img(img)
@@ -67,6 +71,7 @@ public class Garden extends BaseTime {
                 .nickname(member.getNickname())
                 .gardenId(id)
                 .deadline(deadLine)
+                .type(type)
                 .img(img)
                 .build();
     }

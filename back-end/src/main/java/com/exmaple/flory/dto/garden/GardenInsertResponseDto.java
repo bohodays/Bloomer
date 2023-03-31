@@ -16,4 +16,5 @@ public class GardenInsertResponseDto {
     private Long gardenId;
     private LocalDateTime deadline;
     private String img;
+    private int type;
 }
