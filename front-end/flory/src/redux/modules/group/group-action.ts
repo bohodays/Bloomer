@@ -150,3 +150,22 @@ export const updateGroupInfoAction = createAsyncThunk(
     }
   }
 );
+
+//그룹 신청 내역 가져오기
+export const getSignUpMemberListAction = createAsyncThunk(
+  "GET_SIGNUP_MEMBER_LIST",
+  async (group_id: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.get(`/api/team/sign/${group_id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e: any) {
+      return rejectWithValue(e);
+    }
+  }
+);

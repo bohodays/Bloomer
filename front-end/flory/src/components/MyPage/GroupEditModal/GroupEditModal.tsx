@@ -68,7 +68,7 @@ function GroupEditModal(props: Props): JSX.Element {
     >
       <STitle>
         <h3>그룹 설정 변경</h3>
-        <h2 onClick={() => navigate("/group/list")}><FontAwesomeIcon icon={faBell} /></h2>
+        <h2 onClick={() => navigate(`/group/list/signup/${props.groupId}`)}><FontAwesomeIcon icon={faBell} /></h2>
       </STitle>
 
 

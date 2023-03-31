@@ -12,6 +12,7 @@ import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
 import GroupList from "./pages/GroupList/GroupList";
+import GroupSignUpList from "./pages/GroupSignUpList/GroupSignUpList";
 import {
   createGardenAction,
   getGardenListAction,
@@ -95,6 +96,7 @@ function App() {
             <Route path="/guestbook/create" element={<GuestBookCreate />} />
             <Route path="/setting" element={<Setting />} />
             <Route path="/group/list" element={<GroupList />} />
+            <Route path="/group/list/signup/:groupId" element={<GroupSignUpList />} />
             <Route path="/info" element={<Info />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
