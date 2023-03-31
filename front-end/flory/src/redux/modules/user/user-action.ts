@@ -34,7 +34,7 @@ export const getUserDataToTokenAction = createAsyncThunk(
         },
       });
       // dispatch(getCurrentGardenAction(data.response.userId));
-      dispatch(getGardenListAction(data.response.userId));
+      await dispatch(getGardenListAction(data.response.userId));
       dispatch(updateAccessToken());
       return data;
     } catch (e: any) {
