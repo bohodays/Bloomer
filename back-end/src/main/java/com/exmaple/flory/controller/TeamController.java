@@ -151,7 +151,7 @@ public class TeamController {
     public ResponseEntity<?> signTeamMember(@PathVariable Long teamId){
         try{
             // userId : SecurityUtil.getCurrentMemberId()
-            List<TeamMemberResponseDto> teamMemberDtoList = teamService.signTeamMember(teamId);
+            List<TeamMemberResponseDto> teamMemberDtoList = teamService.signTeamMember(teamId, SecurityUtil.getCurrentMemberId());
             return new ResponseEntity<>(new SuccessResponse(teamMemberDtoList), HttpStatus.OK);
         } catch(CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
