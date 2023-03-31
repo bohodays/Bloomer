@@ -158,7 +158,7 @@ const SettingPopover = ({
           <Radio
             {...controlProps("b")}
             disabled={
-              !group !== null && group !== undefined && group.length
+              group !== null && group !== undefined && group.length
                 ? false
                 : true
             }
