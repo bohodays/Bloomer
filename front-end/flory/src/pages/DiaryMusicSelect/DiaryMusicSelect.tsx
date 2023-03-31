@@ -9,6 +9,7 @@ import {
   createInfoSaveAction,
   getMusicInfoAction,
 } from "../../redux/modules/diaryCreate";
+import { musicUrlsDataSave } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 
 const DiaryMusicSelect = () => {
   const dispatch = useAppDispatch();
@@ -61,55 +62,90 @@ const DiaryMusicSelect = () => {
   };
 
   // 응답받은 음악 제목들을 순회하면서 s3의 url을 저장하는 함수
-  const getMusicUrls = async (musicArray: any) => {
-    try {
-      const urls = await Promise.all(
-        musicArray.map((item: any) => {
-          const params = {
-            Bucket: "bloomer205",
-            Key: `music/${item.title}.mp3`,
-          };
-          console.log("s3에 넘기는 음악 제목", item.title);
-  
-          return s3.getSignedUrlPromise("getObject", params);
+  const getMusicUrls = (musicArray: any) => {
+    let test: any = [];
+
+    console.log("s3에 넘길 음악 데이터", musicArray);
+
+    musicArray.map((item: any) => {
+      const params = {
+        Bucket: "bloomer205",
+        Key: `music/${item.title}.mp3`,
+      };
+      console.log("s3에 넘기는 음악 제목", item.title);
+
+      s3.getSignedUrlPromise("getObject", params)
+        .then((url) => {
+          test.push(url);
+          console.log(url, 232323);
+
+          // dispatch(musicUrlsDataSave(url));
         })
-      );
-      console.log("최종 데이터", urls);
-      setMusicUrls(urls);
-    } catch (err) {
-      console.error(err);
-    }
+        .catch((err) => console.error(err))
+        .finally(() => {
+          console.log("최종 데이터", test);
+
+          dispatch(musicUrlsDataSave(test));
+          setMusicUrls(test);
+        });
+    });
   };
   
 
+  // 리덕스에 있는 뮤직 데이터 ({title: "제목"}) 형태
+  const storeMusicData = useAppSelector(
+    (state) => state.diaryCreate.currentMusicData
+  );
+  // 리덕스에 있는 뮤직 s3 url
+  const storeMusicUrls = useAppSelector(
+    (state) => state.diaryCreate.currentMusicUrls
+  );
+
+  // let totalMusicData = [];
+
   useEffect(() => {
-    const emotionIndex = changeTextToIndex(emotion);
+    // 지배 감정을 보내서 음악 제목들 얻기
+    if (!storeMusicData.length) {
+      const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
-        console.log(res, "dispatch로 받은 음악데이터")
-        setMusicData(res.payload.response);
+        console.log(res, "dispatch로 받은 음악데이터");
+        console.log("여기에 들어가야 됨");
+        console.log(storeMusicData);
+
+        // setMusicData(res.payload.response);
       });
   }, []);
 
-  useEffect(() => {
-    if (musicData && musicData.length > 0) {
-      getMusicUrls(musicData);
+    // 음악 제목들이 리덕스에 저장되어있으면
+    // 리덕스에 저장되어있는 음악 데이터를 통해 s3에 접근해서
+    // url을 받은 후 url들을 리덕스에 저장하기
+    console.log(storeMusicData, "스토어에 저장된 뮤직 데이터");
+    if (storeMusicData.length) {
+      getMusicUrls(storeMusicData);
     }
-  }, [musicData]);
-  
-  useEffect(() => {
-    console.log(musicData, musicUrls);
-    if (musicUrls && musicUrls.length > 0) {
-      const newItem = [];
-      for (let i = 0; i < 5; i++) {
-        const splitedTitle = musicData[i].title.split("-");
-        const newTitle = splitedTitle.splice(0, splitedTitle.length - 1).join(" ");
-        newItem.push([newTitle, musicUrls[i]]);
-      }
-      console.log(newItem, "새로운 데이터");
-      setTotalData(newItem);
-    }
-  }, [musicUrls]);
+
+    // let test;
+    // if (musicData !== null && !totalData.length) {
+    //   getMusicUrls(musicData);
+    //   if (musicData.length === 5 && musicUrls.length === 5) {
+    //     console.log(musicData, musicUrls);
+
+    //     const newItem = [];
+    //     for (let i = 0; i < 5; i++) {
+    //       const splitedTitle = musicData[i].title.split("-");
+    //       const newTitle = splitedTitle
+    //         .splice(0, splitedTitle.length - 1)
+    //         .join(" ");
+
+    //       newItem.push([newTitle, musicUrls[i]]);
+    //     }
+    //     console.log(newItem, "새로운 데이터");
+
+    //     setTotalData(newItem);
+    //   }
+    // }
+  }, [dispatch, storeMusicData]);
 
   console.log("전체 음악", totalData);
 
@@ -127,7 +163,7 @@ const DiaryMusicSelect = () => {
     }
 
     if (musicId !== null) {
-      const musicTitle = { musicTitle: musicData[musicId].title };
+      const musicTitle = { musicTitle: storeMusicData[musicId].title };
       dispatch(createInfoSaveAction(musicTitle)).then(() => {
         navigate("/garden/edit");
       });
@@ -139,15 +175,16 @@ const DiaryMusicSelect = () => {
       <div className="info__wrapper">
         <p>일기의 배경음악을 선택해주세요.</p>
       </div>
-      {totalData.length > 0 &&
-        totalData.map((item: any, i: number) => {
+      {storeMusicData.length > 0 &&
+        storeMusicUrls.length > 0 &&
+        storeMusicData.map((item: any, i: number) => {
           console.log("돌리는 값", item);
 
           return (
             <DiaryMusicItem
               isSelected={selectedItems[i + 1]}
-              musicTitle={item[0]}
-              musicUrl={item[1]}
+              musicTitle={item.title}
+              musicUrl={storeMusicUrls[i]}
               onClick={() => handleItemClick(`${i + 1}`)}
             />
           );
