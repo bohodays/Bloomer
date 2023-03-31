@@ -13,6 +13,7 @@ import {
 import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
+import { MeshStandardMaterial } from "three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -112,6 +113,8 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     `${process.env.PUBLIC_URL}/models/camp_map.glb`
   ) as GLTFResult;
+  console.log(nodes.Plane012);
+
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -124,12 +127,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       />
       <mesh
         geometry={nodes.Plane012.geometry}
-        material={nodes.Plane012.material}
+        // material={nodes.Plane012.material}
         position={[0, -0.92, 0]}
         scale={[154.36, 1, 154.36]}
         castShadow={true}
         receiveShadow={true}
-      />
+      >
+        <meshStandardMaterial color={"#fff200"} />
+      </mesh>
       <mesh
         geometry={nodes.Plane.geometry}
         material={materials.River}

@@ -72,8 +72,8 @@ const GardenTheme = () => {
   const dispatch = useAppDispatch();
   const mapData = [
     { map: ParkBaseMap, title: "공원", content: "" },
-    { map: CampBaseMap, title: "캠프", content: "" },
     { map: BeachBaseMap, title: "해변", content: "" },
+    { map: CampBaseMap, title: "캠프", content: "" },
   ];
   const userId = useAppSelector((state) => state.user.userData.userId);
   const navigate = useNavigate();
@@ -83,9 +83,15 @@ const GardenTheme = () => {
       userId,
       type: active,
     };
-    dispatch(createGardenAction(gardenCreateData)).then(() => {
-      navigate("/garden");
-    });
+
+    dispatch(createGardenAction(gardenCreateData))
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+      })
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+        navigate("/garden");
+      });
   };
 
   return (
