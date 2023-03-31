@@ -78,10 +78,12 @@ export default function App() {
             }
           }}
         />
+
+        {/* 로딩 페이지 */}
         {loading && (
           <Image
             style={{ zIndex: -1, width: "100%", height: "100%" }}
-            source={require("./assets/splash.png")}
+            source={require("./assets/loading.png")}
           />
         )}
       </View>
