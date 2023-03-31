@@ -61,30 +61,26 @@ const DiaryMusicSelect = () => {
   };
 
   // 응답받은 음악 제목들을 순회하면서 s3의 url을 저장하는 함수
-  const getMusicUrls = (musicArray: any) => {
-    let test: any = [];
-
-    console.log("s3에 넘길 음악 데이터", musicArray);
-
-    musicArray.map((item: any) => {
-      const params = {
-        Bucket: "bloomer205",
-        Key: `music/${item.title}.mp3`,
-      };
-      console.log("s3에 넘기는 음악 제목", item.title);
-
-      s3.getSignedUrlPromise("getObject", params)
-        .then((url) => {
-          test.push(url);
+  const getMusicUrls = async (musicArray: any) => {
+    try {
+      const urls = await Promise.all(
+        musicArray.map((item: any) => {
+          const params = {
+            Bucket: "bloomer205",
+            Key: `music/${item.title}.mp3`,
+          };
+          console.log("s3에 넘기는 음악 제목", item.title);
+  
+          return s3.getSignedUrlPromise("getObject", params);
         })
-        .catch((err) => console.error(err))
-        .finally(() => {
-          console.log("최종 데이터", test);
-
-          setMusicUrls(test);
-        });
-    });
+      );
+      console.log("최종 데이터", urls);
+      setMusicUrls(urls);
+    } catch (err) {
+      console.error(err);
+    }
   };
+  
 
   useEffect(() => {
     if (!musicData) {
