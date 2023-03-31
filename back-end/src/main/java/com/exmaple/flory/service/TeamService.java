@@ -114,7 +114,7 @@ public class TeamService {
         List<UserTeam> userTeamList = userTeamRepository.findAllByUidAndStatus(member, 1); //승인된 내용만 조회
         List<TeamDto> teamDtoList = new ArrayList<>();
         for(UserTeam team : userTeamList){
-            teamDtoList.add(TeamDto.of(team.getTid()));
+            teamDtoList.add(TeamDto.of(team.getTid(), member));
         }
         return teamDtoList;
     }
@@ -185,13 +185,24 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    public List<TeamMemberResponseDto> signTeamMember(Long teamId){
+    public List<TeamMemberResponseDto> signTeamMember(Long teamId, Long userId){
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+        //권한 확인
+        UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
+
+        if(userTeam.getManager() != 0){
+            //관리자가 아니라면 권한이 없다.
+            new CustomException(ErrorCode.INVALID_AUTHORITY);
+        }
+
         List<UserTeam> userTeamList = userTeamRepository.findAllByTidAndStatus(team, 0);
         List<TeamMemberResponseDto> teamMemberResponseDtoList = new ArrayList<>();
-        for(UserTeam userTeam : userTeamList){
-            teamMemberResponseDtoList.add(TeamMemberResponseDto.of(userTeam));
+        for(UserTeam ut : userTeamList){
+            teamMemberResponseDtoList.add(TeamMemberResponseDto.of(ut));
         }
 
         return teamMemberResponseDtoList;
