@@ -36,7 +36,7 @@ const GroupItems = (props: any) => {
       </div>
       <div className="member__wrapper">
         {groupData.userTeamList.map((item: any, i: number) => {
-          if (i <= 4) {
+          if (i <= 5) {
             if (item.img.length <= 2) {
               return (
                 <Avatar key={item.userId} size="small" imgIdx={item.img} />
