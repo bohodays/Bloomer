@@ -38,7 +38,7 @@ const DiaryMusicSelect = () => {
   });
   const s3 = new AWS.S3();
   const [musicUrls, setMusicUrls] = useState<any>([]);
-  const [musicData, setMusicData] = useState<any>([]);
+  const [musicData, setMusicData] = useState<any>(null);
   const [totalData, setTotalData] = useState<any>([]);
 
   // 이전 페이지에서 감정을 저장시켰음
@@ -83,33 +83,39 @@ const DiaryMusicSelect = () => {
   
 
   useEffect(() => {
-    const emotionIndex = changeTextToIndex(emotion);
+    if (!musicData) {
+      // 수정 필요
+      // api 보고 맞춰서 보내기
+      const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
-        console.log(res, "dispatch로 받은 음악데이터")
+        console.log(res, "dispatch로 받은 음악데이터");
+
         setMusicData(res.payload.response);
       });
-  }, []);
+    }
 
-  useEffect(() => {
-    if (musicData && musicData.length > 0) {
+    // let test;
+    if (musicData !== null && !totalData.length) {
       getMusicUrls(musicData);
-    }
-  }, [musicData]);
-  
-  useEffect(() => {
-    console.log(musicData, musicUrls);
-    if (musicUrls && musicUrls.length > 0) {
-      const newItem = [];
-      for (let i = 0; i < 5; i++) {
-        const splitedTitle = musicData[i].title.split("-");
-        const newTitle = splitedTitle.splice(0, splitedTitle.length - 1).join(" ");
-        newItem.push([newTitle, musicUrls[i]]);
+      if (musicData.length === 5 && musicUrls.length === 5) {
+        console.log(musicData, musicUrls);
+
+        const newItem = [];
+        for (let i = 0; i < 5; i++) {
+          const splitedTitle = musicData[i].title.split("-");
+          const newTitle = splitedTitle
+            .splice(0, splitedTitle.length - 1)
+            .join(" ");
+
+          newItem.push([newTitle, musicUrls[i]]);
+        }
+        console.log(newItem, "새로운 데이터");
+
+        setTotalData(newItem);
       }
-      console.log(newItem, "새로운 데이터");
-      setTotalData(newItem);
     }
-  }, [musicUrls]);
+  }, [dispatch, musicData, totalData]);
 
   console.log("전체 음악", totalData);
 
