@@ -28,6 +28,7 @@ import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
 import { getGroupInfoAction } from "../../redux/modules/group";
 import Navbar from "../../components/common/Navbar/Navbar";
+import AWS from "aws-sdk";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -134,6 +135,37 @@ const DiaryDetail = () => {
     });
   };
 
+  // 이미지 관련
+  let imgSrc;
+
+  // tmpsrc : 클라이언트에서 바로 가져오는 이미지src
+  // src : s3에서 불러오는 이미지 키값
+
+  // s3 bucket 이미지 읽어오기
+  const s3 = new AWS.S3();
+  const [imageUrl, setImageUrl] = useState(""); //실제 이미지
+
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+    region: process.env.REACT_APP_S3_REGION,
+  });
+
+  useEffect(() => {
+    if (diary.imgSrc) {
+      console.log("s3에서 이미지 가져오기");
+      const params = {
+        Bucket: "bloomer205",
+        Key: `${diary.imgSrc}`,
+      };
+      s3.getSignedUrlPromise("getObject", params)
+        .then((url) => setImageUrl(url))
+        .catch((err) => console.error(err));
+    }
+  }, [diary.imgSrc]);
+
+  imgSrc = imageUrl;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   };
@@ -181,12 +213,16 @@ const DiaryDetail = () => {
       {/* 뒤로 가기 아이콘 */}
       <BackButton color="white" onClickAction={handleGoBack} />
       <div className="content-box">
-        <div className="flower-title">
-          {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
-        </div>
-        {/* 본인 글일 때 수정 삭제 하는 부분 */}
         {isSelf && diary && (
-          <div className="setting">
+          <div
+            className="setting"
+            style={{
+              marginLeft: "auto",
+              width: "34px",
+              position: "absolute",
+              top: "210px",
+            }}
+          >
             <SettingPopover
               color="black"
               deleteAction={deleteAction}
@@ -200,9 +236,15 @@ const DiaryDetail = () => {
             />
           </div>
         )}
+        <div className="flower-title">
+          {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
+        </div>
+        {/* 본인 글일 때 수정 삭제 하는 부분 */}
 
         {/* 다이어리 내용 영역 */}
-        <img className="diary-img" src={diary.imgSrc} alt="img-loading,," />
+        {imgSrc && (
+          <img className="diary-img" src={imgSrc} alt="img-loading,," />
+        )}
         <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
