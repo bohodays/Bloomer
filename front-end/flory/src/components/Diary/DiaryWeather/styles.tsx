@@ -1,9 +1,12 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
-export const SMain = styled.div`
+export const SMain = styled.div<any>`
   position: absolute;
   width: 4rem;
-  background-color: rgba(0, 0, 0, 0.13);
+  background-color: ${(props) =>
+    props.backoption === "day"
+      ? "rgba(0, 0, 0, 0.13)"
+      : "rgba(255, 255, 255, 0.3)"};
   border-radius: 10px;
   padding: 0.3rem;
   text-align: center;
@@ -21,4 +24,4 @@ export const SMain = styled.div`
     flex-direction: column;
     font-size: 0.2rem;
   }
-`;
+`

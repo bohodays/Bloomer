@@ -84,6 +84,7 @@ const Diary = () => {
               description: weatherData.description,
               temp: weatherData.temp,
             }}
+            backoption={backoption}
           />
         )}
         <DiaryDate diaryData={diaryData} />

@@ -18,7 +18,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
   const isDiaryPage = props.page === "diary"
   const isPrivate = props.diary.publicStatus === "비공개"
-  const isContainImage = props.diary.imgSrc !== ""
+  const isContainImage = props.diary.imgSrc !== null
   const time = convertTimeFormat(props.diary.createdTime)
   const emotion = convertEmotionFormat(props.diary.flowerEmotion.largeCategory)
   const content = convertContentToMaxLength(props.diary.content)
@@ -66,6 +66,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
           )} */}
           <div className="content-container">{content}</div>
           <div className="info-container">
+            {isContainImage && <SIcon icon={faImage} />}
             <span className="comment-section">
               <SIcon icon={faComment} flip="horizontal" />
               <span>
