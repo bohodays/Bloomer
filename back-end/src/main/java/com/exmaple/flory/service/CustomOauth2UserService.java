@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -40,12 +42,16 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
     private void save(OAuthAttributes attributes) {
 
         String email = attributes.getEmail();
-
+        Optional<Member> member = memberRepository.findByEmail(email);
         //기존에 저장된 것이 없었다면
-        if(memberRepository.findByEmail(email) == null) {
-            memberRepository.save(Member
+        if(!member.isPresent()) {
+            memberRepository.save(
+                    Member
                     .builder()
                     .email(attributes.getEmail())
+                            .nickname("temp")
+                            .password("1234")
+                            .img("1")
                     .authority(Authority.ROLE_USER)
                     .build());
         }
