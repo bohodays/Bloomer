@@ -10,6 +10,7 @@ import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
 import BassGrassAndFlowersEdit from "./BaseGrassAndFlowersEdit";
+import GuestBookModel from "../../GuestBook/GuestBookModel/GuestBook";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -799,6 +800,8 @@ function Park_map_edit() {
       <BassGrassAndFlowersEdit />
       {/* Base Grass와 Flowers를 제외한 나머지 objects */}
       <Model_edit />
+      {/* 방명록 */}
+      <GuestBookModel />
     </>
   );
 }

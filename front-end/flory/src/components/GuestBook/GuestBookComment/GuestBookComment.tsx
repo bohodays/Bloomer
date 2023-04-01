@@ -35,6 +35,16 @@ const GuestBookComment = (props: any) => {
     dispatch(deleteGuestBook(requestData));
   };
 
+  // \n 인식시키기
+  const convertNewLineToBreak = (str: string) => {
+    return str.split("\n").map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <SSection deg={props.deg} ref={commentRef} color={commentData.color}>
       <div className={`post-it ${checkDeg(props.deg)}`}>
@@ -51,7 +61,9 @@ const GuestBookComment = (props: any) => {
             )}
           </div>
           {/* 작성 내용 */}
-          <p className="comment">{commentData.contents}</p>
+          <p className="comment">
+            {convertNewLineToBreak(commentData.contents)}
+          </p>
           <p className="date">{convertDateFormat(commentData.created_time)}</p>
         </p>
       </div>

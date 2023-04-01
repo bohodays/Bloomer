@@ -20,6 +20,9 @@ export const createDiaryAction = createAsyncThunk(
       formData.append("diary", blob);
       formData.append("imgSrc", imgFile);
 
+      console.log(formData.get("imgSrc"));
+      console.log(diaryData, imgFile);
+
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

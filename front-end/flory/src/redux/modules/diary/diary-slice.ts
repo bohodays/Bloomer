@@ -10,7 +10,7 @@ import {
   updatePositionAction,
   getDiaryWithGroup,
   getStatisticsMonth,
-  getStatisticsLastWeek
+  getStatisticsLastWeek,
 } from "./diary-action";
 
 const initialState: DiaryStateType = {
@@ -21,8 +21,24 @@ const initialState: DiaryStateType = {
   monthDiaryList: [],
   mapDiaryList: [],
   groupDiaryList: [],
-  monthStat: {joy: 0, stable: 0, flustered: 0, angry: 0, anxiety: 0, hurt: 0, sadness: 0},
-  weekStat: {joy: 0, stable: 0, flustered: 0, angry: 0, anxiety: 0, hurt: 0, sadness: 0}
+  monthStat: {
+    joy: 0,
+    stable: 0,
+    flustered: 0,
+    angry: 0,
+    anxiety: 0,
+    hurt: 0,
+    sadness: 0,
+  },
+  weekStat: {
+    joy: 0,
+    stable: 0,
+    flustered: 0,
+    angry: 0,
+    anxiety: 0,
+    hurt: 0,
+    sadness: 0,
+  },
 };
 
 const diarySlice = createSlice({
@@ -31,13 +47,24 @@ const diarySlice = createSlice({
   reducers: {
     // 개별 꽃 위치 수정
     positionUpdate: (state, action) => {
-      const filteredItem = state.diaryData.filter(
-        (item: any) => item.id === action.payload.diaryId
+      const { diaryId, x, y, z } = action.payload;
+      const diaryIndex = state.diaryData.findIndex(
+        (item: any) => item.id === diaryId
       );
 
-      filteredItem[0].x = action.payload.x;
-      filteredItem[0].y = action.payload.y;
-      filteredItem[0].z = action.payload.z;
+      if (diaryIndex !== -1) {
+        const updatedDiary = {
+          ...state.diaryData[diaryIndex],
+          x: String(x),
+          y: String(y),
+          z: String(z),
+        };
+
+        const diaryData = [...state.diaryData];
+        diaryData[diaryIndex] = updatedDiary;
+
+        state.diaryData = [...diaryData];
+      }
     },
   },
   extraReducers: (builder) => {

@@ -12,6 +12,7 @@ import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
 import GroupList from "./pages/GroupList/GroupList";
+import GroupSignUpList from "./pages/GroupSignUpList/GroupSignUpList";
 import {
   createGardenAction,
   getGardenListAction,
@@ -91,7 +92,7 @@ function App() {
             <Route path="/diary" element={withAuth(<Diary />)} />
             <Route path="/diary/:diaryId" element={withAuth(<DiaryDetail />)} />
             <Route path="/gardenTheme" element={withAuth(<GardenTheme />)} />
-            <Route path="/garden" element={withAuth(checkGarden(<Garden />))} />
+            <Route path="/garden" element={withAuth(<Garden />)} />
             <Route path="/garden/:userId" element={<GardenOther />} />
             <Route path="/garden/edit" element={withAuth(<GardenEdit />)} />
             <Route path="/garden/list" element={withAuth(<GardenList />)} />
@@ -102,6 +103,7 @@ function App() {
             />
             <Route path="/setting" element={withAuth(<Setting />)} />
             <Route path="/group/list" element={withAuth(<GroupList />)} />
+            <Route path="/group/list/signup/:groupId" element={<GroupSignUpList />} />
             <Route path="/info" element={<Info />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>

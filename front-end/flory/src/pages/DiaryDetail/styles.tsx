@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const SMain = styled.main`
   position: absolute;
   width: 100%;
+  /* height: 100%; */
+  /* margin-bottom: 300px; */
   /* height: 500px; */
   .header_back {
     position: absolute;
@@ -66,12 +68,13 @@ export const SMain = styled.main`
     margin: 0.5rem 0 1rem;
   }
   .location-tag {
-    margin: 0.5rem 0;
+    margin: 0.7rem 0;
     color: grey;
     p {
       display: inline;
       margin-left: 0.5rem;
       color: grey;
     }
+    cursor: pointer;
   }
 `;
