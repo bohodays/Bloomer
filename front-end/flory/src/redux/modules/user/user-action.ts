@@ -157,3 +157,19 @@ export const updateUserInfoAction = createAsyncThunk(
     }
   }
 );
+
+// 소셜 로그인시 유저 정보 수정
+export const socialLoginUpdateAction = createAsyncThunk(
+  "SOCIAL",
+  async (userData: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const { data } = await axios.put(`/api/user/social`, userData);
+      console.log(data, "소셜 로그인");
+
+      return data;
+    } catch (e: any) {
+      return rejectWithValue(e);
+    }
+  }
+);
