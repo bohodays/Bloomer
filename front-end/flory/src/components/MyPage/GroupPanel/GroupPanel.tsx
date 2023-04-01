@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
-import Post from "../../common/Post/Post";
-import Accordion from "../../../components/common/Accordion/Accordion";
-import Avatar from "../../common/Avatar/Avatar";
-import { SGroupPanel, SMember } from "./styles";
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
+import Post from "../../common/Post/Post"
+import Accordion from "../../../components/common/Accordion/Accordion"
+import Avatar from "../../common/Avatar/Avatar"
+import { SGroupPanel, SMember } from "./styles"
 
-import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
-import { getGroupInfoAction } from "../../../redux/modules/group/group-action";
+import GroupCreateModal from "../GroupCreateModal/GroupCreateModal"
+import { getGroupInfoAction } from "../../../redux/modules/group/group-action"
 
 function GroupPanel({}): JSX.Element {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   // const [userGroupList, setUserGroupList] = useState(null);``
-  const bgIcons: JSX.Element[] = [];
+  const bgIcons: JSX.Element[] = []
 
-  const userGroupList = useAppSelector((state) => state.group.userGroupList);
+  const userGroupList = useAppSelector((state) => state.group.userGroupList)
 
   useEffect(() => {
-    dispatch(getGroupInfoAction());
-  }, []);
+    dispatch(getGroupInfoAction())
+  }, [])
 
   for (var i = 1; i < 26; i++) {
-    var img_icon;
-    if(i<10) img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`);
-    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`);
-    bgIcons.push(<img className="icon_flower" key={i} src={img_icon}/>);
+    var img_icon
+    if (i < 10)
+      img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`)
+    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`)
+    bgIcons.push(<img className="icon_flower" key={i} src={img_icon} />)
   }
 
   // console.log(userGroupList);
@@ -43,8 +44,8 @@ function GroupPanel({}): JSX.Element {
               <Accordion
                 key={group.teamId}
                 title={`${group.name} (${group.userTeamList.length})`}
-                contents={group.userTeamList.map((member: any, index:any) => {
-                  const random = Math.floor(Math.random() * bgIcons.length);
+                contents={group.userTeamList.map((member: any, index: any) => {
+                  const random = Math.floor(Math.random() * bgIcons.length)
                   return (
                     <div>
                       {/* <div className="BrowseGroup">
@@ -59,14 +60,18 @@ function GroupPanel({}): JSX.Element {
                             key={index}
                           />
                         ) : (
-                          <Avatar size="small" imgIdx={member.img} key={index} />
+                          <Avatar
+                            size="small"
+                            imgIdx={member.img}
+                            key={index}
+                          />
                         )}
                         <br />
                         <div className="memberName">{member.nickname}</div>
                         {bgIcons[random]}
                       </SMember>
                     </div>
-                  );
+                  )
                 })}
               />
             ))}
@@ -75,7 +80,7 @@ function GroupPanel({}): JSX.Element {
         addition={<GroupCreateModal />}
       />
     </SGroupPanel>
-  );
+  )
 }
 
-export default GroupPanel;
+export default GroupPanel

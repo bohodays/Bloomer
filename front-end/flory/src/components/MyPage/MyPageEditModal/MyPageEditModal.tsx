@@ -100,7 +100,10 @@ const MyPageEditModal = () => {
       <SForm>
         <p>닉네임 변경</p>
         <div className="nickname__wrapper">
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon
+            icon={faUser}
+            className={nickname ? "icon active" : "icon"}
+          />
           <input
             className="input__section"
             type="text"

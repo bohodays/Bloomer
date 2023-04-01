@@ -18,6 +18,14 @@ export const SForm = styled.form`
     align-items: center;
     margin-bottom: 20px;
 
+    .icon {
+      color: #b0b0b0;
+    }
+
+    .active {
+      color: #dec5fd;
+    }
+
     .input__section {
       width: 100%;
       border: none;

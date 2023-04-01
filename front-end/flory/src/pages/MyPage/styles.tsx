@@ -23,7 +23,7 @@ export const SMyPage = styled.div`
     /* background-color: #eddfff; */
     background-image: linear-gradient(135deg, #ce9ffc 10%, #7367f0 100%);
     width: 100%;
-    height: 7rem;
+    height: 7.5rem;
     z-index: 0;
     border-bottom-left-radius: 200px 30%;
     border-bottom-right-radius: 200px 30%;
