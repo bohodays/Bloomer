@@ -5,6 +5,7 @@ export type gardenType = {
   musicTitle: string | null;
   img: string | null;
   deadline: string;
+  type: number | null;
 };
 
 export type PositionType = {

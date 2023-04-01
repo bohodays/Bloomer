@@ -11,7 +11,7 @@ import BackButton from "../../components/common/BackButton/BackButton";
 import { localData } from "../../redux/modules/user/token";
 let isInitial = true;
 const Login = () => {
-  const onClick = () => {};
+  const SOCIAL_LOGIN_URL = "https://j8a205.p.ssafy.io";
 
   useEffect(() => {
     if (isInitial) {
@@ -48,7 +48,9 @@ const Login = () => {
         <SButton
           style={{ marginRight: "1rem" }}
           // 클릭 이벤트 수정해야 됨
-          onClick={onClick}
+          onClick={() =>
+            (window.location.href = `${SOCIAL_LOGIN_URL}/oauth2/authorization/google`)
+          }
         >
           <div>
             <img src={googleLogoImg} alt="" />
@@ -58,7 +60,9 @@ const Login = () => {
         <SButton
           style={{ marginLeft: "1rem" }}
           // 클릭 이벤트 수정해야 됨
-          onClick={onClick}
+          onClick={() =>
+            (window.location.href = `${SOCIAL_LOGIN_URL}/oauth2/authorization/kakao`)
+          }
         >
           <div>
             <img src={kakaoLogoImg} alt="" />

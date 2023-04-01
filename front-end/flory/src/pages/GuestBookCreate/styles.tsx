@@ -82,6 +82,7 @@ export const SSection = styled.section<any>`
   }
 
   .create__wrapper {
+    position: relative;
     /* display: */
     width: 22rem;
     height: 24rem;
@@ -117,6 +118,7 @@ export const SSection = styled.section<any>`
     padding: 1rem;
     font-size: 1rem;
     background-color: ${(props) => props.backgroundColor};
+    font-family: "S-CoreDream-4Regular";
   }
 
   .yellow {
@@ -134,5 +136,13 @@ export const SSection = styled.section<any>`
   .complete {
     font-size: 1.2rem;
     margin-right: 1rem;
+  }
+
+  .limit {
+    position: absolute;
+    right: 1rem;
+    bottom: 4rem;
+    color: #8a8a8a;
+    font-size: 0.8rem;
   }
 `;

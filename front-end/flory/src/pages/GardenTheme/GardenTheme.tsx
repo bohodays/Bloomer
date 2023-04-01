@@ -72,8 +72,8 @@ const GardenTheme = () => {
   const dispatch = useAppDispatch();
   const mapData = [
     { map: ParkBaseMap, title: "공원", content: "" },
-    { map: BeachBaseMap, title: "해변", content: "" },
     { map: CampBaseMap, title: "캠프", content: "" },
+    { map: BeachBaseMap, title: "해변", content: "" },
   ];
   const userId = useAppSelector((state) => state.user.userData.userId);
   const navigate = useNavigate();
@@ -83,15 +83,24 @@ const GardenTheme = () => {
       userId,
       type: active,
     };
-    dispatch(createGardenAction(gardenCreateData)).then(() => {
-      navigate("/garden");
-    });
+
+    dispatch(createGardenAction(gardenCreateData))
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+      })
+      .then(() => {
+        console.log(localStorage.getItem("newGarden"));
+        navigate("/garden");
+      });
   };
 
   return (
     <SMain active={active}>
       <div className="info__wrapper">
         <p className="info__title">정원의 테마를 선택해주세요.</p>
+        <p className="info__title red">
+          정원의 테마는 현재 월의 말까지 유지되며 변경 불가능합니다.
+        </p>
       </div>
       {/* 선택된 감정 */}
       <div className="wrapper">

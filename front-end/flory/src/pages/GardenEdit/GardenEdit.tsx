@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
@@ -19,27 +19,23 @@ import Camp_map_edit from "../../components/Garden/Camp/Camp_map_edit";
 import Park_map_edit from "../../components/Garden/Park/Park_map_edit";
 import Loading from "../Loading/Loading";
 import { dataReset } from "../../redux/modules/diaryCreate/diaryCreate-slice";
+import { log } from "console";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
 
+const gardenTypeMap = (type: number | null) => {
+  if (type === 0) return <Park_map_edit />;
+  else if (type === 1) return <Camp_map_edit />;
+  else if (type === 2) return <Beach_map_edit />;
+};
+
 const Scene = () => {
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+
   return (
     <>
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-        {/* <Base_map_new /> */}
-        {/* Park 맵 */}
-        <Park_map_edit />
-        {/* <Base_map_new_edit /> */}
-
-        {/* Beach 맵 */}
-        {/* <Beach_map_edit /> */}
-
-        {/* Camp 맵 */}
-        {/* <Camp_map_edit /> */}
-        {/* <Base_map /> */}
-        {/* <EffectComposer multisampling={8}> */}
-        {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
-        {/* </EffectComposer> */}
+        {gardenTypeMap(gardenType)}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
@@ -81,24 +77,6 @@ const GardenEdit = () => {
     return new File([u8arr], filename, { type: mime });
   }
 
-  // const replacedBase64String: any = base64String?.replace(
-  //   /^data:image\/\w+;base64,/,
-  //   ""
-  // );
-  // const blob = new Blob([replacedBase64String], { type: "image/png" });
-  // const formData: any = new FormData();
-  // formData.append("file", blob);
-  // console.log(typeof formData, "asdasdasdasd");
-  // console.log(formData, "asdasdasdasd1111111");
-  // for (let value of formData.values()) {
-  //   console.log(value, "value");
-  // }
-  // for (let key of formData.keys()) {
-  //   console.log(key, "key");
-  // }
-  // const imgSrc = formData.get("file");
-  // console.log(imgSrc, "뭔가 이상한거 같음...");
-
   const handlePositionUpdate = () => {
     // 가든에서 왔으면 꽃 움직이게만 하기
     if (fromGarden) {
@@ -137,6 +115,8 @@ const GardenEdit = () => {
         });
     }
   };
+
+  useEffect(() => {}, [dispatch]);
 
   return (
     <SMain>

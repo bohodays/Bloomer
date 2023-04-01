@@ -6,4 +6,5 @@ export type GroupType = {
   memberList: []
   createdDate: string | null
   status: number | null
+  manager: number | null
 }

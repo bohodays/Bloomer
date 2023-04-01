@@ -14,6 +14,7 @@ import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
 import BassGrassAndFlowersEdit from "./BaseGrassAndFlowersEdit";
+import GuestBookModel from "../../GuestBook/GuestBookModel/GuestBook";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -130,7 +131,9 @@ export function Model_edit(props: JSX.IntrinsicElements["group"]) {
         scale={[154.36, 1, 154.36]}
         castShadow={true}
         receiveShadow={true}
-      />
+      >
+        <meshStandardMaterial color={"#fff200"} />
+      </mesh>
       <mesh
         geometry={nodes.Plane.geometry}
         material={materials.River}
@@ -711,6 +714,8 @@ function Camp_map_edit() {
       <BassGrassAndFlowersEdit />
       {/* Base Grass와 Flowers를 제외한 나머지 objects */}
       <Model_edit />
+      {/* 방명록 */}
+      <GuestBookModel />
     </>
   );
 }
