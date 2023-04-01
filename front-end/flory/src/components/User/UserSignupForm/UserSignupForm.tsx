@@ -109,6 +109,7 @@ const UserSignupForm = () => {
       navigate("/signup/music", {
         state: {
           signupData,
+          update: false,
         },
       });
     }
