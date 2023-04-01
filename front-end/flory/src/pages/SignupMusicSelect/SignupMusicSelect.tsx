@@ -23,6 +23,7 @@ const SignupMusicSelect = () => {
   // update가 true이면 소셜 로그인, false이면 회원가입
   const update = location.state.update;
   const userId = location.state.userId;
+  console.log(update, userId, "어디서 온거지?");
 
   const [selectedItems, setSelectedItems] = useState<any>({
     classic: false,
@@ -48,6 +49,8 @@ const SignupMusicSelect = () => {
         electronic: selectedItems.electronic,
       };
       dispatch(socialLoginUpdateAction(userData)).then(() => {
+        console.log("가든으로 가");
+
         navigate("/garden");
       });
     }
@@ -58,6 +61,7 @@ const SignupMusicSelect = () => {
         ...selectedItems,
       };
       dispatch(signupAction(userData)).then(() => {
+        console.log("로그인으로 가");
         navigate("/login");
       });
     }
