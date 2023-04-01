@@ -122,7 +122,6 @@ const GardenOther = () => {
           >
             {otherGardenData.nickname}님의 감정 공간입니다
           </div>
-          <button onClick={handleMoveToGuestBook}>방명록</button>
           <ToggleButton state="other" />
           <Canvas shadows={true}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
