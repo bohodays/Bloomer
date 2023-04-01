@@ -1,8 +1,11 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +67,15 @@ public class MemberService {
         memberRepository.delete(
                 memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."))
         );
+    }
+
+    public void updateMusic(MemberMusicUpdateDto memberMusicUpdateDto) {
+
+        Member member = memberRepository.findById(memberMusicUpdateDto.getUserId()).get();
+
+        if(member == null) throw new CustomException(ErrorCode.NO_USER);
+
+        member.updateMusic(memberMusicUpdateDto);
+        memberRepository.save(member);
     }
 }

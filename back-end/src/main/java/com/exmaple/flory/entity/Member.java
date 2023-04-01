@@ -1,5 +1,6 @@
 package com.exmaple.flory.entity;
 
+import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,6 +70,20 @@ public class Member extends BaseTime {
     public Member updateImg(String img){
         this.img = img;
         return this;
+    }
+
+    public void updateMusic(MemberMusicUpdateDto memberMusicUpdateDto) {
+
+        this.pop = memberMusicUpdateDto.getPop();
+        this.classic = memberMusicUpdateDto.getClassic();
+        this.jazz = memberMusicUpdateDto.getJazz();
+        this.reggae = memberMusicUpdateDto.getReggae();
+        this.RnB = memberMusicUpdateDto.getRnb();
+        this.electronic = memberMusicUpdateDto.getElectronic();
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     @JsonIgnore

@@ -1,5 +1,6 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.exception.error.ErrorCode;
@@ -88,6 +89,16 @@ public class MemberController {
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/social")
+    public ResponseEntity<?> updateMemberMusicInfo(@RequestBody MemberMusicUpdateDto memberMusicUpdateDto) {
+        try{
+            memberService.updateMusic(memberMusicUpdateDto);
+            return new ResponseEntity<>(new SuccessResponse("수정 성공"),HttpStatus.OK);
+        } catch(RuntimeException e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.NO_USER),HttpStatus.NOT_FOUND);
         }
     }
 

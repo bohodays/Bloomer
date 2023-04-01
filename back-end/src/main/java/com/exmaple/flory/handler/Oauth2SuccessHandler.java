@@ -48,6 +48,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         int newUser = 0;
         //새로 등록한 유저
         if(member.get().getPop() == null) {
+            member.get().updateRefreshToken(tokenDto.getRefreshToken());
             newUser = 1;
         }
 
