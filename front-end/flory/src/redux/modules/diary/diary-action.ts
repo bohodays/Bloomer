@@ -14,13 +14,14 @@ export const createDiaryAction = createAsyncThunk(
       const axios = axiosInitializer();
 
       const formData: any = new FormData();
-      const blob = new Blob([JSON.stringify(diaryData)], {
+      const blob = await new Blob([JSON.stringify(diaryData)], {
         type: "application/json",
       });
       formData.append("diary", blob);
       formData.append("imgSrc", imgFile);
 
       console.log(formData.get("imgSrc"));
+      console.log(blob);
 
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {

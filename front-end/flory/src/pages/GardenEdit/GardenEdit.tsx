@@ -103,6 +103,7 @@ const GardenEdit = () => {
     } else {
       dispatch(updatePositionAction(diaryData))
         .then(async () => {
+          console.log("아래되나용?");
           const base64String: string | null = localStorage.getItem("imgFile");
 
           let imgFile = null;
@@ -114,6 +115,7 @@ const GardenEdit = () => {
             imgFile = form_data.get("file");
           }
 
+          console.log(currentCreateDiaryData, "일기 생성 데이터 확인!!!");
           await dispatch(
             createDiaryAction({
               diaryData: currentCreateDiaryData,

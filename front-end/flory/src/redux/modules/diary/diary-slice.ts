@@ -55,9 +55,9 @@ const diarySlice = createSlice({
       if (diaryIndex !== -1) {
         const updatedDiary = {
           ...state.diaryData[diaryIndex],
-          x,
-          y,
-          z,
+          x: String(x),
+          y: String(y),
+          z: String(z),
         };
 
         const diaryData = [...state.diaryData];
