@@ -1,34 +1,39 @@
-import { useNavigate } from "react-router-dom";
-import { JsxElement } from "typescript";
-import { deleteCommentAction } from "../../../redux/modules/diary";
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
-import Avatar from "../../common/Avatar/Avatar";
-import SettingPopover from "../../common/SettingPopover/SettingPopover";
+import { useNavigate } from "react-router-dom"
+import { JsxElement } from "typescript"
+import { deleteCommentAction } from "../../../redux/modules/diary"
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
+import Avatar from "../../common/Avatar/Avatar"
+import SettingPopover from "../../common/SettingPopover/SettingPopover"
 
-import { SMain } from "./styles";
+import { SMain } from "./styles"
 function DiaryComment({ comment, updateDiary }: any): JSX.Element {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const userId = useAppSelector((store) => store.user.userData.userId);
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const userId = useAppSelector((store) => store.user.userData.userId)
   const handleMoveToOtherGarden = () => {
-    navigate(`/garden/${comment.member.userId}`);
-  };
+    navigate(`/garden/${comment.member.userId}`)
+  }
 
   const deleteAction = () => {
     dispatch(deleteCommentAction(comment.id)).then(() => {
-      updateDiary();
-    });
-  };
+      updateDiary()
+    })
+  }
 
   return (
     <SMain style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", marginBottom: "0.5rem" }}>
-        <Avatar size="small" onClick={handleMoveToOtherGarden} />
+        <Avatar
+          pointer="pointer"
+          size="small"
+          onClick={handleMoveToOtherGarden}
+        />
         <p
           style={{
             marginLeft: "0.5rem",
             color: "#612FAB",
             marginRight: "auto",
+            cursor: "pointer",
           }}
           onClick={handleMoveToOtherGarden}
         >
@@ -52,7 +57,7 @@ function DiaryComment({ comment, updateDiary }: any): JSX.Element {
           comment.createdTime.slice(11, 16)}
       </p>
     </SMain>
-  );
+  )
 }
 
-export default DiaryComment;
+export default DiaryComment

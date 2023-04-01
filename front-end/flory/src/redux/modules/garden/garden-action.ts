@@ -102,8 +102,8 @@ export const createGardenAction = createAsyncThunk(
         },
       });
       // const userId = useAppSelector((state) => state.user.userData.userId);
+      await localStorage.setItem("newGarden", "No");
       dispatch(getGardenListAction(gardenCreateData.userId));
-      localStorage.setItem("newGarden", "Yes");
 
       return data;
     } catch (e: any) {

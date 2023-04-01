@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   padding-top: 5rem;
@@ -9,6 +9,20 @@ export const SMain = styled.main`
   button {
     top: 1rem;
     left: 1rem;
+  }
+
+  .title {
+    text-align: center;
+    margin: auto;
+    color: #444444;
+    /* background: #ffffff; */
+    text-shadow: 1px 0px 1px #cccccc, 0px 1px 1px #eeeeee, 2px 1px 1px #cccccc,
+      1px 2px 1px #eeeeee, 3px 2px 1px #cccccc, 2px 3px 1px #eeeeee,
+      4px 3px 1px #cccccc, 3px 4px 1px #eeeeee, 5px 4px 1px #cccccc,
+      4px 5px 1px #eeeeee, 6px 5px 1px #cccccc, 5px 6px 1px #eeeeee,
+      7px 6px 1px #cccccc;
+    color: #444444;
+    /* background: #ffffff; */
   }
 
   .create {
@@ -104,4 +118,4 @@ export const SMain = styled.main`
     linear-gradient(#cdcccc, #cdcccc);
   background-size: 100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px,
     100px 100%, 100px 100%, 100px 100px, 100px 100px;
-`
+`;

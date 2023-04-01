@@ -242,9 +242,6 @@ const DiaryDetail = () => {
         {/* 본인 글일 때 수정 삭제 하는 부분 */}
 
         {/* 다이어리 내용 영역 */}
-        {imgSrc && (
-          <img className="diary-img" src={imgSrc} alt="img-loading,," />
-        )}
         <h3>{diary.garden?.member.nickname}</h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
@@ -254,6 +251,9 @@ const DiaryDetail = () => {
               diary.createdTime.slice(11, 16)}
           </p>
         </div>
+        {imgSrc && (
+          <img className="diary-img" src={imgSrc} alt="img-loading,," />
+        )}
         <div className="content-diary">{diary.content}</div>
 
         {/* 지도 영역 */}
@@ -262,11 +262,13 @@ const DiaryDetail = () => {
           <p>{diary.address}</p>
         </div>
         {mapView && (
-          <StaticMap
-            lng={diary.lng}
-            lat={diary.lat}
-            fid={diary.flowerEmotion.fid}
-          />
+          <div style={{ marginBottom: "15px" }}>
+            <StaticMap
+              lng={diary.lng}
+              lat={diary.lat}
+              fid={diary.flowerEmotion.fid}
+            />
+          </div>
         )}
 
         {/* 덧글 영역 */}

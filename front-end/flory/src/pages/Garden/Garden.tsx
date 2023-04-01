@@ -28,25 +28,21 @@ import Park_map from "../../components/Garden/Park/Park_map";
 
 let isInitial = true;
 
+const gardenTypeMap = (type: number | null) => {
+  if (type === 0) return <Park_map />;
+  else if (type === 1) return <Camp_map />;
+  else if (type === 2) return <Beach_map />;
+};
+
 const Scene = () => {
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+
   return (
     <>
       {/* <Loader /> */}
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-        {/* Park 맵 */}
-        {/* <Base_map_new /> */}
-        <Park_map />
-
-        {/* Beach 맵 */}
-        {/* <Beach_map /> */}
-
-        {/* Camp 맵 */}
-        {/* <Camp_map /> */}
-
-        {/* <EffectComposer multisampling={8}> */}
-        {/* <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={1} /> */}
-        {/* </EffectComposer> */}
+        {gardenTypeMap(gardenType)}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
@@ -102,7 +98,6 @@ const Garden = () => {
           {locationData.year}/{locationData.month}
         </div>
       )}
-      <button onClick={handleMoveToGuestBook}>방명록</button>
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
