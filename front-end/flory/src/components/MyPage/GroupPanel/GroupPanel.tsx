@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
-import Post from "../../common/Post/Post"
-import Accordion from "../../../components/common/Accordion/Accordion"
-import Avatar from "../../common/Avatar/Avatar"
-import { SGroupPanel, SMember } from "./styles"
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import Post from "../../common/Post/Post";
+import Accordion from "../../../components/common/Accordion/Accordion";
+import Avatar from "../../common/Avatar/Avatar";
+import { SGroupPanel, SMember } from "./styles";
 
-import GroupCreateModal from "../GroupCreateModal/GroupCreateModal"
-import { getGroupInfoAction } from "../../../redux/modules/group/group-action"
+import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
+import GroupEditModal from "../GroupEditModal/GroupEditModal";
+import { getGroupInfoAction } from "../../../redux/modules/group/group-action";
 
 function GroupPanel({}): JSX.Element {
   const navigate = useNavigate()
@@ -40,39 +40,40 @@ function GroupPanel({}): JSX.Element {
         title="가입한 그룹 목록"
         content={
           <div>
-            {userGroupList.map((group: any) => (
+            {userGroupList.map((group: any, index:any) => (
               <Accordion
-                key={group.teamId}
+                key={index}
                 title={`${group.name} (${group.userTeamList.length})`}
-                contents={group.userTeamList.map((member: any, index: any) => {
-                  const random = Math.floor(Math.random() * bgIcons.length)
-                  return (
-                    <div>
-                      {/* <div className="BrowseGroup">
-                        환경설정
-                      </div> */}
-                      <SMember key={member.userId}>
-                        {member.img && member.img.length > 2 ? (
-                          <Avatar
-                            size="small"
-                            src={member.img}
-                            imgIdx={"11"}
-                            key={index}
-                          />
-                        ) : (
-                          <Avatar
-                            size="small"
-                            imgIdx={member.img}
-                            key={index}
-                          />
-                        )}
-                        <br />
-                        <div className="memberName">{member.nickname}</div>
-                        {bgIcons[random]}
-                      </SMember>
-                    </div>
-                  )
-                })}
+                contents={
+                  <div>
+                    {group.manager === 0 && (
+                      <GroupEditModal
+                        groupId={group.teamId}
+                      />
+                      // <div className="BrowseGroup" onClick={() => navigate("/group/list")}>그룹 설정</div>
+                    )}
+                    {group.userTeamList.map((member: any, index:any) => {
+                      const random = Math.floor(Math.random() * bgIcons.length);
+                      return (
+                        <SMember key={index}>
+                          {member.img && member.img.length > 2 ? (
+                            <Avatar
+                              size="small"
+                              src={member.img}
+                              imgIdx={"11"}
+                              key={index}
+                            />
+                          ) : (
+                            <Avatar size="small" imgIdx={member.img} key={index} />
+                          )}
+                          <br />
+                          <div className="memberName">{member.nickname}</div>
+                          {bgIcons[random]}
+                        </SMember>
+                      );
+                    })}
+                  </div>
+                }
               />
             ))}
           </div>
