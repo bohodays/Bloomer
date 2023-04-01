@@ -135,9 +135,9 @@ public class TeamController {
     }
 
     @DeleteMapping("/member")
-    public ResponseEntity<?> deleteTeamMember(@RequestBody TeamApproveRequestDto teamMemberDto){
+    public ResponseEntity<?> deleteTeamMember(@RequestParam Long teamId, @RequestParam Long userId){
         try{
-            teamService.deleteTeamMember(teamMemberDto);
+            teamService.deleteTeamMember(teamId, userId);
             return new ResponseEntity<>(new SuccessResponse("해당 멤버가 삭제되었습니다."),HttpStatus.OK);
         } catch(CustomException e){
             log.info(e.getMessage());
