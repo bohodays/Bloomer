@@ -84,4 +84,4 @@ function GroupPanel({}): JSX.Element {
   )
 }
 
-export default GroupPanel
+export default GroupPanel;
