@@ -170,11 +170,11 @@ public class TeamService {
     }
 
     @Transactional
-    public int deleteTeamMember(TeamApproveRequestDto teamApproveRequestDto){
-        Team team = teamRepository.findById(teamApproveRequestDto.getTeamId())
+    public int deleteTeamMember(Long teamId, Long userId){
+        Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_TEAM));
 
-        Member member = memberRepository.findById(teamApproveRequestDto.getUserId())
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
