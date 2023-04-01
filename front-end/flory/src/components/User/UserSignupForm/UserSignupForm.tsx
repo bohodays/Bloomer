@@ -3,46 +3,46 @@ import {
   faEnvelope,
   faLock,
   faLockOpen,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
-import Button from "../../common/Button/Button";
-import { SForm, SInput } from "./styles";
-import { signupAction, checkDupEmailAction } from "../../../redux/modules/user";
-import { useAppDispatch } from "../../../redux/store.hooks";
-import { useNavigate } from "react-router-dom";
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useState, useEffect } from "react"
+import Button from "../../common/Button/Button"
+import { SForm, SInput } from "./styles"
+import { signupAction, checkDupEmailAction } from "../../../redux/modules/user"
+import { useAppDispatch } from "../../../redux/store.hooks"
+import { useNavigate } from "react-router-dom"
 
 const UserSignupForm = () => {
-  const [nickname, setNickname] = useState<any>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
+  const [nickname, setNickname] = useState<any>(null)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordCheck, setPasswordCheck] = useState("")
   const [alarm, setAlarm] = useState({
     nickname: "",
     email: "",
     pw: "",
     pwConf: "",
-  });
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  })
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   // 이메일 중복 확인
   const onCheckEmail = (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
     dispatch(checkDupEmailAction(email)).then((data: any) => {
       if (data.payload.response) {
         setAlarm({
           ...alarm,
           email: "alarm",
-        });
+        })
       } else {
         setAlarm({
           ...alarm,
           email: "confirm",
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   // 비밀번호 재입력 확인
   useEffect(() => {
@@ -50,19 +50,19 @@ const UserSignupForm = () => {
       setAlarm({
         ...alarm,
         pwConf: "confirm",
-      });
+      })
     } else if (password && passwordCheck) {
       setAlarm({
         ...alarm,
         pwConf: "alarm",
-      });
+      })
     } else {
       setAlarm({
         ...alarm,
         pwConf: "",
-      });
+      })
     }
-  }, [nickname, email, password, passwordCheck]);
+  }, [nickname, email, password, passwordCheck])
 
   useEffect(() => {
     if (nickname !== null) {
@@ -70,35 +70,35 @@ const UserSignupForm = () => {
         setAlarm({
           ...alarm,
           nickname: "alarm",
-        });
+        })
       } else {
         setAlarm({
           ...alarm,
           nickname: "confirm",
-        });
+        })
       }
     }
-  }, [nickname]);
+  }, [nickname])
 
   // 회원가입
   const onSignup = (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
     const signupData = {
       nickname,
       password,
       email,
-    };
+    }
 
     if (!nickname) {
       setAlarm({
         ...alarm,
         nickname: "alarm",
-      });
+      })
     } else {
       setAlarm({
         ...alarm,
         nickname: "confirm",
-      });
+      })
     }
 
     if (
@@ -110,9 +110,9 @@ const UserSignupForm = () => {
         state: {
           signupData,
         },
-      });
+      })
     }
-  };
+  }
 
   return (
     <SForm alarm={alarm}>
@@ -144,11 +144,12 @@ const UserSignupForm = () => {
           addStyle={{
             position: "absolute",
             top: "0",
-            right: "3%",
-            padding: "0.3rem 1rem",
+            right: "0",
+            padding: "0.3rem 0.6rem",
             backgroundColor: "#bfc6ff",
-            borderRadius: "16px",
-            color: "white",
+            borderRadius: "10px",
+            color: "#ffffff",
+            fontSize: "0.75rem",
           }}
         />
         <SInput
@@ -214,7 +215,7 @@ const UserSignupForm = () => {
         contents="다음"
       />
     </SForm>
-  );
-};
+  )
+}
 
-export default UserSignupForm;
+export default UserSignupForm

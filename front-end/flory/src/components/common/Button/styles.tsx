@@ -1,6 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"
 
 export const SButton = styled.button<any>`
+  font-family: "S-CoreDream-5Medium";
+  letter-spacing: 0.1rem;
   ${(props) => {
     return css`
       position: ${props.addStyle.position};
@@ -17,6 +19,6 @@ export const SButton = styled.button<any>`
       color: ${props.addStyle.color};
       border-radius: ${props.addStyle.borderRadius};
       box-shadow: ${props.addStyle.boxShadow};
-    `;
+    `
   }}
-`;
+`
