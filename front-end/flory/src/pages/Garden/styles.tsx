@@ -4,7 +4,7 @@ export const SMain = styled.main`
   position: relative;
   width: 100%;
   height: 100%;
-  background: #ed704e;
+  background: #fbee9d;
 
   .goto__info {
     /* position: absolute; */

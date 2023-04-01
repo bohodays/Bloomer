@@ -7,6 +7,8 @@ import Lottie from "react-lottie";
 import emotionChange from "../../assets/imgs/lotties/emotion.json";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import RotatingText from "../../components/Info/RotatingText/RotatingText";
+import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
+import Crocus from "../../assets/imgs/crocus.png";
 
 const userHeight = window.innerHeight;
 
@@ -74,8 +76,11 @@ const Info = () => {
 
       {/* section 2 */}
       <section ref={section2} className="service__info-2">
-        <p>Bloomer에서 내 소중한 감정을 꽃으로 피워내어 정원을 가꾸고</p>
-        <p>내가 어떤 감정을 느끼며 살아가고 있는지 알아보세요!</p>
+        <p>Bloomer에서 내 소중한 감정을</p>
+        <p>꽃으로 피워내어 정원을 가꾸고</p>
+        <p>내가 어떤 감정을 느끼며</p>
+        <p>살아가고 있는지 알아보세요!</p>
+        <img className="crocus" src={Crocus} alt="크로커스" />
       </section>
     </SMain>
   );

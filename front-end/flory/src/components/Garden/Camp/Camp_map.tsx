@@ -14,6 +14,7 @@ import { GLTF } from "three-stdlib";
 import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
 import { MeshStandardMaterial } from "three";
+import GuestBookModel from "../../GuestBook/GuestBookModel/GuestBook";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -715,6 +716,8 @@ function Camp_map() {
       <BaseGrassAndFlowers />
       {/* Base Grass와 Flowers를 제외한 나머지 objects */}
       <Model />
+      {/* 방명록 */}
+      <GuestBookModel />
     </>
   );
 }

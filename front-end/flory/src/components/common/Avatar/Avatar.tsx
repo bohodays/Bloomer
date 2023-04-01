@@ -9,6 +9,7 @@ interface AvatarProps {
   status?: string;
   tmpsrc?: string;
   src?: string;
+  pointer?: string;
 }
 
 function Avatar({
@@ -18,6 +19,7 @@ function Avatar({
   onClick,
   tmpsrc,
   src,
+  pointer,
 }: AvatarProps): JSX.Element {
   let imgSrc;
 
@@ -35,7 +37,7 @@ function Avatar({
   });
 
   useEffect(() => {
-    if (imgIdx === "11" && src != null && src != "" && src.length>2) {
+    if (imgIdx === "11" && src != null && src != "" && src.length > 2) {
       console.log("s3에서 이미지 가져오기");
       const params = {
         Bucket: "bloomer205",
@@ -78,7 +80,12 @@ function Avatar({
   }
 
   return (
-    <SAvatar size={sizeRem} borderColor={borderColor} onClick={onClick}>
+    <SAvatar
+      pointer={pointer}
+      size={sizeRem}
+      borderColor={borderColor}
+      onClick={onClick}
+    >
       <img src={imgSrc} />
     </SAvatar>
   );

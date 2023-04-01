@@ -87,6 +87,7 @@ export const SMain = styled.main<any>`
   }
 
   .service__info-2 {
+    position: relative;
     opacity: 0;
     display: flex;
     flex-direction: column;
@@ -96,6 +97,13 @@ export const SMain = styled.main<any>`
     text-align: center;
     & > p {
       color: #dfdede;
+      z-index: 10;
+      transform: translate(3rem, 3rem);
     }
+  }
+
+  .crocus {
+    position: absolute;
+    left: 2rem;
   }
 `;
