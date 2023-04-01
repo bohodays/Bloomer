@@ -7,7 +7,8 @@ import { ImgIcon, SForm } from "./styles"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { updateUserInfoAction } from "../../../redux/modules/user"
 import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png"
-import cameraButtonImg from "../../../assets/imgs/button/cameraButton.png"
+import { SlCamera } from "react-icons/sl"
+import { FaCamera, FaCameraRetro } from "react-icons/fa"
 
 const returnPickStatus = (idx: string, pickedIdx: string) => {
   return idx === pickedIdx ? "pick" : ""
@@ -132,7 +133,8 @@ const MyPageEditModal = () => {
               key={11}
               status={returnPickStatus("11", pickedIdx)}
             />
-            <img src={cameraButtonImg} className="cameraButtonImg"></img>
+            {/* <FaCamera className="cameraButtonImg" /> */}
+            {/* <img src={cameraButtonImg} className="cameraButtonImg"></img> */}
           </span>
           {imgIdxList.map((item, idx) => {
             return (

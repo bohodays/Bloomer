@@ -4,16 +4,24 @@ export const SForm = styled.form`
   /* width: 90%; */
   /* margin: auto; */
 
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
   .nickname__wrapper {
     display: flex;
     gap: 10px;
     padding-bottom: 0.3rem;
     border-bottom: 3px solid #dec5fd;
     align-items: center;
+    margin-bottom: 20px;
 
     .input__section {
       width: 100%;
       border: none;
+      outline: none;
     }
   }
 
@@ -23,6 +31,7 @@ export const SForm = styled.form`
     /* grid-template-columns: 5rem 5rem 5rem; */
     gap: 1.2rem;
     justify-content: center;
+    margin-bottom: 10px;
 
     .image__btn {
       cursor: pointer;
@@ -34,10 +43,16 @@ export const SForm = styled.form`
   }
 
   .cameraButtonImg {
-    width: 2.5vh;
     position: absolute;
-    left: 6.5vh;
-    bottom: 0.3vh;
+    height: 1.5rem;
+    width: auto;
+    padding: 3px;
+    background-color: #ffffff;
+    color: black;
+    border-radius: 7px;
+    bottom: 0rem;
+    left: 3.6rem;
+    border: #dec5fd solid 3px;
   }
 `
 

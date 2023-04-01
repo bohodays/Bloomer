@@ -31,10 +31,12 @@ export const SMyPage = styled.div`
   }
 
   .setting-icon {
-    margin: 0.8vw 1.5vw;
-    font-size: 1.5rem;
     position: absolute;
-    right: 0;
+    height: 1.5rem;
+    top: 0.8rem;
+    right: 0.8rem;
+    z-index: 1000;
+    cursor: pointer;
   }
 
   .flex {
