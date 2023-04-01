@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
 import { GroupUpdateType } from "../../../models/Group/groupUpdateType";
+import { GroupJoinType } from "../../../models/Group/groupJoinType"
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 import { groupActions } from "./group-slice";
@@ -159,6 +160,44 @@ export const getSignUpMemberListAction = createAsyncThunk(
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
       const { data } = await axios.get(`/api/team/sign/${group_id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e: any) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 그룹 멤버 삭제
+export const deleteGroupMemberAction = createAsyncThunk(
+  "DELETE",
+  async ({ teamId, userId } : GroupJoinType, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/team/member?teamId=${teamId}&userId=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+      });
+      
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// 가입 신청 수락
+export const updateGroupMemberAction = createAsyncThunk(
+  "UPDATE_GROUP_MEMBER",
+  async (memberUpdateData: GroupJoinType, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.put(`/api/team/approve`, memberUpdateData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
