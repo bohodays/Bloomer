@@ -18,6 +18,10 @@ const GuestBook = () => {
     (state) => state.guestBook.guestBookList
   );
 
+  const userGardenId = useAppSelector(
+    (state) => state.garden.gardenData.gardenId
+  );
+
   useEffect(() => {
     if (gardenId !== null) {
       dispatch(getAllGuestBookList(gardenId));
@@ -33,15 +37,18 @@ const GuestBook = () => {
       ) : (
         <SMain>
           <BackButton color="black" />
-          <div>{gardenData.nickname}님의 방명록입니다</div>
-          <div
-            className="create"
-            onClick={() =>
-              navigate("/guestbook/create", { state: { gardenData } })
-            }
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </div>
+          <div className="title">{gardenData.nickname}님의 방명록</div>
+          {/* 내 정원의 방명록에서는 내가 글을 작성하지 못하도록 글작성 버튼 숨기기 */}
+          {gardenId !== userGardenId && (
+            <div
+              className="create"
+              onClick={() =>
+                navigate("/guestbook/create", { state: { gardenData } })
+              }
+            >
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </div>
+          )}
           {guestBookList.map((item, index) => {
             return (
               <GuestBookComment

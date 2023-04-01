@@ -12,7 +12,7 @@ export const SMain = styled.main<any>`
     props.active === 0
       ? "linear-gradient(140deg, rgba(205, 178, 255, 1) 0%, rgba(255, 160, 211, 1) 100%)"
       : props.active === 1
-      ? "linear-gradient(140deg, rgba(0,0,128,1) 0%, rgba(202,202,255,1) 100%)"
+      ? "linear-gradient(140deg, rgb(246, 214, 15) 0%, rgba(241,227,139,1) 100%)"
       : "linear-gradient(140deg, rgba(209,115,81,1) 0%, rgba(242,207,141,1) 100%)"};
 
   .info__wrapper {
@@ -172,11 +172,23 @@ export const SMain = styled.main<any>`
 
   .select__wrapper:hover {
     .background {
-      background-color: #ecdcff;
+      /* background-color: #ecdcff; */
+      background-color: ${(props) =>
+        props.active === 0
+          ? "#ecdcff"
+          : props.active === 1
+          ? "#fbf6d5"
+          : "#fedace"};
     }
 
     .select__p {
-      color: #9a1aff;
+      /* color: #9a1aff; */
+      color: ${(props) =>
+        props.active === 0
+          ? "#9a1aff"
+          : props.active === 1
+          ? "#ffdf0d"
+          : "#ff4608"};
     }
   }
 `;

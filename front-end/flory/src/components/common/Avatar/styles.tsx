@@ -12,6 +12,7 @@ export const SAvatar = styled.div<any>`
   background-image: ${(props) => props.borderColor};
   background-origin: border-box;
   background-clip: content-box, border-box;
+  cursor: ${(props) => props.pointer};
 
   img {
     border-radius: 50%;

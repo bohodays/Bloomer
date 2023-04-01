@@ -23,12 +23,17 @@ function DiaryComment({ comment, updateDiary }: any): JSX.Element {
   return (
     <SMain style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", marginBottom: "0.5rem" }}>
-        <Avatar size="small" onClick={handleMoveToOtherGarden} />
+        <Avatar
+          pointer="pointer"
+          size="small"
+          onClick={handleMoveToOtherGarden}
+        />
         <p
           style={{
             marginLeft: "0.5rem",
             color: "#612FAB",
             marginRight: "auto",
+            cursor: "pointer",
           }}
           onClick={handleMoveToOtherGarden}
         >

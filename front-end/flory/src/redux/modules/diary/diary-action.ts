@@ -20,6 +20,8 @@ export const createDiaryAction = createAsyncThunk(
       formData.append("diary", blob);
       formData.append("imgSrc", imgFile);
 
+      console.log(formData.get("imgSrc"));
+
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -85,6 +87,8 @@ export const updatePositionAction = createAsyncThunk(
   "UPDATEPOSITION",
   async (diaryData: any, { rejectWithValue }) => {
     try {
+      console.log(diaryData, "999");
+
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
       const { data } = await axios.put(

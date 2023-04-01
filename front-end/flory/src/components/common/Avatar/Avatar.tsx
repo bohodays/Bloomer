@@ -20,6 +20,7 @@ function Avatar({
   onClick,
   tmpsrc,
   src,
+  pointer,
 }: AvatarProps): JSX.Element {
   let imgSrc
 
@@ -84,7 +85,12 @@ function Avatar({
   }
 
   return (
-    <SAvatar size={sizeRem} borderColor={borderColor} onClick={onClick}>
+    <SAvatar
+      pointer={pointer}
+      size={sizeRem}
+      borderColor={borderColor}
+      onClick={onClick}
+    >
       <img src={imgSrc} />
     </SAvatar>
   )
