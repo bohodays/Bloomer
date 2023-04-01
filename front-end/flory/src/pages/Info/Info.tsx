@@ -9,6 +9,8 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import RotatingText from "../../components/Info/RotatingText/RotatingText";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import Crocus from "../../assets/imgs/crocus.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const userHeight = window.innerHeight;
 
@@ -17,6 +19,7 @@ const Info = () => {
   const head = useRef<any>(null);
   const section1 = useRef<HTMLElement | null>(null);
   const section2 = useRef<HTMLElement | null>(null);
+  const arrowUp = useRef<HTMLButtonElement | null>(null);
 
   // lottieFile option
   const defaultOptions = {
@@ -33,14 +36,27 @@ const Info = () => {
       if (head.current?.getBoundingClientRect().top < -200) {
         section1.current?.classList.add("animate__animated");
         section1.current?.classList.add("animate__fadeIn");
+      } else {
+        section1.current?.classList.remove("animate__animated");
+        section1.current?.classList.remove("animate__fadeIn");
+      }
+
+      // Arrow up visible 이벤트
+      if (head.current?.getBoundingClientRect().top < -700) {
+        arrowUp.current?.classList.add("visible");
+      } else {
+        arrowUp.current?.classList.remove("visible");
       }
 
       const scrollTop = main.current?.scrollTop || 0;
       const section2OffsetTop = section2.current?.offsetTop || 0;
 
-      if (scrollTop >= section2OffsetTop - userHeight) {
+      if (scrollTop >= section2OffsetTop - userHeight + 100) {
         section2.current?.classList.add("animate__animated");
         section2.current?.classList.add("animate__fadeIn");
+      } else {
+        section2.current?.classList.remove("animate__animated");
+        section2.current?.classList.remove("animate__fadeIn");
       }
     });
   }, []);
@@ -50,6 +66,11 @@ const Info = () => {
     section1.current?.scrollIntoView({ behavior: "smooth" });
     section1.current?.classList.add("animate__animated");
     section1.current?.classList.add("animate__fadeIn");
+  };
+
+  // Arrow up 버튼을 클릭하면 최상단으로 이동시키는 함수
+  const handleScrollTop = () => {
+    head.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -82,6 +103,17 @@ const Info = () => {
         <p>살아가고 있는지 알아보세요!</p>
         <img className="crocus" src={Crocus} alt="크로커스" />
       </section>
+
+      {/* 이용 안내 */}
+      {/* section 3 */}
+      <section className="service__info-3">
+        <p>이용안내</p>
+      </section>
+
+      {/* Arrow up */}
+      <button className="arrow-up" ref={arrowUp} onClick={handleScrollTop}>
+        <FontAwesomeIcon icon={faArrowUp} />
+      </button>
     </SMain>
   );
 };
