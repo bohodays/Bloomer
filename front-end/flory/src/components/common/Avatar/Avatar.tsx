@@ -11,6 +11,7 @@ interface AvatarProps {
   status?: string
   tmpsrc?: string
   src?: string
+  pointer?: string
 }
 
 function Avatar({
