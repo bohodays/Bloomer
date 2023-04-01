@@ -4,7 +4,6 @@ export const SForm = styled.form`
   /* width: 90%; */
   /* margin: auto; */
 
-
   .nickname__wrapper {
     display: flex;
     gap: 10px;
@@ -34,7 +33,7 @@ export const SForm = styled.form`
     }
   }
 
-  .cameraButtonImg{
+  .cameraButtonImg {
     width: 2.5vh;
     position: absolute;
     left: 6.5vh;
@@ -48,10 +47,15 @@ export const ImgIcon = styled.div`
   align-items: end;
   postion: relative;
 
-  .modifyButtonImg{
+  .modifyButtonImg {
     width: 6.5vh;
+    /* height: 6.5vh; */
     position: absolute;
-    left: 55%;
+    top: 7rem;
+    left: 53%;
+    /* background-color: black; */
+    border-radius: 50%;
+    color: white;
+    /* padding: 12px; */
   }
-`;
-
+`
