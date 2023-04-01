@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const STextarea = styled.textarea<any>`
   height: ${(props) =>
@@ -18,4 +18,4 @@ export const STextarea = styled.textarea<any>`
   ::-webkit-scrollbar {
     display: none;
   }
-`;
+`
