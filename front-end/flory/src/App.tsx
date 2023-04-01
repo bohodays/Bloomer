@@ -48,6 +48,9 @@ const GuestBookCreate = React.lazy(
 );
 const Info = React.lazy(() => import("./pages/Info/Info"));
 const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
+const OauthRedirect = React.lazy(
+  () => import("./pages/OauthRedirect/OauthRedirect")
+);
 
 let isInitial = true;
 function App() {
@@ -103,6 +106,7 @@ function App() {
             <Route path="/setting" element={withAuth(<Setting />)} />
             <Route path="/group/list" element={withAuth(<GroupList />)} />
             <Route path="/info" element={<Info />} />
+            <Route path="/oauth2-redirect" element={<OauthRedirect />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

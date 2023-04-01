@@ -10,8 +10,8 @@ const OauthRedirect = () => {
     const splitedSearch = search.split("&&");
     console.log(splitedSearch);
 
-    localStorage.setItem("accessToken", splitedSearch[1].slice(12));
-    localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
+    // localStorage.setItem("accessToken", splitedSearch[1].slice(12));
+    // localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
     // navigate('/garden')
   }, []);
 
