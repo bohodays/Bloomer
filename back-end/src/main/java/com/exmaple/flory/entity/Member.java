@@ -36,21 +36,21 @@ public class Member extends BaseTime {
     private String refreshToken;
 
     @Column(name = "classic")
-    private boolean classic;
+    private Boolean classic;
     @Column(name="jazz")
-    private boolean jazz;
+    private Boolean jazz;
 
     @Column(name="pop")
-    private boolean pop;
+    private Boolean pop;
 
     @Column(name="reggae")
-    private boolean reggae;
+    private Boolean reggae;
 
     @Column(name="RnB")
-    private boolean RnB;
+    private Boolean RnB;
 
     @Column(name="electronic")
-    private boolean electronic;
+    private Boolean electronic;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
