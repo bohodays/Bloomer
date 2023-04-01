@@ -3,22 +3,20 @@ import styled from "styled-components"
 export const SMain = styled.main`
   width: 100%;
   height: 100%;
-
-  .search__wrapper {
-    position: relative;
-    width: 90%;
-    height: 120px;
-    margin: auto;
-    padding-top: 3.3rem;
+  background: linear-gradient(180deg, #9069FF 0%, #DEC5FD 100%);
+  padding: 50px;
+  .header{
+    text-align: center;
+    // padding: 50px;
+    color: white;
   }
+  
+.title{
+  margin-bottom: 20px;
+}
 
-  .grouplist__wrapper {
-    width: 90%;
-    height: calc(100% - 120px);
-    margin: auto;
-    overflow-y: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
+.snone{
+  text-align: center;
+  // color: white;
+}
 `
