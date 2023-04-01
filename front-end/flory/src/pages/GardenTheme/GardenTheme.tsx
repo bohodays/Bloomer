@@ -72,8 +72,8 @@ const GardenTheme = () => {
   const dispatch = useAppDispatch();
   const mapData = [
     { map: ParkBaseMap, title: "공원", content: "" },
-    { map: BeachBaseMap, title: "해변", content: "" },
     { map: CampBaseMap, title: "캠프", content: "" },
+    { map: BeachBaseMap, title: "해변", content: "" },
   ];
   const userId = useAppSelector((state) => state.user.userData.userId);
   const navigate = useNavigate();

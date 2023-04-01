@@ -160,24 +160,28 @@ const DiaryCreate = () => {
   const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
-  // const gardenType = useAppSelector()
-  let gardenType = 2;
+  let gardenType = useAppSelector((state) => state.garden.gardenData.type);
   let setPositionX: number;
   let setPositionY: number;
   let setPositionZ: number;
 
+  // 공원 테마인 경우
   if (gardenType === 0) {
     setPositionX = 0;
     setPositionY = 0;
     setPositionZ = 0;
-  } else if (gardenType === 1) {
+  }
+  // 캠프 테마인 경우
+  else if (gardenType === 1) {
+    setPositionX = 1;
+    setPositionY = -0.2;
+    setPositionZ = -0.5;
+  }
+  // 해변 테마인 경우
+  else if (gardenType === 2) {
     setPositionX = -2.4;
-    setPositionY = 1;
+    setPositionY = 0.5;
     setPositionZ = -2.4;
-  } else if (gardenType === 2) {
-    setPositionX = 0;
-    setPositionY = 0;
-    setPositionZ = 0;
   }
 
   const onCreateDiary = () => {

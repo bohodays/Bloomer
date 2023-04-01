@@ -28,15 +28,14 @@ import Park_map from "../../components/Garden/Park/Park_map";
 
 let isInitial = true;
 
-const gardenTypeMap = (type: number) => {
+const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map />;
   else if (type === 1) return <Camp_map />;
   else if (type === 2) return <Beach_map />;
 };
 
 const Scene = () => {
-  // const gardenType = useAppSelector((state) => state.garden.gardenData.type);
-  let gardenType = 2;
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
 
   return (
     <>
@@ -99,7 +98,6 @@ const Garden = () => {
           {locationData.year}/{locationData.month}
         </div>
       )}
-      <button onClick={handleMoveToGuestBook}>방명록</button>
       <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
