@@ -55,7 +55,6 @@ const Garden = () => {
   const location = useLocation();
   const gardenData = useAppSelector((state) => state.garden.gardenData);
   const locationData = location.state !== null ? location.state : null;
-  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
 
   // 보고 싶은 정원 ID
   const gardenId =
@@ -84,7 +83,7 @@ const Garden = () => {
   }, [gardenId, dispatch]);
 
   return (
-    <SMain gardenType={gardenType}>
+    <SMain>
       {locationData !== null && (
         <div
           style={{
@@ -99,7 +98,7 @@ const Garden = () => {
           {locationData.year}/{locationData.month}
         </div>
       )}
-      <ToggleButton gardenType={gardenType} />
+      <ToggleButton />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls

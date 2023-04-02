@@ -67,7 +67,7 @@ export const SMain = styled.main<any>`
   }
 
   /* Carousel */
-  .wrapper {
+  .emotion__wrapper {
     position: relative;
     display: flex;
     justify-content: center;

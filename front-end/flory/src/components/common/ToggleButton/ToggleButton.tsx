@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/store.hooks";
 import { SNav } from "./styles";
 
-const ToggleButton = ({ state, gardenType }: any) => {
+const ToggleButton = ({ state, gardenType, capture }: any) => {
   const [toggleOnOff, setToggleOnOff] = useState(false);
   const [volumeMute, setVolumeMute] = useState(false);
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const ToggleButton = ({ state, gardenType }: any) => {
           <FontAwesomeIcon className="volumeMute__icon" icon={faVolumeXmark} />
         )}
       </button>
-      <button className="menu-item camera">
+      <button className="menu-item camera" onClick={capture}>
         <FontAwesomeIcon className="camera__icon" icon={faCamera} />
       </button>
     </SNav>
