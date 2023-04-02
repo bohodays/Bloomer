@@ -22,4 +22,5 @@ public class ErrorResponse {
         this.code = String.valueOf(httpStatus.value());
         this.response = errorMessage;
     }
+
 }

@@ -35,6 +35,23 @@ public class Member extends BaseTime {
     @Column(name="refresh_token")
     private String refreshToken;
 
+    @Column(name = "classic")
+    private Boolean classic;
+    @Column(name="jazz")
+    private Boolean jazz;
+
+    @Column(name="pop")
+    private Boolean pop;
+
+    @Column(name="reggae")
+    private Boolean reggae;
+
+    @Column(name="RnB")
+    private Boolean RnB;
+
+    @Column(name="electronic")
+    private Boolean electronic;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -43,9 +60,9 @@ public class Member extends BaseTime {
         return this;
     }
 
-    public Member updateMember(String nickname, String password, PasswordEncoder passwordEncoder){
+    public Member updateMember(String nickname){ //, String password, PasswordEncoder passwordEncoder
         this.nickname = nickname;
-        this.password = passwordEncoder.encode(password);
+//        this.password = passwordEncoder.encode(password);
         return this;
     }
 

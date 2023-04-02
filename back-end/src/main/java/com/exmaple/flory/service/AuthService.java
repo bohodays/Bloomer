@@ -2,9 +2,12 @@ package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.member.*;
 import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.jwt.TokenProvider;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -12,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -23,10 +29,11 @@ public class AuthService {
     @Transactional
     public MemberResponseDto signup(SignUpRequestDto signUpRequestDto) {
         if (memberRepository.existsByEmail(signUpRequestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new CustomException(ErrorCode.USER_DUPLICATION);
         }
 
         Member member = signUpRequestDto.toMember(passwordEncoder);
+
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
@@ -44,7 +51,7 @@ public class AuthService {
 
         // 4. RefreshToken 저장
         Member member = memberRepository.findByEmail(LoginDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+                .orElseThrow(() ->  new CustomException(ErrorCode.NO_LOGIN));
 
         member.updateToken(tokenDto.getRefreshToken());
 
@@ -56,31 +63,46 @@ public class AuthService {
 
     @Transactional
     public TokenDto reissue(TokenRequestDto tokenRequestDto) {
-        // 1. Refresh Token 검증
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+        TokenDto tokenDto;
+        Member member;
+        // 1. access Token이 유효한 경우
+        if (tokenProvider.validateToken(tokenRequestDto.getAccessToken())) {
+            // 1-1. access Token에서 Member ID 가져오기
+            Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+
+            // 1-2. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+            member = memberRepository.findById(Long.parseLong(authentication.getName()))
+                    .orElseThrow(() -> new CustomException(ErrorCode.NO_LOGIN));
+
+            // 1-3. Refresh Token 일치하는지 검사
+            if (!member.getRefreshToken().equals(tokenRequestDto.getRefreshToken())) {
+                throw new CustomException(ErrorCode.NO_USER);
+            }
+
+            // 1-4. 새로운 access Token 생성
+            tokenDto = tokenProvider.createTokenDto(authentication);
+        }
+        // 2. access Token이 만료된 경우
+        else {
+            // 2-1. Refresh Token 검증
+            if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
+                throw new CustomException(ErrorCode.NO_TOKEN);
+            }
+
+            // 2-2. 저장소에서 Refresh Token 값 가져옴
+            member = memberRepository.findByRefreshToken(tokenRequestDto.getRefreshToken())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+            // 2-3. 새로운 access Token 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(member.getUserId(), null, new ArrayList<>());
+            tokenDto = tokenProvider.createTokenDto(authentication);
         }
 
-        // 2. Access Token 에서 Member ID 가져오기
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
-
-        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        Member member = memberRepository.findById(Long.parseLong(authentication.getName()))
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
-
-        // 4. Refresh Token 일치하는지 검사
-        if (!member.getRefreshToken().equals(tokenRequestDto.getRefreshToken())) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
-        }
-
-        // 5. 새로운 토큰 생성
-        TokenDto tokenDto = tokenProvider.createTokenDto(authentication);
-
-        // 6. 저장소 정보 업데이트
+        // 3. 저장소 정보 업데이트
         Member newRefreshToken = member.updateToken(tokenDto.getRefreshToken());
         memberRepository.save(newRefreshToken);
 
-        // 토큰 발급
+        // 4. 토큰 발급
         return tokenDto;
     }
 

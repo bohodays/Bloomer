@@ -20,24 +20,14 @@ public class MemberRequestDto {
     @Size(min = 1, max = 20)
     private String nickname;
 
-    @NotNull
-    @Size(min = 2, max = 50)
-    private String password;
+//    @NotNull
+//    @Size(min = 2, max = 50)
+//    private String password;
+
+    private String img;
 
     @NotNull
     @Size(min = 5, max = 100)
     private String email;
 
-    public Member toMember(PasswordEncoder passwordEncoder) {
-        return Member.builder()
-                .nickname(nickname)
-                .email(email)
-                .password(passwordEncoder.encode(password))
-                .authority(Authority.ROLE_USER)
-                .build();
-    }
-
-    public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(email, password);
-    }
 }

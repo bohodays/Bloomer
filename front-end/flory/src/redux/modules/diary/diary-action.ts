@@ -341,4 +341,5 @@ export const getStatisticsLastWeek = createAsyncThunk(
       return rejectWithValue(e)
     }
   }
-)
+);
+

@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 @Setter
 public class GardenResponseDto {
 
-    private Long id;
-    private String gardenPath;
+    private Long userId;
     private String nickname;
-    private String artist;
-    private String title; //노래 제목
+    private Long gardenId;
+    private String musicTitle; //노래 제목
     private LocalDateTime deadline;
+    private String img;
+    private int type;
 }

@@ -1,5 +1,6 @@
 package com.exmaple.flory.repository;
 
+import com.exmaple.flory.entity.Flower;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import java.util.List;
@@ -20,6 +21,14 @@ public class QFlowerRepositoryImpl implements QFlowerRepository {
                 .select(flower.emotion.id)
                 .from(flower)
                 .where(flower.id.eq(flowerId))
+                .fetch();
+    }
+
+    @Override
+    public List<Flower> getFlowers(String emotion) {
+        return jpaQueryFactory
+                .selectFrom(flower)
+                .where(flower.emotion.largeCategory.eq(emotion))
                 .fetch();
     }
 }

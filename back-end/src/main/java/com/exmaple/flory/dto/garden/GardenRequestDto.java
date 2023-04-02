@@ -1,5 +1,6 @@
 package com.exmaple.flory.dto.garden;
 
+import com.exmaple.flory.entity.Garden;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,17 @@ import lombok.*;
 @Builder
 public class GardenRequestDto {
 
-    private long userId;
-    private long gardenId;
-    private String imgSrc; //이미지 경로
+    private Long userId;
+    private Long gardenId;
+    private String img; //이미지 경로
+    private String musicTitle;
+
+    private int type; //garden type
+
+    public Garden toEntity() {
+        return Garden.builder()
+                .img(img)
+
+                .build();
+    }
 }
