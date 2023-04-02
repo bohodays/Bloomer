@@ -74,7 +74,11 @@ const SignupMusicSelect = () => {
       };
       dispatch(signupAction(userData)).then(() => {
         console.log("로그인으로 가");
-        navigate("/login");
+        navigate("/info", {
+          state: {
+            from: "signup",
+          },
+        });
       });
     }
   };
