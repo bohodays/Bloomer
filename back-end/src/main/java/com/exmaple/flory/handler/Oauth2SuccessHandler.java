@@ -42,15 +42,17 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         log.info("access token:: {} ",tokenDto.getAccessToken());
         log.info("refresh token: {}", tokenDto.getRefreshToken());
 
-        Optional<Member> member = memberRepository.findByEmail(oAuthAttributes.getEmail());
+        Optional<Member> result = memberRepository.findByEmail(oAuthAttributes.getEmail());
+        Member member = result.get();
 
-        Long userId = member.get().getUserId();
+        Long userId = member.getUserId();
         int newUser = 0;
         //새로 등록한 유저
-        if(member.get().getPop() == null) {
-            member.get().updateRefreshToken(tokenDto.getRefreshToken());
+        if(member.getPop() == null) {
+            member.updateRefreshToken(tokenDto.getRefreshToken());
             newUser = 1;
         }
+        memberRepository.save(member);
 
         StringBuilder sb = new StringBuilder();
         sb.append(redirectUrl).append("?refreshToken=")
