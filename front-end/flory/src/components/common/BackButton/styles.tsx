@@ -15,5 +15,6 @@ export const SButton = styled.button<any>`
     color: ${(props) => (props.color === "black" ? "black" : "white")};
     background-color: ${(props) =>
       props.color === "purple" ? "#612fab" : "transparent"};
+    filter: drop-shadow(1px 1px 1px #aaa);
   }
 `;

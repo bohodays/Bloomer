@@ -3,46 +3,56 @@ import {
   faEnvelope,
   faLock,
   faLockOpen,
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useState, useEffect } from "react"
-import Button from "../../common/Button/Button"
-import { SForm, SInput } from "./styles"
-import { signupAction, checkDupEmailAction } from "../../../redux/modules/user"
-import { useAppDispatch } from "../../../redux/store.hooks"
-import { useNavigate } from "react-router-dom"
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
+import Button from "../../common/Button/Button";
+import { SForm, SInput } from "./styles";
+import { signupAction, checkDupEmailAction } from "../../../redux/modules/user";
+import { useAppDispatch } from "../../../redux/store.hooks";
+import { useNavigate } from "react-router-dom";
 
 const UserSignupForm = () => {
-  const [nickname, setNickname] = useState<any>(null)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordCheck, setPasswordCheck] = useState("")
+  const [nickname, setNickname] = useState<any>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [alarm, setAlarm] = useState({
     nickname: "",
     email: "",
     pw: "",
     pwConf: "",
-  })
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  // 이메일 유효성 검사를 위한 정규표현식
+  const regexEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
   // 이메일 중복 확인
   const onCheckEmail = (e: any) => {
-    e.preventDefault()
-    dispatch(checkDupEmailAction(email)).then((data: any) => {
-      if (data.payload.response) {
-        setAlarm({
-          ...alarm,
-          email: "alarm",
-        })
-      } else {
-        setAlarm({
-          ...alarm,
-          email: "confirm",
-        })
-      }
-    })
-  }
+    e.preventDefault();
+    if (!regexEmail.test(email)) {
+      setAlarm({
+        ...alarm,
+        email: "validation",
+      });
+    } else {
+      dispatch(checkDupEmailAction(email)).then((data: any) => {
+        if (data.payload.response) {
+          setAlarm({
+            ...alarm,
+            email: "alarm",
+          });
+        } else {
+          setAlarm({
+            ...alarm,
+            email: "confirm",
+          });
+        }
+      });
+    }
+  };
 
   // 비밀번호 재입력 확인
   useEffect(() => {
@@ -50,19 +60,19 @@ const UserSignupForm = () => {
       setAlarm({
         ...alarm,
         pwConf: "confirm",
-      })
+      });
     } else if (password && passwordCheck) {
       setAlarm({
         ...alarm,
         pwConf: "alarm",
-      })
+      });
     } else {
       setAlarm({
         ...alarm,
         pwConf: "",
-      })
+      });
     }
-  }, [nickname, email, password, passwordCheck])
+  }, [nickname, email, password, passwordCheck]);
 
   useEffect(() => {
     if (nickname !== null) {
@@ -70,35 +80,35 @@ const UserSignupForm = () => {
         setAlarm({
           ...alarm,
           nickname: "alarm",
-        })
+        });
       } else {
         setAlarm({
           ...alarm,
           nickname: "confirm",
-        })
+        });
       }
     }
-  }, [nickname])
+  }, [nickname]);
 
   // 회원가입
   const onSignup = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     const signupData = {
       nickname,
       password,
       email,
-    }
+    };
 
     if (!nickname) {
       setAlarm({
         ...alarm,
         nickname: "alarm",
-      })
+      });
     } else {
       setAlarm({
         ...alarm,
         nickname: "confirm",
-      })
+      });
     }
 
     if (
@@ -111,9 +121,9 @@ const UserSignupForm = () => {
           signupData,
           update: false,
         },
-      })
+      });
     }
-  }
+  };
 
   return (
     <SForm alarm={alarm}>
@@ -161,7 +171,9 @@ const UserSignupForm = () => {
         <p id="emailAlarm">
           {alarm.email === "alarm"
             ? "이미 존재하는 이메일입니다."
-            : "사용 가능한 이메일입니다."}
+            : alarm.email === "confirm"
+            ? "사용 가능한 이메일입니다."
+            : "올바른 이메일 형식으로 입력해주세요."}
         </p>
       </div>
       {/* 비밀번호 */}
@@ -216,7 +228,7 @@ const UserSignupForm = () => {
         contents="다음"
       />
     </SForm>
-  )
-}
+  );
+};
 
-export default UserSignupForm
+export default UserSignupForm;
