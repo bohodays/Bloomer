@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   /* position: relative; */
@@ -6,7 +6,7 @@ export const SMain = styled.main`
   flex-direction: column;
   /* justify-content: space-around; */
   justify-content: center;
-  gap: 5%;
+  /* gap: 5%; */
   width: 100%;
   height: 100%;
   background: rgb(144, 91, 241);
@@ -26,6 +26,7 @@ export const SMain = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
 
     .background {
       background-color: rgba(255, 255, 255, 0.32);
@@ -46,11 +47,14 @@ export const SMain = styled.main`
     display: flex;
     justify-content: center;
     height: 17rem;
-    /* margin-bottom: 2.5rem; */
-  }
+    margin-bottom: 1.6rem;
 
-  img {
-    width: 18rem;
+    img {
+      cursor: pointer;
+      border-radius: 50%;
+      width: 15rem;
+      height: 15rem;
+    }
   }
 
   .carousel {
@@ -127,4 +131,4 @@ export const SMain = styled.main`
     width: 95%;
     margin: 0 auto;
   }
-`;
+`

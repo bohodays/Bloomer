@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAppSelector } from "../../../redux/store.hooks"
 import { SNav } from "./styles"
 
 const ToggleButton = ({ state }: any) => {
