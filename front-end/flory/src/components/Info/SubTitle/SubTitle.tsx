@@ -43,7 +43,7 @@ const SubTitle = () => {
           clearInterval(intervalId);
         };
       }
-    }, 1000);
+    }, 900);
 
     return () => {
       clearTimeout(timeoutId);
