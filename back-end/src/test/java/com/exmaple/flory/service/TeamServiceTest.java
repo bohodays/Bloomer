@@ -278,8 +278,6 @@ class TeamServiceTest {
     @Test
     void deleteTeamMember() {
         //given
-        TeamApproveRequestDto teamApproveRequestDto = TeamApproveRequestDto.builder()
-                .teamId(1L).userId(1L).build();
 
         Team team = Team.builder()
                 .teamId(1L).name("name").info("info").open(true).build();
