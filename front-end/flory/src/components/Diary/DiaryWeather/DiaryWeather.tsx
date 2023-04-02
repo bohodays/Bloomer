@@ -1,9 +1,8 @@
 import React from "react"
-import { WeatherStateType } from "../../../models/weather/weatherStateType"
 import { convertDayIdx, convertWeatherDescription } from "../../../utils/utils"
 import { SMain } from "./styles"
 
-const DiaryWeather = ({ weatherData, backoption }: any): JSX.Element => {
+const DiaryWeather = ({ weatherData, type }: any): JSX.Element => {
   const today = new Date()
   const year = today.getFullYear().toString().substring(2)
   const month = (today.getMonth() + 1).toString().padStart(2, "0")
@@ -14,7 +13,7 @@ const DiaryWeather = ({ weatherData, backoption }: any): JSX.Element => {
   )}.png`)
 
   return (
-    <SMain backoption={backoption}>
+    <SMain type={type}>
       <img src={weatherSrc} alt="weather" className="weather-icon" />
       <div className="info-container">
         <div>

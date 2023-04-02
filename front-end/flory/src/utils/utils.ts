@@ -47,13 +47,22 @@ export const convertWeekIdx = (date: Date) => {
 // ======================================
 
 // 시간 형식으로 바꾸기
-export const convertTimeFormat = (date: string | Date) => {
-  const target = new Date(date)
+export const convertTimeFormat = (targetDate: string | Date) => {
+  const today = new Date()
+  const target = new Date(targetDate)
   const hour = target.getHours()
   const minute = target.getMinutes()
-  return (
+  const time =
     hour.toString().padStart(2, "0") + ":" + minute.toString().padStart(2, "0")
-  )
+
+  if (today.toDateString() === target.toDateString()) {
+    return time
+  } else {
+    const year = target.getFullYear().toString()
+    const month = target.getMonth() + 1
+    const date = target.getDate()
+    return year + "." + month + "." + date + ". " + time
+  }
 }
 
 // 년.월.일 형식으로 바꾸기

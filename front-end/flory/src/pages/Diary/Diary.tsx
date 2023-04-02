@@ -37,13 +37,19 @@ const Diary = () => {
   const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList)
   const userId = useAppSelector((state) => state.user.userData.userId)
 
+  const [showButton, setShowButton] = useState(false)
+
+  window.addEventListener("scroll", () => {
+    console.log(window.scrollY)
+  })
+
   const today = new Date()
   const currentTime = today.toTimeString()
-  const backoption = createLottieOptions(
+  const type =
     weatherData.sunrise <= currentTime && weatherData.sunset > currentTime
       ? "day"
       : "night"
-  )
+  const backoption = createLottieOptions(type)
   const initialDiaryData = {
     id: userId,
     year: today.getFullYear(),
@@ -84,7 +90,7 @@ const Diary = () => {
               description: weatherData.description,
               temp: weatherData.temp,
             }}
-            backoption={backoption}
+            type={type}
           />
         )}
         <DiaryDate diaryData={diaryData} />

@@ -4,9 +4,7 @@ export const SMain = styled.div<any>`
   position: absolute;
   width: 4rem;
   background-color: ${(props) =>
-    props.backoption === "day"
-      ? "rgba(0, 0, 0, 0.13)"
-      : "rgba(255, 255, 255, 0.3)"};
+    props.type === "day" ? "rgba(0, 0, 0, 0.187)" : "rgba(255, 255, 255, 0.3)"};
   border-radius: 10px;
   padding: 0.3rem;
   text-align: center;
@@ -22,6 +20,9 @@ export const SMain = styled.div<any>`
     color: white;
     display: flex;
     flex-direction: column;
-    font-size: 0.2rem;
+
+    div {
+      font-size: 0.5rem;
+    }
   }
 `
