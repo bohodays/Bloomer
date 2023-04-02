@@ -100,7 +100,7 @@ const GardenTheme = () => {
         </p>
       </div>
       {/* 선택된 감정 */}
-      <div className="wrapper">
+      <div className="emotion__wrapper">
         <Carousel active={active} setActive={setActive}>
           {mapData.map((item: any, i: number) => (
             <>
