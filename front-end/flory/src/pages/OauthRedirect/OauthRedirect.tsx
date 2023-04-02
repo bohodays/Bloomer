@@ -17,6 +17,7 @@ const OauthRedirect = () => {
 
     localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
     localStorage.setItem("accessToken", splitedSearch[1].slice(12));
+    console.log({ userId, isNewUser });
 
     // 신규 유저면
     if (isNewUser) {
