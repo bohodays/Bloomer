@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -74,11 +74,16 @@ function App() {
     }
   }, [dispatch]);
 
-  // const musicUrl = useAppSelector((store) => store.music.musicUrl);
-
+  const reduxMusic = useAppSelector((store) => store.music);
+  const [musicUrl, setMusicUrl] = useState(reduxMusic.musicUrl);
+  useEffect(() => {
+    if (reduxMusic.musicUrl !== musicUrl) {
+      setMusicUrl(reduxMusic.musicUrl);
+    }
+  }, [reduxMusic]);
   return (
     <div className="app">
-      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
+      <DiaryMusicButton musicUrl={musicUrl} />
       {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>

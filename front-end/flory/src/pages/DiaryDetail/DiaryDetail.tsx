@@ -174,10 +174,10 @@ const DiaryDetail = () => {
   imgSrc = imageUrl;
 
   // 음악 관련
-  const musicTitle = useAppSelector((store) => store.music.musicTitle);
+  const music = useAppSelector((store) => store.music);
   const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
-    if (diary.musicTitle !== musicTitle) {
+    if (diary.musicTitle !== music.musicTitle) {
       dispatch(updateMusicTitle(diary.musicTitle));
       getMusicAction(diary.musicTitle).then((url) => {
         dispatch(updateMusicUrl(url));
@@ -233,7 +233,7 @@ const DiaryDetail = () => {
       {/* 뒤로 가기 아이콘 */}
       <BackButton color="white" onClickAction={handleGoBack} />
       {/* 음악 아이콘 */}
-      <DiaryMusicButton musicUrl={musicUrl} />
+      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
 
       <div className="content-box">
         {isSelf && diary && (

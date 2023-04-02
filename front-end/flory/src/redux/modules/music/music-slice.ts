@@ -5,6 +5,7 @@ import {} from "./music-action";
 const initialState = {
   musicTitle: "",
   musicUrl: "",
+  showMusic: false,
 };
 
 const musicSlice = createSlice({
@@ -12,10 +13,13 @@ const musicSlice = createSlice({
   initialState,
   reducers: {
     updateMusicTitle: (state, action) => {
-      state.musicTitle = action.payload.musicTitle;
+      state.musicTitle = action.payload;
     },
     updateMusicUrl: (state, action) => {
-      state.musicUrl = action.payload.musicUrl;
+      state.musicUrl = action.payload;
+    },
+    updateShowMusic: (state, action) => {
+      state.showMusic = action.payload;
     },
   },
   extraReducers: (builder) => {},

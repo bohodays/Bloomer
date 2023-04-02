@@ -15,7 +15,7 @@ interface Props {
 }
 
 const DiaryMusicButton = ({ musicUrl }: Props) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const audioControl = useRef<HTMLAudioElement>(null);
 
   const handlePlay = () => {

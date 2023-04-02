@@ -145,7 +145,7 @@ const GardenEdit = () => {
 
   return (
     <SMain>
-      {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />}
+      {/* {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />} */}
       <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
