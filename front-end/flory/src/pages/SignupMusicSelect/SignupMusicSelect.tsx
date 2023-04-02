@@ -11,6 +11,7 @@ import {
   signupAction,
   socialLoginUpdateAction,
 } from "../../redux/modules/user";
+import { localData } from "../../redux/modules/user/token";
 
 const SignupMusicSelect = () => {
   const navigate = useNavigate();
@@ -48,7 +49,18 @@ const SignupMusicSelect = () => {
         rnb: selectedItems.RnB,
         electronic: selectedItems.electronic,
       };
+      console.log(
+        "dispatch 요청 전",
+        { local: localData.getAccessToken() },
+        { refresh: localData.getRefreshToken() }
+      );
+
       dispatch(socialLoginUpdateAction(userData)).then(() => {
+        console.log(
+          "dispatch 요청 후 가든으로 가기 전",
+          { local: localData.getAccessToken() },
+          { refresh: localData.getRefreshToken() }
+        );
         console.log("가든으로 가");
 
         navigate("/garden");
