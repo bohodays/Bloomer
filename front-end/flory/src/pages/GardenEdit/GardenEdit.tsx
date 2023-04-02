@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useEffect } from "react";
+import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
@@ -20,7 +20,13 @@ import Park_map_edit from "../../components/Garden/Park/Park_map_edit";
 import Loading from "../Loading/Loading";
 import { dataReset } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 import { log } from "console";
+import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 // import Base_map_new_test from "../../components/Garden/Base_map_new_test";
+import { getMusicAction } from "../../redux/modules/music";
+import {
+  updateMusicTitle,
+  updateMusicUrl,
+} from "../../redux/modules/music/music-slice";
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map_edit />;
@@ -77,6 +83,23 @@ const GardenEdit = () => {
     return new File([u8arr], filename, { type: mime });
   }
 
+  const musicTitle = useAppSelector((store) => store.music.musicTitle);
+  const [musicUrl, setMusicUrl] = useState<any>("");
+  useEffect(() => {
+    // dispatch(getMusicAction(currentCreateDiaryData.musicTitle));
+    if (
+      !fromGarden &&
+      currentCreateDiaryData.musicTitle &&
+      currentCreateDiaryData.musicTitle !== musicTitle
+    ) {
+      dispatch(updateMusicTitle(currentCreateDiaryData.musicTitle));
+      getMusicAction(currentCreateDiaryData.musicTitle).then((url) => {
+        dispatch(updateMusicUrl(url));
+        setMusicUrl(url);
+      });
+    }
+  }, []);
+
   const handlePositionUpdate = () => {
     // 가든에서 왔으면 꽃 움직이게만 하기
     if (fromGarden) {
@@ -122,6 +145,7 @@ const GardenEdit = () => {
 
   return (
     <SMain>
+      {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />}
       <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
