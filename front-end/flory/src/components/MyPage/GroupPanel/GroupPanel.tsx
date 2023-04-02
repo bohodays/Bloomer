@@ -5,32 +5,43 @@ import Post from "../../common/Post/Post";
 import Accordion from "../../../components/common/Accordion/Accordion";
 import Avatar from "../../common/Avatar/Avatar";
 import { SGroupPanel, SMember } from "./styles";
+import { useSwipeable } from "react-swipeable";
 
 import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
 import GroupEditModal from "../GroupEditModal/GroupEditModal";
 import { getGroupInfoAction } from "../../../redux/modules/group/group-action";
 
 function GroupPanel({}): JSX.Element {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  // const [userGroupList, setUserGroupList] = useState(null);``
-  const bgIcons: JSX.Element[] = []
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const bgIcons: JSX.Element[] = [];
 
-  const userGroupList = useAppSelector((state) => state.group.userGroupList)
+  const userGroupList = useAppSelector((state) => state.group.userGroupList);
 
   useEffect(() => {
-    dispatch(getGroupInfoAction())
-  }, [])
+    dispatch(getGroupInfoAction());
+  }, []);
 
   for (var i = 1; i < 26; i++) {
-    var img_icon
+    var img_icon;
     if (i < 10)
-      img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`)
-    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`)
-    bgIcons.push(<img className="icon_flower" key={i} src={img_icon} />)
+      img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`);
+    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`);
+    bgIcons.push(<img className="icon_flower" key={i} src={img_icon} />);
   }
 
-  // console.log(userGroupList);
+  const handleSwipeLeft = () => {
+    console.log("swiped left");
+    setShowDeleteButton(true);
+  };
+  
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const swipeConfig = useSwipeable({
+    onSwipedLeft: handleSwipeLeft,
+    trackMouse: true,
+    delta: 50,
+  });
+
   return (
     <SGroupPanel>
       <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
@@ -40,7 +51,7 @@ function GroupPanel({}): JSX.Element {
         title="가입한 그룹 목록"
         content={
           <div>
-            {userGroupList.map((group: any, index:any) => (
+            {userGroupList.map((group: any, index: any) => (
               <Accordion
                 key={index}
                 title={`${group.name} (${group.userTeamList.length})`}
@@ -50,12 +61,17 @@ function GroupPanel({}): JSX.Element {
                       <GroupEditModal
                         groupId={group.teamId}
                       />
-                      // <div className="BrowseGroup" onClick={() => navigate("/group/list")}>그룹 설정</div>
                     )}
                     {group.userTeamList.map((member: any, index:any) => {
                       const random = Math.floor(Math.random() * bgIcons.length);
+                      
                       return (
-                        <SMember key={index}>
+                        <SMember key={index} {...swipeConfig}>
+                          {showDeleteButton && (
+                            <button className="deleteButton" onClick={() => console.log('삭제하기')}>
+                              삭제
+                            </button>
+                          )}
                           {member.img && member.img.length > 2 ? (
                             <Avatar
                               size="small"
