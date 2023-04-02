@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
+const userHeight = window.innerHeight;
+
 export const SMain = styled.main`
   position: absolute;
   width: 100%;
+  min-height: ${userHeight + "px"};
   /* height: 100%; */
   /* margin-bottom: 300px; */
   /* height: 500px; */
@@ -39,6 +42,8 @@ export const SMain = styled.main`
 
   .content-box {
     margin: 40px 5%;
+    min-height: ${userHeight - 300}px;
+    /* margin-bottom: 18%; */
   }
   .setting {
     /* position: absolute; */

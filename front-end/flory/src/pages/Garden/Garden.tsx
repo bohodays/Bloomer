@@ -131,7 +131,7 @@ const Garden = () => {
         <FontAwesomeIcon icon={faPaintRoller} />
       </button>
       {/* 네브바 */}
-      <Navbar />
+      <Navbar absolute={true} />
     </SMain>
   );
 };

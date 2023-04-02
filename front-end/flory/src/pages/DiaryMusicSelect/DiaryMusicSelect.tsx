@@ -193,7 +193,7 @@ const DiaryMusicSelect = () => {
           <p className="select__p">선택</p>
         </div>
       </div>
-      <Navbar />
+      <Navbar absolute={true} />
     </SMain>
   );
 };
