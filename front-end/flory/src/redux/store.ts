@@ -6,6 +6,7 @@ import diaryCreate from "./modules/diaryCreate";
 import group from "./modules/group";
 import weather from "./modules/weather";
 import guestBook from "./modules/guestBook";
+import music from "./modules/music";
 // import storage from "redux-persist/lib/storage";
 import { reducer } from "./rootReducer";
 // import persistReducer from "redux-persist/es/persistReducer";
@@ -28,6 +29,7 @@ const store = configureStore({
     weather,
     group,
     guestBook,
+    music,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
