@@ -9,7 +9,7 @@ import { useSwipeable } from "react-swipeable";
 
 import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
 import GroupEditModal from "../GroupEditModal/GroupEditModal";
-import { getGroupInfoAction } from "../../../redux/modules/group/group-action";
+import { getGroupInfoAction, deleteGroupMemberAction } from "../../../redux/modules/group/group-action";
 
 function GroupPanel({}): JSX.Element {
   const navigate = useNavigate();
@@ -30,13 +30,25 @@ function GroupPanel({}): JSX.Element {
     bgIcons.push(<img className="icon_flower" key={i} src={img_icon} />);
   }
 
+  const deleteAction = (groupId: any, userId: any) => {
+    dispatch(deleteGroupMemberAction({teamId: groupId, userId})).then(() => {
+      dispatch(getGroupInfoAction());
+    });
+  };
+
+  const handleSwipeRight = () => {
+    console.log("swiped right");
+    setShowDeleteButton(false);
+  };
+
   const handleSwipeLeft = () => {
     console.log("swiped left");
     setShowDeleteButton(true);
-  };
+  }
   
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const swipeConfig = useSwipeable({
+    onSwipedRight: handleSwipeRight,
     onSwipedLeft: handleSwipeLeft,
     trackMouse: true,
     delta: 50,
@@ -67,11 +79,6 @@ function GroupPanel({}): JSX.Element {
                       
                       return (
                         <SMember key={index} {...swipeConfig}>
-                          {showDeleteButton && (
-                            <button className="deleteButton" onClick={() => console.log('삭제하기')}>
-                              삭제
-                            </button>
-                          )}
                           {member.img && member.img.length > 2 ? (
                             <Avatar
                               size="small"
@@ -85,6 +92,11 @@ function GroupPanel({}): JSX.Element {
                           <br />
                           <div className="memberName">{member.nickname}</div>
                           {bgIcons[random]}
+                          {showDeleteButton && group.manager === 0 &&  (
+                            <button className="deleteButton" onClick={() => deleteAction(group.teamId, member.userId)}>
+                              삭제
+                            </button>
+                          )}
                         </SMember>
                       );
                     })}

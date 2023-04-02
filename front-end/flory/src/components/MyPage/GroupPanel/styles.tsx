@@ -25,4 +25,9 @@ export const SMember = styled.div`
   .memberName {
     margin-left: 8px;
   }
+
+  .deleteButton{
+    padding: 7px;
+    background: #ffb2b2;
+  }  
 `
