@@ -6,6 +6,7 @@ import weather from "./modules/weather";
 import diaryCreate from "./modules/diaryCreate";
 import group from "./modules/group";
 import guestBook from "./modules/guestBook";
+import music from "./modules/music";
 
 export const reducer = combineReducers({
   user,
@@ -15,4 +16,5 @@ export const reducer = combineReducers({
   weather,
   group,
   guestBook,
+  music,
 });

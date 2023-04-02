@@ -31,6 +31,11 @@ import Navbar from "../../components/common/Navbar/Navbar";
 import AWS from "aws-sdk";
 import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem";
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
+import { getMusicAction } from "../../redux/modules/music";
+import {
+  updateMusicTitle,
+  updateMusicUrl,
+} from "../../redux/modules/music/music-slice";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -169,20 +174,15 @@ const DiaryDetail = () => {
   imgSrc = imageUrl;
 
   // 음악 관련
-  const [musicUrl, setMusicUrl] = useState("");
+  const musicTitle = useAppSelector((store) => store.music.musicTitle);
+  const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
-    if (diary.musicTitle) {
-      console.log("s3에서 음악 가져오기");
-      const params = {
-        Bucket: "bloomer205",
-        Key: `music/${diary.musicTitle}.mp3`,
-      };
-      s3.getSignedUrlPromise("getObject", params)
-        .then((url) => {
-          console.log("음악 url", url);
-          setMusicUrl(url);
-        })
-        .catch((err) => console.error(err));
+    if (diary.musicTitle !== musicTitle) {
+      dispatch(updateMusicTitle(diary.musicTitle));
+      getMusicAction(diary.musicTitle).then((url) => {
+        dispatch(updateMusicUrl(url));
+        setMusicUrl(url);
+      });
     }
   }, [diary.musicTitle]);
 
@@ -244,6 +244,7 @@ const DiaryDetail = () => {
       <BackButton color="white" onClickAction={handleGoBack} />
       {/* 음악 아이콘 */}
       <DiaryMusicButton musicUrl={musicUrl} />
+
       <div className="content-box">
         {isSelf && diary && (
           <div
