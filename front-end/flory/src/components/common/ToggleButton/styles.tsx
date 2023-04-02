@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SNav = styled.nav`
+export const SNav = styled.nav<any>`
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -12,7 +12,12 @@ export const SNav = styled.nav`
 
   .menu-item,
   .menu-open-button {
-    background: #dec5fd;
+    background-color: ${(props) =>
+      props.gardenType === 0
+        ? "rgb(222, 197, 253)"
+        : props.gardenType === 1
+        ? "#ffe604"
+        : "rgb(253 200 167)"};
     border-radius: 100%;
     width: 2.5rem;
     height: 2.5rem;
@@ -38,7 +43,7 @@ export const SNav = styled.nav`
   .lines {
     width: 1rem;
     /* height: 0.15rem; */
-    color: #af5df8;
+    color: #000000;
     display: block;
     position: absolute;
     top: 50%;
@@ -102,8 +107,8 @@ export const SNav = styled.nav`
   }
 
   .menu-item:hover {
-    background: #eeeeee;
-    color: #3290b1;
+    /* background: red; */
+    /* color: #3290b1; */
   }
 
   .menu-item:nth-child(3) {
@@ -136,6 +141,14 @@ export const SNav = styled.nav`
   .menu-open-button:hover {
     -webkit-transform: scale(1.2, 1.2) translate3d(0, 0, 0);
     transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+    .lines {
+      color: ${(props) =>
+        props.gardenType === 0
+          ? "#af5df8"
+          : props.gardenType === 1
+          ? "white"
+          : "#E58649"};
+    }
   }
 
   .menu-open:checked + .menu-open-button {
@@ -174,35 +187,71 @@ export const SNav = styled.nav`
   }
 
   .gardenList {
-    background-color: #dec5fd;
+    background-color: ${(props) =>
+      props.gardenType === 0
+        ? "rgb(222, 197, 253)"
+        : props.gardenType === 1
+        ? "#ffe604"
+        : "rgb(253 200 167)"};
     box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
   }
 
   .gardenList:hover {
-    color: #af5df8;
+    .gardenList__icon {
+      color: ${(props) =>
+        props.gardenType === 0
+          ? "#af5df8"
+          : props.gardenType === 1
+          ? "white"
+          : "#E58649"};
+    }
     text-shadow: none;
   }
 
   .volume {
-    background-color: #dec5fd;
+    background-color: ${(props) =>
+      props.gardenType === 0
+        ? "rgb(222, 197, 253)"
+        : props.gardenType === 1
+        ? "#ffe604"
+        : "rgb(253 200 167)"};
     box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
   }
 
   .volume:hover {
-    color: #af5df8;
+    .volumeMute__icon {
+      color: ${(props) =>
+        props.gardenType === 0
+          ? "#af5df8"
+          : props.gardenType === 1
+          ? "white"
+          : "#E58649"};
+    }
     text-shadow: none;
   }
 
   .camera {
-    background-color: #dec5fd;
+    background-color: ${(props) =>
+      props.gardenType === 0
+        ? "rgb(222, 197, 253)"
+        : props.gardenType === 1
+        ? "#ffe604"
+        : "rgb(253 200 167)"};
     box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
   }
 
   .camera:hover {
-    color: #af5df8;
+    .camera__icon {
+      color: ${(props) =>
+        props.gardenType === 0
+          ? "#af5df8"
+          : props.gardenType === 1
+          ? "white"
+          : "#E58649"};
+    }
     text-shadow: none;
   }
 `;

@@ -45,6 +45,15 @@ export const SMain = styled.main`
     right: 10px;
   }
 
+  .nickname__active {
+    cursor: pointer;
+    transition: all linear 300ms;
+  }
+
+  .nickname__active:hover {
+    color: rgb(97, 47, 171);
+  }
+
   .flower-title {
     display: flex;
     justify-content: center;

@@ -34,7 +34,12 @@ export const SForm = styled.form<any>`
       props.alarm.nickname === "alarm" ? "visible" : "hidden"};
   }
   #emailAlarm {
-    color: ${(props) => (props.alarm.email === "alarm" ? "#dc3545" : "green")};
+    color: ${(props) =>
+      props.alarm.email === "alarm"
+        ? "#dc3545"
+        : props.alarm.email === "validation"
+        ? "#dc3545"
+        : "green"};
     visibility: ${(props) => (props.alarm.email ? "visible" : "hidden")};
   }
 
