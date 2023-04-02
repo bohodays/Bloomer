@@ -15,6 +15,7 @@ import { SPopOver } from "./styles"
 
 // export default function
 const SettingPopover = ({
+  addAction,
   editAction,
   deleteAction,
   color,
@@ -77,6 +78,10 @@ const SettingPopover = ({
     setAnchorEl(null)
   }
 
+  const handleAdd = () => {
+    addAction();
+  }
+
   // 그룹 수정 관련
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +124,12 @@ const SettingPopover = ({
           horizontal: "left",
         }}
       >
+        {addAction && (
+          <ListItemButton onClick={handleAdd} dense>
+          {/* <ListItemText primary="Spam" /> */}
+          <p style={{ fontSize: "0.75rem" }}>추가</p>
+        </ListItemButton>
+        )}
         {editAction && (
           <ListItemButton onClick={handleEdit}>
             {/* <ListItemText primary="Spam" /> */}
