@@ -44,7 +44,7 @@ bertmodel, vocab = get_pytorch_kobert_model()
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
 checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
-#checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
+# checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -328,27 +328,48 @@ def makeProb(logits):
     return rel_probs
 
 def cos_sim(A, B):
-  return dot(A, B)/(norm(A)*norm(B))    
+    if norm(A) == 0 or norm(B) == 0:
+        return -100
+    else:
+        return dot(A, B)/(norm(A)*norm(B))    
 
 def convertVector(member):
     cur = []
     #클래식
-    cur.append(member.classic)
+    if member.classic is not None:
+        cur.append(member.classic)
+    else:
+        cur.append(0)
 
     #재즈
-    cur.append(member.jazz)
+    if member.jazz is not None:
+        cur.append(member.jazz)
+    else:
+        cur.append(0)
 
     #pop
-    cur.append(member.pop)
+    if member.pop is not None:
+        cur.append(member.pop)
+    else:
+        cur.append(0)
 
     #reggae
-    cur.append(member.reggae)
+    if member.reggae is not None:
+        cur.append(member.reggae)
+    else:
+        cur.append(0)
     
     #RnB
-    cur.append(member.RnB)
+    if member.RnB is not None:
+        cur.append(member.RnB)
+    else:
+        cur.append(0)
 
     #electronic
-    cur.append(member.electronic)
+    if member.electronic is not None:
+        cur.append(member.electronic)
+    else:
+        cur.append(0)
 
     return cur
     
