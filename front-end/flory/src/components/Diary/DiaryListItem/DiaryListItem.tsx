@@ -73,7 +73,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
                 {props.diary.commentList ? props.diary.commentList.length : 0}
               </span>
             </span>
-            <div>{props.diary.createdTime}</div>
+            <div>{time}</div>
           </div>
         </div>
       </SItem>
