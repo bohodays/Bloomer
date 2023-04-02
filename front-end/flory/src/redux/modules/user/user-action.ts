@@ -172,3 +172,21 @@ export const socialLoginUpdateAction = createAsyncThunk(
     }
   }
 );
+
+// 회원탈퇴
+export const userDeleteAction = createAsyncThunk(
+  "DELETE",
+  async (userEmail: string, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      await axios.delete(`/api/user/${userEmail}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    } catch (e) {
+      rejectWithValue(e);
+    }
+  }
+);

@@ -9,7 +9,9 @@ export const SMain = styled.main<any>`
       ? "#fbee9d"
       : props.gardenType === 0
       ? "#9B31B8"
-      : "#E58649"};
+      : props.gardenType === 2
+      ? "#E58649"
+      : "white"};
 
   .goto__info {
     /* position: absolute; */
@@ -27,7 +29,9 @@ export const SMain = styled.main<any>`
         ? "rgb(222, 197, 253)"
         : props.gardenType === 1
         ? "#ffe604"
-        : "rgb(253 200 167)"};
+        : props.gardenType === 2
+        ? "rgb(253 200 167)"
+        : "white"};
     width: 2.5rem;
     height: 2.5rem;
     box-shadow: rgba(0, 0, 0, 0.14) 3px 3px 0px 0px;
@@ -56,7 +60,9 @@ export const SMain = styled.main<any>`
         ? "rgb(222, 197, 253)"
         : props.gardenType === 1
         ? "#ffe604"
-        : "rgb(253 200 167)"};
+        : props.gardenType === 2
+        ? "rgb(253 200 167)"
+        : "white"};
 
     width: 2.5rem;
     height: 2.5rem;

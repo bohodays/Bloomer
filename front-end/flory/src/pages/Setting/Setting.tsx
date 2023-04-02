@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
@@ -7,15 +7,25 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Accordion from "../../components/common/Accordion/Accordion";
 import { useNavigate } from "react-router-dom";
-import { logoutAction } from "../../redux/modules/user";
+import { logoutAction, userDeleteAction } from "../../redux/modules/user";
 import { localData } from "../../redux/modules/user/token";
-import { useAppDispatch } from "../../redux/store.hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import BackButton from "../../components/common/BackButton/BackButton";
 import { resetUser, userAction } from "../../redux/modules/user/user-slice";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 const Setting = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userEmail = useAppSelector((state) => state.user.userData.email);
+
+  // 모달 상태 관리
+  const [open, setOpen] = React.useState(false);
+  const [errorInfo, setErrorInfo] = useState(
+    "회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
+  );
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
@@ -45,6 +55,14 @@ const Setting = () => {
     </div>
   );
 
+  const handleOpenModal = () => {
+    handleOpen();
+  };
+
+  const handleUserDelete = () => {
+    dispatch(userDeleteAction(userEmail));
+  };
+
   return (
     <SMain>
       <div className="header">
@@ -62,7 +80,15 @@ const Setting = () => {
       </div>
       <div>
         <button onClick={handleLogout}>로그아웃</button>
-        <button>회원탈퇴</button>
+        <button onClick={handleOpenModal}>회원탈퇴</button>
+      </div>
+      <div>
+        <AlertModal
+          open={open}
+          handleClose={handleClose}
+          content={errorInfo}
+          action={handleUserDelete}
+        />
       </div>
     </SMain>
   );

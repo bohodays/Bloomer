@@ -8,6 +8,7 @@ import {
   updateAccessToken,
   updateUserInfoAction,
   socialLoginUpdateAction,
+  userDeleteAction,
 } from "./user-action";
 
 const initialState: UserStateType = {
@@ -74,7 +75,9 @@ const userSlice = createSlice({
         state.axiosState.data = null;
         state.axiosState.error = payload;
       })
-      .addCase(socialLoginUpdateAction.fulfilled, (state, { payload }) => {});
+      .addCase(socialLoginUpdateAction.fulfilled, (state, { payload }) => {})
+      // 회원탈퇴
+      .addCase(userDeleteAction.fulfilled, (state, { payload }) => {});
 
     // 로딩 액션 필요시 참고
     // .addCase(logoutAction.pending, (state) => {

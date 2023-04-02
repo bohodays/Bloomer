@@ -198,6 +198,16 @@ const DiaryDetail = () => {
     inputProps: { "aria-label": item },
   });
 
+  // \n 인식시키기
+  const convertNewLineToBreak = (str: string) => {
+    return str.split("\n").map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   useEffect(() => {
     if (diary === initialDiary) {
       // isInitial = false;
@@ -283,7 +293,9 @@ const DiaryDetail = () => {
         {imgSrc && (
           <img className="diary-img" src={imgSrc} alt="img-loading,," />
         )}
-        <div className="content-diary">{diary.content}</div>
+        <div className="content-diary">
+          {convertNewLineToBreak(diary.content)}
+        </div>
 
         {/* 지도 영역 */}
         <div className="location-tag" onClick={onClickLocation}>
