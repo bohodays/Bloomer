@@ -23,6 +23,12 @@ export const SMain = styled.main<any>`
     & > p {
       font-size: 0.8rem;
     }
+
+    .red {
+      color: #dc3545;
+      font-size: 0.6rem;
+    }
+
     width: 90%;
     text-align: center;
     margin: 0 auto;

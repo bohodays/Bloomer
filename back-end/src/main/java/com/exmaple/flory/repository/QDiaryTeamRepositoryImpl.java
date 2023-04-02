@@ -31,4 +31,13 @@ public class QDiaryTeamRepositoryImpl implements QDiaryTeamRepository {
                 .execute();
 
     }
+
+    @Override
+    public List<Long> getDiaryByTid(Long teamId) {
+        return jpaQueryFactory
+                .select(diaryTeam.diaryId)
+                .from(diaryTeam)
+                .where(diaryTeam.groupId.eq(teamId))
+                .fetch();
+    }
 }

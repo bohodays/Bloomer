@@ -2,6 +2,7 @@ package com.exmaple.flory.handler;
 
 import com.exmaple.flory.dto.member.TokenDto;
 import com.exmaple.flory.dto.oauth.OAuthAttributes;
+import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.jwt.TokenProvider;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ import java.io.IOException;
 public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final TokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
 
     @Value("${social.login.redirectUrl}")
     private String redirectUrl;
@@ -31,8 +34,6 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        log.info("redirectUrl : {}",redirectUrl);
-
         OAuthAttributes oAuthAttributes = (OAuthAttributes) authentication.getPrincipal();
 
         TokenDto tokenDto = jwtTokenProvider.createTokenDto(authentication);
@@ -41,13 +42,24 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         log.info("access token:: {} ",tokenDto.getAccessToken());
         log.info("refresh token: {}", tokenDto.getRefreshToken());
 
+        Optional<Member> member = memberRepository.findByEmail(oAuthAttributes.getEmail());
+
+        Long userId = member.get().getUserId();
+        int newUser = 0;
+        //새로 등록한 유저
+        if(member.get().getPop() == null) {
+            newUser = 1;
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append(redirectUrl).append("?refreshToken=")
                 .append(tokenDto.getRefreshToken())
                 .append("&&accessToken=")
                 .append(tokenDto.getAccessToken())
                 .append("&&userId=")
-                .append(oAuthAttributes.getEmail());
+                .append(userId)
+                .append("&&newUser=")
+                .append(newUser);
 
         response.sendRedirect(sb.toString());
 

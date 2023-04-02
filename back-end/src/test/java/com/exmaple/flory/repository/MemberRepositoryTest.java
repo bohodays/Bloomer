@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -121,5 +120,22 @@ class MemberRepositoryTest {
 
         //then
         assertThat(result).isTrue();
+    }
+
+    @DisplayName("refreshToken으로 유저 정보 확인")
+    @Test
+    void findByRefreshToken(){
+        //given
+        Member member = Member.builder()
+                .nickname("nickname").password("password").img("img").email("email") .refreshToken("token").build();
+
+        Member entity = memberRepository.save(member);
+
+        //when
+        Member result = memberRepository.findByRefreshToken(entity.getRefreshToken())
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
+        //then
+        assertThat(result.getEmail()).isEqualTo(member.getEmail());
     }
 }

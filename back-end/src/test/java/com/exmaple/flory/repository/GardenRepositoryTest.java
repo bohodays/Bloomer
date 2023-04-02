@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.TestPropertySource;
@@ -20,10 +21,10 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
-@Import(TestConfig.class)
+@SpringBootTest
+//@Import(TestConfig.class)
 @TestPropertySource("classpath:application-test.properties")
-@EnableJpaAuditing
+//@EnableJpaAuditing
 public class GardenRepositoryTest {
 
     @Autowired
@@ -46,7 +47,6 @@ public class GardenRepositoryTest {
         Garden garden = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         memberRepository.save(member);
@@ -62,16 +62,26 @@ public class GardenRepositoryTest {
 
         Garden garden = Garden
                 .builder()
-                .path("/usr/app")
                 .build();
 
+        Member member = Member.builder()
+                .email("cksgnlcjswo@naver.com")
+                .nickname("abcd")
+                .password("1234")
+                .build();
+
+        Member info = memberRepository.save(member);
+
+        garden.setMember(member);
         gardenRepository.save(garden);
 
         int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
 
-        Optional<Garden> result = gardenRepository.findByMonth(month);
 
-        assertThat(result.get().getPath()).isEqualTo(garden.getPath());
+        Optional<Garden> result = gardenRepository.findByDate(info.getUserId(),year,month);
+
+        assertThat(result.get().getDeadLine()).isEqualTo(garden.getDeadLine());
     }
 
     @DisplayName("유저의 모든 정원 가져오기")
@@ -87,19 +97,16 @@ public class GardenRepositoryTest {
         Garden garden1 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Garden garden2 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Garden garden3 = Garden
                 .builder()
                 .member(member)
-                .path("/usr/app")
                 .build();
 
         Member memberEntity = memberRepository.save(member);

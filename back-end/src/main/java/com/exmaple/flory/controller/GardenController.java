@@ -67,12 +67,12 @@ public class GardenController {
         }
     }
 
-    @GetMapping("/date/{month}")
-    public ResponseEntity<?> getGardenDetailByMonth(@PathVariable Integer month) {
+    @GetMapping("/user/{user_id}/date/{year}/{month}")
+    public ResponseEntity<?> getGardenDetailByMonth(@PathVariable Long user_id,@PathVariable Integer year, @PathVariable Integer month) {
         log.info("GardenController - garden detail by month 호출");
 
         try {
-            return new ResponseEntity<>(new SuccessResponse(gardenService.getGardenByMonth(month)), HttpStatus.OK);
+            return new ResponseEntity<>(new SuccessResponse(gardenService.getGardenByMonth(user_id,year,month)), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
@@ -86,6 +86,7 @@ public class GardenController {
         try {
             return new ResponseEntity<>(new SuccessResponse(gardenService.getAllGardenByUserId(user_id)), HttpStatus.OK);
         } catch(Exception e) {
+
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_GARDEN),HttpStatus.NOT_FOUND);
         }
     }

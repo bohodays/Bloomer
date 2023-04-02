@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SMain } from "./styles";
@@ -77,24 +77,6 @@ const GardenEdit = () => {
     return new File([u8arr], filename, { type: mime });
   }
 
-  // const replacedBase64String: any = base64String?.replace(
-  //   /^data:image\/\w+;base64,/,
-  //   ""
-  // );
-  // const blob = new Blob([replacedBase64String], { type: "image/png" });
-  // const formData: any = new FormData();
-  // formData.append("file", blob);
-  // console.log(typeof formData, "asdasdasdasd");
-  // console.log(formData, "asdasdasdasd1111111");
-  // for (let value of formData.values()) {
-  //   console.log(value, "value");
-  // }
-  // for (let key of formData.keys()) {
-  //   console.log(key, "key");
-  // }
-  // const imgSrc = formData.get("file");
-  // console.log(imgSrc, "뭔가 이상한거 같음...");
-
   const handlePositionUpdate = () => {
     // 가든에서 왔으면 꽃 움직이게만 하기
     if (fromGarden) {
@@ -135,6 +117,8 @@ const GardenEdit = () => {
         });
     }
   };
+
+  useEffect(() => {}, [dispatch]);
 
   return (
     <SMain>

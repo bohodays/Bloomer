@@ -65,14 +65,6 @@ const diarySlice = createSlice({
 
         state.diaryData = [...diaryData];
       }
-
-      // const filteredItem = state.diaryData.filter(
-      //   (item: any) => item.id === action.payload.diaryId
-      // );
-
-      // filteredItem[0].x = action.payload.x;
-      // filteredItem[0].y = action.payload.y;
-      // filteredItem[0].z = action.payload.z;
     },
   },
   extraReducers: (builder) => {

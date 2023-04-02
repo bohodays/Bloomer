@@ -24,21 +24,38 @@ export const GlobalStyle = styled.div`
     transform: scale(0.6);
   }
 
-  @media screen and (max-width: 479px) {
+  @media screen and (max-width: 360px) {
     .flowers {
       transform: scale(1.2);
     }
   }
 
-  @media screen and (min-width: 489px) and (max-width: 767px) {
+  @media screen and (min-width: 361px) and (max-width: 379px) {
+    .flowers {
+      transform: scale(1.1);
+    }
+  }
+
+  @media screen and (min-width: 380px) and (max-width: 429px) {
     .flowers {
       transform: scale(1);
     }
   }
-
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 430px) and (max-width: 469px) {
     .flowers {
-      transform: scale(0.6);
+      transform: scale(0.9);
+    }
+  }
+
+  @media screen and (min-width: 470px) and (max-width: 520px) {
+    .flowers {
+      transform: scale(0.8);
+    }
+  }
+
+  @media screen and (min-width: 521px) and (max-width: 619px) {
+    .flowers {
+      transform: scale(0.7);
     }
   }
 

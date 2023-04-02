@@ -2,6 +2,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('emotions/', include('emotions.urls')),
+    path('domain/admin/', admin.site.urls),
+    path('domain/emotions/', include('emotions.urls')),
 ]

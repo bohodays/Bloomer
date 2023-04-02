@@ -12,6 +12,7 @@ import { localData } from "../src/redux/modules/user/token";
 import { useAppSelector, useAppDispatch } from "./redux/store.hooks";
 import { getUserDataToTokenAction } from "./redux/modules/user";
 import GroupList from "./pages/GroupList/GroupList";
+import GroupSignUpList from "./pages/GroupSignUpList/GroupSignUpList";
 import {
   createGardenAction,
   getGardenListAction,
@@ -48,6 +49,9 @@ const GuestBookCreate = React.lazy(
 );
 const Info = React.lazy(() => import("./pages/Info/Info"));
 const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
+const OauthRedirect = React.lazy(
+  () => import("./pages/OauthRedirect/OauthRedirect")
+);
 
 let isInitial = true;
 function App() {
@@ -102,7 +106,9 @@ function App() {
             />
             <Route path="/setting" element={withAuth(<Setting />)} />
             <Route path="/group/list" element={withAuth(<GroupList />)} />
+            <Route path="/group/list/signup/:groupId" element={<GroupSignUpList />} />
             <Route path="/info" element={<Info />} />
+            <Route path="/oauth2-redirect" element={<OauthRedirect />} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

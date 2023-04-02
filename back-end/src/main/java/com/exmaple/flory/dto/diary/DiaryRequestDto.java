@@ -19,19 +19,17 @@ public class DiaryRequestDto {
 
     private Long gid;
 
-    private Long mid;
-
     private Long fid;
 
     private String content;
-
-    private String imgSrc;
 
     private double lat;
 
     private double lng;
 
     private String publicStatus;
+
+    private String musicTitle;
 
     private List<Long> groupList;
 
@@ -45,6 +43,6 @@ public class DiaryRequestDto {
 
     public Diary toEntity(){
         return Diary.builder()
-                .id(id).content(content).imgSrc(imgSrc).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).address(address).build();
+                .id(id).content(content).lat(lat).lng(lng).publicStatus(publicStatus).x(x).y(y).z(z).address(address).build();
     }
 }

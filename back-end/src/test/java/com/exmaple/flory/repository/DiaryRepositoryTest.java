@@ -2,10 +2,7 @@ package com.exmaple.flory.repository;
 
 import com.exmaple.flory.config.TestConfig;
 import com.exmaple.flory.dto.diary.DiaryDto;
-import com.exmaple.flory.entity.Diary;
-import com.exmaple.flory.entity.DiaryTeam;
-import com.exmaple.flory.entity.Garden;
-import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,12 +47,14 @@ public class DiaryRepositoryTest {
     private final Garden garden = Garden
             .builder()
             .member(member)
-            .path("/usr/app")
             .build();
+
+    private final Music music = Music.builder()
+            .id(1L).title("title").build();
 
     private final Diary diary = Diary.builder()
             .id(1L).content("content").imgSrc("imgSrc").lat(1).lng(1).publicStatus("전체공개").x("x").y("y").z("z")
-            .garden(garden).build();
+            .garden(garden).music(music).build();
 
     @DisplayName("일기 등록하기 테스트")
     @Test
