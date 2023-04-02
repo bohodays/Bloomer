@@ -250,12 +250,10 @@ class TeamControllerTest {
     @DisplayName("팀 멤버 삭제")
     @Test
     void deleteTeamMember() throws Exception {
-        TeamApproveRequestDto teamApproveRequestDto = TeamApproveRequestDto.builder()
-                .teamId(1L).userId(1L).build();
+        Long teamId = 1L;
+        Long userId = 1L;
 
-        mockMvc.perform(delete("/api/team/member").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(teamApproveRequestDto)))
+        mockMvc.perform(delete("api/team/member?teamId={teamId}&userId={userId}",teamId,userId))
                         .andExpect(status().isOk())
                         .andReturn();
     }
@@ -438,14 +436,12 @@ class TeamControllerTest {
         @DisplayName("팀 멤버 삭제 오류")
         @Test
         void deleteTeamMemberException() throws Exception {
-            TeamApproveRequestDto teamApproveRequestDto = TeamApproveRequestDto.builder()
-                    .teamId(1L).userId(1L).build();
+            Long teamId = 1L;
+            Long userId = 1L;
 
-            when(teamService.deleteTeamMember(any())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
+            when(teamService.deleteTeamMember(any(), any())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
 
-            mockMvc.perform(delete("/api/team/member").with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(teamApproveRequestDto)))
+            mockMvc.perform(delete("api/team/member?teamId={teamId}&userId={userId}",teamId,userId))
                     .andExpect(status().isNotFound())
                     .andReturn();
         }

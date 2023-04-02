@@ -5,12 +5,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
+@Table(name = "guest_book")
+@Entity
 public class Guest extends BaseTime{
 
     @Id
