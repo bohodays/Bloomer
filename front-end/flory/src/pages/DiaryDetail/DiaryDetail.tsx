@@ -242,7 +242,14 @@ const DiaryDetail = () => {
         {/* 본인 글일 때 수정 삭제 하는 부분 */}
 
         {/* 다이어리 내용 영역 */}
-        <h3>{diary.garden?.member.nickname}</h3>
+        <h3
+          className="nickname__active"
+          onClick={() => {
+            !isSelf && navigate(`/garden/${diary.garden?.member.userId}`);
+          }}
+        >
+          {diary.garden?.member.nickname}
+        </h3>
         <div className="content-header">
           <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
           <p>
