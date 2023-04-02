@@ -8,6 +8,13 @@ export const SGroupPanel = styled.div`
     padding: 8px;
     cursor: pointer;
   }
+  .secessionGroup{
+    background: rgb(241 207 207);
+    text-align: center;
+    font-size: 0.8em;
+    padding: 8px;
+    cursor: pointer;
+  }
 
   .icon_flower {
     width: 20px;

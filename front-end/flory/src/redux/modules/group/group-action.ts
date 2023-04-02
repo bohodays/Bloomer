@@ -208,3 +208,22 @@ export const updateGroupMemberAction = createAsyncThunk(
     }
   }
 );
+
+// 그룹 삭제
+export const deleteGroupAction = createAsyncThunk(
+  "DELETE_GROUP",
+  async (groupId: any, { rejectWithValue }) => {
+    try {
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
+      const { data } = await axios.delete(`/api/team/${groupId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+      });
+      
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

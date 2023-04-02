@@ -29,11 +29,8 @@ function BasicModal({
 
   const deleteClick = () => {
     if (deleteAction) {
-      deleteAction().then((res: boolean) => {
-        if (res) {
-          setOpen(false);
-        }
-      });
+      deleteAction();
+      setOpen(false);
     } else {
       setOpen(false);
     }
@@ -43,25 +40,27 @@ function BasicModal({
     <SModalContent role="presentation">
       <Puller />
       {children}
-      <Button
-        // type="submit"
-        onClick={handleClick}
-        addStyle={{
-          margin: "auto",
-          fontSize: "1rem",
-          width: "320px",
-          height: "3rem",
-          color: "#ffffff",
-          // background1: "rgb(101,182,255)",
-          // background2:
-          //   "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
-          background1: "rgb(244,175,255)",
-          background2:
-            "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
-          borderRadius: "24px",
-        }}
-        contents="확인"
-      />
+      {!deleteAction && dispatchAction && (
+        <Button
+          // type="submit"
+          onClick={handleClick}
+          addStyle={{
+            margin: "auto",
+            fontSize: "1rem",
+            width: "320px",
+            height: "3rem",
+            color: "#ffffff",
+            // background1: "rgb(101,182,255)",
+            // background2:
+            //   "linear-gradient(90deg, rgba(101,182,255,1) 0%, rgba(139,92,246,1) 100%)",
+            background1: "rgb(244,175,255)",
+            background2:
+              "linear-gradient(90deg, rgba(244,175,255,1) 0%, rgba(156,147,221,1) 58%, rgba(150,119,210,1) 100%)",
+            borderRadius: "24px",
+          }}
+          contents="확인"
+        />
+      )}
       {deleteAction && (
         <div>
           <SButton

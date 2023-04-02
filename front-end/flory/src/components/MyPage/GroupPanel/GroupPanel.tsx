@@ -17,6 +17,7 @@ function GroupPanel({}): JSX.Element {
   const bgIcons: JSX.Element[] = [];
 
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
+  const userId = useAppSelector((state) => state.user.userData.userId);
 
   useEffect(() => {
     dispatch(getGroupInfoAction());
@@ -74,8 +75,14 @@ function GroupPanel({}): JSX.Element {
                         groupId={group.teamId}
                       />
                     )}
+                    {group.manager === 1 && (
+                      <div className="secessionGroup" onClick={() => deleteAction(group.teamId, userId)}>그룹 탈퇴</div>
+                    )}
                     {group.userTeamList.map((member: any, index:any) => {
                       const random = Math.floor(Math.random() * bgIcons.length);
+                      const handleMoveToOtherGarden = () => {
+                        navigate(`/garden/${member.userId}`);
+                      }
                       
                       return (
                         <SMember key={index} {...swipeConfig}>
@@ -85,9 +92,13 @@ function GroupPanel({}): JSX.Element {
                               src={member.img}
                               imgIdx={"11"}
                               key={index}
+                              onClick={handleMoveToOtherGarden}
                             />
                           ) : (
-                            <Avatar size="small" imgIdx={member.img} key={index} />
+                            <Avatar size="small"
+                                imgIdx={member.img} key={index}
+                                onClick={handleMoveToOtherGarden}
+                              />
                           )}
                           <br />
                           <div className="memberName">{member.nickname}</div>
