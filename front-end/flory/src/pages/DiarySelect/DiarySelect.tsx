@@ -127,7 +127,7 @@ const DiarySelect = () => {
         ></Chart> */}
       </div>
       {/* 선택된 감정 */}
-      <div className="wrapper">
+      <div className="emotion__wrapper">
         <Carousel>
           {newFlowerData.map((item: any, i: number) => (
             // <Card title={"Card " + (i + 1)}>
