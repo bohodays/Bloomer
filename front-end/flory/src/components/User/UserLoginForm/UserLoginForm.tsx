@@ -52,7 +52,7 @@ const UserLoginForm = () => {
         .then((response) => {
           if (response.type === "LOGIN/rejected") {
             setErrorInfo(
-              "존재하지 않는 이메일이거나 비밀번호가 일치하지 않습니다."
+              "존재하지 않는 이메일이거나\n 비밀번호가 일치하지 않습니다."
             )
             handleOpen()
             return false

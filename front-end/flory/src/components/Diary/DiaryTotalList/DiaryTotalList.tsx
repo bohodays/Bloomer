@@ -1,8 +1,8 @@
-import React from "react";
-import { DiaryType } from "../../../models/diary/diaryType";
-import { useAppSelector } from "../../../redux/store.hooks";
-import DiaryList from "../DiaryList/DiaryList";
-import { SMain } from "./styles";
+import React from "react"
+import { DiaryType } from "../../../models/diary/diaryType"
+import { useAppSelector } from "../../../redux/store.hooks"
+import DiaryList from "../DiaryList/DiaryList"
+import { SMain } from "./styles"
 
 const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
   return (
@@ -22,13 +22,23 @@ const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
                 />
               </div>
             </SMain>
-          );
+          )
         })
       ) : (
-        <div>피드가 없습니다.</div>
+        <span
+          style={{
+            background: "white",
+            height: "3rem",
+            padding: "1rem 0",
+            borderRadius: "15px",
+            fontFamily: "S-CoreDream-4Regular",
+          }}
+        >
+          일기를 작성해주세요 🌻
+        </span>
       )}
     </>
-  );
-};
+  )
+}
 
-export default DiaryTotalList;
+export default DiaryTotalList

@@ -35,22 +35,29 @@ const AlertModal = ({ open, handleClose, content }: AlertModalProps) => {
         aria-describedby="modal-modal-description"
       >
         <div className="modal__wrapper" style={style}>
-          <RiErrorWarningLine color="#d3d3d3" size={"60px"} />
+          <RiErrorWarningLine color="#b3b1c5" size={"60px"} />
           <Typography
             id="modal-modal-title"
             variant="h6"
             // component="h1"
-            style={{ color: "black", fontSize: "1.1rem" }}
+            style={{
+              color: "black",
+              fontSize: "1rem",
+              whiteSpace: "pre-line",
+              textAlign: "center",
+              lineHeight: "1.8rem",
+              marginBottom: "1rem",
+            }}
           >
             {content}
           </Typography>
           <Button
             addStyle={{
               fontSize: "0.9rem",
-              width: "85%",
+              width: "80%",
               height: "2.5rem",
               color: "#ffffff",
-              background1: "#EB5252",
+              background1: "#645ac1",
               borderRadius: "15px",
             }}
             contents="확인"

@@ -7,7 +7,11 @@ import Button from "../../components/common/Button/Button";
 import Chip from "../../components/common/Chip/Chip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store.hooks";
-import { signupAction } from "../../redux/modules/user";
+import {
+  signupAction,
+  socialLoginUpdateAction,
+} from "../../redux/modules/user";
+import { localData } from "../../redux/modules/user/token";
 
 const SignupMusicSelect = () => {
   const navigate = useNavigate();
@@ -15,6 +19,12 @@ const SignupMusicSelect = () => {
   const dispatch = useAppDispatch();
 
   const signupData = location.state.signupData;
+
+  // 소셜 로그인에서 온 건지 회원가입으로 온 건지 판단
+  // update가 true이면 소셜 로그인, false이면 회원가입
+  const update = location.state.update;
+  const userId = location.state.userId;
+  console.log(update, userId, "어디서 온거지?");
 
   const [selectedItems, setSelectedItems] = useState<any>({
     classic: false,
@@ -27,14 +37,46 @@ const SignupMusicSelect = () => {
   });
 
   const handleSignUp = () => {
-    const userData = {
-      ...signupData,
-      ...selectedItems,
-    };
+    // 소셜 로그인으로 온 신규유저라면
+    if (update) {
+      const userData = {
+        userId,
+        classic: selectedItems.classic,
+        jazz: selectedItems.jazz,
+        pop: selectedItems.pop,
+        hiphop: selectedItems.hiphop,
+        reggae: selectedItems.reggae,
+        rnb: selectedItems.RnB,
+        electronic: selectedItems.electronic,
+      };
+      console.log(
+        "dispatch 요청 전",
+        { local: localData.getAccessToken() },
+        { refresh: localData.getRefreshToken() }
+      );
 
-    dispatch(signupAction(userData)).then(() => {
-      navigate("/login");
-    });
+      dispatch(socialLoginUpdateAction(userData)).then(() => {
+        console.log(
+          "dispatch 요청 후 가든으로 가기 전",
+          { local: localData.getAccessToken() },
+          { refresh: localData.getRefreshToken() }
+        );
+        console.log("가든으로 가");
+
+        navigate("/garden");
+      });
+    }
+    // 회원가입으로 온 신규유저라면
+    else {
+      const userData = {
+        ...signupData,
+        ...selectedItems,
+      };
+      dispatch(signupAction(userData)).then(() => {
+        console.log("로그인으로 가");
+        navigate("/login");
+      });
+    }
   };
 
   return (
