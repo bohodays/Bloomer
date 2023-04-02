@@ -4,8 +4,15 @@ export const SMain = styled.main<any>`
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  /* background-color: #d7bede; */
-  background-color: #4e126b;
+  background: rgb(249, 230, 193);
+  background: linear-gradient(
+    0deg,
+    rgba(249, 230, 193, 1) 0%,
+    rgba(234, 237, 229, 1) 10%,
+    rgba(194, 230, 246, 1) 44%,
+    rgba(140, 208, 237, 1) 100%
+  );
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,26 +40,7 @@ export const SMain = styled.main<any>`
     animation: animate 6s linear infinite;
     -webkit-background-clip: text;
     -webkit-text-fill-color: rgba(255, 255, 255, 0);
-    /* &:after {
-      content: "";
-      position: absolute;
-      left: 120%;
-      width: 120%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, #4e126b 5%);
-      animation: animate 3s linear;
-    } */
   }
-
-  /* @keyframes animate {
-    0%,
-    100% {
-      left: -20%;
-    }
-    100% {
-      left: 100%;
-    }
-  } */
 
   @keyframes animate {
     0% {
@@ -88,7 +76,7 @@ export const SMain = styled.main<any>`
   }
   .btn__wrapper:hover {
     /* transform: scale(1.02); */
-    background: rgba(196, 120, 255, 0.7);
+    background: rgb(255, 255, 255);
     border-radius: 30px;
   }
 

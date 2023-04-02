@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const GlobalStyle = styled.div`
-  margin-top: -50px;
+  margin-top: -30px;
   *,
   *::after,
   *::before {
@@ -180,7 +180,7 @@ export const GlobalStyle = styled.div`
         width: 8vmin;
         height: 8vmin;
         /* 꽃 뒤에 광원 */
-        background-color: #ffc485;
+        background-color: #ed39ed;
         filter: blur(10vmin);
       }
     }
@@ -193,7 +193,7 @@ export const GlobalStyle = styled.div`
       height: 11vmin;
       border-radius: 51% 49% 47% 53% / 44% 45% 55% 69%;
       /* 꽃잎 색 */
-      background-image: linear-gradient(to top, #3f289f, #e0d8ff);
+      background-image: linear-gradient(to top, #fe6198, #ffffff);
       transform-origin: bottom center;
       opacity: 0.9;
       box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.5);
@@ -217,9 +217,8 @@ export const GlobalStyle = styled.div`
         border-radius: 4vmin 10vmin 4vmin 4vmin;
         transform: translate(-0%, 18%) rotateX(70deg) rotate(-43deg);
         /* 꽃 받침 색 */
-        background-image: linear-gradient(to top, #2e2550, #756482);
-        z-index: 1;
-        opacity: 0.8;
+        background: transparent;
+        z-index: 10;
       }
     }
 
@@ -230,7 +229,7 @@ export const GlobalStyle = styled.div`
       width: 9vmin;
       height: 4vmin;
       border-radius: 50%;
-      background-color: #fff;
+      background-image: linear-gradient(#fb98c9, #fd5b93);
 
       &::after {
         content: "";
@@ -241,11 +240,8 @@ export const GlobalStyle = styled.div`
         width: 60%;
         height: 60%;
         border-radius: inherit;
-        background-image: linear-gradient(
-          90deg,
-          rgb(255, 191, 0),
-          rgb(255, 206, 0)
-        );
+        background: transparent;
+        /* background-image: linear-gradient(90deg, #b1144b); */
       }
     }
 
@@ -257,10 +253,10 @@ export const GlobalStyle = styled.div`
           to left,
           rgb(0, 0, 0, 0.2),
           transparent,
-          #4d126bce
+          #4d126b4e
         ),
-        linear-gradient(to top, transparent 10%, #8e6ee9, #7dd4dd);
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0);
+        linear-gradient(to top, transparent 10%, #8f6ee96d, #7dd3dd6b);
+      /* box-shadow: inset 0 0 2px rgba(0, 0, 0, 0); */
       animation: grow-flower-tree 4s backwards;
 
       &__leaf {
@@ -276,8 +272,8 @@ export const GlobalStyle = styled.div`
         /* 메인줄기 잎 */
         background-image: linear-gradient(
           to top,
-          rgba(13, 100, 105, 0.3),
-          #8e6ee9
+          rgba(13, 100, 105, 0.182),
+          #8f6ee963
         );
 
         &--1 {
@@ -325,13 +321,13 @@ export const GlobalStyle = styled.div`
       bottom: 0vmin;
       width: 1vmin;
       height: 1vmin;
-      background-color: rgb(255, 251, 0);
+      background-color: rgb(255, 131, 131);
       border-radius: 50%;
       filter: blur(0.2vmin);
       animation: light-ans 4s linear infinite backwards;
 
       &:nth-child(odd) {
-        background-color: #23f0ff;
+        background-color: #f1fd8885;
       }
 
       &--1 {
@@ -377,7 +373,7 @@ export const GlobalStyle = styled.div`
 
     &__grass {
       /* 퍼지는 잎 2개 */
-      --c: #8d64c7;
+      --c: #3185125e;
       --line-w: 1.5vmin;
 
       position: absolute;
@@ -555,7 +551,7 @@ export const GlobalStyle = styled.div`
         right: 0%;
         width: 100%;
         height: 100%;
-        background-color: rgba(74, 31, 123, 0.415);
+        /* background-color: rgba(255, 255, 255, 0.415); */
         filter: blur(1.5vmin);
         z-index: 100;
       }
@@ -565,7 +561,7 @@ export const GlobalStyle = styled.div`
     &__g-long {
       --w: 2vmin;
       --h: 6vmin;
-      --c: #5120a0;
+      --c: #5120a08f;
       position: absolute;
       bottom: 10vmin;
       left: -3vmin;
@@ -601,7 +597,7 @@ export const GlobalStyle = styled.div`
         height: 50vmin;
         transform-origin: bottom center;
         background-image: linear-gradient(to top, transparent 30%, var(--c));
-        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+        /* box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5); */
         clip-path: polygon(35% 0, 65% 1%, 100% 100%, 0% 100%);
       }
     }
@@ -617,7 +613,7 @@ export const GlobalStyle = styled.div`
         width: 30vmin;
         height: 50vmin;
         border-top-left-radius: 100%;
-        border-left: 2vmin solid #8036ff;
+        border-left: 2vmin solid #8036ff7a;
         background-image: linear-gradient(
           to bottom,
           transparent,
@@ -694,7 +690,7 @@ export const GlobalStyle = styled.div`
         background-image: linear-gradient(
           to top,
           transparent,
-          #421d8d,
+          #421d8d6d,
           transparent 100%
         );
         position: relative;
@@ -797,28 +793,28 @@ export const GlobalStyle = styled.div`
         width: 10vmin;
         height: 10vmin;
         border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
-        box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2);
+        /* box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2); */
         background-image: linear-gradient(
             to bottom left,
             transparent,
-            #2e0168c1 98%
+            #16680171 98%
           ),
           linear-gradient(
             to bottom right,
-            #9c4de1 50%,
+            #4d74e16c 50%,
             transparent 50%,
             transparent
           );
 
         -webkit-mask-image: linear-gradient(
           to bottom right,
-          #000000 50%,
+          #0000006c 50%,
           transparent 50%,
           transparent
         );
         mask-image: linear-gradient(
           to bottom right,
-          #ffffff 50%,
+          #ffffffc7 50%,
           transparent 50%,
           transparent
         );
@@ -848,11 +844,11 @@ export const GlobalStyle = styled.div`
         width: 30vmin;
         height: 50vmin;
         border-top-left-radius: 100%;
-        border-left: 2vmin solid #34154a;
+        border-left: 2vmin solid #7858135e;
         -webkit-mask-image: linear-gradient(
           to top,
           transparent 25%,
-          #3b3154 50%
+          #5d791587 50%
         );
         position: relative;
         z-index: 1;
@@ -865,22 +861,22 @@ export const GlobalStyle = styled.div`
         width: 10vmin;
         height: 10vmin;
         border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
-        box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2);
+        /* box-shadow: inset 0 2px 1vmin hsla(184, 97%, 58%, 0.2); */
         background-image: linear-gradient(
             to bottom left,
             transparent,
-            #180333c1 98%
+            #dca42c5e 98%
           ),
           linear-gradient(
             to bottom right,
-            #4d30adc4 45%,
+            #ad833079 45%,
             transparent 50%,
             transparent
           );
 
         -webkit-mask-image: linear-gradient(
           135deg,
-          #470e97 40%,
+          #ffffffbb 40%,
           transparent 50%,
           transparent
         );
