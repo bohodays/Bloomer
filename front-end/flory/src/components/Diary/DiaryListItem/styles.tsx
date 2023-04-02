@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   width: 100%;
@@ -12,7 +12,7 @@ export const SMain = styled.main<any>`
     border: 3px solid #ececec;
     z-index: -1;
   }
-`
+`;
 
 export const SItem = styled.div<any>`
   flex: auto;
@@ -33,7 +33,7 @@ export const SItem = styled.div<any>`
     /* padding: 7px; */
   }
 
-  .wrapper {
+  .diary__wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -83,10 +83,10 @@ export const SItem = styled.div<any>`
       }
     }
   }
-`
+`;
 
 export const SIcon = styled(FontAwesomeIcon)`
   color: #8a8a8a;
   height: 0.7rem;
   z-index: -1;
-`
+`;
