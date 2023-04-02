@@ -58,7 +58,7 @@ export const convertTimeFormat = (targetDate: string | Date) => {
   if (today.toDateString() === target.toDateString()) {
     return time
   } else {
-    const year = target.getFullYear().toString().substring(2)
+    const year = target.getFullYear().toString()
     const month = target.getMonth() + 1
     const date = target.getDate()
     return year + "." + month + "." + date + ". " + time
