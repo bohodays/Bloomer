@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   width: 100%;
@@ -6,6 +6,7 @@ export const SMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
 
   .login__title {
     width: 78%;
@@ -83,4 +84,4 @@ export const SMain = styled.main`
       transform: translate3d(85px, 0, 0);
     }
   }
-`;
+`

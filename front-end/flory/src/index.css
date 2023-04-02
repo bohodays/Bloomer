@@ -127,6 +127,14 @@ html {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Cafe24Shiningstar";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Shiningstar.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Niconne&display=swap");
 
 body {
@@ -144,6 +152,183 @@ body {
 
 #root {
   height: 100%;
+}
+
+.wrapper {
+  background-color: #fcfaff;
+  width: 100%;
+  height: 100%;
+}
+
+.text__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  z-index: 10;
+  left: 6vw;
+  top: 4vw;
+}
+
+#main-title {
+  font-family: "Niconne";
+  font-weight: bolder;
+  font-size: 6vw;
+  line-height: 7vw;
+
+  color: #ffffff;
+  /* color: #505050; */
+
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#sub-title {
+  font-family: "Cafe24Shiningstar";
+
+  font-size: 1.8vw;
+  letter-spacing: 5px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+  /* color: #000000; */
+}
+
+.google__wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  left: 6vw;
+  bottom: 68px;
+  z-index: 10;
+}
+
+#google-logo {
+  height: 2.5vw;
+}
+
+.search__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px 20px;
+  gap: 10px;
+  width: 13vw;
+  background: #ffffff;
+  border-radius: 50px;
+}
+
+.search__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#search-icon {
+  width: 1.2vw;
+  height: 1.2vw;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  color: #4d4d4d;
+}
+
+#search-text {
+  font-size: 1vw;
+  line-height: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #545454;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#radial1 {
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  left: -3.8vw;
+  top: -10vw;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(255, 0, 46, 0.1792) 0%,
+    rgba(255, 92, 0, 0.0616) 100%
+  );
+  filter: blur(39px);
+  z-index: 3;
+}
+
+#radial2 {
+  position: absolute;
+  width: 57vw;
+  height: 57vw;
+  left: -8.4vw;
+  top: -14.5vw;
+
+  background: radial-gradient(
+    48.18% 48.18% at 50% 50%,
+    rgba(255, 0, 61, 0.2394) 0%,
+    rgba(255, 226, 226, 0.4158) 100%
+  );
+  filter: blur(38.5px);
+  z-index: 1;
+}
+
+#radial3 {
+  position: absolute;
+  width: 42vw;
+  height: 42vw;
+  left: -8vw;
+  bottom: -15vw;
+  background: radial-gradient(
+    48.18% 48.18% at 50% 50%,
+    rgba(251, 255, 0, 0.676) 0%,
+    rgba(255, 255, 226, 0.416) 100%
+  );
+  filter: blur(39px);
+  z-index: 2;
+}
+
+#radial4 {
+  position: absolute;
+  width: 30vw;
+  height: 30vw;
+  right: -10vw;
+  top: 17vw;
+
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(0, 200, 255, 0.291) 0%,
+    rgba(0, 208, 255, 0.096) 100%
+  );
+  filter: blur(39px);
+}
+
+#qr-img {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  right: 5vw;
+  bottom: 68px;
+}
+
+@media screen and (max-width: 929px) {
+  .text__wrapper {
+    display: none;
+  }
+  .google__wrapper {
+    display: none;
+  }
+  #qr-img {
+    display: none;
+  }
 }
 
 ul {
