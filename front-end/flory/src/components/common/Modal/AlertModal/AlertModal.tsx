@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import Typography from "@mui/material/Typography"
-import Modal from "@mui/material/Modal"
-import Button from "../../Button/Button"
-import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri"
-import { IoIosWarning } from "react-icons/io"
+import React, { useState } from "react";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import Button from "../../Button/Button";
+import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri";
+import { IoIosWarning } from "react-icons/io";
 
 const style: any = {
   position: "absolute" as "absolute",
@@ -13,18 +13,39 @@ const style: any = {
   width: 370,
   bgcolor: "#ffffff",
   boxShadow: 24,
-}
+};
 
 interface AlertModalProps {
-  open: boolean
-  handleClose: () => void
-  content: string
+  open: boolean;
+  handleClose: () => void;
+  content: string;
+  action?: () => void;
 }
 
-const AlertModal = ({ open, handleClose, content }: AlertModalProps) => {
+const AlertModal = ({
+  open,
+  handleClose,
+  content,
+  action,
+}: AlertModalProps) => {
   const handleCloseModal = () => {
-    handleClose()
-  }
+    if (action) {
+      action();
+      handleClose();
+    } else {
+      handleClose();
+    }
+  };
+
+  // \n 인식시키기
+  const convertNewLineToBreak = (str: string) => {
+    return str.split("\n").map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
 
   return (
     <div>
@@ -49,7 +70,7 @@ const AlertModal = ({ open, handleClose, content }: AlertModalProps) => {
               marginBottom: "1rem",
             }}
           >
-            {content}
+            {convertNewLineToBreak(content)}
           </Typography>
           <Button
             addStyle={{
@@ -66,7 +87,7 @@ const AlertModal = ({ open, handleClose, content }: AlertModalProps) => {
         </div>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default AlertModal
+export default AlertModal;

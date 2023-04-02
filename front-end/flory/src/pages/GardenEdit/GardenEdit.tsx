@@ -54,6 +54,8 @@ const GardenEdit = () => {
     (state) => state.diaryCreate.diaryCreateData
   );
 
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+
   // 디버깅용
   // console.log(currentCreateDiaryData);
 
@@ -144,7 +146,8 @@ const GardenEdit = () => {
   useEffect(() => {}, [dispatch]);
 
   return (
-    <SMain>
+
+    <SMain gardenType={gardenType}>
       {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />}
       <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}

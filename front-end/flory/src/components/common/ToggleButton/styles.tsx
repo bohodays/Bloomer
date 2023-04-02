@@ -17,7 +17,9 @@ export const SNav = styled.nav<any>`
         ? "rgb(222, 197, 253)"
         : props.gardenType === 1
         ? "#ffe604"
-        : "rgb(253 200 167)"};
+        : props.gardenType === 2
+        ? "rgb(253 200 167)"
+        : "white"};
     border-radius: 100%;
     width: 2.5rem;
     height: 2.5rem;
