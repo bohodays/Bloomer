@@ -4,6 +4,7 @@ import com.exmaple.flory.dto.comment.CommentResponseDto;
 import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.DiaryRequestDto;
+import com.exmaple.flory.dto.diary.DiaryTeamDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
 import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.team.TeamIdListDto;
@@ -133,6 +134,8 @@ public class DiaryServiceTest {
         List<Long> info = new ArrayList<>();
         info.add(emotion.getId());
         diaryRequestDto.setGroupList(info);
+        DiaryTeamDto diaryTeamDto = DiaryTeamDto.builder()
+                .diaryId(1L).groupId(1L).build();
 
         Diary diary = diaryRequestDto.toEntity();
         diary.setGarden(garden);
@@ -145,6 +148,7 @@ public class DiaryServiceTest {
         when(emotionRepository.findById(any())).thenReturn(Optional.of(emotion));
         when(musicRepository.findByTitle(any())).thenReturn(music);
         when(teamRepository.findById(any())).thenReturn(Optional.of(team));
+        when(diaryTeamRepository.save(any())).thenReturn(diaryTeamDto.toEntity());
 
         DiaryDto result = diaryService.insertDiary(diaryRequestDto,Optional.ofNullable(null));
 
