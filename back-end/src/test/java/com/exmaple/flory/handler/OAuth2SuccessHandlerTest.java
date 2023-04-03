@@ -17,6 +17,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -29,7 +31,7 @@ public class OAuth2SuccessHandlerTest {
     @MockBean
     private TokenProvider jwtTokenProvider;
 
-    @Mock
+    @MockBean
     private MemberRepository memberRepository;
 
     @BeforeEach
@@ -55,6 +57,12 @@ public class OAuth2SuccessHandlerTest {
                 .refreshToken("refresh")
                 .build();
 
+        Member member = Member.builder()
+                .userId(1L)
+                .email(oAuthAttributes.getEmail())
+                .build();
+
+        when(memberRepository.findByEmail(any())).thenReturn(Optional.of(member));
         when(jwtTokenProvider.createTokenDto(any())).thenReturn(tokenDto);
 
         handler.onAuthenticationSuccess(request,response,oAuthAttributes);
