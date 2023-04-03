@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main<any>`
   width: 100%;
@@ -26,7 +26,7 @@ export const SMain = styled.main<any>`
     margin: 0;
     text-shadow: #805f89 5px 4px 2px;
   }
-  #sub-title {
+  #main-sub-title {
     margin: 0;
     padding: 0;
     color: #d7bede;
@@ -103,4 +103,4 @@ export const SMain = styled.main<any>`
       opacity: 0;
     }
   }
-`
+`;
