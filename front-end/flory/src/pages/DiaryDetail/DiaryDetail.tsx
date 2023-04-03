@@ -22,7 +22,7 @@ import {
 } from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
 import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
-import { convertMusicFormat } from "../../utils/utils";
+import { convertEmotionFormat, convertMusicFormat } from "../../utils/utils";
 import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
@@ -126,19 +126,21 @@ const DiaryDetail = () => {
   };
 
   const createCommentHandler = () => {
-    const commentData = {
-      content: commentInput.current?.value,
-      uid: userId,
-      did: diary.id,
-    };
-    dispatch(createCommentAction(commentData)).then(() => {
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response);
+    if (commentInput.current?.value) {
+      const commentData = {
+        content: commentInput.current?.value,
+        uid: userId,
+        did: diary.id,
+      };
+      dispatch(createCommentAction(commentData)).then(() => {
+        dispatch(getDetailDiary(diaryId)).then((data: any) => {
+          setDiary(data.payload.response);
+        });
+        if (commentInput.current) {
+          commentInput.current.value = "";
+        }
       });
-      if (commentInput.current) {
-        commentInput.current.value = "";
-      }
-    });
+    }
   };
 
   const deleteAction = async () => {
@@ -305,7 +307,9 @@ const DiaryDetail = () => {
             {diary.garden?.member.nickname}
           </h3>
           <div className="content-header">
-            <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
+            <h2>
+              {convertEmotionFormat(diary.flowerEmotion.largeCategory)} 순간
+            </h2>
             <p>
               {diary.createdTime.slice(0, 10) +
                 " " +
