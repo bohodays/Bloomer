@@ -34,6 +34,7 @@ import {
 } from "../../redux/modules/music/music-slice";
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 import { log } from "console";
+import { localData } from "../../redux/modules/user/token";
 
 let isInitial = true;
 
@@ -153,18 +154,20 @@ const Garden = () => {
         <FontAwesomeIcon icon={faQuestion} />
       </button>
       {/* 정원 편집 모드 버튼 */}
-      <button
-        onClick={() =>
-          navigate("/garden/edit", {
-            state: {
-              garden: true,
-            },
-          })
-        }
-        className="moveToEdit"
-      >
-        <FontAwesomeIcon icon={faPaintRoller} />
-      </button>
+      {locationData === null && (
+        <button
+          onClick={() =>
+            navigate("/garden/edit", {
+              state: {
+                garden: true,
+              },
+            })
+          }
+          className="moveToEdit"
+        >
+          <FontAwesomeIcon icon={faPaintRoller} />
+        </button>
+      )}
       {/* 네브바 */}
       <Navbar absolute={true} />
     </SMain>
