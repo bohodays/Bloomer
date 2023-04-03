@@ -31,6 +31,12 @@ import {
 } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
 import { getGroupInfoAction } from "../../redux/modules/group";
+import {
+  updateIsPlaying,
+  updateMusicTitle,
+  updateMusicUrl,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
 
 declare global {
   interface Window {
@@ -39,6 +45,7 @@ declare global {
 }
 
 const DiaryCreate = () => {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -80,6 +87,11 @@ const DiaryCreate = () => {
     );
   }
 
+  // dispatch(updateMusicTitle(""));
+  // dispatch(updateMusicUrl(""));
+  // dispatch(updateIsPlaying(false));
+
+  dispatch(updateShowMusic(false));
   // 현재 위치 반환
   const getGeo = () => {
     if (isGeolocation) {
@@ -157,7 +169,6 @@ const DiaryCreate = () => {
   });
 
   // 다이어리 생성
-  const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   let gardenType = useAppSelector((state) => state.garden.gardenData.type);

@@ -48,6 +48,7 @@ export const getUserDataToTokenAction = createAsyncThunk(
       await dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
+      localData.clear();
       return rejectWithValue(e);
     }
   }
