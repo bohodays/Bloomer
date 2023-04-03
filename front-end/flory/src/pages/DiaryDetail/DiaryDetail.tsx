@@ -347,7 +347,7 @@ const DiaryDetail = () => {
       </SMain>
       <div>
         <AlertModal
-          page="diary"
+          additionBtn={true}
           open={open}
           handleClose={handleClose}
           action={deleteDiary}

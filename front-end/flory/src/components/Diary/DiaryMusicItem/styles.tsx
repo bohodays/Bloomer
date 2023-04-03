@@ -8,6 +8,8 @@ export const SMusicWrapper = styled.div<any>`
   justify-content: space-between;
   align-items: center;
   transition: all linear 300ms;
+  /* border-bottom: 2px solid white; */
+  /* margin-bottom: 10px; */
 
   /* 오디오 숨기기 */
   audio {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SMain = styled.main`
+export const SMain = styled.main<any>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,9 @@ export const SMain = styled.main`
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
+    & > span {
+      font-size: 0.8rem;
+    }
     & > p {
       font-size: 0.8rem;
     }
@@ -45,6 +48,12 @@ export const SMain = styled.main`
 
   .info__title {
     user-select: none;
+  }
+
+  .extract-emotion {
+    font-size: 1rem !important;
+    font-weight: bold;
+    color: ${(props) => props.emoColor};
   }
 
   .emotion {

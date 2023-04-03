@@ -29,7 +29,7 @@ export const SMain = styled.div`
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25), 0px 2px 8px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
     padding: 1rem 0.8rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .bottom__wrapper {
