@@ -3,7 +3,12 @@ import styled from "styled-components";
 export const SDiv = styled.div`
   display: flex;
   align-items: center;
-  .wrapper {
+  .comment__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .icon__wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
