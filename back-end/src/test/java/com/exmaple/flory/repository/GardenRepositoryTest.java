@@ -118,4 +118,73 @@ public class GardenRepositoryTest {
 
         assertThat(result.size()).isEqualTo(3);
     }
+
+    @DisplayName("날짜로 정원가져오기 테스트")
+    @Test
+    public void findByDateTest() {
+
+        Member member = Member
+                .builder()
+                .email("cksgnlcjswoo@naver.ocm")
+                .password("1234")
+                .nickname("abcd")
+                .build();
+
+        Garden garden = Garden.builder()
+                .member(member)
+                .type(1)
+                .build();
+
+        Member res = memberRepository.save(member);
+        gardenRepository.save(garden);
+
+        LocalDateTime today = LocalDateTime.now();
+        int month = today.getMonthValue();
+        int year = today.getYear();
+
+        Optional<Garden> result = gardenRepository.findByDate(res.getUserId()
+                ,year
+                ,month);
+
+        Garden ret = result.get();
+
+        assertThat(ret).isNotNull();
+        assertThat(ret.getType()).isEqualTo(garden.getType());
+    }
+
+    @DisplayName("유저가 만든 정원 시간 오름차순")
+    @Test
+    public void findAllByUserIdTest() {
+
+        Member member = Member
+                .builder()
+                .email("cksgnlcjswoo@naver.ocm")
+                .password("1234")
+                .nickname("abcd")
+                .build();
+
+        Garden garden1 = Garden.builder()
+                .member(member)
+                .type(1)
+                .build();
+
+        Garden garden2 = Garden.builder()
+                .member(member)
+                .type(1)
+                .build();
+
+        Garden garden3 = Garden.builder()
+                .member(member)
+                .type(1)
+                .build();
+
+        Member res = memberRepository.save(member);
+        gardenRepository.save(garden1);
+        gardenRepository.save(garden2);
+        gardenRepository.save(garden3);
+
+        List<Garden> result = gardenRepository.findAllByUserId(res.getUserId());
+
+        assertThat(result.size()).isEqualTo(3);
+    }
 }
