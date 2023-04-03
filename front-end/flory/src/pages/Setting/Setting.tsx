@@ -21,6 +21,9 @@ const Setting = () => {
 
   // 모달 상태 관리
   const [open, setOpen] = React.useState(false);
+  const [content, setContent] = React.useState(
+    "회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
+  );
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -37,12 +40,6 @@ const Setting = () => {
     handleOpen();
   };
 
-  const handleUserDelete = () => {
-    dispatch(userDeleteAction(userEmail)).then(() => {
-      navigate("/login");
-    });
-  };
-
   const contents = (
     <div>
       <ul>
@@ -55,36 +52,43 @@ const Setting = () => {
 
   const info = (
     <div>
-      <div 
+      <div
         className="contents"
-        onClick={()=>{
+        onClick={() => {
           navigate(`/conditionInfo`);
         }}
       >
-        서비스 이용 약관</div>
-      <div
-        className="contents"
-      >
-        이용 문의
+        서비스 이용 약관
       </div>
+      <div className="contents">이용 문의</div>
     </div>
-  )
+  );
 
   const handleUserDelete = () => {
     dispatch(userDeleteAction(userEmail)).then(() => {
+      localData.clear();
       navigate("/");
     });
   };
 
   const accountInfo = (
     <div>
-      <div className="contents" onClick={()=>{
+      <div
+        className="contents"
+        onClick={() => {
           navigate(`/findpassword`);
-        }}>비밀번호 변경</div>
-      <div className="contents" onClick={handleLogout}>로그아웃</div>
-      <div className="contents" onClick={handleOpenModal}>회원탈퇴</div>
+        }}
+      >
+        비밀번호 변경
+      </div>
+      <div className="contents" onClick={handleLogout}>
+        로그아웃
+      </div>
+      <div className="contents" onClick={handleOpenModal}>
+        회원탈퇴
+      </div>
     </div>
-  )
+  );
 
   return (
     <SMain>
@@ -105,7 +109,7 @@ const Setting = () => {
         <AlertModal
           open={open}
           handleClose={handleClose}
-          content="회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
+          content={content}
           action={handleUserDelete}
           additionBtn={true}
         />
