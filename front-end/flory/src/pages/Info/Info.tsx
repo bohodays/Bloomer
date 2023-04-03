@@ -176,6 +176,8 @@ const Info = () => {
     // 뒤로가기
     if (from === "signup") {
       navigate("/login");
+    } else if (from === "oauth") {
+      navigate("/gardenTheme");
     } else {
       navigate("/garden");
     }
@@ -472,12 +474,20 @@ const Info = () => {
             방명록을 클릭해서 다른 사람의 정원에 방문한 후기를 남겨보세요.
           </p>
         </div>
-        {from === "signup" && (
+        {from === "signup" ? (
           <div ref={startButton} className="btn__wrapper">
             <button className="btn" onClick={() => navigate("/login")}>
               시작하기
             </button>
           </div>
+        ) : from === "oauth" ? (
+          <div ref={startButton} className="btn__wrapper">
+            <button className="btn" onClick={() => navigate("/gardenTheme")}>
+              시작하기
+            </button>
+          </div>
+        ) : (
+          ""
         )}
       </section>
 
