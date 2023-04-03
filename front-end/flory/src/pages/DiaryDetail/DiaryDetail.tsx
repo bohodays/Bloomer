@@ -36,6 +36,7 @@ import {
   updateMusicTitle,
   updateMusicUrl,
 } from "../../redux/modules/music/music-slice";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 let isInitial = true;
 const DiaryDetail = () => {
@@ -83,6 +84,14 @@ const DiaryDetail = () => {
   const [group, setGroup] = useState<any>(null);
   const [selectedValue, setSelectedValue] = React.useState("a");
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   let isSelf = false;
   if (diary !== initialDiary) {
     if (diary.garden?.member.userId === userId) {
@@ -129,7 +138,10 @@ const DiaryDetail = () => {
   };
 
   const deleteAction = async () => {
-    alert(`해당 일기를 삭제하시겠습니까?`);
+    handleOpen();
+  };
+
+  const deleteDiary = async () => {
     await dispatch(deleteDiaryAction(diaryId));
     navigate("/garden");
   };
@@ -222,116 +234,127 @@ const DiaryDetail = () => {
   }, []);
 
   return (
-    <SMain>
-      {/* 헤더 영역 */}
+    <>
+      <SMain>
+        {/* 헤더 영역 */}
 
-      <div className="header_back">
-        <div className="music_tag">
-          <FontAwesomeIcon icon={faMusic} />
-          <p>{convertMusicFormat(diary.musicTitle)}</p>
+        <div className="header_back">
+          <div className="music_tag">
+            <FontAwesomeIcon icon={faMusic} />
+            <p>{convertMusicFormat(diary.musicTitle)}</p>
+          </div>
+          <div className="header-circle"></div>
+          <Lottie
+            style={{ position: "absolute", zIndex: -3 }}
+            options={defaultOptions}
+            height={200}
+            width="100%"
+          />
         </div>
-        <div className="header-circle"></div>
-        <Lottie
-          style={{ position: "absolute", zIndex: -3 }}
-          options={defaultOptions}
-          height={200}
-          width="100%"
-        />
-      </div>
-      <DiaryFlower flower={diary.flowerEmotion} />
-      <div className="header"></div>
-      {/* 뒤로 가기 아이콘 */}
-      <BackButton color="white" onClickAction={handleGoBack} />
-      {/* 음악 아이콘 */}
-      <DiaryMusicButton musicUrl={musicUrl} />
+        <DiaryFlower flower={diary.flowerEmotion} />
+        <div className="header"></div>
+        {/* 뒤로 가기 아이콘 */}
+        <BackButton color="white" onClickAction={handleGoBack} />
+        {/* 음악 아이콘 */}
+        <DiaryMusicButton musicUrl={musicUrl} />
 
-      <div className="content-box">
-        {isSelf && diary && (
-          <div
-            className="setting"
-            style={{
-              marginLeft: "auto",
-              width: "34px",
-              position: "absolute",
-              top: "235px",
+        <div className="content-box">
+          {isSelf && diary && (
+            <div
+              className="setting"
+              style={{
+                marginLeft: "auto",
+                width: "34px",
+                position: "absolute",
+                top: "235px",
+              }}
+            >
+              <SettingPopover
+                color="black"
+                deleteAction={deleteAction}
+                editAction={editAction}
+                group={group}
+                groupSetting={groupSetting}
+                setGroupSetting={setGroupSetting}
+                selectedGroupIds={selectedGroupIds}
+                setSelectedGroupIds={setSelectedGroupIds}
+                diary={diary}
+              />
+            </div>
+          )}
+          <div className="flower-title">
+            {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
+          </div>
+          {/* 본인 글일 때 수정 삭제 하는 부분 */}
+
+          {/* 다이어리 내용 영역 */}
+          <h3
+            className="nickname__active"
+            onClick={() => {
+              !isSelf && navigate(`/garden/${diary.garden?.member.userId}`);
             }}
           >
-            <SettingPopover
-              color="black"
-              deleteAction={deleteAction}
-              editAction={editAction}
-              group={group}
-              groupSetting={groupSetting}
-              setGroupSetting={setGroupSetting}
-              selectedGroupIds={selectedGroupIds}
-              setSelectedGroupIds={setSelectedGroupIds}
-              diary={diary}
-            />
+            {diary.garden?.member.nickname}
+          </h3>
+          <div className="content-header">
+            <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
+            <p>
+              {diary.createdTime.slice(0, 10) +
+                " " +
+                diary.createdTime.slice(11, 16)}
+            </p>
           </div>
-        )}
-        <div className="flower-title">
-          {diary.flowerEmotion.flowerName} - {diary.flowerEmotion.language}
-        </div>
-        {/* 본인 글일 때 수정 삭제 하는 부분 */}
-
-        {/* 다이어리 내용 영역 */}
-        <h3
-          className="nickname__active"
-          onClick={() => {
-            !isSelf && navigate(`/garden/${diary.garden?.member.userId}`);
-          }}
-        >
-          {diary.garden?.member.nickname}
-        </h3>
-        <div className="content-header">
-          <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
-          <p>
-            {diary.createdTime.slice(0, 10) +
-              " " +
-              diary.createdTime.slice(11, 16)}
-          </p>
-        </div>
-        {imgSrc && (
-          <img className="diary-img" src={imgSrc} alt="img-loading,," />
-        )}
-        <div className="content-diary">
-          {convertNewLineToBreak(diary.content)}
-        </div>
-
-        {/* 지도 영역 */}
-        <div className="location-tag" onClick={onClickLocation}>
-          <FontAwesomeIcon icon={faLocationDot} />
-          <p>{diary.address}</p>
-        </div>
-        {mapView && (
-          <div style={{ marginBottom: "15px" }}>
-            <StaticMap
-              lng={diary.lng}
-              lat={diary.lat}
-              fid={diary.flowerEmotion.fid}
-            />
+          {imgSrc && (
+            <img className="diary-img" src={imgSrc} alt="img-loading,," />
+          )}
+          <div className="content-diary">
+            {convertNewLineToBreak(diary.content)}
           </div>
-        )}
 
-        {/* 덧글 영역 */}
-        <CommentInput
-          contentInput={commentInput}
-          placeholder="덧글을 입력해주세요"
-          createCommentHandler={createCommentHandler}
-        />
-        {diary.commentList &&
-          diary.commentList.map((comment: any, idx: number) => {
-            return (
-              <DiaryComment
-                comment={comment}
-                key={idx}
-                updateDiary={updateDiary}
+          {/* 지도 영역 */}
+          <div className="location-tag" onClick={onClickLocation}>
+            <FontAwesomeIcon icon={faLocationDot} />
+            <p>{diary.address}</p>
+          </div>
+          {mapView && (
+            <div style={{ marginBottom: "15px" }}>
+              <StaticMap
+                lng={diary.lng}
+                lat={diary.lat}
+                fid={diary.flowerEmotion.fid}
               />
-            );
-          })}
+            </div>
+          )}
+
+          {/* 덧글 영역 */}
+          <CommentInput
+            contentInput={commentInput}
+            placeholder="덧글을 입력해주세요"
+            createCommentHandler={createCommentHandler}
+          />
+          {diary.commentList &&
+            diary.commentList.map((comment: any, idx: number) => {
+              return (
+                <DiaryComment
+                  comment={comment}
+                  key={idx}
+                  updateDiary={updateDiary}
+                />
+              );
+            })}
+        </div>
+        <Navbar />
+      </SMain>
+      <div>
+        <AlertModal
+          page="diary"
+          open={open}
+          handleClose={handleClose}
+          action={deleteDiary}
+          content="해당 일기를 삭제하시겠습니까?"
+        />
       </div>
-      <Navbar />
-    </SMain>
+    </>
   );
 };
 export default DiaryDetail;
