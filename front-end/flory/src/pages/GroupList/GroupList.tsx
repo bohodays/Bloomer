@@ -28,7 +28,7 @@ const GroupList = () => {
   return (
     <SMain>
       <BackButton color="black" />
-      <div className="search__wrapper">
+      <div className="search__wrappers">
         <GroupSearchInput setUnJoinGroups={setUnJoinGroups} />
       </div>
       <div className="grouplist__wrapper">
