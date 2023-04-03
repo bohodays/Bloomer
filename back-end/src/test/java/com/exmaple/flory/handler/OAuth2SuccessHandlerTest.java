@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
@@ -34,9 +35,12 @@ public class OAuth2SuccessHandlerTest {
     @MockBean
     private MemberRepository memberRepository;
 
+    @MockBean
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
+
     @BeforeEach
     void setUp() {
-        handler = new Oauth2SuccessHandler(jwtTokenProvider, memberRepository);
+        handler = new Oauth2SuccessHandler(jwtTokenProvider, memberRepository, authenticationManagerBuilder);
     }
 
     @DisplayName("소셜로그인 성공 후 리다이렉션 테스트")
