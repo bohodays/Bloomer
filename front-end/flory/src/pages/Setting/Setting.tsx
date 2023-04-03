@@ -21,9 +21,6 @@ const Setting = () => {
 
   // 모달 상태 관리
   const [open, setOpen] = React.useState(false);
-  const [errorInfo, setErrorInfo] = useState(
-    "회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
-  );
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -88,8 +85,9 @@ const Setting = () => {
         <AlertModal
           open={open}
           handleClose={handleClose}
-          content={errorInfo}
+          content="회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
           action={handleUserDelete}
+          additionBtn={true}
         />
       </div>
     </SMain>
