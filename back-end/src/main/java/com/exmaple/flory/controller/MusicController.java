@@ -1,7 +1,5 @@
 package com.exmaple.flory.controller;
 
-import com.exmaple.flory.dto.diary.DiaryDto;
-import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
 import com.exmaple.flory.response.SuccessResponse;
@@ -30,7 +28,6 @@ public class MusicController {
         try{
             return new ResponseEntity<>(new SuccessResponse(musicService.recommendMusic(emotion,user_id)), HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INVALID_EMOTION), HttpStatus.NOT_FOUND);
         }
     }
