@@ -10,6 +10,8 @@ import {
   getMusicInfoAction,
 } from "../../redux/modules/diaryCreate";
 import { musicUrlsDataSave } from "../../redux/modules/diaryCreate/diaryCreate-slice";
+import Lottie from "react-lottie";
+import animationData from "../../assets/imgs/lotties/music_vibe.json";
 
 const DiaryMusicSelect = () => {
   const dispatch = useAppDispatch();
@@ -169,10 +171,32 @@ const DiaryMusicSelect = () => {
     }
   };
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <SMain>
       <div className="info__wrapper">
         <p>일기의 배경음악을 선택해주세요.</p>
+        <Lottie
+          style={{
+            position: "absolute",
+            top: "1rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+          options={defaultOptions}
+          height={200}
+          width="150%"
+          isPaused={false}
+          isStopped={false}
+        />
       </div>
       {storeMusicData.length > 0 &&
         storeMusicUrls.length > 0 &&
