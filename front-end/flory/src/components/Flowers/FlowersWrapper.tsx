@@ -29,27 +29,57 @@ import F22 from "./F22"; // 찔레꽃
 import F23 from "./F23"; // 노란 카네이션
 import F24 from "./F24"; // 층꽃나무
 import F25 from "./F25"; // 제라늄
+import { log } from "console";
 
 const FlowersWrapper = () => {
   const diary = useAppSelector((state) => state.diary);
+  const group = useAppSelector((state) => state.group);
   const [currentDiary, setCurrentDiary] = useState<any>([]);
+  const [currentGroupList, setCurrentGroupList] = useState<any>([]);
+  const userId = useAppSelector((state) => state.user.userData.userId);
   console.log("보여줘야 하는 일기", diary);
 
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  const handleMoveToDetail = (diaryId: number, item?: any) => {
-    navigate(`/diary/${diaryId}`, {
-      state: {
-        page: "/garden",
-      },
-    });
+  const checkIsView = (status: string) => {
+    switch (status) {
+      case "비공개":
+        return false;
+      case "그룹공개":
+        currentGroupList.forEach((teamList: any) => {
+          teamList.userTeamList.forEach((team: any) => {
+            console.log("비교", userId, team.userId, userId === team.userId);
+
+            if (userId === team.userId) {
+              return true;
+            }
+          });
+        });
+        return false;
+      default:
+        return true;
+    }
+  };
+
+  const handleMoveToDetail = (diaryId: number, status: string) => {
+    const isView = checkIsView(status);
+    console.log("최종 결과", isView);
+
+    if (isView) {
+      navigate(`/diary/${diaryId}`, {
+        state: {
+          page: "/garden",
+        },
+      });
+    }
   };
 
   useEffect(() => {
     setCurrentDiary(diary.diaryData);
-  }, [diary]);
+    setCurrentGroupList(group.userGroupList);
+  }, [diary, group]);
 
   return (
     <>
@@ -64,7 +94,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -76,7 +106,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -88,7 +118,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -100,7 +130,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -112,7 +142,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -124,7 +154,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -136,7 +166,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -148,7 +178,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -160,7 +190,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -172,7 +202,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -184,7 +214,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -196,7 +226,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -208,7 +238,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -220,7 +250,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -232,7 +262,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -244,7 +274,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -256,7 +286,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -268,7 +298,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -280,7 +310,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -292,7 +322,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -304,7 +334,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -316,7 +346,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -328,7 +358,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -340,7 +370,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
@@ -352,7 +382,7 @@ const FlowersWrapper = () => {
                   flowerPosition={{ x: +item.x, z: +item.z, y: +item.y }}
                   onClick={() => {
                     if (!location.pathname.includes("garden/edit")) {
-                      handleMoveToDetail(item.id, item);
+                      handleMoveToDetail(item.id, item.publicStatus);
                     }
                   }}
                 />
