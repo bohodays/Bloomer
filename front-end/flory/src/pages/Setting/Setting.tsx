@@ -6,7 +6,7 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Accordion from "../../components/common/Accordion/Accordion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logoutAction, userDeleteAction } from "../../redux/modules/user";
 import { localData } from "../../redux/modules/user/token";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
@@ -29,11 +29,22 @@ const Setting = () => {
 
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
-    dispatch(logoutAction(accessToken)).then(() => {
-      dispatch(resetUser());
-      localData.clear();
-    });
-    navigate("/");
+    dispatch(logoutAction(accessToken))
+      .then(() => {
+        dispatch(resetUser());
+        localData.clear();
+      })
+      .then(() => {
+        navigate("/login", {
+          state: {
+            isReload: true,
+          },
+        });
+      });
+    // .then(() => {
+    // window.location.reload();
+    // navigate("/");
+    // });
   };
 
   const handleOpenModal = () => {

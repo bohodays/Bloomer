@@ -107,11 +107,12 @@ const DiaryDetail = () => {
 
   const handleGoBack = () => {
     // 뒤로가기
-    if (backpage) {
-      navigate(backpage);
-    } else {
-      navigate(-1);
-    }
+    navigate(-1);
+    // if (backpage) {
+    //   navigate(backpage);
+    // } else {
+    //   navigate(-1);
+    // }
   };
 
   const defaultOptions = {
@@ -256,14 +257,13 @@ const DiaryDetail = () => {
             height={200}
             width="100%"
           />
-
-      </div>
-      <DiaryFlower flower={diary.flowerEmotion} />
-      <div className="header"></div>
-      {/* 뒤로 가기 아이콘 */}
-      <BackButton color="white" onClickAction={handleGoBack} />
-      {/* 음악 아이콘 */}
-      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
+        </div>
+        <DiaryFlower flower={diary.flowerEmotion} />
+        <div className="header"></div>
+        {/* 뒤로 가기 아이콘 */}
+        <BackButton color="white" onClickAction={handleGoBack} />
+        {/* 음악 아이콘 */}
+        {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
 
         <div className="content-box">
           {isSelf && diary && (
