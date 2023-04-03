@@ -56,7 +56,7 @@ const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
                   {props.diary.garden?.member.nickname}
                 </p>
               )}
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <div>
                   {isPrivate && (
                     <SIcon icon={faLock} style={{ marginRight: "5px" }} />
