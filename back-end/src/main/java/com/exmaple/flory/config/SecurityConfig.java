@@ -5,10 +5,12 @@ import com.exmaple.flory.exception.JwtAuthenticationEntryPoint;
 import com.exmaple.flory.handler.Oauth2SuccessHandler;
 import com.exmaple.flory.jwt.JwtSecurityConfig;
 import com.exmaple.flory.jwt.TokenProvider;
+import com.exmaple.flory.repository.MemberRepository;
 import com.exmaple.flory.service.CustomOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -28,13 +30,12 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; // 유효한 자격 증명을 제공하지 않고 접근하려고 할때 401
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler; // 필요한 권한이 존재하지 않은 경우 403 에러
-    private final CustomOauth2UserService customOauth2UserService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    private final MemberRepository memberRepository;
 
     // h2-console
     @Bean
@@ -45,6 +46,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CustomOauth2UserService customOauth2UserService = new CustomOauth2UserService(memberRepository,passwordEncoder());
 
         http
                 .csrf().disable() // CSRF 설정 Disable (토큰을 사용하기 때문에)

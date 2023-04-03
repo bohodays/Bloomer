@@ -5,6 +5,8 @@ import com.exmaple.flory.entity.Authority;
 import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -14,12 +16,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public CustomOauth2UserService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+        this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -50,7 +57,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
                     .builder()
                     .email(attributes.getEmail())
                             .nickname("temp")
-                            .password("1234")
+                            .password(passwordEncoder.encode("1234"))
                             .img("1")
                     .authority(Authority.ROLE_USER)
                     .build());
