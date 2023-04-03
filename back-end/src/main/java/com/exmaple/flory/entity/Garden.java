@@ -5,9 +5,13 @@ import com.exmaple.flory.dto.garden.GardenInsertResponseDto;
 import com.exmaple.flory.dto.garden.GardenResponseDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -16,7 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "garden")
-@ToString
 @Entity
 public class Garden extends BaseTime {
 
@@ -29,6 +32,7 @@ public class Garden extends BaseTime {
     private LocalDateTime deadLine;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="uid")
     private Member member;
 
@@ -41,6 +45,10 @@ public class Garden extends BaseTime {
 
     @Column(name = "type")
     private int type;
+
+    //�ܷ�Ű ����
+    @OneToMany(mappedBy = "garden", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Diary> diaryList = new ArrayList<>();
 
     public GardenResponseDto toResponseDto() {
         GardenResponseDto res = GardenResponseDto
