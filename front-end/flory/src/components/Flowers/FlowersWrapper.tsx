@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { JsxElement } from "typescript";
 import { positionUpdate } from "../../redux/modules/diary/diary-slice";
@@ -31,7 +31,8 @@ import F24 from "./F24"; // 층꽃나무
 import F25 from "./F25"; // 제라늄
 
 const FlowersWrapper = () => {
-  const diary = useAppSelector((state) => state.diary.diaryData);
+  const diary = useAppSelector((state) => state.diary);
+  const [currentDiary, setCurrentDiary] = useState<any>([]);
   console.log("보여줘야 하는 일기", diary);
 
   const navigate = useNavigate();
@@ -46,12 +47,16 @@ const FlowersWrapper = () => {
     });
   };
 
+  useEffect(() => {
+    setCurrentDiary(diary.diaryData);
+  }, [diary]);
+
   return (
     <>
       <Suspense fallback={null}>
         {/* 작성 완료된 일기들의 꽃 */}
-        {diary.length &&
-          diary.map((item: any) => {
+        {currentDiary.length &&
+          currentDiary.map((item: any) => {
             if (item.flowerEmotion.flowerName === "크로커스") {
               return (
                 <F01

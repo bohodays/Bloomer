@@ -146,7 +146,7 @@ export const getDiaryListAction = createAsyncThunk(
           },
         }
       );
-      console.log("현재 일기 목록", data.response);
+      console.log("현재 일기 목록", data);
       const latestMusicTitle =
         data.response[data.response.length - 1].musicTitle;
 
