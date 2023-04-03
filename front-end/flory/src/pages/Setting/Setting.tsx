@@ -6,7 +6,7 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Accordion from "../../components/common/Accordion/Accordion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logoutAction, userDeleteAction } from "../../redux/modules/user";
 import { localData } from "../../redux/modules/user/token";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
@@ -27,13 +27,21 @@ const Setting = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // 로그아웃
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
     dispatch(logoutAction(accessToken)).then(() => {
       dispatch(resetUser());
       localData.clear();
     });
-    navigate("/");
+  };
+
+  // 회원탈퇴
+  const handleUserDelete = () => {
+    dispatch(userDeleteAction(userEmail)).then(() => {
+      dispatch(resetUser());
+      localData.clear();
+    });
   };
 
   const handleOpenModal = () => {
@@ -63,13 +71,6 @@ const Setting = () => {
       <div className="contents">이용 문의</div>
     </div>
   );
-
-  const handleUserDelete = () => {
-    dispatch(userDeleteAction(userEmail)).then(() => {
-      localData.clear();
-      navigate("/");
-    });
-  };
 
   const accountInfo = (
     <div>
