@@ -65,15 +65,10 @@ public class DiaryService {
     @Transactional
     public DiaryDto insertDiary(DiaryRequestDto diaryRequestDto, Optional<MultipartFile> multipartFile) throws IOException {
         Diary diary = diaryRequestDto.toEntity();
-        log.info("Diary: {}",diaryRequestDto);
 
         Optional<Garden> garden = gardenRepository.findById(diaryRequestDto.getGid());
         Optional<Flower> flower = flowerRepository.findById(diaryRequestDto.getFid());
         Optional<Music> music = Optional.ofNullable(musicRepository.findByTitle(diaryRequestDto.getMusicTitle()));
-
-        log.info("Garden: {}",garden.get());
-        log.info("Flower: {}",flower.get());
-        log.info("Music: {}",music.get());
 
         if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
         if(flower.isEmpty()) throw new CustomException(ErrorCode.NO_FLOWER);
@@ -169,15 +164,12 @@ public class DiaryService {
         if(music.isEmpty()) throw new CustomException(ErrorCode.NO_MUSIC);
 
         Diary diary = dir.get();
-        log.info("Diary: {}",diary);
 
         setUpdateDiary(diaryDto,diary);
 
         diary.setGarden(garden.get());
         diary.setFlower(flower.get());
         diary.setMusic(music.get());
-
-        log.info("Update Diary: {}",diary);
 
         if(diary.getPublicStatus().equals("그룹공개")){
             diaryTeamRepository.deleteByDid(diaryDto.getId());
@@ -195,7 +187,6 @@ public class DiaryService {
 
         DiaryDto result = diaryRepository.save(diary).toDto();
         log.info("update: {}",result);
-        log.info("createTime: {}",dir.get());
 
         result.setCreatedTime(dir.get().getCreatedTime());
         result.setCommentList(getCommentList(result));
@@ -211,18 +202,14 @@ public class DiaryService {
         List<Diary> diaryList;
         if(garden.isEmpty()) throw new CustomException(ErrorCode.INVALID_GARDEN);
 
-        log.info("생성자:{}, 요청:{}",garden.get().getMember().getUserId(),requestId);
-
         if(garden.get().getMember().getUserId().equals(requestId)){ //정원 생성자와 요청한 사람이 동일하다면
             diaryList = diaryRepository.findByGardenId(gardenId);//공개여부와 상관없이 정원의 모든 일기 목록 가져오기
         }
         else{ //정원 생성자와 요청한 사람이 다르다면
             diaryList = diaryRepository.findPublicByGardenId(gardenId);//먼저 전체공개로 설정한 일기 목록을 가져온다
             List<Diary> diaries = diaryRepository.findTeamByGardenId(gardenId);//그룹공개로 설정한 일기 목록을 우선 가져온다
-            log.info("diaries: {}",diaries);
 
             for(int i=0;i<diaries.size();i++){
-                log.info("result: {}",isInTeam(diaries.get(i).getId(),requestId));
                 if(isInTeam(diaries.get(i).getId(),requestId)){ //요청한 사람이 그룹 내에 있는 사람이라면
                     diaryList.add(diaries.get(i));
                 }
@@ -276,7 +263,6 @@ public class DiaryService {
         List<DiaryDto> result= new ArrayList<>();
 
         for(Diary diary: diaryList){
-            log.info("{}",diary);
             if(diary.getGarden().getMember().getUserId().equals(requestId)){
                 DiaryDto diaryDto = diary.toDto();
 
@@ -407,9 +393,7 @@ public class DiaryService {
         List<DiaryDto> result = new ArrayList<>();
 
         for(DiaryDto diaryDto: diaries){
-            log.info("DiaryDto: {}",diaryDto);
             Diary diary = diaryDto.toEntity();
-            log.info("diary: {}",diary);
 
             Optional<Garden> garden = gardenRepository.findById(diaryDto.getGarden().getId());
             Optional<Emotion> emotion = emotionRepository.findById(diaryDto.getFlowerEmotion().getEid());
@@ -426,8 +410,6 @@ public class DiaryService {
             diary.setGarden(garden.get());
             diary.setMusic(music.get());
             diary.setFlower(flower);
-
-            log.info("Set diary: {}",diary);
 
             DiaryDto diaryDto1 = diaryRepository.save(diary).toDto();
 
@@ -462,9 +444,7 @@ public class DiaryService {
     public List<DiaryDto> getDiaryListInTeam(TeamIdListDto teamIdListDto){
        List<DiaryDto> result = new ArrayList<>();
        List<Long> idList = teamIdListDto.getTeamIdList();
-       log.info("idList: {}",idList);
        Set<Long> userIdSet = new LinkedHashSet<>();
-       List<TeamDto> teamDtoList = new ArrayList<>();
 
        for(Long id: idList){
             Optional<Team> team = teamRepository.findById(id);
@@ -476,8 +456,6 @@ public class DiaryService {
             for(MemberResponseDto member: teamDto.getUserTeamList()){
                 userIdSet.add(member.getUserId());
             }
-
-            log.info("User id set: {}",userIdSet);
        }
 
         for(Long uid: userIdSet){
@@ -553,13 +531,9 @@ public class DiaryService {
             percents.add(Double.parseDouble(str));
         }
 
-        log.info("Emotion Analysis Data: {}",percents);
-
         for(int i=0;i<percents.size();i++){
             EmotionDataDto emoData = EmotionDataDto.builder()
                     .largeCategory(emotions[i]).analysis(100*percents.get(i)).build();
-
-            log.info("Emotion Data: {}",emoData);
 
             emotionData.add(emoData);
         }
@@ -615,13 +589,11 @@ public class DiaryService {
 
         for(Diary diary: diaries_thisWeek){
             Flower flower = diary.getFlower();
-
             count_thisWeek[flower.getEmotion().getId().intValue()-1]++;
         }
 
         for(Diary diary: diaries_lastWeek){
             Flower flower = diary.getFlower();
-
             count_lastWeek[flower.getEmotion().getId().intValue()-1]++;
         }
 
@@ -647,7 +619,6 @@ public class DiaryService {
 
         for(Diary diary: diaries){
             Flower flower = diary.getFlower();
-
             count[flower.getEmotion().getId().intValue()-1]++;
         }
 
@@ -655,14 +626,12 @@ public class DiaryService {
             result.put(emotions[i],count[i]);
         }
 
-        log.info("result: {}",result);
         return result;
     }
 
 
     public boolean isInTeam(Long diaryId, Long memberId){
         List<Long> groupList = diaryTeamRepository.getGroup(diaryId);
-        log.info("groupList: {}",groupList);
         Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) return false;
 
@@ -727,6 +696,5 @@ public class DiaryService {
         diary.setLng(diaryRequestDto.getLng());
         diary.setContent(diaryRequestDto.getContent());
         diary.setAddress(diaryRequestDto.getAddress());
-
     }
 }

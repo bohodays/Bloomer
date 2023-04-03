@@ -27,8 +27,4 @@ public class DiaryTeam {
     @Column(name = "tid")
     private Long groupId;
 
-//    public DiaryTeamDto toDto(){
-//        return DiaryTeamDto.builder()
-//                .id(id).diaryId(diaryId).groupId(groupId).build();
-//    }
 }

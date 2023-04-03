@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "garden")
-@ToString
 @Entity
 public class Garden extends BaseTime {
 
@@ -47,7 +46,7 @@ public class Garden extends BaseTime {
     @Column(name = "type")
     private int type;
 
-    //¿Ü·¡Å° ÂüÁ¶
+    //ï¿½Ü·ï¿½Å° ï¿½ï¿½ï¿½ï¿½
     @OneToMany(mappedBy = "garden", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Diary> diaryList = new ArrayList<>();
 

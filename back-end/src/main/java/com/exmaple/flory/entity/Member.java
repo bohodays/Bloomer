@@ -3,7 +3,6 @@ package com.exmaple.flory.entity;
 import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,8 +47,8 @@ public class Member extends BaseTime {
     @Column(name="reggae")
     private Boolean reggae;
 
-    @Column(name="RnB")
-    private Boolean RnB;
+    @Column(name="rnb")
+    private Boolean rnb;
 
     @Column(name="electronic")
     private Boolean electronic;
@@ -57,7 +56,7 @@ public class Member extends BaseTime {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    //¿Ü·¡Å° ÂüÁ¶
+    //ì™¸ëž˜í‚¤ ì°¸ì¡°
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Garden> gardenList = new ArrayList<>();
 
@@ -86,7 +85,7 @@ public class Member extends BaseTime {
         this.classic = memberMusicUpdateDto.getClassic();
         this.jazz = memberMusicUpdateDto.getJazz();
         this.reggae = memberMusicUpdateDto.getReggae();
-        this.RnB = memberMusicUpdateDto.getRnb();
+        this.rnb = memberMusicUpdateDto.getRnb();
         this.electronic = memberMusicUpdateDto.getElectronic();
     }
 
