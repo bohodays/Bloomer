@@ -1,7 +1,6 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.member.*;
-import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
@@ -52,7 +51,6 @@ public class AuthController {
         } catch(CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         } catch (Exception e){
-            log.info(e.getMessage());
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

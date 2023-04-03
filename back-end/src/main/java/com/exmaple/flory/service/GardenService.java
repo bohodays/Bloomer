@@ -63,8 +63,6 @@ public class GardenService {
         //마감날짜세팅
         garden.setDeadLine(deadLine);
         garden.setType(gardenRequestDto.getType());
-        garden.setType(gardenRequestDto.getType());
-        Garden res = gardenRepository.save(garden);
 
         gardenRepository.save(garden);
         return garden.toInsertResponseDto();

@@ -67,9 +67,8 @@ public class SecurityConfig {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/user","/api/user/social","/api/user/login","/api/user/access","/api/user/check-email/{email}","/oauth2-redirect").permitAll()
+                .antMatchers("/api/user","/api/user/social","/api/user/login","/api/user/access","/api/user/check-email/{email}","/oauth2-redirect","/signup/music").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
-
                 // JwtFilter를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))

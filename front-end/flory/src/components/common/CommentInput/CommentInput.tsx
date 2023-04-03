@@ -18,7 +18,7 @@ function CommentInput({
         <Avatar size="small" status="comment" />
       </div>
       <STextarea>
-        <div className="txt wrapper">
+        <div className="txt comment__wrapper">
           <TextareaAutosize
             className="inputArea"
             placeholder={placeholder}
@@ -27,7 +27,7 @@ function CommentInput({
           />
         </div>
       </STextarea>
-      <div className="icon wrapper">
+      <div className="icon icon__wrapper">
         <StyledSendIcon onClick={createCommentHandler} />
       </div>
     </SDiv>
