@@ -85,7 +85,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
 
-        member.updatePassword(loginDto.getPassword());
+        member.updatePassword(loginDto.getPassword(), passwordEncoder);
         memberRepository.save(member);
     }
 }
