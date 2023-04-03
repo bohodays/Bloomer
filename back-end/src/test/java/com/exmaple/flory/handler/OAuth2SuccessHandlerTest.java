@@ -2,6 +2,7 @@ package com.exmaple.flory.handler;
 
 import com.exmaple.flory.dto.member.TokenDto;
 import com.exmaple.flory.dto.oauth.OAuthAttributes;
+import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.jwt.TokenProvider;
 import com.exmaple.flory.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
