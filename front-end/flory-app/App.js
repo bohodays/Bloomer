@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { BackHandler } from "react-native";
+import * as Location from "expo-location";
 
 export default function App() {
   // 로딩페이지 관련
@@ -37,6 +38,24 @@ export default function App() {
       );
     };
   }, [isCanGoBack]);
+
+  // geoloaction 관련
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getLocation = async () => {
+    try {
+      await Location.requestForegroundPermissionsAsync();
+
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+
+      setIsLoading(false);
+    } catch (e) {
+      Alert.alert("위치정보를 가져올 수 없습니다.");
+    }
+  };
+  getLocation();
 
   return (
     <View style={styles.container}>

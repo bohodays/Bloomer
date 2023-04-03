@@ -35,8 +35,8 @@ export const getUserDataToTokenAction = createAsyncThunk(
         },
       });
       // dispatch(getCurrentGardenAction(data.response.userId));
-      await dispatch(getGardenListAction(data.response.userId));
       dispatch(updateAccessToken());
+      await dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
       return rejectWithValue(e);
@@ -117,8 +117,7 @@ export const updateAccessToken = createAsyncThunk(
         });
       // return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
-      localData.remove("accessToken");
-      localData.remove("refreshToken");
+      localData.clear();
       return rejectWithValue(e);
     }
   }
@@ -170,6 +169,24 @@ export const socialLoginUpdateAction = createAsyncThunk(
       return data;
     } catch (e: any) {
       return rejectWithValue(e);
+    }
+  }
+);
+
+// 회원탈퇴
+export const userDeleteAction = createAsyncThunk(
+  "DELETE",
+  async (userEmail: string, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      await axios.delete(`/api/user/${userEmail}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    } catch (e) {
+      rejectWithValue(e);
     }
   }
 );

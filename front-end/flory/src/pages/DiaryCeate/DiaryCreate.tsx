@@ -384,7 +384,7 @@ const DiaryCreate = () => {
           }}
         />
       </div>
-      <Navbar />
+      <Navbar absolute={true} />
       <Modal
         open={open}
         onClose={handleClose}

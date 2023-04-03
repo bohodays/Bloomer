@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SNavbar, SNavWrapper } from "./styles";
 
-const Navbar = () => {
+const Navbar = ({ absolute }: { absolute?: boolean }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <SNavWrapper>
+    <SNavWrapper absolute={absolute}>
       <SNavbar>
         {/* 클래스 부여; 선택된 버튼 wrapper에 wrapper__active, 버튼에 button__active, 아이콘에 item__active 주기 */}
         <div

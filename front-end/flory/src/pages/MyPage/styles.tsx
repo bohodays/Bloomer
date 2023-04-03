@@ -1,6 +1,7 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMyPage = styled.div`
+  position: relative;
   width: 100%;
   // height: 100%;
   display: flex;
@@ -82,4 +83,4 @@ export const SMyPage = styled.div`
     padding: 10px;
     margin: 0 auto;
   }
-`
+`;

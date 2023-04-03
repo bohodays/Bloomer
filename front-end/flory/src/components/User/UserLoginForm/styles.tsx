@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SForm = styled.form`
   width: 80%;
@@ -39,7 +39,7 @@ export const SForm = styled.form`
   .moveToSignup:hover {
     color: rgb(133, 138, 235);
   }
-`;
+`
 
 export const SInput = styled.input`
   font-size: 0.8rem;
@@ -52,4 +52,4 @@ export const SInput = styled.input`
   padding-left: 3rem;
   border: none;
   outline: none;
-`;
+`

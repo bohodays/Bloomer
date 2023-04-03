@@ -1,10 +1,17 @@
 import styled from "styled-components";
 
-export const SMain = styled.main`
+export const SMain = styled.main<any>`
   position: relative;
   width: 100%;
   height: 100%;
-  background: #fbee9d;
+  background: ${(props) =>
+    props.gardenType === 1
+      ? "#fbee9d"
+      : props.gardenType === 0
+      ? "#9B31B8"
+      : props.gardenType === 2
+      ? "#E58649"
+      : "white"};
 
   .info__wrapper {
     cursor: pointer;
@@ -40,7 +47,12 @@ export const SMain = styled.main`
     }
 
     p {
-      color: #942ef3;
+      color: ${(props) =>
+        props.gardenType === 0
+          ? "#af5df8"
+          : props.gardenType === 1
+          ? "#ffe604"
+          : "#E58649"};
     }
   }
 `;

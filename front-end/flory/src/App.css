@@ -7,6 +7,7 @@
   border-style: solid;
   border-color: #e1e1e1;
   overflow-y: auto;
+  z-index: 100;
 }
 
 @media (max-width: 480px) {
@@ -14,4 +15,52 @@
     max-width: none;
     width: 100%;
   }
+}
+
+@media screen and (min-width: 930px) and (max-width: 1023px) {
+  .app {
+    transform: translateX(10vw);
+  }
+  .MuiDrawer-root {
+    transform: translateX(10vw);
+  }
+  /* .datepicker-modal {
+    transform: translateX(-10vw);
+  } */
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1079px) {
+  .app {
+    transform: translateX(12vw);
+  }
+  .MuiDrawer-root {
+    transform: translateX(12vw);
+  }
+  /* .datepicker-modal {
+    transform: translateX(-12vw);
+  } */
+}
+
+@media screen and (min-width: 1080px) and (max-width: 1180px) {
+  .app {
+    transform: translateX(14vw);
+  }
+  .MuiDrawer-root {
+    transform: translateX(14vw);
+  }
+  /* .datepicker-modal {
+    transform: translateX(-14vw);
+  } */
+}
+
+@media screen and (min-width: 1181px) {
+  .app {
+    transform: translateX(17vw);
+  }
+  .MuiDrawer-root {
+    transform: translateX(17vw);
+  }
+  /* .datepicker-modal {
+    transform: translateX(-17vw);
+  } */
 }
