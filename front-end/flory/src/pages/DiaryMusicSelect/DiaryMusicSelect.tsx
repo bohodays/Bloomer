@@ -194,8 +194,8 @@ const DiaryMusicSelect = () => {
           options={defaultOptions}
           height={200}
           width="150%"
-          isPaused={false}
-          isStopped={false}
+          isClickToPauseDisabled={true}
+          speed={0.6}
         />
       </div>
       {storeMusicData.length > 0 &&
