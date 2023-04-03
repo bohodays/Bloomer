@@ -57,14 +57,19 @@ function GroupPanel({}): JSX.Element {
 
   return (
     <SGroupPanel>
-      <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
-        그룹 둘러보기
-      </div>
-      <Post
-        title="가입한 그룹 목록"
-        content={
-          <div>
-            {userGroupList.map((group: any, index: any) => (
+    <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
+      그룹 둘러보기
+    </div>
+    <Post
+      title="가입한 그룹 목록"
+      content={
+        <div>
+          {userGroupList.length === 0 ? (
+            <div className="default">
+              그룹에 가입해보세요
+            </div>
+          ) : (
+            userGroupList.map((group: any, index: any) => (
               <Accordion
                 key={index}
                 title={`${group.name} (${group.userTeamList.length})`}
@@ -114,12 +119,13 @@ function GroupPanel({}): JSX.Element {
                   </div>
                 }
               />
-            ))}
-          </div>
-        }
-        addition={<GroupCreateModal />}
-      />
-    </SGroupPanel>
+            ))
+          )}
+        </div>
+      }
+      addition={<GroupCreateModal />}
+    />
+  </SGroupPanel>
   )
 }
 
