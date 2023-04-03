@@ -33,8 +33,6 @@ import {
   updateShowMusic,
 } from "../../redux/modules/music/music-slice"
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton"
-import { log } from "console"
-import { localData } from "../../redux/modules/user/token"
 
 let isInitial = true
 
@@ -44,15 +42,13 @@ const gardenTypeMap = (type: number | null) => {
   else if (type === 2) return <Beach_map page="self" />
 }
 
-const Scene = () => {
-  const gardenType = useAppSelector((state) => state.garden.gardenData.type)
-
+const Scene = (gardenType: any) => {
   return (
     <>
       {/* <Loader /> */}
       <Suspense fallback={<Loading />}>
         <ambientLight intensity={0.4} />
-        {gardenTypeMap(gardenType)}
+        {gardenTypeMap(gardenType.gardenType)}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
@@ -67,7 +63,9 @@ const Garden = () => {
   const garden = useAppSelector((store) => store.garden)
   const locationData = location.state !== null ? location.state : null
 
-  const gardenType = useAppSelector((state) => state.garden.gardenData.type)
+  const gardenType = useAppSelector((state) =>
+    locationData !== null ? locationData.type : state.garden.gardenData.type
+  )
 
   // 보고 싶은 정원 ID
   const gardenId =
@@ -146,7 +144,7 @@ const Garden = () => {
           // 쉬프트 마우스 왼쪽 이동 막는 기능
           enablePan={false}
         />
-        <Scene></Scene>
+        <Scene gardenType={gardenType}></Scene>
       </Canvas>
 
       {/* 이용안내 이동 버튼 */}
