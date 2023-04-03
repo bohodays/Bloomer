@@ -37,6 +37,7 @@ import {
   updateMusicUrl,
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 declare global {
   interface Window {
@@ -396,31 +397,11 @@ const DiaryCreate = () => {
         />
       </div>
       <Navbar absolute={true} />
-      <Modal
+      <AlertModal
         open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="modal__wrapper" style={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            일기를 기록해주세요.
-          </Typography>
-          <Button
-            addStyle={{
-              // margin: "auto",
-              fontSize: "1rem",
-              width: "40%",
-              height: "2.5rem",
-              color: "#ffffff",
-              background1: "#ff003e",
-              borderRadius: "24px",
-            }}
-            contents="확인"
-            onClick={handleClose}
-          />
-        </div>
-      </Modal>
+        handleClose={handleClose}
+        content={"일기를 작성해주세요."}
+      />
     </SMain>
   );
 };
