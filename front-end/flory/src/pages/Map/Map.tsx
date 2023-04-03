@@ -87,7 +87,7 @@ const Map = () => {
           },
         ]}
       />
-      <Navbar />
+      <Navbar bottomZero={true} />
     </SMain>
   );
 };
