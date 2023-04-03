@@ -5,7 +5,7 @@ export const SAccordion = styled.main`
   position: relative;
   flex-direction: column;
   justify-content: center;
-  margin: 1vw;
+  padding: 10px;
   border-radius: 4px;
   border-bottom: 1px solid silver;
 
@@ -19,7 +19,7 @@ export const SAccordion = styled.main`
     color: black;
     float: left;
     font-size: 1.8rem;
-    margin-right: 1vw;
+    margin-right: 20px;
   }
 
   .down-icon {

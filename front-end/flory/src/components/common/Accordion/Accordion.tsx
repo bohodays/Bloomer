@@ -23,10 +23,8 @@ function Accordion(props: Props) {
     }
     if (parentRef.current.clientHeight > 0) {
       parentRef.current.style.height = "0";
-      parentRef.current.style.background = "white";
     } else {
       parentRef.current.style.height = `${childRef.current.clientHeight}px`;
-      parentRef.current.style.background = "white";
     }
     setIsCollapse(!isCollapse);
   }, [isCollapse]);
@@ -74,6 +72,7 @@ const ContentsWrapper = styled.div`
 
 const Contents = styled.div`
   // padding: 0.1px;
+  font-size: 14px;
 `;
 
 export default React.memo(Accordion);

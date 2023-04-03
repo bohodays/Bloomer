@@ -24,6 +24,8 @@ import withoutAuth from "./utils/withoutAuth";
 import withAuth from "./utils/withAuth";
 import checkGarden from "./utils/checkGarden";
 import DiaryMusicButton from "./components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
+import ConditionsOfService from "./pages/Setting/ConditionsOfService/ConditionsOfService";
+import FindPassword from "./pages/Setting/FindPassword/FindPassword";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -116,6 +118,8 @@ function App() {
             />
             <Route path="/info" element={<Info />} />
             <Route path="/oauth2-redirect" element={<OauthRedirect />} />
+            <Route path="/conditionInfo" element={<ConditionsOfService/>} />
+            <Route path="/findpassword" element={<FindPassword/>} />
             {/* 404 Not Found 추가해야 됨 */}
           </Routes>
         </BrowserRouter>

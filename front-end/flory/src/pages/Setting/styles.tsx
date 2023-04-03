@@ -13,8 +13,6 @@ export const SMain = styled.main`
     margin-bottom: 2rem;
   }
 
-
-
   .header {
     /* position: absolute;
     top: 0; */
@@ -39,5 +37,9 @@ export const SMain = styled.main`
 
   .box-Accordion{
     width:100%
+  }
+
+  .contents{
+    padding: 10px;
   }
 `;

@@ -36,25 +36,6 @@ const Setting = () => {
     navigate("/");
   };
 
-  const contents = (
-    <div>
-      <ul>
-        <li>
-          <a href="#">Photoshop</a>
-        </li>
-        <li>
-          <a href="#">HTML</a>
-        </li>
-        <li>
-          <a href="#">CSS</a>
-        </li>
-        <li>
-          <a href="#">Maquetacion web</a>
-        </li>
-      </ul>
-    </div>
-  );
-
   const handleOpenModal = () => {
     handleOpen();
   };
@@ -64,6 +45,43 @@ const Setting = () => {
       navigate("/login");
     });
   };
+
+  const contents = (
+    <div>
+      <ul>
+        <li>
+          <a href="#">작성중</a>
+        </li>
+      </ul>
+    </div>
+  );
+
+  const info = (
+    <div>
+      <div 
+        className="contents"
+        onClick={()=>{
+          navigate(`/conditionInfo`);
+        }}
+      >
+        서비스 이용 약관</div>
+      <div
+        className="contents"
+      >
+        이용 문의
+      </div>
+    </div>
+  )
+
+  const accountInfo = (
+    <div>
+      <div className="contents" onClick={()=>{
+          navigate(`/findpassword`);
+        }}>비밀번호 변경</div>
+      <div className="contents" onClick={handleLogout}>로그아웃</div>
+      <div className="contents" onClick={handleOpenModal}>회원탈퇴</div>
+    </div>
+  )
 
   return (
     <SMain>
@@ -76,13 +94,9 @@ const Setting = () => {
       </div>
 
       <div className="box-Accordion">
-        <Accordion title="계정" contents={contents} icon={faUser} />
+        <Accordion title="계정" contents={accountInfo} icon={faUser} />
         <Accordion title="알림" contents={contents} icon={faBell} />
-        <Accordion title="정보" contents={contents} icon={faCircleInfo} />
-      </div>
-      <div>
-        <button onClick={handleLogout}>로그아웃</button>
-        <button onClick={handleOpenModal}>회원탈퇴</button>
+        <Accordion title="정보" contents={info} icon={faCircleInfo} />
       </div>
       <div>
         <AlertModal
