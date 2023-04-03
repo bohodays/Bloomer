@@ -47,8 +47,8 @@ public class Member extends BaseTime {
     @Column(name="reggae")
     private Boolean reggae;
 
-    @Column(name="RnB")
-    private Boolean RnB;
+    @Column(name="rnb")
+    private Boolean rnb;
 
     @Column(name="electronic")
     private Boolean electronic;
@@ -85,7 +85,7 @@ public class Member extends BaseTime {
         this.classic = memberMusicUpdateDto.getClassic();
         this.jazz = memberMusicUpdateDto.getJazz();
         this.reggae = memberMusicUpdateDto.getReggae();
-        this.RnB = memberMusicUpdateDto.getRnb();
+        this.rnb = memberMusicUpdateDto.getRnb();
         this.electronic = memberMusicUpdateDto.getElectronic();
     }
 

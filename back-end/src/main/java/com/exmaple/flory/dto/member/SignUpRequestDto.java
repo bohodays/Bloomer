@@ -40,7 +40,7 @@ public class SignUpRequestDto {
     private boolean reggae;
 
     @NotNull
-    private boolean RnB;
+    private boolean rnb;
 
     @NotNull
     private boolean electronic;
@@ -54,7 +54,7 @@ public class SignUpRequestDto {
                 .jazz(jazz)
                 .pop(pop)
                 .reggae(reggae)
-                .RnB(RnB)
+                .rnb(rnb)
                 .electronic(electronic)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
