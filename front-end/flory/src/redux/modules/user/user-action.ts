@@ -202,3 +202,23 @@ export const userDeleteAction = createAsyncThunk(
     }
   }
 );
+
+// 비밀번호 변경
+export const changePwdAction = createAsyncThunk(
+  "CHANGE_PASSWORD_ACTION",
+  async (userData: LoginType, { rejectWithValue }) => {
+
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      await axios.put(`/api/user/pwd`, userData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+      });
+    } catch (e: any) {
+      alert("비밀번호 변경 오류");
+      return rejectWithValue(e);
+    }
+  }
+);
