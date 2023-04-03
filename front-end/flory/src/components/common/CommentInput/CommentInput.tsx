@@ -5,6 +5,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import SendIcon from "@mui/icons-material/Send";
 import { StyledSendIcon } from "../StyledIcons/styledIcons";
 import { IconButton } from "@mui/material";
+import { useAppSelector } from "../../../redux/store.hooks";
 
 function CommentInput({
   contentInput,
@@ -12,10 +13,17 @@ function CommentInput({
   createCommentHandler,
   page,
 }: any): JSX.Element {
+  const userInfo = useAppSelector((state) => state.user.userData);
+
   return (
     <SDiv>
       <div className="avatar wrapper">
-        <Avatar size="small" status="comment" />
+        <Avatar
+          size="small"
+          status="comment"
+          src={userInfo.img}
+          imgIdx={userInfo.img && userInfo.img.length > 2 ? "11" : userInfo.img}
+        />
       </div>
       <STextarea>
         <div className="txt comment__wrapper">

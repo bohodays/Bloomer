@@ -48,7 +48,7 @@ export const getUserDataToTokenAction = createAsyncThunk(
       await dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
-      localData.clear();
+      // localData.clear();
       return rejectWithValue(e);
     }
   }
@@ -129,7 +129,7 @@ export const updateAccessToken = createAsyncThunk(
         });
       // return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
-      localData.clear();
+      // localData.clear();
       return rejectWithValue(e);
     }
   }
