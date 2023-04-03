@@ -48,16 +48,6 @@ const Setting = () => {
     handleOpen();
   };
 
-  const contents = (
-    <div>
-      <ul>
-        <li>
-          <a href="#">작성중</a>
-        </li>
-      </ul>
-    </div>
-  );
-
   const info = (
     <div>
       <div
@@ -103,7 +93,7 @@ const Setting = () => {
 
       <div className="box-Accordion">
         <Accordion title="계정" contents={accountInfo} icon={faUser} />
-        <Accordion title="알림" contents={contents} icon={faBell} />
+        {/* <Accordion title="알림" contents={contents} icon={faBell} /> */}
         <Accordion title="정보" contents={info} icon={faCircleInfo} />
       </div>
       <div>
