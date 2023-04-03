@@ -399,7 +399,7 @@ p {
 .datepicker-modal {
   max-width: 480px;
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
 }
 
 .datepicker.default {

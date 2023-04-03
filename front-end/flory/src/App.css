@@ -17,6 +17,15 @@
   }
 }
 
+@media (max-width: 930px) {
+  .modal__wrapper {
+    transform: translate(-50%, -50%);
+  }
+  .datepicker-modal {
+    transform: translateX(-50%);
+  }
+}
+
 @media screen and (min-width: 930px) and (max-width: 1023px) {
   .app {
     transform: translateX(10vw);
@@ -24,9 +33,12 @@
   .MuiDrawer-root {
     transform: translateX(10vw);
   }
-  /* .datepicker-modal {
-    transform: translateX(-10vw);
-  } */
+  .modal__wrapper {
+    transform: translate(calc(-50% + 10vw), -50%);
+  }
+  .datepicker-modal {
+    transform: translateX(calc(-50% + 10vw));
+  }
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1079px) {
@@ -36,9 +48,12 @@
   .MuiDrawer-root {
     transform: translateX(12vw);
   }
-  /* .datepicker-modal {
-    transform: translateX(-12vw);
-  } */
+  .modal__wrapper {
+    transform: translate(calc(-50% + 12vw), -50%);
+  }
+  .datepicker-modal {
+    transform: translateX(calc(-50% + 12vw));
+  }
 }
 
 @media screen and (min-width: 1080px) and (max-width: 1180px) {
@@ -48,9 +63,12 @@
   .MuiDrawer-root {
     transform: translateX(14vw);
   }
-  /* .datepicker-modal {
-    transform: translateX(-14vw);
-  } */
+  .modal__wrapper {
+    transform: translate(calc(-50% + 14vw), -50%);
+  }
+  .datepicker-modal {
+    transform: translateX(calc(-50% + 14vw));
+  }
 }
 
 @media screen and (min-width: 1181px) {
@@ -60,7 +78,10 @@
   .MuiDrawer-root {
     transform: translateX(17vw);
   }
-  /* .datepicker-modal {
-    transform: translateX(-17vw);
-  } */
+  .modal__wrapper {
+    transform: translate(calc(-50% + 17vw), -50%);
+  }
+  .datepicker-modal {
+    transform: translateX(calc(-50% + 17vw));
+  }
 }

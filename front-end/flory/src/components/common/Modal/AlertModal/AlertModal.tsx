@@ -4,14 +4,15 @@ import Modal from "@mui/material/Modal";
 import Button from "../../Button/Button";
 import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
+import "./styles.css";
 
 const style: any = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 370,
-  bgcolor: "#ffffff",
+  // position: "absolute" as "absolute",
+  // top: "50%",
+  // left: "50%",
+  // transform: "translate(-50%, -50%)",
+  // width: 370,
+  // bgcolor: "#ffffff",
   boxShadow: 24,
 };
 
@@ -55,7 +56,7 @@ const AlertModal = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="modal__wrapper" style={style}>
+        <div className="modal__wrapper modal__style" style={style}>
           <RiErrorWarningLine color="#b3b1c5" size={"60px"} />
           <Typography
             id="modal-modal-title"
