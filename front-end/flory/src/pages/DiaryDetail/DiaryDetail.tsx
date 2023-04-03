@@ -46,6 +46,7 @@ const DiaryDetail = () => {
   // useNavigate로 일기의 id를 전달한다.
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
+
   const diaryId = Number(location.pathname.slice(7));
   const backpage = location.state ? location.state.page : null;
   const initialDiary: DiaryType = {
@@ -256,14 +257,13 @@ const DiaryDetail = () => {
             height={200}
             width="100%"
           />
-
-      </div>
-      <DiaryFlower flower={diary.flowerEmotion} />
-      <div className="header"></div>
-      {/* 뒤로 가기 아이콘 */}
-      <BackButton color="white" onClickAction={handleGoBack} />
-      {/* 음악 아이콘 */}
-      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
+        </div>
+        <DiaryFlower flower={diary.flowerEmotion} />
+        <div className="header"></div>
+        {/* 뒤로 가기 아이콘 */}
+        <BackButton color="white" onClickAction={handleGoBack} />
+        {/* 음악 아이콘 */}
+        {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
 
         <div className="content-box">
           {isSelf && diary && (
