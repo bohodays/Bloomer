@@ -21,6 +21,7 @@ interface AlertModalProps {
   handleClose: () => void;
   content: string;
   action?: () => void;
+  page?: string;
 }
 
 const AlertModal = ({
@@ -28,6 +29,7 @@ const AlertModal = ({
   handleClose,
   content,
   action,
+  page,
 }: AlertModalProps) => {
   const handleCloseModal = () => {
     if (action) {
@@ -36,6 +38,10 @@ const AlertModal = ({
     } else {
       handleClose();
     }
+  };
+
+  const handleCancleModal = () => {
+    handleClose();
   };
 
   // \n 인식시키기
@@ -73,18 +79,41 @@ const AlertModal = ({
           >
             {convertNewLineToBreak(content)}
           </Typography>
-          <Button
-            addStyle={{
-              fontSize: "0.9rem",
+
+          <div
+            style={{
+              display: "flex",
               width: "80%",
-              height: "2.5rem",
-              color: "#ffffff",
-              background1: "#645ac1",
-              borderRadius: "15px",
+              justifyContent: "space-between",
             }}
-            contents="확인"
-            onClick={handleCloseModal}
-          />
+          >
+            {page === "diary" && (
+              <Button
+                addStyle={{
+                  fontSize: "0.9rem",
+                  width: "48%",
+                  height: "2.5rem",
+                  color: "#ffffff",
+                  background1: "#c7c7c7",
+                  borderRadius: "15px",
+                }}
+                contents="취소"
+                onClick={handleCancleModal}
+              />
+            )}
+            <Button
+              addStyle={{
+                fontSize: "0.9rem",
+                width: page === "diary" ? "48%" : "100%",
+                height: "2.5rem",
+                color: "#ffffff",
+                background1: "#645ac1",
+                borderRadius: "15px",
+              }}
+              contents="확인"
+              onClick={handleCloseModal}
+            />
+          </div>
         </div>
       </Modal>
     </div>
