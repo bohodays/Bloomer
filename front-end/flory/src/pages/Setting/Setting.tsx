@@ -58,7 +58,7 @@ const Setting = () => {
 
   const handleUserDelete = () => {
     dispatch(userDeleteAction(userEmail)).then(() => {
-      navigate("/login");
+      navigate("/");
     });
   };
 
