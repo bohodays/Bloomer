@@ -1,10 +1,10 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   width: 100%;
   height: 100%;
 
-  .search__wrapper {
+  .search__wrappers {
     position: relative;
     width: 90%;
     height: 120px;
@@ -21,4 +21,4 @@ export const SMain = styled.main`
       display: none;
     }
   }
-`
+`;
