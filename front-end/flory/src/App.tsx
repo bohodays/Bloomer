@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -76,11 +76,25 @@ function App() {
     }
   }, [dispatch]);
 
-  // const musicUrl = useAppSelector((store) => store.music.musicUrl);
+  const reduxMusic = useAppSelector((store) => store.music);
+  const [musicUrl, setMusicUrl] = useState<string>(
+    "https://www.ppomppu.co.kr/zboard/data3/2010/0611/1276211343_none.mp3"
+    // "https://bloomer205.s3.ap-northeast-2.amazonaws.com/music/happy-birthday-to-you-dance-20919.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWVYCUPFGXVK6I7XY%2F20230403%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230403T035741Z&X-Amz-Expires=900&X-Amz-Signature=54f5fad0b3663daa2e26d360ed05c878e543ef54a5a118b2dbe58746f2e0c0d2&X-Amz-SignedHeaders=host"
+  );
+  const [showMusic, setShowMusic] = useState(false);
+  console.log(musicUrl, "호잇?");
+  useEffect(() => {
+    if (reduxMusic.musicUrl !== musicUrl && reduxMusic.musicUrl) {
+      setMusicUrl(reduxMusic.musicUrl);
+    } else if (!musicUrl) {
+      setMusicUrl(reduxMusic.musicUrl);
+    }
+    setShowMusic(reduxMusic.showMusic);
+  }, [reduxMusic]);
 
   return (
     <div className="app">
-      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
+      {showMusic && <DiaryMusicButton musicUrl={musicUrl} />}
       {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>

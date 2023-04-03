@@ -25,6 +25,14 @@ import { getDiaryListAction } from "../../redux/modules/diary";
 import Beach_map from "../../components/Garden/Beach/Beach_map";
 import Camp_map from "../../components/Garden/Camp/Camp_map";
 import Park_map from "../../components/Garden/Park/Park_map";
+import { getMusicAction } from "../../redux/modules/music";
+import {
+  checkDetail,
+  updateMusicTitle,
+  updateMusicUrl,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
+import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 
 let isInitial = true;
 
@@ -54,6 +62,7 @@ const Garden = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const gardenData = useAppSelector((state) => state.garden.gardenData);
+  const garden = useAppSelector((store) => store.garden);
   const locationData = location.state !== null ? location.state : null;
 
   const gardenType = useAppSelector((state) => state.garden.gardenData.type);
@@ -84,6 +93,25 @@ const Garden = () => {
     }
   }, [gardenId, dispatch]);
 
+  const music = useAppSelector((state) => state.music);
+
+  useEffect(() => {
+    if (gardenData.musicTitle !== music.musicTitle || !music.musicUrl) {
+      dispatch(updateMusicTitle(gardenData.musicTitle));
+      if (gardenData.musicTitle) {
+        getMusicAction(gardenData.musicTitle).then((url) => {
+          // console.log(typeof url, "여기요");
+          if (typeof url !== "object") {
+            dispatch(updateMusicUrl(url));
+          }
+          // setMusicUrl(url);
+        });
+      }
+    }
+  }, [garden, music]);
+
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <SMain gardenType={gardenType}>
       {locationData !== null && (

@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// 일기 생성
+// 음악 가져오기
 export const getMusicAction = async (musicTitle: any) => {
   try {
     const s3 = new AWS.S3();

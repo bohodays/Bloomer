@@ -33,8 +33,10 @@ import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 import { getMusicAction } from "../../redux/modules/music";
 import {
+  checkDetail,
   updateMusicTitle,
   updateMusicUrl,
+  updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
@@ -186,14 +188,14 @@ const DiaryDetail = () => {
   imgSrc = imageUrl;
 
   // 음악 관련
-  const musicTitle = useAppSelector((store) => store.music.musicTitle);
-  const [musicUrl, setMusicUrl] = useState<any>("");
+  const music = useAppSelector((store) => store.music);
+  // const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
-    if (diary.musicTitle !== musicTitle) {
+    if (diary.musicTitle && diary.musicTitle !== music.musicTitle) {
       dispatch(updateMusicTitle(diary.musicTitle));
       getMusicAction(diary.musicTitle).then((url) => {
         dispatch(updateMusicUrl(url));
-        setMusicUrl(url);
+        // setMusicUrl(url);
       });
     }
   }, [diary.musicTitle]);
@@ -233,6 +235,10 @@ const DiaryDetail = () => {
     }
   }, []);
 
+  dispatch(updateShowMusic(true));
+
+  dispatch(checkDetail(true));
+
   return (
     <>
       <SMain>
@@ -250,13 +256,14 @@ const DiaryDetail = () => {
             height={200}
             width="100%"
           />
-        </div>
-        <DiaryFlower flower={diary.flowerEmotion} />
-        <div className="header"></div>
-        {/* 뒤로 가기 아이콘 */}
-        <BackButton color="white" onClickAction={handleGoBack} />
-        {/* 음악 아이콘 */}
-        <DiaryMusicButton musicUrl={musicUrl} />
+
+      </div>
+      <DiaryFlower flower={diary.flowerEmotion} />
+      <div className="header"></div>
+      {/* 뒤로 가기 아이콘 */}
+      <BackButton color="white" onClickAction={handleGoBack} />
+      {/* 음악 아이콘 */}
+      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
 
         <div className="content-box">
           {isSelf && diary && (

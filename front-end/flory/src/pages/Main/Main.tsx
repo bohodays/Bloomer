@@ -9,6 +9,7 @@ import { ReactComponent as LoadingImg } from "../../assets/imgs/loading.svg";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router";
 import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAsset";
+import { updateIsPlaying } from "../../redux/modules/music/music-slice";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Main = () => {
   const userId = useAppSelector((store) => store.user.userData.userId);
 
   const handleMoveLogin = () => {
+    dispatch(updateIsPlaying(true));
     if (userId !== 0) {
       navigate("/garden");
     } else {
