@@ -49,15 +49,21 @@ const GuestBook = () => {
               <FontAwesomeIcon icon={faPenToSquare} />
             </div>
           )}
-          {guestBookList.map((item, index) => {
-            return (
-              <GuestBookComment
-                info={item}
-                deg={degArray[index % 6]}
-                key={index}
-              />
-            );
-          })}
+          {guestBookList.length ? (
+            guestBookList.map((item, index) => {
+              return (
+                <GuestBookComment
+                  info={item}
+                  deg={degArray[index % 6]}
+                  key={index}
+                />
+              );
+            })
+          ) : (
+            <div className="empty__guestbook">
+              방명록을 통해 {gardenData.nickname} 님의 정원에 추억을 남겨보세요.
+            </div>
+          )}
         </SMain>
       )}
     </>

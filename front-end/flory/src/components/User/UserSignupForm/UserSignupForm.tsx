@@ -134,6 +134,7 @@ const UserSignupForm = () => {
           icon={faUser}
         />
         <SInput
+          maxLength={"10"}
           value={nickname}
           onChange={(e: any) => setNickname(e.target.value)}
           placeholder="닉네임을 입력해주세요."

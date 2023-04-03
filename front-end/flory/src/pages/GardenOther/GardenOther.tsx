@@ -122,7 +122,7 @@ const GardenOther = () => {
           >
             {otherGardenData.nickname}님의 감정 공간입니다
           </div>
-          <ToggleButton state="other" />
+          <ToggleButton state="other" gardenType={otherGardenType} />
           <Canvas shadows={true}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
             <OrbitControls
