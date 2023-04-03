@@ -246,16 +246,16 @@ class TeamControllerTest {
         assertThat(teamDto.getName()).isEqualTo(TeamDto.of(team).getName());
     }
 
-//    @DisplayName("팀 멤버 삭제")
-//    @Test
-//    void deleteTeamMember() throws Exception {
-//        Long teamId = 1L;
-//        Long userId = 1L;
-//
-//        mockMvc.perform(delete("api/team/member?teamId={teamId}&userId={userId}",teamId,userId))
-//                        .andExpect(status().isOk())
-//                        .andReturn();
-//    }
+    @DisplayName("팀 멤버 삭제")
+    @Test
+    void deleteTeamMember() throws Exception {
+        Long teamId = 1L;
+        Long userId = 1L;
+
+        mockMvc.perform(delete("/api/team/member?teamId={teamId}&userId={userId}",teamId,userId).with(csrf()))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
 
     @DisplayName("팀 가입 승인")
     @Test
@@ -432,18 +432,18 @@ class TeamControllerTest {
                     .andReturn();
         }
 
-//        @DisplayName("팀 멤버 삭제 오류")
-//        @Test
-//        void deleteTeamMemberException() throws Exception {
-//            Long teamId = 1L;
-//            Long userId = 1L;
-//
-//            when(teamService.deleteTeamMember(any(), any())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
-//
-//            mockMvc.perform(delete("api/team/member?teamId={teamId}&userId={userId}",teamId,userId))
-//                    .andExpect(status().isNotFound())
-//                    .andReturn();
-//        }
+        @DisplayName("팀 멤버 삭제 오류")
+        @Test
+        void deleteTeamMemberException() throws Exception {
+            Long teamId = 1L;
+            Long userId = 1L;
+
+            when(teamService.deleteTeamMember(any(), any())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
+
+            mockMvc.perform(delete("/api/team/member?teamId={teamId}&userId={userId}",teamId,userId).with(csrf()))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+        }
 
         @DisplayName("팀 가입 승인 오류")
         @Test
@@ -452,7 +452,7 @@ class TeamControllerTest {
 
             when(teamService.signTeamMember(anyLong(), anyLong())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
 
-           mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
+            mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
                     .andExpect(status().isNotFound())
                     .andReturn();
         }
