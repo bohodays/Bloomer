@@ -30,10 +30,8 @@ public class CommentController {
 
             return new ResponseEntity(new SuccessResponse(comments), HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,10 +43,8 @@ public class CommentController {
 
             return new ResponseEntity(new SuccessResponse(updatedComment),HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +57,8 @@ public class CommentController {
             log.info("댓글 생성: {}",commentDto);
             return new ResponseEntity(new SuccessResponse(insert),HttpStatus.OK);
         }catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +72,8 @@ public class CommentController {
 
             return new ResponseEntity(new SuccessResponse("삭제가 완료되었습니다."),HttpStatus.OK);
         } catch (CustomException e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
