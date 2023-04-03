@@ -27,7 +27,6 @@ public class CommentController {
     public ResponseEntity<?> getCommentList(@PathVariable Long diaryId){
         try{
             List<CommentResponseDto> comments = commentService.getCommentList(diaryId);
-
             return new ResponseEntity(new SuccessResponse(comments), HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
@@ -40,7 +39,6 @@ public class CommentController {
     public ResponseEntity<?> updateComment(@RequestBody Map<String,String> updateInfo){
         try {
             CommentResponseDto updatedComment = commentService.updateComment(updateInfo);
-
             return new ResponseEntity(new SuccessResponse(updatedComment),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
@@ -53,8 +51,6 @@ public class CommentController {
     public ResponseEntity<?> insertComment(@RequestBody CommentDto commentDto){
         try{
             CommentResponseDto insert = commentService.insertComment(commentDto);
-
-            log.info("댓글 생성: {}",commentDto);
             return new ResponseEntity(new SuccessResponse(insert),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
@@ -69,7 +65,6 @@ public class CommentController {
             int result = commentService.deleteComment(commentId);
 
             if(result==0) throw new CustomException(ErrorCode.NO_DIARY);
-
             return new ResponseEntity(new SuccessResponse("삭제가 완료되었습니다."),HttpStatus.OK);
         } catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());

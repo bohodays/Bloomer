@@ -33,10 +33,7 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<?> insert(@RequestPart("diary") DiaryRequestDto diaryDto, @RequestPart(value = "imgSrc", required = false) final MultipartFile multipartFile){
         try{
-            log.info("DiaryRequest: {}",diaryDto);
-            log.info("file: {}",multipartFile);
             DiaryDto result = diaryService.insertDiary(diaryDto, Optional.ofNullable(multipartFile));
-
             return new ResponseEntity<>(new SuccessResponse(result), HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
@@ -50,7 +47,6 @@ public class DiaryController {
         try{
             DiaryDto diaryDto = diaryService.getDiary(diaryId);
 
-            log.info("Diary 가져오기: {}",diaryDto);
             return new ResponseEntity<>(new SuccessResponse(diaryDto),HttpStatus.OK);
         }catch (CustomException e){
             return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
@@ -64,7 +60,6 @@ public class DiaryController {
         try{
             int result = diaryService.deleteDiary(diaryId);
 
-            log.info("diary 삭제: {}",diaryId);
             if(result==1) return new ResponseEntity<>(new SuccessResponse("삭제가 완료되었습니다."),HttpStatus.OK);
             else throw new Exception();
         }catch (CustomException e){
