@@ -1,5 +1,6 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.member.LoginDto;
 import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
@@ -76,6 +77,15 @@ public class MemberService {
         if(member == null) throw new CustomException(ErrorCode.NO_USER);
 
         member.updateMusic(memberMusicUpdateDto);
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void updatePassword(LoginDto loginDto){
+        Member member = memberRepository.findByEmail(loginDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
+        member.updatePassword(loginDto.getPassword());
         memberRepository.save(member);
     }
 }

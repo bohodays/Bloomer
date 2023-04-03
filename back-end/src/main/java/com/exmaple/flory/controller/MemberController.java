@@ -1,8 +1,10 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.member.LoginDto;
 import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
+import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.ErrorResponse;
 import com.exmaple.flory.response.SuccessResponse;
@@ -98,4 +100,15 @@ public class MemberController {
         }
     }
 
+    @PutMapping("/pwd")
+    public ResponseEntity<?> updatePassword(@RequestBody LoginDto loginDto) {
+        try{
+            memberService.updatePassword(loginDto);
+            return new ResponseEntity<>(new SuccessResponse("비밀번호 변경 완료"),HttpStatus.OK);
+        }  catch(CustomException e){
+            return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getHttpStatus(),e.getMessage()), e.getErrorCode().getHttpStatus());
+        } catch (Exception e){
+            return new ResponseEntity<>(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.member.LoginDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
@@ -11,6 +12,7 @@ import com.exmaple.flory.util.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,17 +75,6 @@ class MemberControllerTest {
         assertThat(result.getEmail()).isEqualTo(memberResponseDto.getEmail());
     }
 
-    @DisplayName("회원 조회(토큰) 오류")
-    @Test
-    void findMemberInfoByIdException() throws Exception{
-        //given
-        when(memberService.findMemberInfoByUserId(any())).thenThrow(new RuntimeException());
-
-        mockMvc.perform(get("/api/user/me"))
-                .andExpect(status().isNotFound())
-                .andReturn();
-    }
-
     @DisplayName("회원 조회(이메일)")
     @Test
     void findMemberInfoByEmail() throws Exception{
@@ -98,17 +89,6 @@ class MemberControllerTest {
         MemberResponseDto result = new ObjectMapper().convertValue(response.getResponse(), MemberResponseDto.class);
 
         assertThat(result.getEmail()).isEqualTo(memberResponseDto.getEmail());
-    }
-
-    @DisplayName("회원 조회(이메일) 오류")
-    @Test
-    void findMemberInfoByEmailException() throws Exception{
-        //given
-        when(memberService.findMemberInfoByEmail(any())).thenThrow(new RuntimeException());
-
-        mockMvc.perform(get("/api/user/{email}","email"))
-                .andExpect(status().isNotFound())
-                .andReturn();
     }
 
     @DisplayName("로그아웃")
@@ -140,27 +120,67 @@ class MemberControllerTest {
         assertThat(result.getEmail()).isEqualTo(memberResponseDto.getEmail());
     }
 
-    @DisplayName("회원 수정 오류")
-    @Test
-    void updateMemberException() throws Exception{
-        MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .nickname("name").email("email").build();
-
-        when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
-        String json = new ObjectMapper().writeValueAsString(memberRequestDto);
-        MockMultipartFile dto = new MockMultipartFile("memberRequestDto", "memberRequestDto", "application/json", json.getBytes(StandardCharsets.UTF_8));
-
-        mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
-                        .file(dto).with(csrf()))
-                .andExpect(status().isNotFound())
-                .andReturn();
-    }
-
     @DisplayName("회원 탈퇴")
     @Test
     void deleteMember() throws Exception{
         mockMvc.perform(delete("/api/user/{email}","email").with(csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
+    }
+
+    @DisplayName("비밀번호 변경")
+    @Test
+    void updatePassword() throws Exception{
+        LoginDto loginDto = LoginDto.builder()
+                .email("email").password("password").build();
+
+//        when(memberService.updatePassword(any())).thenReturn();
+
+        mockMvc.perform(put("/api/user/pwd").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(loginDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Nested
+    @DisplayName("MemberController ExceptionTest")
+    class ExceptionTest {
+        @DisplayName("회원 조회(토큰) 오류")
+        @Test
+        void findMemberInfoByIdException() throws Exception{
+            //given
+            when(memberService.findMemberInfoByUserId(any())).thenThrow(new RuntimeException());
+
+            mockMvc.perform(get("/api/user/me"))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+        }
+
+        @DisplayName("회원 조회(이메일) 오류")
+        @Test
+        void findMemberInfoByEmailException() throws Exception{
+            //given
+            when(memberService.findMemberInfoByEmail(any())).thenThrow(new RuntimeException());
+
+            mockMvc.perform(get("/api/user/{email}","email"))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+        }
+
+        @DisplayName("회원 수정 오류")
+        @Test
+        void updateMemberException() throws Exception{
+            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                    .nickname("name").email("email").build();
+
+            when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
+            String json = new ObjectMapper().writeValueAsString(memberRequestDto);
+            MockMultipartFile dto = new MockMultipartFile("memberRequestDto", "memberRequestDto", "application/json", json.getBytes(StandardCharsets.UTF_8));
+
+            mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
+                            .file(dto).with(csrf()))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+        }
     }
 }

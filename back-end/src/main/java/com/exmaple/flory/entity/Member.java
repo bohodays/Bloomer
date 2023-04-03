@@ -79,6 +79,11 @@ public class Member extends BaseTime {
         return this;
     }
 
+    public Member updatePassword(String password){
+        this.password = password;
+        return this;
+    }
+
     public void updateMusic(MemberMusicUpdateDto memberMusicUpdateDto) {
 
         this.pop = memberMusicUpdateDto.getPop();
