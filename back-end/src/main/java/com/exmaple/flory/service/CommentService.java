@@ -41,15 +41,10 @@ public class CommentService {
         if(diary.isEmpty()) throw new CustomException(ErrorCode.NO_DIARY);
         if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);
 
-        log.info("Diary: {}",diary.get());
-        log.info("DiaryInMember: {}",diary.get().getGarden().getMember());
-        log.info("GardenDiaryDto: {}",diary.get().getGarden().toDiaryDto());
-
         commentDto.setDiary(diary.get().toDto());
         Comment comment = commentDto.toEntity();
         comment.setMember(member.get());
 
-        log.info("insert 요청: {}",commentDto);
         log.info("insert 요청: {}",comment);
 
         Comment result = commentRepository.save(comment);
@@ -63,7 +58,6 @@ public class CommentService {
     public List<CommentResponseDto> getCommentList(Long diaryId) {
         List<Comment> commentList = commentRepository.findByDid(diaryId);
         List<CommentResponseDto> comments = new ArrayList<>();
-        log.info("comment 목록: {}, {}", diaryId, commentList.size());
 
         for(int i=0;i<commentList.size();i++){
             CommentDto commentDto = commentList.get(i).toDto();
