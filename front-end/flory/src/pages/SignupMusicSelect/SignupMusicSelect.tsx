@@ -32,7 +32,7 @@ const SignupMusicSelect = () => {
     pop: false,
     hiphop: false,
     reggae: false,
-    RnB: false,
+    rnb: false,
     electronic: false,
   });
 
@@ -46,7 +46,7 @@ const SignupMusicSelect = () => {
         pop: selectedItems.pop,
         hiphop: selectedItems.hiphop,
         reggae: selectedItems.reggae,
-        rnb: selectedItems.RnB,
+        rnb: selectedItems.rnb,
         electronic: selectedItems.electronic,
       };
       console.log(
@@ -74,7 +74,11 @@ const SignupMusicSelect = () => {
       };
       dispatch(signupAction(userData)).then(() => {
         console.log("로그인으로 가");
-        navigate("/login");
+        navigate("/info", {
+          state: {
+            from: "signup",
+          },
+        });
       });
     }
   };
@@ -178,11 +182,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#efebe9",
             activeColor: "#bcaaa4",
           }}
-          active={selectedItems.RnB}
+          active={selectedItems.rnb}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              RnB: !selectedItems.RnB,
+              rnb: !selectedItems.rnb,
             });
           }}
         />

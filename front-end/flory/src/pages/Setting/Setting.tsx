@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SMain } from "./styles";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
@@ -7,15 +7,22 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Accordion from "../../components/common/Accordion/Accordion";
 import { useNavigate } from "react-router-dom";
-import { logoutAction } from "../../redux/modules/user";
+import { logoutAction, userDeleteAction } from "../../redux/modules/user";
 import { localData } from "../../redux/modules/user/token";
-import { useAppDispatch } from "../../redux/store.hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import BackButton from "../../components/common/BackButton/BackButton";
 import { resetUser, userAction } from "../../redux/modules/user/user-slice";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 const Setting = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userEmail = useAppSelector((state) => state.user.userData.email);
+
+  // 모달 상태 관리
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
@@ -26,24 +33,58 @@ const Setting = () => {
     navigate("/");
   };
 
+  const handleOpenModal = () => {
+    handleOpen();
+  };
+
+  const handleUserDelete = () => {
+    dispatch(userDeleteAction(userEmail)).then(() => {
+      navigate("/login");
+    });
+  };
+
   const contents = (
     <div>
       <ul>
         <li>
-          <a href="#">Photoshop</a>
-        </li>
-        <li>
-          <a href="#">HTML</a>
-        </li>
-        <li>
-          <a href="#">CSS</a>
-        </li>
-        <li>
-          <a href="#">Maquetacion web</a>
+          <a href="#">작성중</a>
         </li>
       </ul>
     </div>
   );
+
+  const info = (
+    <div>
+      <div 
+        className="contents"
+        onClick={()=>{
+          navigate(`/conditionInfo`);
+        }}
+      >
+        서비스 이용 약관</div>
+      <div
+        className="contents"
+      >
+        이용 문의
+      </div>
+    </div>
+  )
+
+  const handleUserDelete = () => {
+    dispatch(userDeleteAction(userEmail)).then(() => {
+      navigate("/");
+    });
+  };
+
+  const accountInfo = (
+    <div>
+      <div className="contents" onClick={()=>{
+          navigate(`/findpassword`);
+        }}>비밀번호 변경</div>
+      <div className="contents" onClick={handleLogout}>로그아웃</div>
+      <div className="contents" onClick={handleOpenModal}>회원탈퇴</div>
+    </div>
+  )
 
   return (
     <SMain>
@@ -56,13 +97,18 @@ const Setting = () => {
       </div>
 
       <div className="box-Accordion">
-        <Accordion title="계정" contents={contents} icon={faUser} />
+        <Accordion title="계정" contents={accountInfo} icon={faUser} />
         <Accordion title="알림" contents={contents} icon={faBell} />
-        <Accordion title="정보" contents={contents} icon={faCircleInfo} />
+        <Accordion title="정보" contents={info} icon={faCircleInfo} />
       </div>
       <div>
-        <button onClick={handleLogout}>로그아웃</button>
-        <button>회원탈퇴</button>
+        <AlertModal
+          open={open}
+          handleClose={handleClose}
+          content="회원 탈퇴 후에는 복구할 수 없습니다. \n 탈퇴를 원하시면 확인을 눌러주세요."
+          action={handleUserDelete}
+          additionBtn={true}
+        />
       </div>
     </SMain>
   );

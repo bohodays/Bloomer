@@ -9,6 +9,7 @@ import Chart from "react-apexcharts";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
+import { emotionColor } from "../../redux/utils/emotionColor";
 
 const MAX_VISIBILITY = 5;
 
@@ -65,6 +66,7 @@ const DiarySelect = () => {
   const emotionData = useAppSelector(
     (state) => state.diaryCreate.currentEmotionData
   );
+  const emoColor = emotionColor(emotionData[0].largeCategory);
 
   // 해당 감정에 대한 꽃 정보 (소분류들)
   const flowerData = useAppSelector(
@@ -101,9 +103,14 @@ const DiarySelect = () => {
   const newFlowerData = flowerData.slice(0, 5);
 
   return (
-    <SMain>
+    <SMain emoColor={emoColor}>
       <div className="info__wrapper">
-        <p className="info__title">{nickname} 님의 감정은 다음과 같습니다.</p>
+        <span className="info__title">작성된 글에서 느껴지는 감정은</span>
+        <span className="info__title extract-emotion">
+          {" "}
+          {emotionData[0].largeCategory}
+        </span>
+        <span className="info__title"> 입니다.</span>
         <p className="info__title">피우고 싶은 꽃을 선택해주세요.</p>
         {/* 일단 보류 */}
         {/* <Chart
@@ -127,7 +134,7 @@ const DiarySelect = () => {
         ></Chart> */}
       </div>
       {/* 선택된 감정 */}
-      <div className="wrapper">
+      <div className="emotion__wrapper">
         <Carousel>
           {newFlowerData.map((item: any, i: number) => (
             // <Card title={"Card " + (i + 1)}>
@@ -151,7 +158,7 @@ const DiarySelect = () => {
           <p className="select__p">선택</p>
         </div>
       </div>
-      <Navbar />
+      <Navbar absolute={true} />
     </SMain>
   );
 };

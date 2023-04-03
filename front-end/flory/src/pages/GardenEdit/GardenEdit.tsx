@@ -28,6 +28,7 @@ import {
   updateMusicUrl,
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
+import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map_edit />;
@@ -54,6 +55,8 @@ const GardenEdit = () => {
   const currentCreateDiaryData = useAppSelector(
     (state) => state.diaryCreate.diaryCreateData
   );
+
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
 
   // 디버깅용
   // console.log(currentCreateDiaryData);
@@ -146,8 +149,21 @@ const GardenEdit = () => {
   useEffect(() => {}, [dispatch]);
 
   return (
-    <SMain>
-      {/* {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />} */}
+    <SMain gardenType={gardenType}>
+      <div
+        style={{
+          position: "absolute",
+          color: "white",
+          fontSize: "0.7rem",
+          top: "15px",
+          zIndex: "100",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        위치 변경 Tip. 꽃을 누르고 옮기고 싶은 위치를 클릭해 보세요
+      </div>
+      {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />}
       <Canvas shadows={true} ref={canvasRef}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls

@@ -3,7 +3,8 @@ import styled from "styled-components"
 export const SPost = styled.div`
   .subject{
     margin: 2px auto;
-    padding-top: 10px;
+    padding-top: 15px;
+    padding-bottom: 10px;
   }
   .post-title{
     font-size: 22px;

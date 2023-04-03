@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SMain = styled.main`
   /* position: relative; */
@@ -42,7 +42,7 @@ export const SMain = styled.main`
   }
 
   /* Carousel */
-  .wrapper {
+  .garden__wrapper {
     position: relative;
     display: flex;
     justify-content: center;
@@ -131,4 +131,4 @@ export const SMain = styled.main`
     width: 95%;
     margin: 0 auto;
   }
-`
+`;

@@ -75,7 +75,7 @@ const MyPage = () => {
           { label: "그룹 목록 보기", panel: groupPanel },
         ]}
       />
-      <Navbar />
+      <Navbar bottomZero={true} />
     </SMyPage>
   );
 };
