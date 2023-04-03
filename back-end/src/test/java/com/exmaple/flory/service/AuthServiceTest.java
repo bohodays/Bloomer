@@ -98,7 +98,7 @@ class AuthServiceTest {
 //        TokenDto tokenDto = TokenDto.builder()
 //                .grantType("grandType").accessToken("accessToken").refreshToken("refreshToken").accessTokenExpiresIn(10000L).build();
 //
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(1, "accessToken");
+//        Authentication authentication = loginDto.toAuthentication();
 //
 //        when(authenticationManagerBuilder.getObject().authenticate(any())).thenReturn(authentication);
 //        when(tokenProvider.createTokenDto(any())).thenReturn(tokenDto);

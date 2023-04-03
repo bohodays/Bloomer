@@ -231,6 +231,9 @@ class TeamServiceTest {
 
         Team team = Team.builder()
                 .teamId(1L).name("name").info("info").open(true).build();
+        Team team2 = Team.builder()
+                .teamId(1L).name("name").info("info").open(false).build();
+
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
         UserTeam userTeam = UserTeam.builder()
@@ -246,6 +249,10 @@ class TeamServiceTest {
 
         //then
         assertThat(result.getName()).isEqualTo(TeamDto.of(team).getName());
+
+        when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team2));
+        TeamDto result2 = teamService.insertTeamMember(teamMemberDto);
+        assertThat(result2.getName()).isEqualTo(TeamDto.of(team).getName());
     }
 
     @DisplayName("팀 멤버 승인")
@@ -291,10 +298,10 @@ class TeamServiceTest {
         when(userTeamRepository.findByUidAndTid(any(),any())).thenReturn(Optional.ofNullable(userTeam));
 
         //when
-//        int result = teamService.deleteTeamMember(teamMemberDto);
+        int result = teamService.deleteTeamMember(1L, 1L);
 
         //then
-//        assertThat(result).isEqualTo(1);
+        assertThat(result).isEqualTo(1);
     }
 
     @DisplayName("팀 가입 신청 내역 조회")
