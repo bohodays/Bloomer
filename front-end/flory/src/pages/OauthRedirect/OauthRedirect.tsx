@@ -17,19 +17,22 @@ const OauthRedirect = () => {
 
     localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
     localStorage.setItem("accessToken", splitedSearch[1].slice(12));
-    console.log({ userId, isNewUser });
 
-    // 신규 유저면
-    if (isNewUser) {
+    // 신규 유저이면
+    if (isNewUser === 1) {
+      localStorage.setItem("newGarden", "Yes");
       navigate("/signup/music", {
         state: {
           update: true,
           userId,
         },
       });
+      // 기존 유저이면
     } else {
+      localStorage.setItem("newGarden", "No");
       navigate("/garden");
     }
+    console.log({ userId, isNewUser });
   }, []);
 
   return <></>;
