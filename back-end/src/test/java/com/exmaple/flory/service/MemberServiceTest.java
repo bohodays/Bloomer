@@ -194,7 +194,7 @@ class MemberServiceTest {
 
         when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
 
-        member.updatePassword(loginDto.getPassword());
+        member.updatePassword(loginDto.getPassword(), passwordEncoder);
         when(memberRepository.save(any())).thenReturn(member);
 
         //when
