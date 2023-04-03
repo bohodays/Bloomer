@@ -174,6 +174,8 @@ public class GardenServiceTest {
 
         when(gardenRepository.findById(any())).thenReturn(Optional.of(garden));
 
+        gardenService.delete(garden.getId());
+
         assertThatCode(() -> gardenRepository.deleteById(any())).doesNotThrowAnyException();
     }
 
