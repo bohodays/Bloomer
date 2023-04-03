@@ -124,9 +124,10 @@ const GardenOther = () => {
               transform: "translateX(-50%)",
               zIndex: "10",
               color: "white",
+              fontSize: "0.9rem",
             }}
           >
-            {otherGardenData.nickname}님의 감정 공간입니다
+            {otherGardenData.nickname}님의 감정 정원입니다
           </div>
           <ToggleButton state="other" gardenType={otherGardenType} />
           <Canvas shadows={true}>
