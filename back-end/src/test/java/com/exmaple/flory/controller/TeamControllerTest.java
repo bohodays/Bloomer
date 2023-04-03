@@ -452,7 +452,7 @@ class TeamControllerTest {
 
             when(teamService.signTeamMember(anyLong(), anyLong())).thenThrow(new CustomException(ErrorCode.INVALID_TEAM));
 
-           mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
+            mockMvc.perform(get("/api/team/sign/{teamId}",teamId))
                     .andExpect(status().isNotFound())
                     .andReturn();
         }
