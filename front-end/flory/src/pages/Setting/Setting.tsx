@@ -27,24 +27,21 @@ const Setting = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // 로그아웃
   const handleLogout = () => {
     const accessToken = localData.getAccessToken();
-    dispatch(logoutAction(accessToken))
-      .then(() => {
-        dispatch(resetUser());
-        localData.clear();
-      })
-      .then(() => {
-        navigate("/login", {
-          state: {
-            isReload: true,
-          },
-        });
-      });
-    // .then(() => {
-    // window.location.reload();
-    // navigate("/");
-    // });
+    dispatch(logoutAction(accessToken)).then(() => {
+      dispatch(resetUser());
+      localData.clear();
+    });
+  };
+
+  // 회원탈퇴
+  const handleUserDelete = () => {
+    dispatch(userDeleteAction(userEmail)).then(() => {
+      dispatch(resetUser());
+      localData.clear();
+    });
   };
 
   const handleOpenModal = () => {
@@ -74,13 +71,6 @@ const Setting = () => {
       <div className="contents">이용 문의</div>
     </div>
   );
-
-  const handleUserDelete = () => {
-    dispatch(userDeleteAction(userEmail)).then(() => {
-      localData.clear();
-      navigate("/");
-    });
-  };
 
   const accountInfo = (
     <div>
