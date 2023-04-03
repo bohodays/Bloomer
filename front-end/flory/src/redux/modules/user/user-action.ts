@@ -29,11 +29,20 @@ export const getUserDataToTokenAction = createAsyncThunk(
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
+
+      console.log(
+        accessToken,
+        "토큰으로 내 정보 가져오기 요청에서 보내는 토큰"
+      );
+
       const { data } = await axios.get(`/api/user/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
+      console.log(data, "토큰으로 내 정보 가져오기 요청 후 응답");
+
       // dispatch(getCurrentGardenAction(data.response.userId));
       dispatch(updateAccessToken());
       await dispatch(getGardenListAction(data.response.userId));
@@ -72,6 +81,8 @@ export const logoutAction = createAsyncThunk(
 export const signupAction = createAsyncThunk(
   "SIGNUP",
   async (userData: SignupType, { rejectWithValue }) => {
+    console.log("회원가입 요청시 보내는 데이터", userData);
+
     try {
       const axios = axiosInitializer();
       const { data } = await axios.post(`/api/user`, userData);
