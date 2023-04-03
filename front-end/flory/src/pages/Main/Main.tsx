@@ -9,6 +9,7 @@ import { ReactComponent as LoadingImg } from "../../assets/imgs/loading.svg";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router";
 import MainFlowerAsset from "../../components/Main/MainFlowerAsset/MainFlowerAsset";
+import { updateIsPlaying } from "../../redux/modules/music/music-slice";
 
 // const Snowflake = ({ style }: any) => {
 //   return (
@@ -53,6 +54,7 @@ const Main = () => {
   // };
 
   const handleMoveLogin = () => {
+    dispatch(updateIsPlaying(true));
     if (userId !== 0) {
       navigate("/garden");
     } else {

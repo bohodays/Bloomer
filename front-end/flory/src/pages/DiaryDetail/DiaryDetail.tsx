@@ -35,6 +35,7 @@ import { getMusicAction } from "../../redux/modules/music";
 import {
   updateMusicTitle,
   updateMusicUrl,
+  updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 
 let isInitial = true;
@@ -175,13 +176,13 @@ const DiaryDetail = () => {
 
   // 음악 관련
   const music = useAppSelector((store) => store.music);
-  const [musicUrl, setMusicUrl] = useState<any>("");
+  // const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
-    if (diary.musicTitle !== music.musicTitle) {
+    if (diary.musicTitle && diary.musicTitle !== music.musicTitle) {
       dispatch(updateMusicTitle(diary.musicTitle));
       getMusicAction(diary.musicTitle).then((url) => {
         dispatch(updateMusicUrl(url));
-        setMusicUrl(url);
+        // setMusicUrl(url);
       });
     }
   }, [diary.musicTitle]);
@@ -210,6 +211,8 @@ const DiaryDetail = () => {
       });
     }
   }, []);
+
+  dispatch(updateShowMusic(true));
 
   return (
     <SMain>

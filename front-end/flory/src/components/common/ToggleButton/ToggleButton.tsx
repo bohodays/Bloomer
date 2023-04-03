@@ -5,31 +5,48 @@ import {
   faVolumeOff,
   faVolumeXmark,
   faXmark,
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useAppSelector } from "../../../redux/store.hooks"
-import { SNav } from "./styles"
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { SNav } from "./styles";
+import { updateIsPlaying } from "../../../redux/modules/music/music-slice";
 
 const ToggleButton = ({ state }: any) => {
-  const [toggleOnOff, setToggleOnOff] = useState(false)
-  const [volumeMute, setVolumeMute] = useState(false)
-  const navigate = useNavigate()
-
+  const [toggleOnOff, setToggleOnOff] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const music = useAppSelector((store) => store.music);
+  const [volumeMute, setVolumeMute] = useState(false);
   // 토글 핸들러 함수
   const handleToggleOnOff = () => {
-    setToggleOnOff(!toggleOnOff)
-  }
+    setToggleOnOff(!toggleOnOff);
+  };
 
   // 소리 음소거 핸들러 함수
   const handleVolumeOnOff = () => {
-    setVolumeMute(!volumeMute)
-  }
+    console.log("볼륨 조정", volumeMute);
+    if (music.isPlaying) {
+      dispatch(updateIsPlaying(false));
+      setVolumeMute(true);
+    } else {
+      dispatch(updateIsPlaying(true));
+      setVolumeMute(false);
+    }
+  };
+
+  useEffect(() => {
+    if (music.isPlaying) {
+      setVolumeMute(true);
+    } else {
+      setVolumeMute(false);
+    }
+  }, [music]);
 
   const handleMoveToGardenList = () => {
-    navigate("/garden/list")
-  }
+    navigate("/garden/list");
+  };
 
   return (
     <SNav>
@@ -70,7 +87,7 @@ const ToggleButton = ({ state }: any) => {
         <FontAwesomeIcon icon={faCamera} />
       </button>
     </SNav>
-  )
-}
+  );
+};
 
-export default ToggleButton
+export default ToggleButton;

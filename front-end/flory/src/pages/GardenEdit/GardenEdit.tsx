@@ -26,6 +26,7 @@ import { getMusicAction } from "../../redux/modules/music";
 import {
   updateMusicTitle,
   updateMusicUrl,
+  updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 
 const gardenTypeMap = (type: number | null) => {
@@ -83,6 +84,7 @@ const GardenEdit = () => {
     return new File([u8arr], filename, { type: mime });
   }
 
+  dispatch(updateShowMusic(true));
   const musicTitle = useAppSelector((store) => store.music.musicTitle);
   const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
