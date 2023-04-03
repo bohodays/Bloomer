@@ -1,5 +1,7 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.member.LoginDto;
+import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.entity.Member;
@@ -12,9 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -35,6 +41,9 @@ class MemberServiceTest {
 
     @Spy //Mock하지 않은 메소드 => 실제 메소드 동작
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private S3Uploader s3Uploader;
 
     private final MemberResponseDto memberResponseDto = MemberResponseDto.builder().
             userId(1L).nickname("nickname").img("img").email("email").build();
@@ -105,6 +114,11 @@ class MemberServiceTest {
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                 .nickname("rename").email("email").build();
 
+        String fileName = "test";
+        String contentType = "PNG";
+        String filePath = "src/test/resources/img/test.PNG";
+        MockMultipartFile mockMultipartFile = getMockMultipartFile(fileName, contentType, filePath);
+
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
 
@@ -112,14 +126,24 @@ class MemberServiceTest {
                 userId(1L).nickname("rename").img("img").email("email").build();
 
         when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
+        when(s3Uploader.upload(any())).thenReturn(mockMultipartFile.getName());
+        member.updateImg(mockMultipartFile.getName());
         member.updateMember(memberRequestDto.getNickname());
         when(memberRepository.save(any())).thenReturn(member);
 
         //when
-        MemberResponseDto result = memberService.updateMember(memberRequestDto,null);
+        MemberResponseDto result = memberService.updateMember(memberRequestDto,mockMultipartFile);
 
         //then
         assertEquals(result.getNickname(),responseDto.getNickname());
+
+        //when
+        MemberResponseDto result2 = memberService.updateMember(memberRequestDto,null);
+        assertEquals(result2.getNickname(),responseDto.getNickname());
+    }
+    private MockMultipartFile getMockMultipartFile(String fileName, String contentType, String path) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(new File(path));
+        return new MockMultipartFile(fileName, fileName + "." + contentType, contentType, fileInputStream);
     }
 
     @DisplayName("회원 탈퇴")
@@ -139,5 +163,45 @@ class MemberServiceTest {
         //then
         verify(memberRepository, times(1)).findByEmail(anyString());
         verify(memberRepository, times(1)).delete(any());
+    }
+
+    @DisplayName("음악 변경")
+    @Test
+    void updateMusic(){
+        MemberMusicUpdateDto memberMusicUpdateDto = MemberMusicUpdateDto.builder()
+                .userId(1L).classic(true).jazz(true).pop(true).reggae(true).rnb(true).electronic(true).build();
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
+        member.updateMusic(memberMusicUpdateDto);
+        when(memberRepository.save(any())).thenReturn(member);
+
+        memberService.updateMusic(memberMusicUpdateDto);
+
+        verify(memberRepository, times(1)).findById(any());
+        verify(memberRepository, times(1)).save(any());
+    }
+
+    @DisplayName("비밀번호 변경")
+    @Test
+    void updatePassword(){
+        LoginDto loginDto = LoginDto.builder()
+                .email("email").password("1234").build();
+
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        when(memberRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(member));
+
+        member.updatePassword(loginDto.getPassword());
+        when(memberRepository.save(any())).thenReturn(member);
+
+        //when
+        memberService.updatePassword(loginDto);
+
+        //then
+        verify(memberRepository, times(1)).findByEmail(anyString());
+        verify(memberRepository, times(1)).save(any());
     }
 }
