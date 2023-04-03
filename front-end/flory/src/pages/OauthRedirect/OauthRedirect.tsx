@@ -41,11 +41,7 @@ const OauthRedirect = () => {
         if (localStorage.getItem("newGarden") === "No") {
           navigate("/garden");
         } else {
-          navigate("/info", {
-            state: {
-              from: "oauth",
-            },
-          });
+          navigate("/gardenTheme");
         }
       });
     }
