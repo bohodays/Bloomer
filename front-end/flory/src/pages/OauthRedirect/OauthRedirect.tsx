@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { getUserDataToTokenAction } from "../../redux/modules/user";
 
 const OauthRedirect = () => {
   const params = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const search = params.search;
@@ -30,7 +33,13 @@ const OauthRedirect = () => {
       // 기존 유저이면
     } else {
       localStorage.setItem("newGarden", "No");
-      navigate("/garden");
+      dispatch(getUserDataToTokenAction()).then(() => {
+        if (localStorage.getItem("newGarden") === "No") {
+          navigate("/garden");
+        } else {
+          navigate("/gardenTheme");
+        }
+      });
     }
     console.log({ userId, isNewUser });
   }, []);
