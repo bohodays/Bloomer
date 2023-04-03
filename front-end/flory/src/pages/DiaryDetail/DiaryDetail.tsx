@@ -134,20 +134,22 @@ const DiaryDetail = () => {
   }
 
   const createCommentHandler = () => {
-    const commentData = {
-      content: commentInput.current?.value,
-      uid: userId,
-      did: diary.id,
+    if (commentInput.current?.value) {
+      const commentData = {
+        content: commentInput.current?.value,
+        uid: userId,
+        did: diary.id,
+      };
+      dispatch(createCommentAction(commentData)).then(() => {
+        dispatch(getDetailDiary(diaryId)).then((data: any) => {
+          setDiary(data.payload.response);
+        });
+        if (commentInput.current) {
+          commentInput.current.value = "";
+        }
+      });
     }
-    dispatch(createCommentAction(commentData)).then(() => {
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response)
-      })
-      if (commentInput.current) {
-        commentInput.current.value = ""
-      }
-    })
-  }
+  };
 
   const deleteAction = async () => {
     handleOpen()

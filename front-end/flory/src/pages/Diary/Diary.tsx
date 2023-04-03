@@ -105,7 +105,7 @@ const Diary = () => {
           <div className="empty-space"></div>
         </div>
       </div>
-      <Navbar />
+      <Navbar absolute={true} />
     </SMain>
   );
 };
