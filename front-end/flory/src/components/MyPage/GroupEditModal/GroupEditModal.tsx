@@ -15,7 +15,8 @@ import { GroupType } from "../../../models/Group/GroupType";
 import {
   updateGroupInfoAction,
   getSpeGroupInfoAction,
-  getGroupInfoAction
+  getGroupInfoAction,
+  deleteGroupAction
 } from "../../../redux/modules/group";
 
 type Props = {
@@ -33,6 +34,12 @@ function GroupEditModal(props: Props): JSX.Element {
 
   const handleChangeSwitch = (e: any) => {
     setIsOpenData(e.target.checked);
+  };
+
+  const deleteGroup = () => {
+    dispatch(deleteGroupAction(props.groupId)).then(() => {
+      dispatch(getGroupInfoAction());
+    });
   };
 
   useEffect(() => {
@@ -65,6 +72,8 @@ function GroupEditModal(props: Props): JSX.Element {
         });
         return true;
       }}
+
+      deleteAction={deleteGroup}
     >
       <STitle>
         <h3>그룹 설정 변경</h3>

@@ -56,6 +56,8 @@ const Garden = () => {
   const gardenData = useAppSelector((state) => state.garden.gardenData);
   const locationData = location.state !== null ? location.state : null;
 
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+
   // 보고 싶은 정원 ID
   const gardenId =
     locationData !== null && locationData.gid !== null
@@ -83,7 +85,7 @@ const Garden = () => {
   }, [gardenId, dispatch]);
 
   return (
-    <SMain>
+    <SMain gardenType={gardenType}>
       {locationData !== null && (
         <div
           style={{
@@ -98,7 +100,7 @@ const Garden = () => {
           {locationData.year}/{locationData.month}
         </div>
       )}
-      <ToggleButton />
+      <ToggleButton gardenType={gardenType} />
       <Canvas shadows={true}>
         {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
         <OrbitControls
@@ -129,7 +131,7 @@ const Garden = () => {
         <FontAwesomeIcon icon={faPaintRoller} />
       </button>
       {/* 네브바 */}
-      <Navbar />
+      <Navbar absolute={true} />
     </SMain>
   );
 };

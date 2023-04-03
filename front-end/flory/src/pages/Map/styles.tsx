@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
+const userHeigth = window.innerHeight;
+
 export const SMain = styled.main`
+  position: relative;
+  min-height: ${userHeigth + "px"};
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;

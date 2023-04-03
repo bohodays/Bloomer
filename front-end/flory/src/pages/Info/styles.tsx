@@ -65,7 +65,7 @@ export const SMain = styled.main<any>`
 
   /* 애니메이션 효과 */
   .animate__animated.animate__fadeIn {
-    --animate-duration: 5s;
+    --animate-duration: 4s;
   }
 
   .text-container {
@@ -89,6 +89,7 @@ export const SMain = styled.main<any>`
 
   /* section 2 */
   .service__info-2 {
+    margin-bottom: 20rem;
     position: relative;
     opacity: 0;
     display: flex;
@@ -108,9 +109,9 @@ export const SMain = styled.main<any>`
   .service__info-3 {
     position: relative;
     /* opacity: 0; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
     align-items: center;
     height: ${(props) => props.userHeight - 200 + "px"};
     text-align: center;
@@ -119,9 +120,44 @@ export const SMain = styled.main<any>`
     }
   }
 
+  .content__wrapper {
+    margin-bottom: 8rem;
+  }
+
+  .info__img-title {
+    margin-bottom: 4rem;
+    opacity: 0;
+  }
+
+  .info__img {
+    width: 350px;
+    height: 555px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  video {
+    width: 350px;
+    height: 555px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .info__content {
+    color: #dfdede;
+    font-size: 0.9rem;
+  }
+
+  .small {
+    font-size: 0.6rem;
+  }
   .crocus {
     position: absolute;
     left: 2rem;
+  }
+
+  .lastItem {
+    padding-bottom: 40px;
   }
 
   .arrow-up {
@@ -142,5 +178,36 @@ export const SMain = styled.main<any>`
   .arrow-up.visible {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .btn__wrapper {
+    display: inline-block;
+    /* display: flex; */
+    /* flex-direction: column; */
+    gap: 20px;
+    /* justify-content: center; */
+    /* align-items: center; */
+    margin-top: -30px;
+    z-index: 100000;
+    transition: all linear 300ms;
+    margin-bottom: 80px;
+  }
+  .btn {
+    width: 291.92px;
+    height: 57px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 3px solid #ffffff;
+    box-shadow: #ffffff 0px 0px 7px 2px;
+    /* filter: blur(4px); */
+    border-radius: 30px;
+
+    font-family: "S-CoreDream-7ExtraBold";
+    font-size: 20px;
+    color: #612fab;
+  }
+  .btn__wrapper:hover {
+    /* transform: scale(1.02); */
+    background: rgba(196, 120, 255, 0.7);
+    border-radius: 30px;
   }
 `;

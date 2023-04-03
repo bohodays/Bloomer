@@ -2,6 +2,8 @@ package com.exmaple.flory.entity;
 
 import com.exmaple.flory.dto.guest.GuestResponseDto;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -24,10 +26,12 @@ public class Guest extends BaseTime{
     private String color;
 
     @JoinColumn(name = "uid")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Member member;
 
     @JoinColumn(name = "gid")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Garden garden;
 

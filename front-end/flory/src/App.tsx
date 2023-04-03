@@ -23,6 +23,7 @@ import GardenOther from "./pages/GardenOther/GardenOther";
 import withoutAuth from "./utils/withoutAuth";
 import withAuth from "./utils/withAuth";
 import checkGarden from "./utils/checkGarden";
+import DiaryMusicButton from "./components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -73,8 +74,11 @@ function App() {
     }
   }, [dispatch]);
 
+  // const musicUrl = useAppSelector((store) => store.music.musicUrl);
+
   return (
     <div className="app">
+      {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
       {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>
@@ -106,7 +110,10 @@ function App() {
             />
             <Route path="/setting" element={withAuth(<Setting />)} />
             <Route path="/group/list" element={withAuth(<GroupList />)} />
-            <Route path="/group/list/signup/:groupId" element={<GroupSignUpList />} />
+            <Route
+              path="/group/list/signup/:groupId"
+              element={<GroupSignUpList />}
+            />
             <Route path="/info" element={<Info />} />
             <Route path="/oauth2-redirect" element={<OauthRedirect />} />
             {/* 404 Not Found 추가해야 됨 */}

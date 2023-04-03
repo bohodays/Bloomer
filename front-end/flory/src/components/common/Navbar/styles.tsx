@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export const SNavWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
+export const SNavWrapper = styled.div<any>`
+  position: ${(props) => (props.absolute ? "absolute" : "sticky")};
+  bottom: ${(props) => (props.absolute ? "0" : "1rem")};
   max-width: 480px;
   width: 100%;
   padding: 0 1.5rem;

@@ -8,6 +8,13 @@ export const SGroupPanel = styled.div`
     padding: 8px;
     cursor: pointer;
   }
+  .secessionGroup{
+    background: rgb(241 207 207);
+    text-align: center;
+    font-size: 0.8em;
+    padding: 8px;
+    cursor: pointer;
+  }
 
   .icon_flower {
     width: 20px;
@@ -25,4 +32,9 @@ export const SMember = styled.div`
   .memberName {
     margin-left: 8px;
   }
+
+  .deleteButton{
+    padding: 7px;
+    background: #ffb2b2;
+  }  
 `
