@@ -52,11 +52,11 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         Optional<Member> member = memberRepository.findByEmail(email);
         //기존에 저장된 것이 없었다면
         if(!member.isPresent()) {
-            memberRepository.save(
+                memberRepository.save(
                     Member
                     .builder()
                     .email(attributes.getEmail())
-                            .nickname("temp")
+                            .nickname(attributes.getName())
                             .password(passwordEncoder.encode("1234"))
                             .img("1")
                     .authority(Authority.ROLE_USER)
