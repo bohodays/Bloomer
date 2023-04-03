@@ -1,5 +1,5 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, { Suspense, useRef, useEffect, useState } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
 import {
   Sky,
   Cloud,
@@ -10,42 +10,42 @@ import {
   Float,
   Sparkles,
   Stars,
-} from "@react-three/drei";
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
-import Navbar from "../../components/common/Navbar/Navbar";
-import { SMain } from "./styles";
+} from "@react-three/drei"
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
+import Navbar from "../../components/common/Navbar/Navbar"
+import { SMain } from "./styles"
 
 // import Base_map_new from "../../components/Garden/Park/Park_map";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import Loading from "../Loading/Loading";
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { getDiaryListAction } from "../../redux/modules/diary";
-import Beach_map from "../../components/Garden/Beach/Beach_map";
-import Camp_map from "../../components/Garden/Camp/Camp_map";
-import Park_map from "../../components/Garden/Park/Park_map";
-import { getMusicAction } from "../../redux/modules/music";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons"
+import { useLocation, useNavigate } from "react-router-dom"
+import Loading from "../Loading/Loading"
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
+import { getDiaryListAction } from "../../redux/modules/diary"
+import Beach_map from "../../components/Garden/Beach/Beach_map"
+import Camp_map from "../../components/Garden/Camp/Camp_map"
+import Park_map from "../../components/Garden/Park/Park_map"
+import { getMusicAction } from "../../redux/modules/music"
 import {
   checkDetail,
   updateMusicTitle,
   updateMusicUrl,
   updateShowMusic,
-} from "../../redux/modules/music/music-slice";
-import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
-import { log } from "console";
-import { localData } from "../../redux/modules/user/token";
+} from "../../redux/modules/music/music-slice"
+import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton"
+import { log } from "console"
+import { localData } from "../../redux/modules/user/token"
 
-let isInitial = true;
+let isInitial = true
 
 const gardenTypeMap = (type: number | null) => {
-  if (type === 0) return <Park_map />;
-  else if (type === 1) return <Camp_map />;
-  else if (type === 2) return <Beach_map />;
-};
+  if (type === 0) return <Park_map page="self" />
+  else if (type === 1) return <Camp_map page="self" />
+  else if (type === 2) return <Beach_map page="self" />
+}
 
 const Scene = () => {
-  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type)
 
   return (
     <>
@@ -56,35 +56,35 @@ const Scene = () => {
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
-  );
-};
+  )
+}
 
 const Garden = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const location = useLocation();
-  const gardenData = useAppSelector((state) => state.garden.gardenData);
-  const garden = useAppSelector((store) => store.garden);
-  const locationData = location.state !== null ? location.state : null;
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const location = useLocation()
+  const gardenData = useAppSelector((state) => state.garden.gardenData)
+  const garden = useAppSelector((store) => store.garden)
+  const locationData = location.state !== null ? location.state : null
 
-  const gardenType = useAppSelector((state) => state.garden.gardenData.type);
+  const gardenType = useAppSelector((state) => state.garden.gardenData.type)
 
   // 보고 싶은 정원 ID
   const gardenId =
     locationData !== null && locationData.gid !== null
       ? locationData.gid
-      : garden.gardenData.gardenId;
+      : garden.gardenData.gardenId
   // 본인 ID
-  const requestId = useAppSelector((state) => state.user.userData.userId);
-  const user = useAppSelector((state) => state.user);
+  const requestId = useAppSelector((state) => state.user.userData.userId)
+  const user = useAppSelector((state) => state.user)
 
   const handleMoveToGuestBook = () => {
     navigate("/guestbook", {
       state: {
         gardenData,
       },
-    });
-  };
+    })
+  }
 
   useEffect(() => {
     const inputData = {
@@ -93,33 +93,33 @@ const Garden = () => {
           ? locationData.gid
           : garden.gardenData.gardenId,
       requestId,
-    };
-    console.log("정원아이디", { gardenId, requestId });
+    }
+    console.log("정원아이디", { gardenId, requestId })
 
     if (gardenId) {
-      dispatch(getDiaryListAction(inputData));
+      dispatch(getDiaryListAction(inputData))
     }
-  }, [gardenId, dispatch, user, garden]);
+  }, [gardenId, dispatch, user, garden])
 
-  const music = useAppSelector((state) => state.music);
+  const music = useAppSelector((state) => state.music)
 
   useEffect(() => {
     if (gardenData.musicTitle !== music.musicTitle || !music.musicUrl) {
-      dispatch(updateMusicTitle(gardenData.musicTitle));
+      dispatch(updateMusicTitle(gardenData.musicTitle))
       if (gardenData.musicTitle) {
         getMusicAction(gardenData.musicTitle).then((url) => {
           // console.log(typeof url, "여기요");
           if (typeof url !== "object") {
-            dispatch(updateMusicUrl(url));
+            dispatch(updateMusicUrl(url))
           }
           // setMusicUrl(url);
-        });
+        })
       }
     }
-  }, [garden, music]);
+  }, [garden, music])
 
-  dispatch(updateShowMusic(true));
-  dispatch(checkDetail(false));
+  dispatch(updateShowMusic(true))
+  dispatch(checkDetail(false))
   return (
     <SMain gardenType={gardenType}>
       {locationData !== null && (
@@ -171,7 +171,7 @@ const Garden = () => {
       {/* 네브바 */}
       <Navbar absolute={true} />
     </SMain>
-  );
-};
+  )
+}
 
-export default Garden;
+export default Garden

@@ -44,6 +44,9 @@ const FlowersWrapper = ({ page }: { page?: string }) => {
   const dispatch = useAppDispatch()
 
   const checkCanView = (status: string) => {
+    if (page === "self") {
+      return true
+    }
     if (status === "비공개") {
       return false
     } else if (status === "그룹공개") {

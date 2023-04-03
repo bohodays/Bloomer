@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { SContainer, SMain } from "./styles";
-import { Dropdown } from "semantic-ui-react";
-import DiaryDatePicker from "../DiaryDatePicker/DiaryDatePicker";
-import { useAppDispatch } from "../../../redux/store.hooks";
-import { getDiaryWithDate } from "../../../redux/modules/diary";
-import { convertWeekIdx } from "../../../utils/utils";
+import React, { useState, useEffect } from "react"
+import { SContainer, SMain } from "./styles"
+import { Dropdown } from "semantic-ui-react"
+import DiaryDatePicker from "../DiaryDatePicker/DiaryDatePicker"
+import { useAppDispatch } from "../../../redux/store.hooks"
+import { getDiaryWithDate } from "../../../redux/modules/diary"
+import { convertWeekIdx } from "../../../utils/utils"
 
 const DiaryDate = ({ diaryData }: any) => {
-  const dispatch = useAppDispatch();
-  const [year, setYear] = useState(diaryData.year);
-  const [month, setMonth] = useState(diaryData.month);
-  const [week, setWeek] = useState("1주차");
-  const [isUpdate, setIsUpdate] = useState(false);
+  const dispatch = useAppDispatch()
+  const [year, setYear] = useState(diaryData.year)
+  const [month, setMonth] = useState(diaryData.month)
+  const [week, setWeek] = useState("1주차")
+  const [isUpdate, setIsUpdate] = useState(false)
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const handleOpen = () => {
-    setOpen(true);
-    setIsUpdate(false);
-  };
+    setOpen(true)
+    setIsUpdate(false)
+  }
   const handleClose = () => {
-    setOpen(false);
-    setIsUpdate(true);
-  };
+    setOpen(false)
+    setIsUpdate(true)
+  }
 
   useEffect(() => {
-    if (isUpdate) {
-      diaryData.year = year;
-      diaryData.month = month;
-      dispatch(getDiaryWithDate(diaryData));
+    if (isUpdate === true) {
+      diaryData.year = year
+      diaryData.month = month
+      dispatch(getDiaryWithDate(diaryData))
     }
-  }, [isUpdate]);
+  }, [isUpdate])
 
   return (
     <div>
@@ -50,10 +50,12 @@ const DiaryDate = ({ diaryData }: any) => {
         <SMain onClick={handleOpen} className="date-picker">
           {month}월
         </SMain>
-        <SMain>{week}</SMain>
+        <SMain onClick={handleOpen} className="date-picker icon">
+          📋
+        </SMain>
       </SContainer>
     </div>
-  );
-};
+  )
+}
 
-export default DiaryDate;
+export default DiaryDate
