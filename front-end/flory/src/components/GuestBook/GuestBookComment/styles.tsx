@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled, { css } from "styled-components";
 
 export const SSection = styled.section<any>`
   position: relative;
@@ -14,6 +14,7 @@ export const SSection = styled.section<any>`
   .user-name {
     /* margin-left: 1rem; */
     font-size: 1rem;
+    cursor: pointer;
   }
 
   .setting {
@@ -80,4 +81,4 @@ export const SSection = styled.section<any>`
     text-align: right;
     font-size: 0.7rem;
   }
-`
+`;

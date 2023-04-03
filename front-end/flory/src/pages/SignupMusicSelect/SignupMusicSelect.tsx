@@ -69,7 +69,11 @@ const SignupMusicSelect = () => {
           if (localStorage.getItem("newGarden") === "No") {
             navigate("/garden");
           } else {
-            navigate("/gardenTheme");
+            navigate("/info", {
+              state: {
+                from: "oauth",
+              },
+            });
           }
         });
       });

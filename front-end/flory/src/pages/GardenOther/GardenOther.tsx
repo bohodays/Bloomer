@@ -15,20 +15,24 @@ import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
 import Navbar from "../../components/common/Navbar/Navbar"
 
 // import Base_map_new from "../../components/Garden/Park/Park_map";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons"
-import { useLocation, useNavigate } from "react-router-dom"
-import Loading from "../Loading/Loading"
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
-import { getDiaryListAction } from "../../redux/modules/diary"
-import Beach_map from "../../components/Garden/Beach/Beach_map"
-import Camp_map from "../../components/Garden/Camp/Camp_map"
-import Park_map from "../../components/Garden/Park/Park_map"
-import { getCurrentGardenAction } from "../../redux/modules/garden"
-import BackButton from "../../components/common/BackButton/BackButton"
-import { Translate } from "aws-sdk"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryListAction } from "../../redux/modules/diary";
+import Beach_map from "../../components/Garden/Beach/Beach_map";
+import Camp_map from "../../components/Garden/Camp/Camp_map";
+import Park_map from "../../components/Garden/Park/Park_map";
+import { getCurrentGardenAction } from "../../redux/modules/garden";
+import BackButton from "../../components/common/BackButton/BackButton";
+import { Translate } from "aws-sdk";
+import {
+  checkDetail,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
 
-let isInitial = true
+let isInitial = true;
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map page="other" />
@@ -104,6 +108,8 @@ const GardenOther = () => {
     }
   }, [gardenId, dispatch])
 
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <>
       {isExist && (
@@ -122,7 +128,7 @@ const GardenOther = () => {
           >
             {otherGardenData.nickname}님의 감정 공간입니다
           </div>
-          <ToggleButton state="other" />
+          <ToggleButton state="other" gardenType={otherGardenType} />
           <Canvas shadows={true}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
             <OrbitControls
