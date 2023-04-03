@@ -7,6 +7,10 @@ import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestB
 import { getAllGuestBookList } from "../../redux/modules/guestBook";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { SMain } from "./styles";
+import {
+  checkDetail,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
 
 const GuestBook = () => {
   const navigate = useNavigate();
@@ -30,6 +34,8 @@ const GuestBook = () => {
 
   const degArray = [2, -2, 0, 2, 2, -2];
 
+  // dispatch(updateShowMusic(false));
+  dispatch(checkDetail(false));
   return (
     <>
       {gardenId === null ? (

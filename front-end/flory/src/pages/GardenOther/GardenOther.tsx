@@ -27,6 +27,10 @@ import Park_map from "../../components/Garden/Park/Park_map";
 import { getCurrentGardenAction } from "../../redux/modules/garden";
 import BackButton from "../../components/common/BackButton/BackButton";
 import { Translate } from "aws-sdk";
+import {
+  checkDetail,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
 
 let isInitial = true;
 
@@ -104,6 +108,8 @@ const GardenOther = () => {
     }
   }, [gardenId, dispatch]);
 
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <>
       {isExist && (
