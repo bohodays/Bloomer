@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,6 +56,13 @@ public class Member extends BaseTime {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    //외래키 참조
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Garden> gardenList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "uid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserTeam> userTeamList = new ArrayList<>();
 
     public Member updateToken(String refreshToken) {
         this.refreshToken = refreshToken;
