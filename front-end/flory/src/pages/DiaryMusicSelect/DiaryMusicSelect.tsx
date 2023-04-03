@@ -12,6 +12,7 @@ import {
 import { musicUrlsDataSave } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/music_vibe.json";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 const DiaryMusicSelect = () => {
   const dispatch = useAppDispatch();
@@ -43,6 +44,13 @@ const DiaryMusicSelect = () => {
   const [musicUrls, setMusicUrls] = useState<any>([]);
   const [musicData, setMusicData] = useState<any>(null);
   const [totalData, setTotalData] = useState<any>([]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // 이전 페이지에서 감정을 저장시켰음
   const emotion = useAppSelector(
@@ -168,6 +176,8 @@ const DiaryMusicSelect = () => {
       dispatch(createInfoSaveAction(musicTitle)).then(() => {
         navigate("/garden/edit");
       });
+    } else {
+      handleOpen();
     }
   };
 
@@ -181,44 +191,53 @@ const DiaryMusicSelect = () => {
   };
 
   return (
-    <SMain>
-      <div className="info__wrapper">
-        <p>일기의 배경음악을 선택해주세요.</p>
+    <>
+      <SMain>
+        <div className="info__wrapper">
+          <p>일기의 배경 음악을 선택해주세요.</p>
+        </div>
         <Lottie
           style={{
             position: "absolute",
-            top: "1rem",
+            top: "11rem",
             left: "50%",
             transform: "translateX(-50%)",
+            textAlign: "center",
+            marginTop: "-50px",
           }}
           options={defaultOptions}
-          height={200}
-          width="150%"
+          height={75}
+          width="130%"
           isClickToPauseDisabled={true}
           speed={0.6}
         />
-      </div>
-      {storeMusicData.length > 0 &&
-        storeMusicUrls.length > 0 &&
-        storeMusicData.map((item: any, i: number) => {
-          console.log("돌리는 값", item);
+        {storeMusicData.length > 0 &&
+          storeMusicUrls.length > 0 &&
+          storeMusicData.map((item: any, i: number) => {
+            console.log("돌리는 값", item);
 
-          return (
-            <DiaryMusicItem
-              isSelected={selectedItems[i + 1]}
-              musicTitle={item.title}
-              musicUrl={storeMusicUrls[i]}
-              onClick={() => handleItemClick(`${i + 1}`)}
-            />
-          );
-        })}
-      <div className="select__wrapper" onClick={handleNavigate}>
-        <div className="background">
-          <p className="select__p">선택</p>
+            return (
+              <DiaryMusicItem
+                isSelected={selectedItems[i + 1]}
+                musicTitle={item.title}
+                musicUrl={storeMusicUrls[i]}
+                onClick={() => handleItemClick(`${i + 1}`)}
+              />
+            );
+          })}
+        <div className="select__wrapper" onClick={handleNavigate}>
+          <div className="background">
+            <p className="select__p">선택</p>
+          </div>
         </div>
-      </div>
-      <Navbar absolute={true} />
-    </SMain>
+        <Navbar absolute={true} />
+      </SMain>
+      <AlertModal
+        open={open}
+        handleClose={handleClose}
+        content="음악을 선택해주세요."
+      />
+    </>
   );
 };
 
