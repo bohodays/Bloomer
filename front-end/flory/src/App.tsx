@@ -55,6 +55,7 @@ const GardenTheme = React.lazy(() => import("./pages/GardenTheme/GardenTheme"));
 const OauthRedirect = React.lazy(
   () => import("./pages/OauthRedirect/OauthRedirect")
 );
+const NotFound = React.lazy(() => import("./pages/NotFound/NotFound"));
 
 let isInitial = true;
 function App() {
@@ -132,9 +133,10 @@ function App() {
             />
             <Route path="/info" element={<Info />} />
             <Route path="/oauth2-redirect" element={<OauthRedirect />} />
-            <Route path="/conditionInfo" element={<ConditionsOfService/>} />
-            <Route path="/findpassword" element={<FindPassword/>} />
+            <Route path="/conditionInfo" element={<ConditionsOfService />} />
+            <Route path="/findpassword" element={<FindPassword />} />
             {/* 404 Not Found 추가해야 됨 */}
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </Suspense>
