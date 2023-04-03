@@ -1,6 +1,6 @@
-import ParkBaseMap from "../assets/imgs/park_base.png"
-import BeachBaseMap from "../assets/imgs/beach_base.png"
-import CampBaseMap from "../assets/imgs/camp_base.png"
+import ParkBaseMap from "../assets/imgs/park_base.png";
+import BeachBaseMap from "../assets/imgs/beach_base.png";
+import CampBaseMap from "../assets/imgs/camp_base.png";
 
 // ======================================
 // Common
@@ -8,39 +8,39 @@ import CampBaseMap from "../assets/imgs/camp_base.png"
 
 // 숫자를 "01" 형식으로 바꾸기
 export const convertNumFormat = (num: number) => {
-  let sNum = String(num)
+  let sNum = String(num);
   if (sNum.length < 2) {
-    sNum = "0" + sNum
+    sNum = "0" + sNum;
   }
-  return sNum
-}
+  return sNum;
+};
 
 // 음악 제목 형식 바꾸기
 export const convertMusicFormat = (title: string) => {
-  let idx = 0
+  let idx = 0;
   for (let i = 0; i < title.length; i++) {
     if (title[i] === "-") {
-      idx = i
+      idx = i;
     }
   }
-  let newTitle = title
+  let newTitle = title;
   if (idx > 0) {
-    newTitle = title.slice(0, idx)
+    newTitle = title.slice(0, idx);
   }
-  newTitle = newTitle.replace(/-/g, " ")
-  newTitle = newTitle.replace(/_/g, " ")
-  return newTitle
-}
+  newTitle = newTitle.replace(/-/g, " ");
+  newTitle = newTitle.replace(/_/g, " ");
+  return newTitle;
+};
 
 // ======================================
 // DiaryDate
 // ======================================
 // 월 주차 계산 함수
 export const convertWeekIdx = (date: Date) => {
-  const currentDate = date.getDate()
-  const firstDay = new Date(date.setDate(1)).getDay()
-  return Math.ceil((currentDate + firstDay) / 7)
-}
+  const currentDate = date.getDate();
+  const firstDay = new Date(date.setDate(1)).getDay();
+  return Math.ceil((currentDate + firstDay) / 7);
+};
 
 // ======================================
 // DiaryListItem
@@ -48,60 +48,60 @@ export const convertWeekIdx = (date: Date) => {
 
 // 시간 형식으로 바꾸기
 export const convertTimeFormat = (targetDate: string | Date) => {
-  const today = new Date()
-  const target = new Date(targetDate)
-  const hour = target.getHours()
-  const minute = target.getMinutes()
+  const today = new Date();
+  const target = new Date(targetDate);
+  const hour = target.getHours();
+  const minute = target.getMinutes();
   const time =
-    hour.toString().padStart(2, "0") + ":" + minute.toString().padStart(2, "0")
+    hour.toString().padStart(2, "0") + ":" + minute.toString().padStart(2, "0");
 
   if (today.toDateString() === target.toDateString()) {
-    return time
+    return time;
   } else {
-    const year = target.getFullYear().toString()
-    const month = target.getMonth() + 1
-    const date = target.getDate()
-    return year + "." + month + "." + date + ". " + time
+    const year = target.getFullYear().toString();
+    const month = target.getMonth() + 1;
+    const date = target.getDate();
+    return year + "." + month + "." + date + ". " + time;
   }
-}
+};
 
 // 년.월.일 형식으로 바꾸기
 export const convertDateFormat = (date: string) => {
-  const target = new Date(date)
-  const year = target.getFullYear()
-  const month = target.getMonth() + 1
-  const day = target.getDate()
-  return year + "." + month + "." + day
-}
+  const target = new Date(date);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
+  const day = target.getDate();
+  return year + "." + month + "." + day;
+};
 
 // 내용 미리보기 형식
 export const convertContentToMaxLength = (content: string) => {
   if (content.length > 10) {
-    return content.slice(0, 50) + "..."
+    return content.slice(0, 50) + "...";
   } else {
-    return content
+    return content;
   }
-}
+};
 
 // "기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"
 export const convertEmotionFormat = (emotion: string) => {
   switch (emotion) {
     case "기쁨":
-      return "기뻤던"
+      return "기뻤던";
     case "안정":
-      return "안정되었던"
+      return "안정되었던";
     case "당황":
-      return "당황했던"
+      return "당황했던";
     case "분노":
-      return "분노했던"
+      return "분노했던";
     case "불안":
-      return "불안했던"
+      return "불안했던";
     case "상처":
-      return "상처 받았던"
+      return "상처 받았던";
     case "슬픔":
-      return "슬펐던"
+      return "슬펐던";
   }
-}
+};
 
 // ======================================
 // DiaryWeather
@@ -109,14 +109,14 @@ export const convertEmotionFormat = (emotion: string) => {
 
 // 요일 매핑 함수
 export const convertDayIdx = (idx: number) => {
-  const dayLst = ["일", "월", "화", "수", "목", "금", "토"]
-  return dayLst[idx]
-}
+  const dayLst = ["일", "월", "화", "수", "목", "금", "토"];
+  return dayLst[idx];
+};
 
 export const convertWeatherDescription = (description: string) => {
   switch (description) {
     case "snow":
-      return "Snow"
+      return "Snow";
     case "Haze":
     case "Mist":
     case "Smoke":
@@ -126,20 +126,20 @@ export const convertWeatherDescription = (description: string) => {
     case "Ash":
     case "Squall":
     case "Tornado":
-      return "Atmosphere"
+      return "Atmosphere";
     default:
-      return description
+      return description;
   }
-}
+};
 
 // 가든 테마 매핑 함수
 export const convertGardenTheme = (type: number | null) => {
   switch (type) {
     case 0:
-      return ParkBaseMap
+      return ParkBaseMap;
     case 1:
-      return CampBaseMap
+      return CampBaseMap;
     default:
-      return BeachBaseMap
+      return BeachBaseMap;
   }
-}
+};

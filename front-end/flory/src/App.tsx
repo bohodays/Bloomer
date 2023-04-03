@@ -99,7 +99,7 @@ function App() {
             <Route path="/diary" element={withAuth(<Diary />)} />
             <Route path="/diary/:diaryId" element={withAuth(<DiaryDetail />)} />
             <Route path="/gardenTheme" element={withAuth(<GardenTheme />)} />
-            <Route path="/garden" element={withAuth(<Garden />)} />
+            <Route path="/garden" element={<Garden />} />
             <Route path="/garden/:userId" element={<GardenOther />} />
             <Route path="/garden/edit" element={withAuth(<GardenEdit />)} />
             <Route path="/garden/list" element={withAuth(<GardenList />)} />
