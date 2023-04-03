@@ -103,7 +103,10 @@ const diarySlice = createSlice({
         state.positionUpdate.error = payload;
       })
       .addCase(getDiaryListAction.fulfilled, (state, { payload }) => {
-        state.diaryData = [...payload.response];
+        state.diaryData = payload.response;
+      })
+      .addCase(getDiaryListAction.rejected, (state) => {
+        state.diaryData = [];
       })
       .addCase(getAllDiary.fulfilled, (state, { payload }) => {
         state.allDiaryList = payload.response;

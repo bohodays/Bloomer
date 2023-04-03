@@ -33,6 +33,7 @@ import {
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
+import { log } from "console";
 
 let isInitial = true;
 
@@ -71,9 +72,10 @@ const Garden = () => {
   const gardenId =
     locationData !== null && locationData.gid !== null
       ? locationData.gid
-      : gardenData.gardenId;
+      : garden.gardenData.gardenId;
   // 본인 ID
   const requestId = useAppSelector((state) => state.user.userData.userId);
+  const user = useAppSelector((state) => state.user);
 
   const handleMoveToGuestBook = () => {
     navigate("/guestbook", {
@@ -85,13 +87,18 @@ const Garden = () => {
 
   useEffect(() => {
     const inputData = {
-      gardenId,
+      gardenId:
+        locationData !== null && locationData.gid !== null
+          ? locationData.gid
+          : garden.gardenData.gardenId,
       requestId,
     };
+    console.log("정원아이디", { gardenId, requestId });
+
     if (gardenId) {
       dispatch(getDiaryListAction(inputData));
     }
-  }, [gardenId, dispatch]);
+  }, [gardenId, dispatch, user, garden]);
 
   const music = useAppSelector((state) => state.music);
 
