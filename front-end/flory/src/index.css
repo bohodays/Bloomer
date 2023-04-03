@@ -154,6 +154,7 @@ body {
   height: 100%;
   position: relative;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .wrapper {

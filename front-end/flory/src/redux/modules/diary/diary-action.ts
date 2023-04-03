@@ -2,6 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { dataReset } from "../diaryCreate/diaryCreate-slice";
 import { localData } from "../user/token";
+import { setFirstMusic } from "../music/music-slice";
+import { gardenActions } from "../garden/garden-slice";
 
 // 일기 생성
 export const createDiaryAction = createAsyncThunk(
@@ -132,7 +134,7 @@ export const getEmotionAction = createAsyncThunk(
 // 해당 정원의 일기 목록 조회
 export const getDiaryListAction = createAsyncThunk(
   "GET_DIARYLIST",
-  async (inputData: any, { rejectWithValue }) => {
+  async (inputData: any, { dispatch, rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
@@ -144,8 +146,12 @@ export const getDiaryListAction = createAsyncThunk(
           },
         }
       );
-      console.log("현재 일기 목록", data);
+      console.log("현재 일기 목록", data.response);
+      const latestMusicTitle =
+        data.response[data.response.length - 1].musicTitle;
 
+      // dispatch(setFirstMusic(latestMusicTitle));
+      dispatch(gardenActions.setGardenMusic(latestMusicTitle));
       return data;
     } catch (e) {
       return rejectWithValue(e);

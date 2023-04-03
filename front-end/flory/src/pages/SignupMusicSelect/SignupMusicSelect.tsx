@@ -8,6 +8,7 @@ import Chip from "../../components/common/Chip/Chip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store.hooks";
 import {
+  getUserDataToTokenAction,
   signupAction,
   socialLoginUpdateAction,
 } from "../../redux/modules/user";
@@ -36,7 +37,7 @@ const SignupMusicSelect = () => {
     electronic: false,
   });
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // 소셜 로그인으로 온 신규유저라면
     if (update) {
       const userData = {
@@ -55,15 +56,22 @@ const SignupMusicSelect = () => {
         { refresh: localData.getRefreshToken() }
       );
 
-      dispatch(socialLoginUpdateAction(userData)).then(() => {
+      await dispatch(socialLoginUpdateAction(userData)).then(() => {
         console.log(
           "dispatch 요청 후 가든으로 가기 전",
           { local: localData.getAccessToken() },
           { refresh: localData.getRefreshToken() }
         );
-        console.log("가든으로 가");
 
-        navigate("/garden");
+        console.log("토큰으로 내 정보 가져오기 요청");
+
+        dispatch(getUserDataToTokenAction()).then(() => {
+          if (localStorage.getItem("newGarden") === "No") {
+            navigate("/garden");
+          } else {
+            navigate("/gardenTheme");
+          }
+        });
       });
     }
     // 회원가입으로 온 신규유저라면
