@@ -45,8 +45,6 @@ public class CommentService {
         Comment comment = commentDto.toEntity();
         comment.setMember(member.get());
 
-        log.info("insert 요청: {}",comment);
-
         Comment result = commentRepository.save(comment);
         CommentResponseDto commentResponseDto = CommentResponseDto.builder()
                 .id(result.getId()).content(result.getContent()).member(MemberResponseDto.of(member.get()))
@@ -59,8 +57,8 @@ public class CommentService {
         List<Comment> commentList = commentRepository.findByDid(diaryId);
         List<CommentResponseDto> comments = new ArrayList<>();
 
-        for(int i=0;i<commentList.size();i++){
-            CommentDto commentDto = commentList.get(i).toDto();
+        for(Comment comment: commentList){
+            CommentDto commentDto = comment.toDto();
             Optional<Member> member = memberRepository.findById(commentDto.getUid());
 
             if(member.isEmpty()) throw new CustomException(ErrorCode.NO_USER);

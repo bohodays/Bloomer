@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Slf4j
 public class MusicDto {
