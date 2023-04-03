@@ -8,6 +8,7 @@
   border-color: #e1e1e1;
   overflow-y: auto;
   z-index: 100;
+  background-color: white;
 }
 
 @media (max-width: 480px) {
