@@ -20,6 +20,7 @@ interface Props {
 
 const DiaryMusicButton = ({ musicUrl }: Props) => {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isDetail, setIsDetail] = useState(false);
   const audioControl = useRef<HTMLAudioElement>(null);
   const music = useAppSelector((store) => store.music);
   const dispatch = useAppDispatch();
@@ -46,6 +47,12 @@ const DiaryMusicButton = ({ musicUrl }: Props) => {
       audioControl.current?.pause();
       setIsPlaying(false);
     }
+
+    if (music.isDetail) {
+      setIsDetail(true);
+    } else {
+      setIsDetail(false);
+    }
   }, [music, musicUrl]);
 
   console.log(music.isPlaying, "와아아아아ㅏㅇ아");
@@ -61,10 +68,12 @@ const DiaryMusicButton = ({ musicUrl }: Props) => {
           id="myAudio"
         ></audio>
       )}
-      <FontAwesomeIcon
-        className={`icon play`}
-        icon={isPlaying ? faVolumeHigh : faVolumeMute}
-      />
+      {isDetail && (
+        <FontAwesomeIcon
+          className={`icon play`}
+          icon={isPlaying ? faVolumeHigh : faVolumeMute}
+        />
+      )}
     </SMusicWrapper>
   );
 };

@@ -7,6 +7,7 @@ const initialState = {
   musicUrl: "",
   showMusic: false,
   isPlaying: true,
+  isDetail: false,
 };
 
 const musicSlice = createSlice({
@@ -30,6 +31,9 @@ const musicSlice = createSlice({
         state.musicTitle = action.payload;
       }
     },
+    checkDetail: (state, action) => {
+      state.isDetail = action.payload;
+    },
   },
   extraReducers: (builder) => {},
 });
@@ -41,4 +45,5 @@ export const {
   updateShowMusic,
   updateIsPlaying,
   setFirstMusic,
+  checkDetail,
 } = musicSlice.actions;

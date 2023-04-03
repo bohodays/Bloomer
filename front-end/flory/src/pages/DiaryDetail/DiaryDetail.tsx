@@ -33,6 +33,7 @@ import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 import { getMusicAction } from "../../redux/modules/music";
 import {
+  checkDetail,
   updateMusicTitle,
   updateMusicUrl,
   updateShowMusic,
@@ -213,6 +214,8 @@ const DiaryDetail = () => {
   }, []);
 
   dispatch(updateShowMusic(true));
+
+  dispatch(checkDetail(true));
 
   return (
     <SMain>

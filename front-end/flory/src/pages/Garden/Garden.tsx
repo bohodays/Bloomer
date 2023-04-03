@@ -27,6 +27,7 @@ import Camp_map from "../../components/Garden/Camp/Camp_map";
 import Park_map from "../../components/Garden/Park/Park_map";
 import { getMusicAction } from "../../redux/modules/music";
 import {
+  checkDetail,
   updateMusicTitle,
   updateMusicUrl,
   updateShowMusic,
@@ -108,6 +109,7 @@ const Garden = () => {
   }, [garden, music]);
 
   dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <SMain>
       {locationData !== null && (
