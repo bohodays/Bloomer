@@ -1,12 +1,15 @@
 package com.exmaple.flory.service;
 
+import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.*;
+import com.exmaple.flory.entity.Diary;
 import com.exmaple.flory.entity.Team;
 import com.exmaple.flory.entity.Member;
 import com.exmaple.flory.entity.UserTeam;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
+import com.exmaple.flory.repository.DiaryRepository;
 import com.exmaple.flory.repository.TeamRepository;
 import com.exmaple.flory.repository.MemberRepository;
 import com.exmaple.flory.repository.UserTeamRepository;
@@ -27,6 +30,37 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
     private final UserTeamRepository userTeamRepository;
+    private final DiaryRepository diaryRepository;
+
+    private TeamDto changeTeamDtoList(Team team, Member member){
+        List<TeamMemberInfoDto> memberList = new ArrayList<>();
+        int status = -1; //신청도 안한 상태
+        int manager = 1;
+        Long managerId = 1L;
+
+        for(UserTeam userTeam : team.getUserTeamList()){
+
+            if(userTeam.getStatus() == 1){ // 승인된 사람들만
+                List<Diary> diaryList = diaryRepository.findByMemberId(userTeam.getUid().getUserId());
+                if(diaryList.size()!=0){
+                    Diary diary = diaryList.get(diaryList.size()-1);
+                    memberList.add(TeamMemberInfoDto.of(userTeam.getUid(), diary));
+                }else{
+                    memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+                }
+            }
+
+            if(userTeam.getUid().getUserId().equals(member.getUserId())) {
+                status = userTeam.getStatus();
+                manager = userTeam.getManager();
+            }
+
+            if(userTeam.getManager() == 0){
+                managerId = userTeam.getUid().getUserId();
+            }
+        }
+        return TeamDto.of(team, memberList, status, manager, managerId);
+    }
 
     @Transactional(readOnly = true)
     public TeamDto getTeam(Long teamId) {
@@ -44,7 +78,7 @@ public class TeamService {
         List<Team> teamList = teamRepository.getAllTeamByKeyWord(keyword, userId);
         List<TeamDto> teamDtoList = new ArrayList<>();
         for(Team team : teamList){
-            teamDtoList.add(TeamDto.of(team,member));
+            teamDtoList.add(changeTeamDtoList(team, member));
         }
 
         return teamDtoList;
@@ -59,8 +93,9 @@ public class TeamService {
         List<Team> teamList = teamRepository.getAllTeam(userId);
         System.out.println(teamList.size());
         List<TeamDto> teamDtoList = new ArrayList<>();
+
         for(Team team : teamList){
-            teamDtoList.add(TeamDto.of(team,member));
+            teamDtoList.add(changeTeamDtoList(team, member));
         }
 
         return teamDtoList;
@@ -70,7 +105,7 @@ public class TeamService {
     public TeamDto insertTeam(TeamInsertRequestDto teamInsertRequestDto){
 
         Team team = teamRepository.save(teamInsertRequestDto.toGroup());
-        List<MemberResponseDto> memberList = new ArrayList<>();
+        List<TeamMemberInfoDto> memberList = new ArrayList<>();
         Member member = memberRepository.findById(teamInsertRequestDto.getHostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
@@ -80,8 +115,14 @@ public class TeamService {
                 .status(1)
                 .manager(0) //관리자
                 .build();
-        
-        memberList.add(MemberResponseDto.of(userTeamRepository.save(userTeam).getUid()));
+
+        List<Diary> diaryList = diaryRepository.findByMemberId(userTeam.getUid().getUserId());
+        if(diaryList.size()!=0){
+            Diary diary = diaryList.get(diaryList.size()-1);
+            memberList.add(TeamMemberInfoDto.of(userTeam.getUid(), diary));
+        }else{
+            memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+        }
 
 //        return teamRepository.findById(team.getTeamId())
 //                .map(TeamDto::of)
@@ -113,8 +154,8 @@ public class TeamService {
 
         List<UserTeam> userTeamList = userTeamRepository.findAllByUidAndStatus(member, 1); //승인된 내용만 조회
         List<TeamDto> teamDtoList = new ArrayList<>();
-        for(UserTeam team : userTeamList){
-            teamDtoList.add(TeamDto.of(team.getTid(), member));
+        for(UserTeam userTeam : userTeamList){
+            teamDtoList.add(changeTeamDtoList(userTeam.getTid(), member));
         }
         return teamDtoList;
     }
@@ -151,7 +192,7 @@ public class TeamService {
         }
 
 
-        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
+        return changeTeamDtoList(userTeamRepository.save(userTeam).getTid(), member);
     }
 
     @Transactional
@@ -166,7 +207,7 @@ public class TeamService {
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
 
         userTeam.updateUserTeam(1); //가입 승인 상태로
-        return TeamDto.of(userTeamRepository.save(userTeam).getTid(), member);
+        return changeTeamDtoList(userTeamRepository.save(userTeam).getTid(), member);
     }
 
     @Transactional
@@ -180,7 +221,9 @@ public class TeamService {
         UserTeam userTeam = userTeamRepository.findByUidAndTid(member, team)
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_APPROVE));
 
+        if(userTeam.getManager() == 0) teamRepository.delete(team);
         userTeamRepository.deleteById(userTeam.getUserTeamId());
+
         return 1;
     }
 

@@ -1,9 +1,8 @@
 package com.exmaple.flory.controller;
 
+import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.*;
-import com.exmaple.flory.entity.Member;
-import com.exmaple.flory.entity.Team;
-import com.exmaple.flory.entity.UserTeam;
+import com.exmaple.flory.entity.*;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.SuccessResponse;
@@ -22,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -41,6 +41,30 @@ class TeamControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    private TeamDto changeTeamDtoList(Team team, Member member){
+        List<TeamMemberInfoDto> memberList = new ArrayList<>();
+        int status = -1; //신청도 안한 상태
+        int manager = 1;
+        Long managerId = 1L;
+
+        for(UserTeam userTeam : team.getUserTeamList()){
+
+            if(userTeam.getStatus() == 1){ // 승인된 사람들만
+                memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+            }
+
+            if(userTeam.getUid().getUserId().equals(member.getUserId())) {
+                status = userTeam.getStatus();
+                manager = userTeam.getManager();
+            }
+
+            if(userTeam.getManager() == 0){
+                managerId = userTeam.getUid().getUserId();
+            }
+        }
+        return TeamDto.of(team, memberList, status, manager, managerId);
+    }
 
     @DisplayName("특정 팀 조회")
     @Test
@@ -74,7 +98,7 @@ class TeamControllerTest {
         Member member = Member.builder()
                 .userId(1L) .nickname("nickname").password("password") .img("img").email("email") .refreshToken("token").build();
 
-        teamDtoList.add(TeamDto.of(team, member));
+        teamDtoList.add(changeTeamDtoList(team, member));
 
         when(teamService.getAllTeamByKeyWord(any(),any())).thenReturn(teamDtoList);
 
@@ -104,7 +128,7 @@ class TeamControllerTest {
 //        UserTeam userTeam = UserTeam.builder()
 //                .userTeamId(1L).tid(team).uid(member).status(0).manager(1).build();
 
-        teamDtoList.add(TeamDto.of(team, member));
+        teamDtoList.add(changeTeamDtoList(team, member));
 
         when(teamService.getAllTeam(any())).thenReturn(teamDtoList);
 
@@ -311,7 +335,7 @@ class TeamControllerTest {
             Member member = Member.builder()
                     .userId(1L) .nickname("nickname").password("password") .img("img").email("email") .refreshToken("token").build();
 
-            teamDtoList.add(TeamDto.of(team, member));
+            teamDtoList.add(changeTeamDtoList(team, member));
 
             when(teamService.getAllTeamByKeyWord(any(),any())).thenThrow(new CustomException(ErrorCode.NO_USER));
 
@@ -335,7 +359,7 @@ class TeamControllerTest {
 //        UserTeam userTeam = UserTeam.builder()
 //                .userTeamId(1L).tid(team).uid(member).status(0).manager(1).build();
 
-            teamDtoList.add(TeamDto.of(team, member));
+            teamDtoList.add(changeTeamDtoList(team, member));
 
             when(teamService.getAllTeam(any())).thenThrow(new CustomException(ErrorCode.NO_USER));
 
