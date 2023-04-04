@@ -63,7 +63,7 @@ const DiaryDetail = () => {
     imgSrc: "",
     lat: 0,
     lng: 0,
-    publicStatus: "전체공개",
+    publicStatus: "",
     x: 0,
     y: 0,
     z: 0,
@@ -90,10 +90,9 @@ const DiaryDetail = () => {
   const [mapView, setMapView] = useState<boolean>(false);
 
   // 그룹 수정 관련
-  const [groupSetting, setGroupSetting] = useState("전체공개");
+  const [groupSetting, setGroupSetting] = useState(diary.publicStatus);
   const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
   const [group, setGroup] = useState<any>(null);
-  const [selectedValue, setSelectedValue] = React.useState("a");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -168,6 +167,10 @@ const DiaryDetail = () => {
     });
   };
 
+  useEffect(() => {
+    setGroupSetting(diary.publicStatus);
+  }, [diary]);
+
   // 이미지 관련
   let imgSrc;
 
@@ -212,18 +215,6 @@ const DiaryDetail = () => {
     }
   }, [diary.musicTitle]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
-  const controlProps = (item: string) => ({
-    checked: selectedValue === item,
-    onChange: handleChange,
-    value: item,
-    name: "color-radio-button-demo",
-    inputProps: { "aria-label": item },
-  });
-
   // \n 인식시키기
   const convertNewLineToBreak = (str: string) => {
     return str.split("\n").map((line, idx) => (
@@ -248,10 +239,7 @@ const DiaryDetail = () => {
   }, []);
 
   dispatch(updateShowMusic(true));
-
   dispatch(checkDetail(true));
-
-  console.log(diary.publicStatus, "공개 설정");
 
   return (
     <>

@@ -49,10 +49,39 @@ const SettingPopover = ({
     };
   }
 
+  // const convertGroupNameToValue = (groupSetting: string) => {
+  //   // switch (groupSetting) {
+  //   //   case "전체공개":
+  //   //     return "a";
+  //   //   case "그룹공개":
+  //   //     return "b";
+  //   //   case "비공개":
+  //   //     return "c";
+  //   // }
+  //   console.log("조건", groupSetting);
+
+  //   if (groupSetting === "전체공개") {
+  //     console.log("전체공개로 들어옴");
+
+  //     return "전체공개";
+  //   } else if (groupSetting === "그룹공개") {
+  //     console.log("그룹공개로 들어옴");
+  //     return "그룹공개";
+  //   } else if (groupSetting === "비공개") {
+  //     console.log("비공개로 들어옴");
+  //     return "비공개";
+  //   }
+  // };
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-  const [selectedValue, setSelectedValue] = React.useState("a");
+
+  // const convertVal = convertGroupNameToValue(groupSetting);
+  console.log(typeof groupSetting, "이전값");
+  const [selectedValue, setSelectedValue] = React.useState("비공개");
+  console.log(selectedValue, "이후값");
+
   const openRef = React.useRef<any>();
   const dispatch = useAppDispatch();
 
@@ -162,7 +191,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>전체 공개</p>
           <Radio
-            {...controlProps("a")}
+            {...controlProps("전체공개")}
             onClick={() => {
               setGroupSetting("전체공개");
             }}
@@ -172,7 +201,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>그룹 공개</p>
           <Radio
-            {...controlProps("b")}
+            {...controlProps("그룹공개")}
             disabled={
               group !== null && group !== undefined && group.length
                 ? false
@@ -198,7 +227,7 @@ const SettingPopover = ({
         <div className="radio__wrapper last__radio">
           <p>나만 보기</p>
           <Radio
-            {...controlProps("c")}
+            {...controlProps("비공개")}
             onClick={() => {
               setGroupSetting("비공개");
             }}
