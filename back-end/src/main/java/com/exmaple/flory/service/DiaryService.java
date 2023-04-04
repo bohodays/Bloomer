@@ -700,4 +700,13 @@ public class DiaryService {
         diary.setContent(diaryRequestDto.getContent());
         diary.setAddress(diaryRequestDto.getAddress());
     }
+
+    public Map<String,Integer> getWordCloud(Long userId){
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
+        List<Diary> diaryList = diaryRepository.findByMemberId(userId);
+        Map<String, Integer> result = new HashMap<>();
+        return result;
+    }
 }
