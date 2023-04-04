@@ -186,7 +186,7 @@ const DiaryCreate = () => {
   // 캠프 테마인 경우
   else if (gardenType === 1) {
     setPositionX = 1;
-    setPositionY = -0.2;
+    setPositionY = -0.1;
     setPositionZ = -0.5;
   }
   // 해변 테마인 경우

@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState, useRef } from "react";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  AppState,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import { BackHandler } from "react-native";
 import * as Location from "expo-location";
@@ -57,11 +64,27 @@ export default function App() {
   };
   getLocation();
 
+  // 음악 끄기 관련
+  const handleAppStateChange = (appState) => {
+    if (webview.current) {
+      console.log(appState === "active" ? "unmute" : "mute");
+      webview.current.postMessage(appState === "active" ? "unmute" : "mute");
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    AppState.addEventListener("change", handleAppStateChange);
+    return () => {
+      AppState.removeEventListener("change", handleAppStateChange);
+    };
+  }, [AppState]);
+
   return (
     <View style={styles.container}>
-      <View
-        style={{ width: "100%", height: "100%", backgroundColor: "#4e126b" }}
-      >
+      <View style={{ width: "100%", height: "100%" }}>
         <WebView
           ref={webview}
           source={{ uri: "http://j8a205.p.ssafy.io/" }}
@@ -72,6 +95,34 @@ export default function App() {
           style={{ zIndex: 1 }}
           // 웹뷰 뒤로가기 관련
           injectedJavaScript={`
+
+
+          function mute(muted) {
+            document.querySelectorAll('audio').forEach(audio => {
+              audio.muted = muted;
+            });
+          }
+          
+          document.addEventListener('message', (e) => {
+            if(e.data === 'mute') {
+            
+              mute(true);
+            }
+            else if(e.data === 'unmute') {
+              mute(false);
+            }
+          });
+
+
+ 
+
+
+
+
+
+
+
+
         (function() {
           function wrap(fn) {
             return function wrapper() {
@@ -89,6 +140,8 @@ export default function App() {
         })();
     
         true;
+
+
       `}
           onMessage={({ nativeEvent: state }) => {
             if (state.data === "navigationStateChange") {
@@ -113,7 +166,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4e126b",
+    // backgroundColor: "#4e126b",
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
   },

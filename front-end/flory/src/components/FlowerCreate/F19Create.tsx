@@ -100,7 +100,7 @@ export function F19Create(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={0.2}
+        scale={0.35}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f19" }}
         onClick={() => {

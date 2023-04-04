@@ -18,7 +18,7 @@ root.render(
       <div className="wrapper">
         <span className="text__wrapper">
           <span id="main-title">Bloomer</span>
-          <span id="sub-title">감정을 꽃 피우다</span>
+          <span id="sub-title">감정을 꽃 피우다 </span>
         </span>
         <div className="google__wrapper">
           <a

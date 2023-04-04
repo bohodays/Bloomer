@@ -57,7 +57,7 @@ const AlertModal = ({
 
   return (
     <div>
-      <Modal
+      <SModal
         open={open}
         onClose={handleCancleModal}
         aria-labelledby="modal-modal-title"
@@ -116,7 +116,7 @@ const AlertModal = ({
             />
           </div>
         </div>
-      </Modal>
+      </SModal>
     </div>
   );
 };
