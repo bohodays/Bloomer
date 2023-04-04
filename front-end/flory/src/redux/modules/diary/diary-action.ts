@@ -346,3 +346,22 @@ export const getStatisticsLastWeek = createAsyncThunk(
     }
   }
 );
+
+// word-cloud 가져오기
+export const getWordCloud = createAsyncThunk(
+  "GET_WORD_CLOUD",
+  async (userId: any, { rejectWithValue }) => {
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      const { data } = await axios.get(`/api/diary/statistics/wordcloud/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

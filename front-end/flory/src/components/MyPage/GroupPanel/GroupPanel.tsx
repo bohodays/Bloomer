@@ -6,10 +6,11 @@ import Accordion from "../../../components/common/Accordion/Accordion";
 import Avatar from "../../common/Avatar/Avatar";
 import { SGroupPanel, SMember } from "./styles";
 import { useSwipeable } from "react-swipeable";
-
+import { convertNumFormat, diffTimeFormat } from "../../../utils/utils";
 import GroupCreateModal from "../GroupCreateModal/GroupCreateModal";
 import GroupEditModal from "../GroupEditModal/GroupEditModal";
 import { getGroupInfoAction, deleteGroupMemberAction } from "../../../redux/modules/group/group-action";
+import crownImg from "../../../assets/imgs/crown.png";
 
 function GroupPanel({}): JSX.Element {
   const navigate = useNavigate();
@@ -23,14 +24,6 @@ function GroupPanel({}): JSX.Element {
     dispatch(getGroupInfoAction());
   }, []);
 
-  for (var i = 1; i < 26; i++) {
-    var img_icon;
-    if (i < 10)
-      img_icon = require(`../../../assets/imgs/flower_icon/icon_f0${i}.png`);
-    else img_icon = require(`../../../assets/imgs/flower_icon/icon_f${i}.png`);
-    bgIcons.push(<img className="icon_flower" key={i} src={img_icon} />);
-  }
-
   const deleteAction = (groupId: any, userId: any) => {
     dispatch(deleteGroupMemberAction({teamId: groupId, userId})).then(() => {
       dispatch(getGroupInfoAction());
@@ -38,12 +31,10 @@ function GroupPanel({}): JSX.Element {
   };
 
   const handleSwipeRight = () => {
-    console.log("swiped right");
     setShowDeleteButton(false);
   };
 
   const handleSwipeLeft = () => {
-    console.log("swiped left");
     setShowDeleteButton(true);
   }
   
@@ -71,7 +62,7 @@ function GroupPanel({}): JSX.Element {
           ) : (
             userGroupList.map((group: any, index: any) => (
               <Accordion
-                key={index}
+                key={group.teamId}
                 title={`${group.name} (${group.userTeamList.length})`}
                 contents={
                   <div>
@@ -85,12 +76,16 @@ function GroupPanel({}): JSX.Element {
                     )}
                     {group.userTeamList.map((member: any, idx:any) => {
                       // const random = Math.floor(Math.random() * bgIcons.length);
+                      const flowerIcon = member.flowerId ?
+                        require(`../../../assets/imgs/flower_icon/icon_f${convertNumFormat(member.flowerId)}.png`)
+                        : require(`../../../assets/imgs/flower_icon/icon_f01.png`);
+                      
                       const handleMoveToOtherGarden = () => {
                         navigate(`/garden/${member.userId}`);
                       }
                       
                       return (
-                        <SMember key={index} {...swipeConfig}>
+                        <SMember key={member.userId} {...swipeConfig}>
                           {member.img && member.img.length > 2 ? (
                             <Avatar
                               size="small"
@@ -101,13 +96,19 @@ function GroupPanel({}): JSX.Element {
                             />
                           ) : (
                             <Avatar size="small"
-                                imgIdx={member.img} key={index}
+                                imgIdx={member.img} key={member.userId}
                                 onClick={handleMoveToOtherGarden}
                               />
                           )}
                           <br />
                           <div className="memberName">{member.nickname}</div>
-                          {bgIcons[idx]}
+                          {group.managerId === member.userId && (
+                            <img src={crownImg} width={18} height={15} style={{marginLeft: "1px"}} />
+                          )}
+                          {member.lastTime && (
+                            <div className="lastTime">{diffTimeFormat(member.lastTime)}시간전</div>
+                          )}
+                          <img className="icon_flower" src={flowerIcon} />
                           {showDeleteButton && group.manager === 0 &&  (
                             <button className="deleteButton" onClick={() => deleteAction(group.teamId, member.userId)}>
                               삭제
