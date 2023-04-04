@@ -11,6 +11,7 @@ import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.dto.team.TeamIdListDto;
+import com.exmaple.flory.dto.team.TeamMemberInfoDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
@@ -455,7 +456,7 @@ public class DiaryService {
 
             TeamDto teamDto = TeamDto.of(team.get());
 
-            for(MemberResponseDto member: teamDto.getUserTeamList()){
+            for(TeamMemberInfoDto member: teamDto.getUserTeamList()){
                 userIdSet.add(member.getUserId());
             }
        }

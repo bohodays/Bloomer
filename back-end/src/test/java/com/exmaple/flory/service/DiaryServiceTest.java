@@ -103,7 +103,7 @@ public class DiaryServiceTest {
             .teamId(1L).name("name").info("info").open(true).build();
 
     private final UserTeam userTeam = UserTeam.builder()
-            .userTeamId(1L).tid(team).uid(member).status(1).build();
+            .userTeamId(1L).tid(team).uid(member).status(1).manager(0).build();
     @DisplayName("일기 등록하기 테스트")
     @Test
     public void insertDiaryTest() throws Exception{
