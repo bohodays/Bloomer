@@ -58,7 +58,13 @@ const Setting = () => {
       >
         서비스 이용 약관
       </div>
-      <div className="contents">이용 문의</div>
+      <div className="contents"
+        onClick={() => {
+          navigate(`/intro`);
+        }}
+      >
+        이용 문의
+      </div>
     </div>
   );
 
