@@ -4,9 +4,12 @@ import com.exmaple.flory.dto.diary.DiaryDayDto;
 import com.exmaple.flory.dto.diary.DiaryDto;
 import com.exmaple.flory.dto.diary.UpdateDiariesDto;
 import com.exmaple.flory.dto.emotion.FlowerEmotionDataDto;
+import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamIdListDto;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
+import com.exmaple.flory.response.ErrorResponse;
+import com.exmaple.flory.response.SuccessResponse;
 import com.exmaple.flory.service.DiaryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -16,15 +19,21 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -617,5 +626,29 @@ public class DiaryControllerTest {
         mockMvc.perform(get("/api/diary/statistics/month/{userId}",1L))
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
+    }
+
+    @DisplayName("wordCloud 테스트")
+    @Test
+    public void getWordCloud() throws Exception{
+        Map<String,Integer> words = new HashMap<>();
+        words.put("퇴근이다",1);
+
+        when(diaryService.getWordCloud(any())).thenReturn(words);
+        MvcResult mvcResult = mockMvc.perform(get("/api/diary/statistics/wordcloud/{userId}",1L))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @DisplayName("wordCloud 테스트")
+    @Test
+    public void getWordCloudException() throws Exception{
+        Map<String,Integer> words = new HashMap<>();
+        words.put("퇴근이다",1);
+
+        when(diaryService.getWordCloud(any())).thenThrow(new CustomException(ErrorCode.NO_USER));
+        mockMvc.perform(get("/api/diary/statistics/wordcloud/{userId}",1L))
+                .andExpect(status().isNotFound())
+                .andReturn();
     }
 }

@@ -2,9 +2,8 @@ package com.exmaple.flory.service;
 
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.*;
-import com.exmaple.flory.entity.Member;
-import com.exmaple.flory.entity.Team;
-import com.exmaple.flory.entity.UserTeam;
+import com.exmaple.flory.entity.*;
+import com.exmaple.flory.repository.DiaryRepository;
 import com.exmaple.flory.repository.MemberRepository;
 import com.exmaple.flory.repository.TeamRepository;
 import com.exmaple.flory.repository.UserTeamRepository;
@@ -18,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +41,41 @@ class TeamServiceTest {
     @Mock
     private UserTeamRepository userTeamRepository;
 
+    @Mock
+    private DiaryRepository diaryRepository;
+
     @Spy
     private PasswordEncoder passwordEncoder;
+
+    private TeamDto changeTeamDtoList(Team team, Member member){
+        List<TeamMemberInfoDto> memberList = new ArrayList<>();
+        int status = -1; //신청도 안한 상태
+        int manager = 1;
+        Long managerId = 1L;
+
+        for(UserTeam userTeam : team.getUserTeamList()){
+
+            if(userTeam.getStatus() == 1){ // 승인된 사람들만
+                List<Diary> diaryList = diaryRepository.findByMemberId(userTeam.getUid().getUserId());
+                if(diaryList.size()!=0){
+                    Diary diary = diaryList.get(diaryList.size()-1);
+                    memberList.add(TeamMemberInfoDto.of(userTeam.getUid(), diary));
+                }else{
+                    memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+                }
+            }
+
+            if(userTeam.getUid().getUserId().equals(member.getUserId())) {
+                status = userTeam.getStatus();
+                manager = userTeam.getManager();
+            }
+
+            if(userTeam.getManager() == 0){
+                managerId = userTeam.getUid().getUserId();
+            }
+        }
+        return TeamDto.of(team, memberList, status, manager, managerId);
+    }
 
     @DisplayName("팀 정보 가져오기")
     @Test
@@ -68,19 +101,33 @@ class TeamServiceTest {
         String keyword = "na";
         Long userId = 1L;
 
-        Team team = Team.builder()
-                .teamId(1L).name("name").info("info").open(true).build();
         Member member = Member.builder()
                 .userId(1L).nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        UserTeam userTeam = UserTeam.builder()
+                .userTeamId(1L).uid(member).status(1).manager(0).build();
+
+        List<UserTeam> userTeamList = new ArrayList<>();
+        userTeamList.add(userTeam);
+
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").open(true).userTeamList(userTeamList).build();
+        Flower flower = Flower.builder().id(1L).name("name").build();
+        Diary diary = Diary.builder()
+                .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z").flower(flower).createdTime(new Date()).build();
+
+        List<Diary> diaries = new ArrayList<>();
+        diaries.add(diary);
 
         List<Team> teamList = new ArrayList<>();
         teamList.add(team);
 
         List<TeamDto> teamDtoList = new ArrayList<>();
-        teamDtoList.add(TeamDto.of(team,member));
+        teamDtoList.add(changeTeamDtoList(team, member));
 
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(teamRepository.getAllTeamByKeyWord(any(),any())).thenReturn(teamList);
+        when(diaryRepository.findByMemberId(any())).thenReturn(diaries);
 
         //when
         List<TeamDto> result = teamService.getAllTeamByKeyWord(keyword,userId);
@@ -95,19 +142,27 @@ class TeamServiceTest {
         //given
         Long userId = 1L;
 
-        Team team = Team.builder()
-                .teamId(1L).name("name").info("info").open(true).build();
         Member member = Member.builder()
                 .userId(1L).nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        UserTeam userTeam = UserTeam.builder()
+                .userTeamId(1L).uid(member).status(0).manager(1).build();
+
+        List<UserTeam> userTeamList = new ArrayList<>();
+        userTeamList.add(userTeam);
+
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").open(true).userTeamList(userTeamList).build();
 
         List<Team> teamList = new ArrayList<>();
         teamList.add(team);
 
         List<TeamDto> teamDtoList = new ArrayList<>();
-        teamDtoList.add(TeamDto.of(team,member));
+        teamDtoList.add(changeTeamDtoList(team, member));
 
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(teamRepository.getAllTeam(any())).thenReturn(teamList);
+        when(diaryRepository.findByMemberId(any())).thenReturn(null);
 
         //when
         List<TeamDto> result = teamService.getAllTeam(userId);
@@ -131,15 +186,23 @@ class TeamServiceTest {
         UserTeam userTeam = UserTeam.builder()
                 .userTeamId(1L).tid(team).uid(member).status(0).manager(1).build();
 
-        List<MemberResponseDto> userTeamList = new ArrayList<>();
-        MemberResponseDto memberResponseDto = MemberResponseDto.of(member);
+        List<TeamMemberInfoDto> userTeamList = new ArrayList<>();
+        TeamMemberInfoDto memberResponseDto = TeamMemberInfoDto.of(member);
         userTeamList.add(memberResponseDto);
+
+        Flower flower = Flower.builder().id(1L).name("name").build();
+        Diary diary = Diary.builder()
+                .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z").flower(flower).createdTime(new Date()).build();
+
+        List<Diary> diaries = new ArrayList<>();
+        diaries.add(diary);
 
         TeamDto teamDto = TeamDto.toTeam(team, userTeamList);
 
         when(teamRepository.save(any())).thenReturn(team);
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(userTeamRepository.save(any())).thenReturn(userTeam);
+        when(diaryRepository.findByMemberId(any())).thenReturn(diaries);
 
         //when
         TeamDto result = teamService.insertTeam(teamInsertRequestDto);
@@ -229,20 +292,34 @@ class TeamServiceTest {
         TeamMemberDto teamMemberDto = TeamMemberDto.builder()
                 .teamId(1L).userId(1L).message("message").build();
 
-        Team team = Team.builder()
-                .teamId(1L).name("name").info("info").open(true).build();
-        Team team2 = Team.builder()
-                .teamId(1L).name("name").info("info").open(false).build();
-
         Member member = Member.builder()
-                .userId(1L) .nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+                .userId(1L).nickname("nickname").password(passwordEncoder.encode("password")) .img("img").email("email") .refreshToken("token").build();
+
+        Team tmp = Team.builder().teamId(1L).name("name").info("info").open(true).build();
         UserTeam userTeam = UserTeam.builder()
-                .userTeamId(1L).tid(team).uid(member).status(0).manager(1).build();
+                .userTeamId(1L).tid(tmp).uid(member).status(0).manager(1).build();
+
+        List<UserTeam> userTeamList = new ArrayList<>();
+        userTeamList.add(userTeam);
+
+        Team team = Team.builder()
+                .teamId(1L).name("name").info("info").open(true).userTeamList(userTeamList).build();
+
+        Flower flower = Flower.builder().id(1L).name("name").build();
+        Diary diary = Diary.builder()
+                .id(1L).content("content").imgSrc("imgSrc").lat(10.0).lng(10.0).publicStatus("전체공개").x("x").y("y").z("z").flower(flower).createdTime(new Date()).build();
+
+        List<Diary> diaries = new ArrayList<>();
+        diaries.add(diary);
+
+        Team team2 = Team.builder()
+                .teamId(1L).name("name").info("info").open(false).userTeamList(userTeamList).build();
 
         when(teamRepository.findById(any())).thenReturn(Optional.ofNullable(team));
         when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
         when(userTeamRepository.existsByUidAndTid(any(),any())).thenReturn(false);
         when(userTeamRepository.save(any())).thenReturn(userTeam);
+        when(diaryRepository.findByMemberId(any())).thenReturn(diaries);
 
         //when
         TeamDto result = teamService.insertTeamMember(teamMemberDto);
