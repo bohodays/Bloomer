@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
 import { createInfoSaveAction } from "../../redux/modules/diaryCreate";
 import { emotionColor } from "../../redux/utils/emotionColor";
+import { RiArrowDownSLine } from "react-icons/ri";
 
 const MAX_VISIBILITY = 5;
 
@@ -66,6 +67,19 @@ const DiarySelect = () => {
   const emotionData = useAppSelector(
     (state) => state.diaryCreate.currentEmotionData
   );
+  const emoCategory = emotionData.map((item: any) => item.largeCategory);
+  const emoValue = emotionData.map((item: any) => {
+    console.log("jj", typeof item.analysis, item.analysis);
+    console.log("ssssss", item.analysis.toFixed(2));
+
+    return item.analysis.toFixed(2) + "%";
+  });
+
+  console.log("확인", emoValue);
+
+  const emoColors = emoCategory.map((item: any) => emotionColor(item));
+  const [showReport, setShowReport] = useState(false);
+
   const emoColor = emotionColor(emotionData[0].largeCategory);
 
   // 해당 감정에 대한 꽃 정보 (소분류들)
@@ -112,26 +126,44 @@ const DiarySelect = () => {
         </span>
         <span className="info__title"> 입니다.</span>
         <p className="info__title">피우고 싶은 꽃을 선택해주세요.</p>
+        <RiArrowDownSLine onClick={() => setShowReport(!showReport)} />
         {/* 일단 보류 */}
-        {/* <Chart
-          type="bar"
-          series={[
-            { name: "오늘의 기온", data: [19, 26, 20, 9] },
-            // { name: "내일의 기온", data: [30, 26, 34, 10] },
-          ]}
-          options={{
-            // tooltip: {
-            //   enabled: false,
-            // },
-            chart: {
-              toolbar: {
+        {showReport === true && (
+          <Chart
+            type="bar"
+            series={[{ name: "", data: emoValue }]}
+            options={{
+              // tooltip: {
+              //   enabled: false,
+              // },
+              chart: {
+                toolbar: {
+                  show: false,
+                },
+                height: 500,
+                width: 500,
+              },
+              xaxis: {
+                categories: emoCategory,
+              },
+              yaxis: {
                 show: false,
               },
-              height: 500,
-              width: 500,
-            },
-          }}
-        ></Chart> */}
+              dataLabels: {
+                enabled: false,
+              },
+              colors: emoColors,
+              plotOptions: {
+                bar: {
+                  distributed: true,
+                },
+              },
+              legend: {
+                show: false,
+              },
+            }}
+          ></Chart>
+        )}
       </div>
       {/* 선택된 감정 */}
       <div className="emotion__wrapper">

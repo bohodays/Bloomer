@@ -5,7 +5,7 @@ Command: npx gltfjsx@6.1.4 ./public/models/guestBook.glb -t
 
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Sparkles, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useAppSelector } from "../../../redux/store.hooks";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -86,6 +86,7 @@ export function GuestBookModel(props: JSX.IntrinsicElements["group"]) {
         rotation={settingRotation(gardenType)}
         onClick={handleMoveToGuestBook}
       >
+        {/* <Sparkles count={40} scale={0.5} size={30} speed={0.4} /> */}
         <mesh geometry={nodes.Circle.geometry} material={materials.Wood} />
         <mesh geometry={nodes.Circle_1.geometry} material={materials.Yellow} />
         <mesh geometry={nodes.Circle_2.geometry} material={materials.Pink} />

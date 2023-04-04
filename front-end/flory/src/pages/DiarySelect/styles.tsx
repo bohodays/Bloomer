@@ -20,6 +20,7 @@ export const SMain = styled.main<any>`
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
     & > span {
       font-size: 0.8rem;
     }
