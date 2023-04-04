@@ -25,6 +25,7 @@ type Props = {
 
 function GroupEditModal(props: Props): JSX.Element {
   const [groupName, setGroupName] = useState("");
+  const [content, setContent] = useState("");
   const groupNameInput = useRef<HTMLInputElement>(null);
   const contentInput = useRef<HTMLInputElement>(null);
   const [isOpenData, setIsOpenData] = useState(true);
@@ -48,7 +49,9 @@ function GroupEditModal(props: Props): JSX.Element {
       const response = res.payload.response;
       if (response) { // groupInfo가 null이 아닌 경우에만 값을 설정
         setGroupInfo(response);
+        setGroupName(response.name);
         setIsOpenData(response.open);
+        setContent(response.info);
       }
     });
   }, []);
@@ -63,7 +66,7 @@ function GroupEditModal(props: Props): JSX.Element {
         const groupUpdateData: GroupUpdateType = {
           teamId: props.groupId,
           name: groupName,
-          info: contentInput.current!.value,
+          info: content,
           open: isOpenData,
         };
         await dispatch(updateGroupInfoAction(groupUpdateData)).then(() => {
@@ -84,14 +87,16 @@ function GroupEditModal(props: Props): JSX.Element {
       <CreateInputLine
         icon={faUserGroup}
         placeholder={groupInfo?.name || ""}
-        contentInput={groupName}
-        setContentInput={setGroupName}
-        refVal={groupNameInput}
+        value={groupName}
+        onChange={(e: any) => setGroupName(e.target.value)}
+        ref={groupNameInput}
       />
 
       <CreateInput
-        contentInput={contentInput}
         placeholder={groupInfo?.info || ""}
+        value={content}
+        onChange={(e:any) => setContent(e.target.value)}
+        ref={contentInput}
       />
       <div
         style={{

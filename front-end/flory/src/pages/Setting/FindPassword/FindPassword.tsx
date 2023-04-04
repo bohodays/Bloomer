@@ -7,19 +7,30 @@ import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SForm, SInput } from "./styles";
 import Button from "../../../components/common/Button/Button";
-import { signupAction } from "../../../redux/modules/user";
-import { useAppDispatch } from "../../../redux/store.hooks";
+import { changePwdAction } from "../../../redux/modules/user";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { localData } from "../../../redux/modules/user/token";
+import { resetUser } from "../../../redux/modules/user/user-slice";
+import AlertModal from "../../../components/common/Modal/AlertModal/AlertModal";
 
 const FindPassword = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [alarm, setAlarm] = useState({
-    nickname: "",
-    email: "",
     pw: "",
     pwConf: "",
   });
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const email = useAppSelector((state) => state.user.userData.email);
+
+  // 모달 상태 관리
+  const [open, setOpen] = React.useState(false);
+  const [content, setContent] = React.useState(
+    "비밀번호가 변경되었습니다. \n 다시 로그인 해주세요"
+  );
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // 비밀번호 재입력 확인
   useEffect(() => {
@@ -40,6 +51,29 @@ const FindPassword = () => {
       });
     }
   }, [password, passwordCheck]);
+
+  // 회원가입
+  const onChangePwd = (e: any) => {
+    e.preventDefault();
+    const changePwdData = {
+      email,
+      password,
+    };
+
+    if (
+      alarm.pwConf === "confirm"
+    ) {
+      handleOpen();
+      dispatch(changePwdAction(changePwdData)).then(() => {
+        dispatch(resetUser());
+        localData.clear();
+      })
+    }
+  };
+
+  const redirect = () => {
+    navigate(`/login`);
+  }
 
   return (
     <SMain>
@@ -90,7 +124,7 @@ const FindPassword = () => {
           </p>
         </div>
         <Button
-          // onClick={}
+          onClick={onChangePwd}
           type="submit"
           addStyle={{
             margin: "auto",
@@ -107,6 +141,15 @@ const FindPassword = () => {
           contents="변경"
         />
       </SForm>
+
+      <div>
+        <AlertModal
+          open={open}
+          handleClose={handleClose}
+          content={content}
+          action={redirect}
+        />
+      </div>
     </SMain>
   );
 };

@@ -2,7 +2,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/84142-gradient-background.json";
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
-import { faLocationDot, faMusic } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faLock,
+  faMusic,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState, useRef } from "react";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
@@ -22,7 +26,11 @@ import {
 } from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
 import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
-import { convertMusicFormat } from "../../utils/utils";
+import {
+  convertDateTimeFormat,
+  convertEmotionFormat,
+  convertMusicFormat,
+} from "../../utils/utils";
 import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
@@ -126,19 +134,21 @@ const DiaryDetail = () => {
   };
 
   const createCommentHandler = () => {
-    const commentData = {
-      content: commentInput.current?.value,
-      uid: userId,
-      did: diary.id,
-    };
-    dispatch(createCommentAction(commentData)).then(() => {
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response);
+    if (commentInput.current?.value) {
+      const commentData = {
+        content: commentInput.current?.value,
+        uid: userId,
+        did: diary.id,
+      };
+      dispatch(createCommentAction(commentData)).then(() => {
+        dispatch(getDetailDiary(diaryId)).then((data: any) => {
+          setDiary(data.payload.response);
+        });
+        if (commentInput.current) {
+          commentInput.current.value = "";
+        }
       });
-      if (commentInput.current) {
-        commentInput.current.value = "";
-      }
-    });
+    }
   };
 
   const deleteAction = async () => {
@@ -241,6 +251,8 @@ const DiaryDetail = () => {
 
   dispatch(checkDetail(true));
 
+  console.log(diary.publicStatus, "공개 설정");
+
   return (
     <>
       <SMain>
@@ -305,12 +317,27 @@ const DiaryDetail = () => {
             {diary.garden?.member.nickname}
           </h3>
           <div className="content-header">
-            <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
-            <p>
-              {diary.createdTime.slice(0, 10) +
-                " " +
-                diary.createdTime.slice(11, 16)}
-            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {diary.publicStatus !== "전체공개" && (
+                <FontAwesomeIcon
+                  icon={faLock}
+                  style={{
+                    color: "#8a8a8a",
+                    height: "1rem",
+                    marginRight: "10px",
+                  }}
+                />
+              )}
+              <h2>
+                {convertEmotionFormat(diary.flowerEmotion.largeCategory)} 순간
+              </h2>
+            </div>
+            <p>{convertDateTimeFormat(diary.createdTime)}</p>
           </div>
           {imgSrc && (
             <img className="diary-img" src={imgSrc} alt="img-loading,," />

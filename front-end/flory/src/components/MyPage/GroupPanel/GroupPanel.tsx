@@ -57,14 +57,19 @@ function GroupPanel({}): JSX.Element {
 
   return (
     <SGroupPanel>
-      <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
-        그룹 둘러보기
-      </div>
-      <Post
-        title="가입한 그룹 목록"
-        content={
-          <div>
-            {userGroupList.map((group: any, index: any) => (
+    <div className="BrowseGroup" onClick={() => navigate("/group/list")}>
+      그룹 둘러보기
+    </div>
+    <Post
+      title="가입한 그룹 목록"
+      content={
+        <div>
+          {userGroupList.length === 0 ? (
+            <div className="default">
+              그룹에 가입해보세요
+            </div>
+          ) : (
+            userGroupList.map((group: any, index: any) => (
               <Accordion
                 key={index}
                 title={`${group.name} (${group.userTeamList.length})`}
@@ -78,8 +83,8 @@ function GroupPanel({}): JSX.Element {
                     {group.manager === 1 && (
                       <div className="secessionGroup" onClick={() => deleteAction(group.teamId, userId)}>그룹 탈퇴</div>
                     )}
-                    {group.userTeamList.map((member: any, index:any) => {
-                      const random = Math.floor(Math.random() * bgIcons.length);
+                    {group.userTeamList.map((member: any, idx:any) => {
+                      // const random = Math.floor(Math.random() * bgIcons.length);
                       const handleMoveToOtherGarden = () => {
                         navigate(`/garden/${member.userId}`);
                       }
@@ -102,7 +107,7 @@ function GroupPanel({}): JSX.Element {
                           )}
                           <br />
                           <div className="memberName">{member.nickname}</div>
-                          {bgIcons[random]}
+                          {bgIcons[idx]}
                           {showDeleteButton && group.manager === 0 &&  (
                             <button className="deleteButton" onClick={() => deleteAction(group.teamId, member.userId)}>
                               삭제
@@ -114,12 +119,13 @@ function GroupPanel({}): JSX.Element {
                   </div>
                 }
               />
-            ))}
-          </div>
-        }
-        addition={<GroupCreateModal />}
-      />
-    </SGroupPanel>
+            ))
+          )}
+        </div>
+      }
+      addition={<GroupCreateModal />}
+    />
+  </SGroupPanel>
   )
 }
 

@@ -5,6 +5,7 @@ import Button from "../../Button/Button";
 import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
 import "./styles.css";
+import { SModal } from "./styles";
 
 const style: any = {
   // position: "absolute" as "absolute",
@@ -58,7 +59,7 @@ const AlertModal = ({
     <div>
       <Modal
         open={open}
-        onClose={handleCloseModal}
+        onClose={handleCancleModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

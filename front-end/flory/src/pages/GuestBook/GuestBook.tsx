@@ -7,6 +7,10 @@ import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestB
 import { getAllGuestBookList } from "../../redux/modules/guestBook";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import { SMain } from "./styles";
+import {
+  checkDetail,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
 
 const GuestBook = () => {
   const navigate = useNavigate();
@@ -30,6 +34,8 @@ const GuestBook = () => {
 
   const degArray = [2, -2, 0, 2, 2, -2];
 
+  // dispatch(updateShowMusic(false));
+  dispatch(checkDetail(false));
   return (
     <>
       {gardenId === null ? (
@@ -49,15 +55,21 @@ const GuestBook = () => {
               <FontAwesomeIcon icon={faPenToSquare} />
             </div>
           )}
-          {guestBookList.map((item, index) => {
-            return (
-              <GuestBookComment
-                info={item}
-                deg={degArray[index % 6]}
-                key={index}
-              />
-            );
-          })}
+          {guestBookList.length ? (
+            guestBookList.map((item, index) => {
+              return (
+                <GuestBookComment
+                  info={item}
+                  deg={degArray[index % 6]}
+                  key={index}
+                />
+              );
+            })
+          ) : (
+            <div className="empty__guestbook">
+              방명록을 통해 {gardenData.nickname} 님의 정원에 추억을 남겨보세요.
+            </div>
+          )}
         </SMain>
       )}
     </>
