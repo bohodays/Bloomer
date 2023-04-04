@@ -11,6 +11,7 @@ import com.exmaple.flory.dto.flower.FlowerEmotionDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.dto.team.TeamIdListDto;
+import com.exmaple.flory.dto.team.TeamMemberInfoDto;
 import com.exmaple.flory.entity.*;
 import com.exmaple.flory.exception.CustomException;
 import com.exmaple.flory.exception.error.ErrorCode;
@@ -455,7 +456,7 @@ public class DiaryService {
 
             TeamDto teamDto = TeamDto.of(team.get());
 
-            for(MemberResponseDto member: teamDto.getUserTeamList()){
+            for(TeamMemberInfoDto member: teamDto.getUserTeamList()){
                 userIdSet.add(member.getUserId());
             }
        }
@@ -699,5 +700,31 @@ public class DiaryService {
         diary.setLng(diaryRequestDto.getLng());
         diary.setContent(diaryRequestDto.getContent());
         diary.setAddress(diaryRequestDto.getAddress());
+    }
+
+    public Map<String,Integer> getWordCloud(Long userId){
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
+
+        List<Diary> diaryList = diaryRepository.findByMemberId(userId);
+        Map<String, Integer> result = new HashMap<>();
+        String content ="";
+        for(Diary diary: diaryList){
+            content = diary.getContent();
+            content = content.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", " "); //숫자 및 문자를 제외한 모든 특수 문자를 띄어쓰기로 변경
+            content = content.toLowerCase(); //소문자로 변환
+
+            String[] tmp = content.split(" ");
+
+            for(String str: tmp){
+                if(str.equals("")) continue;
+                if(!result.containsKey(str)){
+                    result.put(str, 1);
+                }else{
+                    result.put(str, result.get(str) + 1);
+                }
+            }
+        }
+        return result;
     }
 }

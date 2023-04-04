@@ -62,6 +62,7 @@ public class OAuthAttributes implements OAuth2User, Authentication {
     public Member toEntity() {
         return Member.builder()
                 .email(email)
+                .nickname(name)
                 .build();
     }
 

@@ -48,6 +48,7 @@ public class Garden extends BaseTime {
 
     //�ܷ�Ű ����
     @OneToMany(mappedBy = "garden", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Diary> diaryList = new ArrayList<>();
 
     public GardenResponseDto toResponseDto() {

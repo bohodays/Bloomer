@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,41 +21,33 @@ public class TeamDto {
     private String name; //그룹 이름
     private String info;
     private Boolean open;
-    private List<MemberResponseDto> userTeamList;
+    private List<TeamMemberInfoDto> userTeamList;
     private LocalDateTime createdDate;
     private Integer status;
     private Integer manager; //관리자
+    private Long managerId;
 
-    public static TeamDto of(Team team, Member member) {
-        List<MemberResponseDto> memberList = new ArrayList<>();
-        int status = -1; //신청도 안한 상태
-        int manager = 1;
 
-        for(UserTeam userTeam : team.getUserTeamList()){
-            if(userTeam.getStatus() == 1){ // 승인된 사람들만
-                memberList.add(MemberResponseDto.of(userTeam.getUid()));
-            }
-
-            if(userTeam.getUid().getUserId().equals(member.getUserId())) {
-                status = userTeam.getStatus();
-                manager = userTeam.getManager();
-            }
-        }
-        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(), status, manager);
+    public static TeamDto of(Team team, List<TeamMemberInfoDto> memberList, Integer status, Integer manager, Long managerId ) {
+        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(), status, manager, managerId);
     }
     public static TeamDto of(Team team) {
-        List<MemberResponseDto> memberList = new ArrayList<>();
+        List<TeamMemberInfoDto> memberList = new ArrayList<>();
+        Long managerId = 1L;
 
         for(UserTeam userTeam : team.getUserTeamList()){
             if(userTeam.getStatus() == 1){ // 승인된 사람들만
-                memberList.add(MemberResponseDto.of(userTeam.getUid()));
+                memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+            }
+            if(userTeam.getManager() == 0){
+                managerId = userTeam.getUid().getUserId();
             }
         }
-        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(), 1, 0);
+        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(), 1, 0, managerId);
     }
 
-    public static TeamDto toTeam(Team team, List<MemberResponseDto> memberList){
-        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(),1, 0);
+    public static TeamDto toTeam(Team team, List<TeamMemberInfoDto> memberList){
+        return new TeamDto(team.getTeamId(), team.getName(), team.getInfo(), team.getOpen(), memberList, team.getCreatedDate(),1, 0, memberList.get(0).getUserId());
     }
 
 }

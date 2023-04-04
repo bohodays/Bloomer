@@ -36,7 +36,7 @@ public class QTeamRepositoryImpl implements QTeamRepository {
                 .selectFrom(team).distinct()
                 .leftJoin(userTeam)
                 .on(team.teamId.eq(userTeam.tid.teamId))
-                .where(((userTeam.uid.userId.eq(userId)).or((userTeam.status.eq(1)))).and(team.name.contains(keyword)))
+                .where(((userTeam.uid.userId.eq(userId)).or((userTeam.status.eq(1)))).and((team.name.contains(keyword)).or((team.info.contains(keyword)))))
                 .fetchJoin()
                 .fetch();
     }
