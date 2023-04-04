@@ -45,11 +45,12 @@ export const SMain = styled.main<any>`
 
   .flower__wrapper {
     position: absolute;
-    bottom: -2rem;
+    bottom: -2.4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 100;
     & > p {
       margin: 0;
       color: var(--color-white);
@@ -72,8 +73,8 @@ export const SMain = styled.main<any>`
     display: flex;
     justify-content: center;
     height: 23rem;
-    margin-bottom: 2.5rem;
-    overflow-x: hidden;
+    /* margin-bottom: 2.5rem; */
+    overflow: hidden;
   }
 
   img {
@@ -92,7 +93,7 @@ export const SMain = styled.main<any>`
   .card-container {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 90%;
     transform: rotateY(calc(var(--offset) * 50deg))
       scaleY(calc(1 + var(--abs-offset) * -0.4))
       translateZ(calc(var(--abs-offset) * -30rem))
