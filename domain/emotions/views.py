@@ -308,11 +308,12 @@ def predict(text):
             print("BERT 결과", out)
 
             # 단순 비율 구하기
-            makeProb(out[0].detach().cpu().numpy().tolist())
+            mProb = makeProb(out[0].detach().cpu().numpy().tolist())
 
             # 소프트맥스 적용 비율 구하기
             fProb = Fun.softmax(out, dim=1).detach().cpu().numpy()
-            result = fProb.tolist()[0]
+            # result = fProb.tolist()[0]
+            result = mProb
             print("소프트맥스확률", result)
 
             emotion = ["기쁨이", "안정이", "당황이", "분노가", "불안이", "상처가", "슬픔이"]
@@ -326,7 +327,8 @@ def makeProb(logits):
     rel_probs = [prob/sum(probs) for prob in probs]
     
     print("상대확률", rel_probs)
-    return rel_probs
+    # return rel_probs
+    return probs
 
 def cos_sim(A, B):
     if norm(A) == 0 or norm(B) == 0:
