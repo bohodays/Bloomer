@@ -102,7 +102,13 @@ export function F04Create(props: JSX.IntrinsicElements["group"] | any) {
       <group
         position={[position.x, position.y, position.z]}
         rotation={[2.76, -1.15, -2.79]}
-        scale={0.17}
+        scale={
+          location.pathname.includes("diary/select")
+            ? 0.25
+            : location.pathname.includes("/garden")
+            ? 0.3
+            : 0.25
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f04" }}
         onClick={() => {

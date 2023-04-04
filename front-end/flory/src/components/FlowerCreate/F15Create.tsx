@@ -101,7 +101,7 @@ export function F15Create(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[0.18, 0.83, -0.05]}
-        scale={0.005}
+        scale={0.0085}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f15" }}
         onClick={() => {

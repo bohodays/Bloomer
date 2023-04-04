@@ -96,7 +96,13 @@ export function F02Create(props: JSX.IntrinsicElements["group"] | any) {
       <group
         position={[position.x, position.y, position.z]}
         rotation={[-1.1, 0.99, -2.47]}
-        scale={0.05}
+        scale={
+          location.pathname.includes("diary/select")
+            ? 0.06
+            : location.pathname.includes("/garden")
+            ? 0.08
+            : 0.05
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f02" }}
         onClick={() => {

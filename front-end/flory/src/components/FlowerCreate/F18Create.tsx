@@ -99,7 +99,7 @@ export function F18Create(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[1.95, -1.22, -2.12]}
-        scale={0.17}
+        scale={0.23}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f18" }}
         onClick={() => {

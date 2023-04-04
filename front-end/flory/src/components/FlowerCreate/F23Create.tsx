@@ -99,7 +99,7 @@ export function F23Create(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[0, 0, -0.19]}
-        scale={0.17}
+        scale={0.3}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f23" }}
         onClick={() => {
