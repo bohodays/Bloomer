@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main<any>`
   position: relative;
@@ -35,6 +35,12 @@ export const SMain = styled.main<any>`
     border-radius: 16px;
     padding: 1rem 0.8rem;
     margin-bottom: 2rem;
+  }
+
+  .arrow-icon {
+    cursor: pointer;
+    height: 1.5rem;
+    width: 100%;
   }
 
   .bottom__wrapper {
@@ -213,4 +219,4 @@ export const SMain = styled.main<any>`
       color: #9a1aff;
     }
   }
-`;
+`
