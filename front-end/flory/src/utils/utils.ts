@@ -78,6 +78,14 @@ export const convertDateTimeFormat = (targetDate: string) => {
   return year + "." + month + "." + date + ". " + time
 }
 
+// 시간 차이 계산
+export const diffTimeFormat = (targetDate: string) => {
+  const today = new Date();
+  const target = new Date(targetDate);
+  const diffhour = today.valueOf() - target.valueOf();
+  return Math.floor(diffhour / (1000 * 60 * 60));
+}
+
 // 년.월.일 형식으로 바꾸기
 export const convertDateFormat = (date: string) => {
   const target = new Date(date)

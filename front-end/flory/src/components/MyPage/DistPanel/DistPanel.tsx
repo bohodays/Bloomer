@@ -113,9 +113,9 @@ function DistPanel({}): JSX.Element {
           title="일기 키워드" 
           content={
             Worddata ? (
-              <div style={{height: "200px"}}>
+              <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <ReactWordcloud words={Worddata} />
-            </div>
+              </div>
             ) : (
               <div className="default">감정을 기록해보세요</div>
             )

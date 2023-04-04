@@ -37,7 +37,7 @@ function MapSearchInput({
         <InputBase
           className="input-base"
           inputRef={keywordInput}
-          placeholder="그룹명 검색하기"
+          placeholder="그룹명/키워드 검색하기"
         />
       )}
       <IconButton className="btn" onClick={onSearch}>
