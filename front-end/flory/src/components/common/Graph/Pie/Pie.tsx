@@ -19,7 +19,7 @@ function Pie(props: Props) {
     <PieBody>
       <ResponsivePie
         data={data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+        margin={{ top: 0, right: 0, bottom: 0, left: -100 }}
         sortByValue={true}
         innerRadius={0.5}
         padAngle={1}
@@ -72,7 +72,7 @@ function Pie(props: Props) {
                 anchor: 'right',
                 direction: 'column',
                 justify: false,
-                translateX: 20,
+                translateX: 0,
                 translateY: 0,
                 itemWidth: 100,
                 itemHeight: 29,

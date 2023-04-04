@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SDistPanel } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
@@ -6,72 +6,86 @@ import Pie from "../../../components/common/Graph/Pie/Pie";
 import Bar from "../../../components/common/Graph/Bar/Bar";
 import FlowerImg from "../../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../../components/common/Post/Post";
-import { getStatisticsMonth, getStatisticsLastWeek } from "../../../redux/modules/diary/diary-action";
+import { getStatisticsMonth, getStatisticsLastWeek, getWordCloud } from "../../../redux/modules/diary/diary-action";
+import ReactWordcloud from 'react-wordcloud';
 
 function DistPanel({}): JSX.Element {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
     // 본인 ID
-    const userId = useAppSelector((state) => state.user.userData.userId);
+  const userId = useAppSelector((state) => state.user.userData.userId);
+  const [words, setWords] = useState({});
   
-    useEffect(() => {
-      dispatch(getStatisticsMonth(userId));
-      dispatch(getStatisticsLastWeek(userId));
-    }, []);
-
-    //한달 통계 데이터
-    const monthStat = useAppSelector((state) => state.diary.monthStat);
-    const Piedata = [];
-    //저번주 대비 데이터
-    const weekStat = useAppSelector((state) => state.diary.weekStat);
-    const Bardata = [];
-
-    const bgIcons = [];
-    const keys = ["01", "06", "09", "12", "15", "18", "21"]
-    const emotions = ["기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"];
-    const emotionKey = ["joy", "stable", "flustered", "angry", "anxiety", "hurt", "sadness"];
-    const colorKey = ["#FFE897", "#C2F9B9", "#D4AAFA", "#FFB59E", "#A5DFFF", "#6972C0", "#FF8C9B"];
-    let monthCnt = 0, weekCnt = 0;
-    let maxCnt = 0, maxEmotion = "기쁨";
-
-    for (var i = 0; i < 7; i++) {
-      //한달
-      Piedata.push({
-        id: emotions[i],
-        label: emotions[i],
-        value: monthStat[emotionKey[i]]
-      });
-      monthCnt += monthStat[emotionKey[i]];
-
-      if(maxCnt < monthStat[emotionKey[i]]){
-        maxCnt = monthStat[emotionKey[i]];
-        maxEmotion = emotions[i];
+  useEffect(() => {
+    dispatch(getStatisticsMonth(userId));
+    dispatch(getStatisticsLastWeek(userId));
+    dispatch(getWordCloud(userId)).then((res) => {
+      const response = res.payload.response;
+      if (response && (typeof response === "object" || Array.isArray(response))) {
+        setWords(response);
       }
+    });
+  }, []);
 
-      //지난주
-      var img_icon = require(`../../../assets/imgs/flower_bgicon/bgicon_f${keys[i]}.png`);
-      bgIcons.push(<img className="emotion__flower" key={i} src={img_icon}/>);
-      Bardata.push({
-        emotion: emotions[i],
-        count: weekStat[emotionKey[i]],
-        color:{
-          type: "linearGradient",
-          id: `gradient-${i}`,
-          colors: [
-            {
-              "offset": "0%",
-              "color": colorKey[i]
-            },
-            {
-              "offset": "100%",
-              "color": "#ffffff"
-            }
-          ]
-        }
-      })
-      weekCnt += weekStat[emotionKey[i]];
-      
+  //한달 통계 데이터
+  const monthStat = useAppSelector((state) => state.diary.monthStat);
+  const Piedata = [];
+  //저번주 대비 데이터
+  const weekStat = useAppSelector((state) => state.diary.weekStat);
+  const Bardata = [];
+
+  const bgIcons = [];
+  const keys = ["01", "06", "09", "12", "15", "18", "21"]
+  const emotions = ["기쁨", "안정", "당황", "분노", "불안", "상처", "슬픔"];
+  const emotionKey = ["joy", "stable", "flustered", "angry", "anxiety", "hurt", "sadness"];
+  const colorKey = ["#FFE897", "#C2F9B9", "#D4AAFA", "#FFB59E", "#A5DFFF", "#6972C0", "#FF8C9B"];
+  let monthCnt = 0, weekCnt = 0;
+  let maxCnt = 0, maxEmotion = "기쁨";
+
+  for (var i = 0; i < 7; i++) {
+    //한달
+    Piedata.push({
+      id: emotions[i],
+      label: emotions[i],
+      value: monthStat[emotionKey[i]]
+    });
+    monthCnt += monthStat[emotionKey[i]];
+
+    if(maxCnt < monthStat[emotionKey[i]]){
+      maxCnt = monthStat[emotionKey[i]];
+      maxEmotion = emotions[i];
     }
+
+    //지난주
+    var img_icon = require(`../../../assets/imgs/flower_bgicon/bgicon_f${keys[i]}.png`);
+    bgIcons.push(<img className="emotion__flower" key={i} src={img_icon}/>);
+    Bardata.push({
+      emotion: emotions[i],
+      count: weekStat[emotionKey[i]],
+      color:{
+        type: "linearGradient",
+        id: `gradient-${i}`,
+        colors: [
+          {
+            "offset": "0%",
+            "color": colorKey[i]
+          },
+          {
+            "offset": "100%",
+            "color": "#ffffff"
+          }
+        ]
+      }
+    })
+    weekCnt += weekStat[emotionKey[i]];
+    
+  } 
+
+   // wordCloud
+  const Worddata = Object.entries(words).map(([key, value]) => ({
+    text: key,
+    value: Number(value)
+  }));
       
     return (
       <SDistPanel>
@@ -94,6 +108,18 @@ function DistPanel({}): JSX.Element {
               <div className="default">감정을 기록해보세요</div>
             )
           }
+        />
+        <Post 
+          title="일기 키워드" 
+          content={
+            Worddata ? (
+              <div style={{height: "200px"}}>
+                <ReactWordcloud words={Worddata} />
+            </div>
+            ) : (
+              <div className="default">감정을 기록해보세요</div>
+            )
+          } 
         />
         <Post 
           title="지난주 대비 감정 분포" 
