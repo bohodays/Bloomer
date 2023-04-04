@@ -21,6 +21,13 @@ export const SGroupPanel = styled.div`
     height: 20px;
     margin-left: auto;
   }
+
+  .default{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 188px;
+  }
 `
 
 export const SMember = styled.div`

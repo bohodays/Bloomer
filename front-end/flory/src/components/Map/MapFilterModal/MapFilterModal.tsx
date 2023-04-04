@@ -46,7 +46,7 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
     >
       <h3>그룹 선택</h3>
       <div style={{ width: "100%", margin: "1rem 0 1rem" }}>
-        {groupCheckList &&
+        {groupCheckList && groupCheckList.length !== 0 ? (
           groupCheckList.map((group: any, idx: number) => (
             <div
               key={idx}
@@ -69,7 +69,19 @@ const MapFilterModal = ({ teamIdList }: any): JSX.Element => {
                 />
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            🌻 새로운 그룹에 가입해보세요 🌻
+          </div>
+        )}
       </div>
     </BasicModal>
   );

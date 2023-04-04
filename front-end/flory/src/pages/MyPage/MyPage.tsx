@@ -43,6 +43,7 @@ const MyPage = () => {
         {/* 환경 설정 아이콘 */}
         <FontAwesomeIcon
           className="setting-icon"
+          style={{color: "white"}}
           onClick={() => handleMove("/setting")}
           icon={faGear}
         />

@@ -34,7 +34,7 @@ const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
             fontFamily: "S-CoreDream-4Regular",
           }}
         >
-          일기를 작성해주세요 🌻
+          작성된 일기가 없습니다 🌻
         </span>
       )}
     </>

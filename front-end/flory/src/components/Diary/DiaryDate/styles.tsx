@@ -10,6 +10,9 @@ export const SContainer = styled.div`
   .date-picker {
     cursor: pointer;
   }
+  .icon {
+    font-size: 1.1rem;
+  }
 `
 
 export const SMain = styled.div`
