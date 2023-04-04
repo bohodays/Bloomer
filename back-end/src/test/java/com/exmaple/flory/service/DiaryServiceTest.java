@@ -650,4 +650,22 @@ public class DiaryServiceTest {
 
         assertEquals(result.get("기쁨"),1);
     }
+
+    @DisplayName("wordCloud")
+    @Test
+    public void getWordCloud(){
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password("password") .img("img").email("email") .refreshToken("token").build();
+        List<Diary> diaryList = new ArrayList<>();
+
+        Diary diary = diaryDto.toEntity();
+        diaryList.add(diary);
+
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
+        when(diaryRepository.findByMemberId(any())).thenReturn(diaryList);
+
+        Map<String,Integer> result = diaryService.getWordCloud(1L);
+
+        assertEquals(result.get("content"),1);
+    }
 }

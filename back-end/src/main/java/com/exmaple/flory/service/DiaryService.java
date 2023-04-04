@@ -703,10 +703,27 @@ public class DiaryService {
 
     public Map<String,Integer> getWordCloud(Long userId){
         Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         List<Diary> diaryList = diaryRepository.findByMemberId(userId);
         Map<String, Integer> result = new HashMap<>();
+        String content ="";
+        for(Diary diary: diaryList){
+            content = diary.getContent();
+            content = content.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", " "); //숫자 및 문자를 제외한 모든 특수 문자를 띄어쓰기로 변경
+            content = content.toLowerCase(); //소문자로 변환
+
+            String[] tmp = content.split(" ");
+
+            for(String str: tmp){
+                if(str.equals("")) continue;
+                if(!result.containsKey(str)){
+                    result.put(str, 1);
+                }else{
+                    result.put(str, result.get(str) + 1);
+                }
+            }
+        }
         return result;
     }
 }
