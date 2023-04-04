@@ -11,7 +11,8 @@ import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../Diary/GroupItems/GroupItems";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { modifyDiaryAction } from "../../../redux/modules/diary";
-import { SPopOver } from "./styles";
+import { SPopOber } from "./styles";
+// import { SPopOver } from "./styles";
 
 // export default function
 const SettingPopover = ({
@@ -115,7 +116,7 @@ const SettingPopover = ({
         {(color = "purple" ? <StyledMoreVertIcon /> : <MoreVert />)}
       </IconButton>
 
-      <Popover
+      <SPopOber
         elevation={1}
         id={id}
         open={open}
@@ -142,7 +143,7 @@ const SettingPopover = ({
           {/* <ListItemText primary="Spam" /> */}
           <p style={{ fontSize: "0.75rem" }}>삭제</p>
         </ListItemButton>
-      </Popover>
+      </SPopOber>
       <BasicModal
         dispatchAction={dispatchAction}
         modalButton={
