@@ -73,7 +73,6 @@ export const SMain = styled.main<any>`
     display: flex;
     justify-content: center;
     height: 23rem;
-    /* margin-bottom: 2.5rem; */
     overflow: hidden;
   }
 

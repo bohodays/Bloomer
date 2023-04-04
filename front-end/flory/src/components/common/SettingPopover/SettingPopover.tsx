@@ -26,6 +26,7 @@ const SettingPopover = ({
   selectedGroupIds,
   setSelectedGroupIds,
   diary,
+  updateDiary,
 }: any): JSX.Element => {
   let currentDiary: any;
   if (diary) {
@@ -105,7 +106,9 @@ const SettingPopover = ({
         publicStatus: groupSetting,
         groupList: selectedGroupIds,
       })
-    );
+    ).then(() => {
+      updateDiary();
+    });
     return true;
   };
 
