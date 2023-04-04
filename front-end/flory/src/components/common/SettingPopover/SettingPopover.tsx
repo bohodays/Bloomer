@@ -11,7 +11,8 @@ import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../Diary/GroupItems/GroupItems";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { modifyDiaryAction } from "../../../redux/modules/diary";
-import { SPopOver } from "./styles";
+import { SPopOber } from "./styles";
+// import { SPopOver } from "./styles";
 
 // export default function
 const SettingPopover = ({
@@ -26,6 +27,7 @@ const SettingPopover = ({
   selectedGroupIds,
   setSelectedGroupIds,
   diary,
+  updateDiary,
 }: any): JSX.Element => {
   let currentDiary: any;
   if (diary) {
@@ -50,7 +52,13 @@ const SettingPopover = ({
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-  const [selectedValue, setSelectedValue] = React.useState("a");
+
+  const [selectedValue, setSelectedValue] = React.useState(groupSetting);
+
+  React.useEffect(() => {
+    setSelectedValue(groupSetting);
+  }, [groupSetting]);
+
   const openRef = React.useRef<any>();
   const dispatch = useAppDispatch();
 
@@ -105,7 +113,9 @@ const SettingPopover = ({
         publicStatus: groupSetting,
         groupList: selectedGroupIds,
       })
-    );
+    ).then(() => {
+      updateDiary();
+    });
     return true;
   };
 
@@ -115,7 +125,7 @@ const SettingPopover = ({
         {(color = "purple" ? <StyledMoreVertIcon /> : <MoreVert />)}
       </IconButton>
 
-      <Popover
+      <SPopOber
         elevation={1}
         id={id}
         open={open}
@@ -142,7 +152,7 @@ const SettingPopover = ({
           {/* <ListItemText primary="Spam" /> */}
           <p style={{ fontSize: "0.75rem" }}>삭제</p>
         </ListItemButton>
-      </Popover>
+      </SPopOber>
       <BasicModal
         dispatchAction={dispatchAction}
         modalButton={
@@ -158,7 +168,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>전체 공개</p>
           <Radio
-            {...controlProps("a")}
+            {...controlProps("전체공개")}
             onClick={() => {
               setGroupSetting("전체공개");
             }}
@@ -168,7 +178,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>그룹 공개</p>
           <Radio
-            {...controlProps("b")}
+            {...controlProps("그룹공개")}
             disabled={
               group !== null && group !== undefined && group.length
                 ? false
@@ -194,7 +204,7 @@ const SettingPopover = ({
         <div className="radio__wrapper last__radio">
           <p>나만 보기</p>
           <Radio
-            {...controlProps("c")}
+            {...controlProps("비공개")}
             onClick={() => {
               setGroupSetting("비공개");
             }}
