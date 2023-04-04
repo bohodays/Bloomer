@@ -490,6 +490,7 @@ public class DiaryService {
             }
         }
 
+        Collections.sort(result);
         return result;
     }
 
