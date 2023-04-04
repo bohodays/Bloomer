@@ -40,7 +40,7 @@ export const SMain = styled.main`
     /* } */
 
     .diary-section {
-      margin-top: 50%;
+      padding-top: 50%;
 
       .empty-space {
         width: 100%;
@@ -51,5 +51,26 @@ export const SMain = styled.main`
 
   .content-container::-webkit-scrollbar {
     display: none;
+  }
+
+  .arrow-up {
+    position: absolute;
+    bottom: 6rem;
+    right: 2rem;
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #4e126b;
+    color: rgb(228, 228, 228);
+    border-radius: 50%;
+    opacity: 0;
+    /* opacity: 1; */
+    pointer-events: none;
+    transition: all var(--animation-duration) linear;
+  }
+
+  .arrow-up.visible {
+    opacity: 1;
+    pointer-events: auto;
   }
 `;

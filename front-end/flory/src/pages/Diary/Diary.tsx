@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import DiaryDate from "../../components/Diary/DiaryDate/DiaryDate";
 import DiaryTotalList from "../../components/Diary/DiaryTotalList/DiaryTotalList";
@@ -16,6 +16,7 @@ import { WeatherRequiredType } from "../../models/weather/weatherRequiredType";
 import { useLocation } from "react-router-dom";
 import { getDiaryWithDate } from "../../redux/modules/diary";
 import { updateShowMusic } from "../../redux/modules/music/music-slice";
+import ScrollToTopButton from "../../components/common/ScrollToTopButton/ScrollToTopButton";
 
 const createLottieOptions = (type: string | null) => {
   return {
@@ -29,6 +30,7 @@ const createLottieOptions = (type: string | null) => {
 };
 
 const Diary = () => {
+  const top = useRef<any>();
   let isInitial = true;
   const geoLocation = useGeolocation();
   const dispatch = useAppDispatch();
@@ -77,6 +79,10 @@ const Diary = () => {
     isInitial = false;
   }, [lat]);
   dispatch(updateShowMusic(false));
+
+  // ArrowUp Button Flag
+  const [flag, setFlag] = useState(false);
+
   return (
     <SMain>
       <div className="header-container">
@@ -98,13 +104,24 @@ const Diary = () => {
         )}
         <DiaryDate diaryData={diaryData} />
       </div>
-      <div className="content-container">
+
+      <div
+        className="content-container"
+        onScroll={() => {
+          if (top.current?.getBoundingClientRect().top < -100) {
+            setFlag(true);
+          } else {
+            setFlag(false);
+          }
+        }}
+      >
         <div className="line"></div>
-        <div className="diary-section">
+        <div className="diary-section" ref={top}>
           <DiaryTotalList DIARY_LIST={monthDiaryList} month={diaryData.month} />
           <div className="empty-space"></div>
         </div>
       </div>
+      <ScrollToTopButton target={top} active={flag} />
       <Navbar absolute={true} />
     </SMain>
   );

@@ -27,7 +27,8 @@ import DiaryMusicButton from "./components/Diary/DiaryMusicButton.tsx/DiaryMusic
 import ConditionsOfService from "./pages/Setting/ConditionsOfService/ConditionsOfService";
 import FindPassword from "./pages/Setting/FindPassword/FindPassword";
 import Intro from "./pages/Setting/Intro/Intro";
-
+import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
+import ScrollToTopButton from "./components/common/ScrollToTopButton/ScrollToTopButton";
 
 // 코드 스플리팅 (Code Splitting)
 const Main = React.lazy(() => import("./pages/Main/Main"));
@@ -101,6 +102,7 @@ function App() {
       {/*  fallback 추가해야 됨 */}
       <Suspense>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Main />} />
             {/* 로그인 되어있으면 메인페이지로 보내기 */}
