@@ -73,6 +73,7 @@ export const SMain = styled.main<any>`
     justify-content: center;
     height: 23rem;
     margin-bottom: 2.5rem;
+    overflow-x: hidden;
   }
 
   img {
