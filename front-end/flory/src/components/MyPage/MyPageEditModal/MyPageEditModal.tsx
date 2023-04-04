@@ -109,6 +109,7 @@ const MyPageEditModal = () => {
             type="text"
             placeholder={userInfo.nickname}
             onChange={(e: any) => setNickname(e.target.value)}
+            value={nickname}
           />
         </div>
         <p>프로필 사진 변경</p>
