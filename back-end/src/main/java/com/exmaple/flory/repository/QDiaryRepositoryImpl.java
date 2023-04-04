@@ -116,6 +116,7 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
         return jpaQueryFactory
                 .selectFrom(diary)
                 .where(diary.lat.between(lat2,lat1).and(diary.lng.between(lng1,lng2)))
+                .orderBy(diary.createdTime.desc())
                 .fetch();
     }
 
