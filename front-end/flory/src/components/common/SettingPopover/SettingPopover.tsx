@@ -52,7 +52,13 @@ const SettingPopover = ({
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
-  const [selectedValue, setSelectedValue] = React.useState("a");
+
+  const [selectedValue, setSelectedValue] = React.useState(groupSetting);
+
+  React.useEffect(() => {
+    setSelectedValue(groupSetting);
+  }, [groupSetting]);
+
   const openRef = React.useRef<any>();
   const dispatch = useAppDispatch();
 
@@ -162,7 +168,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>전체 공개</p>
           <Radio
-            {...controlProps("a")}
+            {...controlProps("전체공개")}
             onClick={() => {
               setGroupSetting("전체공개");
             }}
@@ -172,7 +178,7 @@ const SettingPopover = ({
         <div className="radio__wrapper">
           <p>그룹 공개</p>
           <Radio
-            {...controlProps("b")}
+            {...controlProps("그룹공개")}
             disabled={
               group !== null && group !== undefined && group.length
                 ? false
@@ -198,7 +204,7 @@ const SettingPopover = ({
         <div className="radio__wrapper last__radio">
           <p>나만 보기</p>
           <Radio
-            {...controlProps("c")}
+            {...controlProps("비공개")}
             onClick={() => {
               setGroupSetting("비공개");
             }}
