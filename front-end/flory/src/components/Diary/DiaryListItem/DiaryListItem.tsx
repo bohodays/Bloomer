@@ -1,25 +1,21 @@
 import React, { useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faComment, faImage, faLock } from "@fortawesome/free-solid-svg-icons"
 import { SIcon, SItem, SMain } from "./styles"
-
-import testFlower from "../../../assets/imgs/day_background.png"
 import { DiaryType } from "../../../models/diary/diaryType"
 import {
   convertContentToMaxLength,
   convertNumFormat,
-  convertTimeFormat,
   convertEmotionFormat,
+  convertDateTimeFormat,
 } from "../../../utils/utils"
 import { useNavigate } from "react-router-dom"
-import Avatar from "../../common/Avatar/Avatar"
 
 const DiaryListItem: React.FC<{ diary: DiaryType; page: string }> = (props) => {
   // 다이어리 페이지 / 커뮤니티페이지 구분
   const isDiaryPage = props.page === "diary"
   const isPrivate = props.diary.publicStatus === "비공개"
   const isContainImage = props.diary.imgSrc !== null
-  const time = convertTimeFormat(props.diary.createdTime)
+  const time = convertDateTimeFormat(props.diary.createdTime)
   const emotion = convertEmotionFormat(props.diary.flowerEmotion.largeCategory)
   const content = convertContentToMaxLength(props.diary.content)
   const flowerIdx = convertNumFormat(props.diary.flowerEmotion.fid)

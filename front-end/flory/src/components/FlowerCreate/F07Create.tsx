@@ -101,7 +101,7 @@ export function F07Create(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[2.54, 1.46, -2.25]}
-        scale={[0.03, 0.01, 0.03]}
+        scale={[0.045, 0.0225, 0.045]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f07" }}
         onClick={() => {

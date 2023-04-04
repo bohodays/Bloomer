@@ -72,7 +72,7 @@ function Bar(props: Props) {
                       ry={15}
                       fill={
                         hoveredBarIndex === index
-                          ? "#C2F9B9"
+                          ? `url(#gradient-${index})`
                           : `url(#gradient-${index})`
                       }
                       width={bar.width - 35}
@@ -86,7 +86,7 @@ function Bar(props: Props) {
                         y={bar.y + bar.height / 2}
                         dy=".35em"
                         textAnchor="middle"
-                        style={{ fontSize: "14px", fill: "black" }}
+                        style={{ fontSize: "14px"}}
                       >
                         <tspan x={bar.x + bar.width / 2 - 5} dy="-1.2em">
                           {bar.data.data.emotion}

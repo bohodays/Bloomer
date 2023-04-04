@@ -19,7 +19,14 @@ export const SGroupPanel = styled.div`
   .icon_flower {
     width: 20px;
     height: 20px;
+    // margin-left: auto;
+    margin-left: 5px;
+  }
+
+  .lastTime{
+    font-size: 3px;
     margin-left: auto;
+    color: gray;
   }
 
   .default{
