@@ -5,7 +5,6 @@ import Button from "../../Button/Button";
 import { SDrawer, Puller, SModalContent } from "./styles";
 import styled from "styled-components";
 
-
 function BasicModal({
   children,
   modalButton,
@@ -34,13 +33,13 @@ function BasicModal({
     } else {
       setOpen(false);
     }
-  }
+  };
 
   const ModalContent = (
     <SModalContent role="presentation">
       <Puller />
       {children}
-      {!deleteAction && dispatchAction && (
+      {!deleteAction && (
         <Button
           // type="submit"
           onClick={handleClick}
@@ -63,18 +62,12 @@ function BasicModal({
       )}
       {deleteAction && (
         <div>
-          <SButton
-            style={{ marginRight: "1rem" }}
-            onClick={handleClick}
-          >
+          <SButton style={{ marginRight: "1rem" }} onClick={handleClick}>
             <div>
               <p>변경</p>
             </div>
           </SButton>
-          <SButton
-            style={{ marginLeft: "1rem" }}
-            onClick={deleteClick}
-          >
+          <SButton style={{ marginLeft: "1rem" }} onClick={deleteClick}>
             <div>
               <p>삭제</p>
             </div>

@@ -8,7 +8,10 @@ import com.exmaple.flory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +28,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final TokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
-
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     @Value("${social.login.redirectUrl}")
     private String redirectUrl;
 
@@ -36,7 +39,12 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         OAuthAttributes oAuthAttributes = (OAuthAttributes) authentication.getPrincipal();
 
-        TokenDto tokenDto = jwtTokenProvider.createTokenDto(authentication);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(oAuthAttributes.getEmail(),"1234");
+
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        Authentication auth = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        TokenDto tokenDto = jwtTokenProvider.createTokenDto(auth);
 
         log.info("social login user email: {} ",oAuthAttributes.getEmail());
         log.info("access token:: {} ",tokenDto.getAccessToken());

@@ -95,7 +95,10 @@ const PieBody = styled.div`
   height: 200px;
   user-select: none;
   margin-bottom : 10px;
-  overflow: visible 
+  overflow: visible;
+  svg {
+    overflow: visible;
+  }
 `;
 export default Pie;
 

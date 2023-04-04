@@ -106,7 +106,13 @@ export function F25(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={location.pathname.includes("diary/select") ? 0.26 : 0.17}
+        scale={
+          location.pathname.includes("diary/select")
+            ? 0.26
+            : location.pathname.includes("/garden")
+            ? 0.28
+            : 0.17
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f25" }}
         onClick={() => {
@@ -121,7 +127,15 @@ export function F25(
       </group>
     </group>
   );
-  return <>{isDragging ? <FloatWrapper>{flower}</FloatWrapper> : flower}</>;
+  return (
+    <>
+      {isDragging && props.page !== "other" ? (
+        <FloatWrapper>{flower}</FloatWrapper>
+      ) : (
+        flower
+      )}
+    </>
+  );
 }
 
 export default F25;

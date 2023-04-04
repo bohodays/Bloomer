@@ -11,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Slf4j
 public class CommentDto {

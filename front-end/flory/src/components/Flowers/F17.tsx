@@ -114,6 +114,8 @@ export function F17(
         scale={
           location.pathname.includes("diary/select")
             ? [0.16, 0.11, 0.13]
+            : location.pathname.includes("/garden")
+            ? [0.2, 0.1375, 0.1625]
             : [0.13, 0.08, 0.1]
         }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
@@ -129,7 +131,15 @@ export function F17(
       </group>
     </group>
   );
-  return <>{isDragging ? <FloatWrapper>{flower}</FloatWrapper> : flower}</>;
+  return (
+    <>
+      {isDragging && props.page !== "other" ? (
+        <FloatWrapper>{flower}</FloatWrapper>
+      ) : (
+        flower
+      )}
+    </>
+  );
 }
 
 export default F17;

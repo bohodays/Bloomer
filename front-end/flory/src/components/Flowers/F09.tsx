@@ -110,7 +110,13 @@ export function F09(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={location.pathname.includes("diary/select") ? 0.038 : 0.03}
+        scale={
+          location.pathname.includes("diary/select")
+            ? 0.038
+            : location.pathname.includes("/garden")
+            ? 0.045
+            : 0.03
+        }
         rotation={[0.55, 0.1, 0.02]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f09" }}
@@ -132,7 +138,15 @@ export function F09(
     </group>
   );
 
-  return <>{isDragging ? <FloatWrapper>{flower}</FloatWrapper> : flower}</>;
+  return (
+    <>
+      {isDragging && props.page !== "other" ? (
+        <FloatWrapper>{flower}</FloatWrapper>
+      ) : (
+        flower
+      )}
+    </>
+  );
 }
 
 export default F09;

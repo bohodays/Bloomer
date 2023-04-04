@@ -277,6 +277,7 @@ public class DiaryService {
                     DiaryDto diaryDto = diary.toDto();
 
                     diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
+                    diaryDto.setCommentList(getCommentList(diaryDto));
                     setGroupList(diaryDto);
 
                     result.add(diaryDto);
@@ -287,6 +288,7 @@ public class DiaryService {
 
                         diaryDto.setFlowerEmotion(getFlowerEmotion(diary.getFlower()));
                         setGroupList(diaryDto);
+                        diaryDto.setCommentList(getCommentList(diaryDto));
 
                         result.add(diaryDto);
                     }
@@ -488,6 +490,7 @@ public class DiaryService {
             }
         }
 
+        Collections.sort(result);
         return result;
     }
 

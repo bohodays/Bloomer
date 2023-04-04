@@ -109,7 +109,13 @@ export function F22(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[-3.07, -0.6, -2.78]}
-        scale={location.pathname.includes("diary/select") ? 0.23 : 0.17}
+        scale={
+          location.pathname.includes("diary/select")
+            ? 0.23
+            : location.pathname.includes("/garden")
+            ? 0.3
+            : 0.17
+        }
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f22" }}
         onClick={() => {
@@ -128,7 +134,15 @@ export function F22(
       </group>
     </group>
   );
-  return <>{isDragging ? <FloatWrapper>{flower}</FloatWrapper> : flower}</>;
+  return (
+    <>
+      {isDragging && props.page !== "other" ? (
+        <FloatWrapper>{flower}</FloatWrapper>
+      ) : (
+        flower
+      )}
+    </>
+  );
 }
 
 export default F22;

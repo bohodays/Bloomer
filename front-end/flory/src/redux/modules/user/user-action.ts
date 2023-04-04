@@ -29,16 +29,26 @@ export const getUserDataToTokenAction = createAsyncThunk(
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
+
+      console.log(
+        accessToken,
+        "토큰으로 내 정보 가져오기 요청에서 보내는 토큰"
+      );
+
       const { data } = await axios.get(`/api/user/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
+      console.log(data, "토큰으로 내 정보 가져오기 요청 후 응답");
+
       // dispatch(getCurrentGardenAction(data.response.userId));
       dispatch(updateAccessToken());
       await dispatch(getGardenListAction(data.response.userId));
       return data;
     } catch (e: any) {
+      // localData.clear();
       return rejectWithValue(e);
     }
   }
@@ -72,6 +82,8 @@ export const logoutAction = createAsyncThunk(
 export const signupAction = createAsyncThunk(
   "SIGNUP",
   async (userData: SignupType, { rejectWithValue }) => {
+    console.log("회원가입 요청시 보내는 데이터", userData);
+
     try {
       const axios = axiosInitializer();
       const { data } = await axios.post(`/api/user`, userData);
@@ -117,7 +129,7 @@ export const updateAccessToken = createAsyncThunk(
         });
       // return await dispatch(getUserDataToTokenAction());
     } catch (e: any) {
-      localData.clear();
+      // localData.clear();
       return rejectWithValue(e);
     }
   }
@@ -187,6 +199,26 @@ export const userDeleteAction = createAsyncThunk(
       });
     } catch (e) {
       rejectWithValue(e);
+    }
+  }
+);
+
+// 비밀번호 변경
+export const changePwdAction = createAsyncThunk(
+  "CHANGE_PASSWORD_ACTION",
+  async (userData: LoginType, { rejectWithValue }) => {
+
+    try {
+      const axios = axiosInitializer();
+      const accessToken = localData.getAccessToken();
+      await axios.put(`/api/user/pwd`, userData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+      });
+    } catch (e: any) {
+      alert("비밀번호 변경 오류");
+      return rejectWithValue(e);
     }
   }
 );

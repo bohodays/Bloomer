@@ -31,6 +31,13 @@ import {
 } from "../../redux/modules/diaryCreate/diaryCreate-slice";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
 import { getGroupInfoAction } from "../../redux/modules/group";
+import {
+  updateIsPlaying,
+  updateMusicTitle,
+  updateMusicUrl,
+  updateShowMusic,
+} from "../../redux/modules/music/music-slice";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
 declare global {
   interface Window {
@@ -39,6 +46,7 @@ declare global {
 }
 
 const DiaryCreate = () => {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -80,6 +88,11 @@ const DiaryCreate = () => {
     );
   }
 
+  // dispatch(updateMusicTitle(""));
+  // dispatch(updateMusicUrl(""));
+  // dispatch(updateIsPlaying(false));
+
+  dispatch(updateShowMusic(false));
   // 현재 위치 반환
   const getGeo = () => {
     if (isGeolocation) {
@@ -157,7 +170,6 @@ const DiaryCreate = () => {
   });
 
   // 다이어리 생성
-  const dispatch = useAppDispatch();
   const gardenId = useAppSelector((state) => state.garden.gardenData.gardenId);
 
   let gardenType = useAppSelector((state) => state.garden.gardenData.type);
@@ -174,7 +186,7 @@ const DiaryCreate = () => {
   // 캠프 테마인 경우
   else if (gardenType === 1) {
     setPositionX = 1;
-    setPositionY = -0.2;
+    setPositionY = -0.1;
     setPositionZ = -0.5;
   }
   // 해변 테마인 경우
@@ -385,31 +397,11 @@ const DiaryCreate = () => {
         />
       </div>
       <Navbar absolute={true} />
-      <Modal
+      <AlertModal
         open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="modal__wrapper" style={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            일기를 기록해주세요.
-          </Typography>
-          <Button
-            addStyle={{
-              // margin: "auto",
-              fontSize: "1rem",
-              width: "40%",
-              height: "2.5rem",
-              color: "#ffffff",
-              background1: "#ff003e",
-              borderRadius: "24px",
-            }}
-            contents="확인"
-            onClick={handleClose}
-          />
-        </div>
-      </Modal>
+        handleClose={handleClose}
+        content={"일기를 작성해주세요."}
+      />
     </SMain>
   );
 };

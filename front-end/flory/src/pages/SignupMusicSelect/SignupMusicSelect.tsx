@@ -8,6 +8,7 @@ import Chip from "../../components/common/Chip/Chip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store.hooks";
 import {
+  getUserDataToTokenAction,
   signupAction,
   socialLoginUpdateAction,
 } from "../../redux/modules/user";
@@ -32,11 +33,11 @@ const SignupMusicSelect = () => {
     pop: false,
     hiphop: false,
     reggae: false,
-    RnB: false,
+    rnb: false,
     electronic: false,
   });
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // 소셜 로그인으로 온 신규유저라면
     if (update) {
       const userData = {
@@ -46,7 +47,7 @@ const SignupMusicSelect = () => {
         pop: selectedItems.pop,
         hiphop: selectedItems.hiphop,
         reggae: selectedItems.reggae,
-        rnb: selectedItems.RnB,
+        rnb: selectedItems.rnb,
         electronic: selectedItems.electronic,
       };
       console.log(
@@ -55,15 +56,26 @@ const SignupMusicSelect = () => {
         { refresh: localData.getRefreshToken() }
       );
 
-      dispatch(socialLoginUpdateAction(userData)).then(() => {
+      await dispatch(socialLoginUpdateAction(userData)).then(() => {
         console.log(
           "dispatch 요청 후 가든으로 가기 전",
           { local: localData.getAccessToken() },
           { refresh: localData.getRefreshToken() }
         );
-        console.log("가든으로 가");
 
-        navigate("/garden");
+        console.log("토큰으로 내 정보 가져오기 요청");
+
+        dispatch(getUserDataToTokenAction()).then(() => {
+          if (localStorage.getItem("newGarden") === "No") {
+            navigate("/garden");
+          } else {
+            navigate("/info", {
+              state: {
+                from: "oauth",
+              },
+            });
+          }
+        });
       });
     }
     // 회원가입으로 온 신규유저라면
@@ -182,11 +194,11 @@ const SignupMusicSelect = () => {
             hoverColor: "#efebe9",
             activeColor: "#bcaaa4",
           }}
-          active={selectedItems.RnB}
+          active={selectedItems.rnb}
           onClick={() => {
             setSelectedItems({
               ...selectedItems,
-              RnB: !selectedItems.RnB,
+              rnb: !selectedItems.rnb,
             });
           }}
         />

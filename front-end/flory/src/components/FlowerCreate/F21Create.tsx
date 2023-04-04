@@ -97,7 +97,7 @@ export function F21Create(
       <group
         position={[position.x, position.y, position.z]}
         rotation={[Math.PI, -1.45, Math.PI / 2]}
-        scale={[0.37, 0.14, 0.23]}
+        scale={[0.45, 0.171, 0.279]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f21" }}
         onClick={() => {

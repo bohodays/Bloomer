@@ -135,6 +135,14 @@ html {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "InkLipquid";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Niconne&display=swap");
 
 body {
@@ -154,6 +162,7 @@ body {
   height: 100%;
   position: relative;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .wrapper {
@@ -180,16 +189,17 @@ body {
 
   color: #ffffff;
   /* color: #505050; */
-
+  /* margin-top: 50vh; */
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 #sub-title {
-  font-family: "Cafe24Shiningstar";
+  font-family: "InkLipquid";
 
-  font-size: 1.8vw;
-  letter-spacing: 5px;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 2vw;
+  /* font-size: 1.8vw; */
+  letter-spacing: 2px;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 
   color: #fff;
   /* color: #000000; */

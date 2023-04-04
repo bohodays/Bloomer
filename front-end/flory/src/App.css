@@ -25,6 +25,9 @@
   .datepicker-modal {
     transform: translateX(-50%);
   }
+  .MuiPopover-root {
+    transform: translateX(-1.5rem) !important;
+  }
 }
 
 @media screen and (min-width: 930px) and (max-width: 1023px) {
@@ -35,10 +38,16 @@
     transform: translateX(10vw);
   }
   .modal__wrapper {
-    transform: translate(calc(-50% + 10vw), -50%);
+    transform: translate(-50%, -50%);
   }
   .datepicker-modal {
     transform: translateX(calc(-50% + 10vw));
+  }
+  .MuiModal-root {
+    transform: translateX(10vw);
+  }
+  .MuiPopover-root {
+    transform: translateX(-1.5rem) !important;
   }
 }
 
@@ -50,10 +59,16 @@
     transform: translateX(12vw);
   }
   .modal__wrapper {
-    transform: translate(calc(-50% + 12vw), -50%);
+    transform: translate(-50%, -50%);
   }
   .datepicker-modal {
     transform: translateX(calc(-50% + 12vw));
+  }
+  .MuiModal-root {
+    transform: translateX(12vw);
+  }
+  .MuiPopover-root {
+    transform: translateX(-1.5rem) !important;
   }
 }
 
@@ -65,10 +80,16 @@
     transform: translateX(14vw);
   }
   .modal__wrapper {
-    transform: translate(calc(-50% + 14vw), -50%);
+    transform: translate(-50%, -50%);
   }
   .datepicker-modal {
     transform: translateX(calc(-50% + 14vw));
+  }
+  .MuiModal-root {
+    transform: translateX(14vw);
+  }
+  .MuiPopover-root {
+    transform: translateX(-1.5rem) !important;
   }
 }
 
@@ -80,9 +101,18 @@
     transform: translateX(17vw);
   }
   .modal__wrapper {
-    transform: translate(calc(-50% + 17vw), -50%);
+    transform: translate(-50%, -50%);
   }
   .datepicker-modal {
     transform: translateX(calc(-50% + 17vw));
+  }
+  .MuiModal-root {
+    transform: translateX(17vw);
+  }
+  .MuiPaper-root {
+    /* transform: translateX(-18rem) !important; */
+  }
+  .MuiPopover-root {
+    transform: translateX(-1.5rem) !important;
   }
 }

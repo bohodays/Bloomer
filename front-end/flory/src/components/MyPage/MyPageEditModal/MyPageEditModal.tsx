@@ -1,82 +1,82 @@
-import React, { useState, useRef, useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Avatar from "../../common/Avatar/Avatar"
-import BasicModal from "../../common/Modal/BasicModal/BasicModal"
-import { ImgIcon, SForm } from "./styles"
-import { faUser } from "@fortawesome/free-solid-svg-icons"
-import { updateUserInfoAction } from "../../../redux/modules/user"
-import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png"
-import { SlCamera } from "react-icons/sl"
-import { FaCamera, FaCameraRetro } from "react-icons/fa"
+import React, { useState, useRef, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Avatar from "../../common/Avatar/Avatar";
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
+import { ImgIcon, SForm } from "./styles";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { updateUserInfoAction } from "../../../redux/modules/user";
+import ModifyButtonImg from "../../../assets/imgs/button/ModifyButton.png";
+import { SlCamera } from "react-icons/sl";
+import { FaCamera, FaCameraRetro } from "react-icons/fa";
 
 const returnPickStatus = (idx: string, pickedIdx: string) => {
-  return idx === pickedIdx ? "pick" : ""
-}
+  return idx === pickedIdx ? "pick" : "";
+};
 
 const MyPageEditModal = () => {
-  const imgIdxList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-  const userInfo = useAppSelector((state) => state.user.userData)
-  const dispatch = useAppDispatch()
+  const imgIdxList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const userInfo = useAppSelector((state) => state.user.userData);
+  const dispatch = useAppDispatch();
 
-  const [nickname, setNickname] = useState(userInfo.nickname)
-  const [pickedIdx, setPickedIdx] = useState(userInfo.img)
+  const [nickname, setNickname] = useState(userInfo.nickname);
+  const [pickedIdx, setPickedIdx] = useState(userInfo.img);
   // const [password, setPassword] = useState(userInfo.password);
-  const [email, setEmail] = useState(userInfo.email)
+  const [email, setEmail] = useState(userInfo.email);
 
   useEffect(() => {
     if (userInfo.img && userInfo.img.length > 2) {
-      setPickedIdx("11")
+      setPickedIdx("11");
     } else {
-      setPickedIdx(userInfo.img || "")
+      setPickedIdx(userInfo.img || "");
     }
-  }, [userInfo.img])
+  }, [userInfo.img]);
 
-  const selectFile = useRef<HTMLInputElement | null>(null) // Icon onClick에 input File을 달기 위한 ref
+  const selectFile = useRef<HTMLInputElement | null>(null); // Icon onClick에 input File을 달기 위한 ref
 
-  const [previewImg, setpreviewImg] = useState("") // 미리보기 파일(출력을 위한)
-  const [imgFile, setImgFile] = useState("") // 미리보기 실제 파일(저장을 위한)
+  const [previewImg, setpreviewImg] = useState(""); // 미리보기 파일(출력을 위한)
+  const [imgFile, setImgFile] = useState(""); // 미리보기 실제 파일(저장을 위한)
 
   const handlePickImg = (idx: string) => {
-    setPickedIdx(idx)
-  }
+    setPickedIdx(idx);
+  };
 
   const handleUpdateInfo = async () => {
     const userData = {
       nickname,
       img: pickedIdx,
       email: userInfo.email,
-    }
+    };
 
     if (pickedIdx === "11") {
-      await dispatch(updateUserInfoAction({ userData, imgFile }))
+      await dispatch(updateUserInfoAction({ userData, imgFile }));
     } else {
-      await dispatch(updateUserInfoAction({ userData, imgFile: "" }))
+      await dispatch(updateUserInfoAction({ userData, imgFile: "" }));
     }
-    return true
-  }
+    return true;
+  };
 
   // 선택이미지 미리보기
   const handleChangePreview = (e: any) => {
-    console.log(e.target.files)
+    console.log(e.target.files);
     if (e.target.files) {
-      let reader = new FileReader()
-      reader.readAsDataURL(e.target.files[0])
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
       // 1. 파일을 읽어 버퍼에 저장합니다.
       // 파일 상태 업데이트
       reader.onloadend = () => {
         // 2. 읽기가 완료되면 아래코드가 실행됩니다.
-        const base64 = reader.result
+        const base64 = reader.result;
         if (base64) {
-          var base64Sub = base64.toString()
-          setpreviewImg(base64Sub) // 파일 base64 상태 업데이트
-          setImgFile(e.target.files[0]) //저장을 위한 파일
+          var base64Sub = base64.toString();
+          setpreviewImg(base64Sub); // 파일 base64 상태 업데이트
+          setImgFile(e.target.files[0]); //저장을 위한 파일
           // console.log(previewImg);
-          console.log(typeof imgFile)
+          console.log(typeof imgFile);
         }
-      }
+      };
     }
-  }
+  };
 
   return (
     <BasicModal
@@ -109,6 +109,7 @@ const MyPageEditModal = () => {
             type="text"
             placeholder={userInfo.nickname}
             onChange={(e: any) => setNickname(e.target.value)}
+            value={nickname}
           />
         </div>
         <p>프로필 사진 변경</p>
@@ -123,7 +124,7 @@ const MyPageEditModal = () => {
               accept=".jpg, .png"
               style={{ display: "none" }}
               ref={(ref) => {
-                selectFile.current = ref
+                selectFile.current = ref;
               }} //Avatar에서 input에 접근
               onChange={handleChangePreview}
             />
@@ -153,12 +154,12 @@ const MyPageEditModal = () => {
                   status={returnPickStatus(item, pickedIdx)}
                 />
               </span>
-            )
+            );
           })}
         </div>
       </SForm>
     </BasicModal>
-  )
-}
+  );
+};
 
-export default MyPageEditModal
+export default MyPageEditModal;

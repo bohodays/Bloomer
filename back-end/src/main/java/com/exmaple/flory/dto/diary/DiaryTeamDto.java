@@ -4,11 +4,8 @@ import com.exmaple.flory.entity.DiaryTeam;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-@ToString
 @Builder
 @Slf4j
 public class DiaryTeamDto {

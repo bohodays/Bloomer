@@ -2,7 +2,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../assets/imgs/lotties/84142-gradient-background.json";
 import StaticMap from "../../components/Map/StaticMap/StaticMap";
-import { faLocationDot, faMusic } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faLock,
+  faMusic,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState, useRef } from "react";
 import DiaryFlower from "../../components/Diary/DiaryFlower/DiaryFlower";
@@ -22,7 +26,11 @@ import {
 } from "../../redux/modules/diary";
 import { DiaryType } from "../../models/diary/diaryType";
 import SettingPopover from "../../components/common/SettingPopover/SettingPopover";
-import { convertMusicFormat } from "../../utils/utils";
+import {
+  convertDateTimeFormat,
+  convertEmotionFormat,
+  convertMusicFormat,
+} from "../../utils/utils";
 import BasicModal from "../../components/common/Modal/BasicModal/BasicModal";
 import { FormControlLabel, FormGroup, Radio } from "@mui/material";
 import GroupItems from "../../components/Diary/GroupItems/GroupItems";
@@ -33,8 +41,10 @@ import DiaryMusicItem from "../../components/Diary/DiaryMusicItem/DiaryMusicItem
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
 import { getMusicAction } from "../../redux/modules/music";
 import {
+  checkDetail,
   updateMusicTitle,
   updateMusicUrl,
+  updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 
@@ -44,6 +54,7 @@ const DiaryDetail = () => {
   // useNavigate로 일기의 id를 전달한다.
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
+
   const diaryId = Number(location.pathname.slice(7));
   const backpage = location.state ? location.state.page : null;
   const initialDiary: DiaryType = {
@@ -52,7 +63,7 @@ const DiaryDetail = () => {
     imgSrc: "",
     lat: 0,
     lng: 0,
-    publicStatus: "전체공개",
+    publicStatus: "",
     x: 0,
     y: 0,
     z: 0,
@@ -79,10 +90,9 @@ const DiaryDetail = () => {
   const [mapView, setMapView] = useState<boolean>(false);
 
   // 그룹 수정 관련
-  const [groupSetting, setGroupSetting] = useState("전체공개");
+  const [groupSetting, setGroupSetting] = useState(diary.publicStatus);
   const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
   const [group, setGroup] = useState<any>(null);
-  const [selectedValue, setSelectedValue] = React.useState("a");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -105,11 +115,12 @@ const DiaryDetail = () => {
 
   const handleGoBack = () => {
     // 뒤로가기
-    if (backpage) {
-      navigate(backpage);
-    } else {
-      navigate(-1);
-    }
+    navigate(-1);
+    // if (backpage) {
+    //   navigate(backpage);
+    // } else {
+    //   navigate(-1);
+    // }
   };
 
   const defaultOptions = {
@@ -122,19 +133,21 @@ const DiaryDetail = () => {
   };
 
   const createCommentHandler = () => {
-    const commentData = {
-      content: commentInput.current?.value,
-      uid: userId,
-      did: diary.id,
-    };
-    dispatch(createCommentAction(commentData)).then(() => {
-      dispatch(getDetailDiary(diaryId)).then((data: any) => {
-        setDiary(data.payload.response);
+    if (commentInput.current?.value) {
+      const commentData = {
+        content: commentInput.current?.value,
+        uid: userId,
+        did: diary.id,
+      };
+      dispatch(createCommentAction(commentData)).then(() => {
+        dispatch(getDetailDiary(diaryId)).then((data: any) => {
+          setDiary(data.payload.response);
+        });
+        if (commentInput.current) {
+          commentInput.current.value = "";
+        }
       });
-      if (commentInput.current) {
-        commentInput.current.value = "";
-      }
-    });
+    }
   };
 
   const deleteAction = async () => {
@@ -153,6 +166,10 @@ const DiaryDetail = () => {
       setDiary(data.payload.response);
     });
   };
+
+  useEffect(() => {
+    setGroupSetting(diary.publicStatus);
+  }, [diary]);
 
   // 이미지 관련
   let imgSrc;
@@ -186,29 +203,17 @@ const DiaryDetail = () => {
   imgSrc = imageUrl;
 
   // 음악 관련
-  const musicTitle = useAppSelector((store) => store.music.musicTitle);
-  const [musicUrl, setMusicUrl] = useState<any>("");
+  const music = useAppSelector((store) => store.music);
+  // const [musicUrl, setMusicUrl] = useState<any>("");
   useEffect(() => {
-    if (diary.musicTitle !== musicTitle) {
+    if (diary.musicTitle && diary.musicTitle !== music.musicTitle) {
       dispatch(updateMusicTitle(diary.musicTitle));
       getMusicAction(diary.musicTitle).then((url) => {
         dispatch(updateMusicUrl(url));
-        setMusicUrl(url);
+        // setMusicUrl(url);
       });
     }
   }, [diary.musicTitle]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
-  const controlProps = (item: string) => ({
-    checked: selectedValue === item,
-    onChange: handleChange,
-    value: item,
-    name: "color-radio-button-demo",
-    inputProps: { "aria-label": item },
-  });
 
   // \n 인식시키기
   const convertNewLineToBreak = (str: string) => {
@@ -233,6 +238,9 @@ const DiaryDetail = () => {
     }
   }, []);
 
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(true));
+
   return (
     <>
       <SMain>
@@ -256,7 +264,7 @@ const DiaryDetail = () => {
         {/* 뒤로 가기 아이콘 */}
         <BackButton color="white" onClickAction={handleGoBack} />
         {/* 음악 아이콘 */}
-        <DiaryMusicButton musicUrl={musicUrl} />
+        {/* <DiaryMusicButton musicUrl={musicUrl} /> */}
 
         <div className="content-box">
           {isSelf && diary && (
@@ -279,6 +287,7 @@ const DiaryDetail = () => {
                 selectedGroupIds={selectedGroupIds}
                 setSelectedGroupIds={setSelectedGroupIds}
                 diary={diary}
+                updateDiary={updateDiary}
               />
             </div>
           )}
@@ -297,12 +306,27 @@ const DiaryDetail = () => {
             {diary.garden?.member.nickname}
           </h3>
           <div className="content-header">
-            <h2>{diary.flowerEmotion.smallCategory}했던 순간</h2>
-            <p>
-              {diary.createdTime.slice(0, 10) +
-                " " +
-                diary.createdTime.slice(11, 16)}
-            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {diary.publicStatus !== "전체공개" && (
+                <FontAwesomeIcon
+                  icon={faLock}
+                  style={{
+                    color: "#8a8a8a",
+                    height: "1rem",
+                    marginRight: "10px",
+                  }}
+                />
+              )}
+              <h2>
+                {convertEmotionFormat(diary.flowerEmotion.largeCategory)} 순간
+              </h2>
+            </div>
+            <p>{convertDateTimeFormat(diary.createdTime)}</p>
           </div>
           {imgSrc && (
             <img className="diary-img" src={imgSrc} alt="img-loading,," />
@@ -347,7 +371,7 @@ const DiaryDetail = () => {
       </SMain>
       <div>
         <AlertModal
-          page="diary"
+          additionBtn={true}
           open={open}
           handleClose={handleClose}
           action={deleteDiary}

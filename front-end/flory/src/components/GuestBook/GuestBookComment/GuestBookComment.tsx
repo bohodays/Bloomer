@@ -11,8 +11,10 @@ import {
   getAllGuestBookList,
 } from "../../../redux/modules/guestBook";
 import "animate.css";
+import { useNavigate } from "react-router-dom";
 
 const GuestBookComment = (props: any) => {
+  const navigate = useNavigate();
   const commentRef = useRef<HTMLElement>(null);
   const dispatch = useAppDispatch();
   const commentData = props.info;
@@ -45,15 +47,31 @@ const GuestBookComment = (props: any) => {
     ));
   };
 
+  console.log(writerId, "쓴사람");
+
   return (
     <SSection deg={props.deg} ref={commentRef} color={commentData.color}>
       <div className={`post-it ${checkDeg(props.deg)}`}>
         <p className="note">
           <div className="header">
             {/* 작성자 프로필 이미지 */}
-            <Avatar size={"small"} imgIdx={0} />
+            <Avatar
+              size={"small"}
+              imgIdx={0}
+              pointer={"pointer"}
+              onClick={() => {
+                navigate(`/garden/${writerId}`);
+              }}
+            />
             {/* 작성자 이름 */}
-            <p className="user-name">{commentData.nickName}</p>
+            <p
+              className="user-name"
+              onClick={() => {
+                navigate(`/garden/${writerId}`);
+              }}
+            >
+              {commentData.nickName}
+            </p>
             {isSelf && (
               <div className="setting">
                 <SettingPopover deleteAction={handleDelete} />

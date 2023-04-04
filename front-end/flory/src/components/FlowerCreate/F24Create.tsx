@@ -96,7 +96,7 @@ export function F24Create(
     <group {...props} dispose={null}>
       <group
         position={[position.x, position.y, position.z]}
-        scale={[0.02, 0.55, 0.02]}
+        scale={[0.03, 0.85, 0.03]}
         ref={location.pathname.includes("garden") ? groupRef : modelRef}
         userData={{ draggable: true, name: "f24" }}
         onClick={() => {

@@ -35,6 +35,9 @@ const gardenSlice = createSlice({
     setGardenData(state, action) {
       state.gardenData = action.payload.gardenData;
     },
+    setGardenMusic(state, action) {
+      state.gardenData.musicTitle = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

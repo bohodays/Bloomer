@@ -50,7 +50,7 @@ const BasicTabs: React.FC<{ tabs: TabType[] }> = (props) => {
     <div
       style={{
         width: "90%",
-        paddingBottom: "60px",
+        paddingBottom: "0",
         minHeight: `${userHeight - 150}px`,
       }}
     >

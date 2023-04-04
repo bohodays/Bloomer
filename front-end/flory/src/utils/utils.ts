@@ -65,6 +65,19 @@ export const convertTimeFormat = (targetDate: string | Date) => {
   }
 }
 
+export const convertDateTimeFormat = (targetDate: string) => {
+  const target = new Date(targetDate)
+  const hour = target.getHours()
+  const minute = target.getMinutes()
+  const time =
+    hour.toString().padStart(2, "0") + ":" + minute.toString().padStart(2, "0")
+
+  const year = target.getFullYear().toString()
+  const month = target.getMonth() + 1
+  const date = target.getDate()
+  return year + "." + month + "." + date + ". " + time
+}
+
 // 년.월.일 형식으로 바꾸기
 export const convertDateFormat = (date: string) => {
   const target = new Date(date)

@@ -15,10 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Slf4j
-public class DiaryDto {
+public class DiaryDto implements Comparable<DiaryDto>{
     private Long id;
 
     private String content;
@@ -57,4 +56,8 @@ public class DiaryDto {
                 .address(address).build();
     }
 
+    @Override
+    public int compareTo(DiaryDto o) {
+        return o.createdTime.compareTo(this.createdTime);
+    }
 }

@@ -5,6 +5,7 @@ import Button from "../../Button/Button";
 import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
 import "./styles.css";
+import { SModal } from "./styles";
 
 const style: any = {
   // position: "absolute" as "absolute",
@@ -21,7 +22,7 @@ interface AlertModalProps {
   handleClose: () => void;
   content: string;
   action?: () => void;
-  page?: string;
+  additionBtn?: boolean;
 }
 
 const AlertModal = ({
@@ -29,7 +30,7 @@ const AlertModal = ({
   handleClose,
   content,
   action,
-  page,
+  additionBtn,
 }: AlertModalProps) => {
   const handleCloseModal = () => {
     if (action) {
@@ -56,9 +57,9 @@ const AlertModal = ({
 
   return (
     <div>
-      <Modal
+      <SModal
         open={open}
-        onClose={handleCloseModal}
+        onClose={handleCancleModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -87,7 +88,7 @@ const AlertModal = ({
               justifyContent: "space-between",
             }}
           >
-            {page === "diary" && (
+            {additionBtn && (
               <Button
                 addStyle={{
                   fontSize: "0.9rem",
@@ -104,7 +105,7 @@ const AlertModal = ({
             <Button
               addStyle={{
                 fontSize: "0.9rem",
-                width: page === "diary" ? "48%" : "100%",
+                width: additionBtn ? "48%" : "100%",
                 height: "2.5rem",
                 color: "#ffffff",
                 background1: "#645ac1",
@@ -115,7 +116,7 @@ const AlertModal = ({
             />
           </div>
         </div>
-      </Modal>
+      </SModal>
     </div>
   );
 };

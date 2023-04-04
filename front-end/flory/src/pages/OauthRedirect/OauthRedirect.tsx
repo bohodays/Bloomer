@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store.hooks";
+import { getUserDataToTokenAction } from "../../redux/modules/user";
 
 const OauthRedirect = () => {
   const params = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const search = params.search;
@@ -30,7 +33,17 @@ const OauthRedirect = () => {
       // 기존 유저이면
     } else {
       localStorage.setItem("newGarden", "No");
-      navigate("/garden");
+      console.log("토큰 한 번 더 저장 시켜라.... 좋은 말 할 때...");
+
+      localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
+      localStorage.setItem("accessToken", splitedSearch[1].slice(12));
+      dispatch(getUserDataToTokenAction()).then(() => {
+        if (localStorage.getItem("newGarden") === "No") {
+          navigate("/garden");
+        } else {
+          navigate("/gardenTheme");
+        }
+      });
     }
     console.log({ userId, isNewUser });
   }, []);

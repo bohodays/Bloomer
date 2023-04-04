@@ -9,7 +9,7 @@ const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
           <DiaryListItem diary={diary} key={idx} page={page} />
         ))
       ) : (
-        <div>피드가 없습니다.</div>
+        <div>일기가 아직 없습니다 🌻</div>
       )}
     </div>
   );

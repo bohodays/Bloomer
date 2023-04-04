@@ -17,6 +17,7 @@ import ProfileCard from "../../components/common/ProfileCard/ProfileCard";
 import Avatar from "../../components/common/Avatar/Avatar";
 import GroupPanel from "../../components/MyPage/GroupPanel/GroupPanel";
 import DistPanel from "../../components/MyPage/DistPanel/DistPanel";
+import { updateShowMusic } from "../../redux/modules/music/music-slice";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const MyPage = () => {
 
   const distPanel = <DistPanel />;
   const groupPanel = <GroupPanel />;
+  dispatch(updateShowMusic(false));
+
   return (
     <SMyPage>
       <div className="profile-background"></div>
@@ -40,6 +43,7 @@ const MyPage = () => {
         {/* 환경 설정 아이콘 */}
         <FontAwesomeIcon
           className="setting-icon"
+          style={{color: "white"}}
           onClick={() => handleMove("/setting")}
           icon={faGear}
         />

@@ -13,6 +13,7 @@ import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
 import CommunityMap from "../../components/Map/CommunityMap/CommunityMap";
 import GroupEmotionPanel from "../../components/MyPage/GroupEmotionPanel/GroupEmotionPanel";
+import { updateShowMusic } from "../../redux/modules/music/music-slice";
 
 let isInitial = true;
 
@@ -63,7 +64,7 @@ const Map = () => {
 
   // 그룹 감정 보기
   const groupPanel = <GroupEmotionPanel />;
-
+  dispatch(updateShowMusic(false));
   return (
     <SMain>
       <div className="header">
