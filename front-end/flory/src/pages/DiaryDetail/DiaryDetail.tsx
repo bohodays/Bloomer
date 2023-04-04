@@ -299,6 +299,7 @@ const DiaryDetail = () => {
                 selectedGroupIds={selectedGroupIds}
                 setSelectedGroupIds={setSelectedGroupIds}
                 diary={diary}
+                updateDiary={updateDiary}
               />
             </div>
           )}
