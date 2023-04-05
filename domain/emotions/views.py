@@ -44,8 +44,8 @@ bertmodel, vocab = get_pytorch_kobert_model()
 # # BERT 모델 설정
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
 #checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
-#checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/0402_model3.pt', map_location=device)
-checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/0402_model3.pt', map_location=device)
+checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/0402_model3.pt', map_location=device)
+#checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/0402_model3.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -54,12 +54,12 @@ tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 
 #csv파일 가져오기
-# music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv")
-# tag_music_data = pd.read_excel("/usr/src/app/emotions/tag_music.xlsx")
-# tag_data = pd.read_excel("/usr/src/app/emotions/tag_list.xlsx")
-music_data = pd.read_csv("C:/Users/SSAFY/git/S08P22A205/domain/emotions/music_vector.csv")
-tag_music_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_music.xlsx")
-tag_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_list.xlsx")
+music_data = pd.read_csv("/usr/src/app/emotions/music_vector.csv")
+tag_music_data = pd.read_excel("/usr/src/app/emotions/tag_music.xlsx")
+tag_data = pd.read_excel("/usr/src/app/emotions/tag_list.xlsx")
+# music_data = pd.read_csv("C:/Users/SSAFY/git/S08P22A205/domain/emotions/music_vector.csv")
+# tag_music_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_music.xlsx")
+# tag_data = pd.read_excel("C:/Users/SSAFY/git/S08P22A205/domain/emotions/tag_list.xlsx")
 
 tag_data['수정사항'] = tag_data['수정사항'].fillna("-")
 
