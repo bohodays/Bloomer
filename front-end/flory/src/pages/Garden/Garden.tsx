@@ -50,7 +50,7 @@ const Scene = (gardenType: any) => {
   useControls({
     screenshot: button(() => {
       const link = document.createElement("a");
-      link.setAttribute("download", `${nickname}님의 감정공간.png`);
+      link.setAttribute("download", `${nickname}님의 감정 정원.png`);
       link.setAttribute(
         "href",
         gl.domElement

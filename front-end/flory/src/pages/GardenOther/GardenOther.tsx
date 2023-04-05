@@ -48,7 +48,7 @@ const Scene = (props: any) => {
   useControls({
     screenshot: button(() => {
       const link = document.createElement("a");
-      link.setAttribute("download", `${props.nickname}님의 감정공간.png`);
+      link.setAttribute("download", `${props.nickname}님의 감정 정원.png`);
       link.setAttribute(
         "href",
         gl.domElement
@@ -137,7 +137,7 @@ const GardenOther = () => {
           <div
             style={{
               position: "absolute",
-              top: "1.5rem",
+              top: "2rem",
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: "10",
