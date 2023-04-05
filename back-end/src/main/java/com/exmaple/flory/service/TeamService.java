@@ -43,7 +43,7 @@ public class TeamService {
             if(userTeam.getStatus() == 1){ // 승인된 사람들만
                 List<Diary> diaryList = diaryRepository.findByMemberId(userTeam.getUid().getUserId());
                 if(diaryList.size()!=0){
-                    Diary diary = diaryList.get(diaryList.size()-1);
+                    Diary diary = diaryList.get(0);
                     memberList.add(TeamMemberInfoDto.of(userTeam.getUid(), diary));
                 }else{
                     memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));

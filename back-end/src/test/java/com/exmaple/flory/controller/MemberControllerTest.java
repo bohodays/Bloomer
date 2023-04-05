@@ -1,11 +1,14 @@
 package com.exmaple.flory.controller;
 
 import com.exmaple.flory.dto.member.LoginDto;
+import com.exmaple.flory.dto.member.MemberMusicUpdateDto;
 import com.exmaple.flory.dto.member.MemberRequestDto;
 import com.exmaple.flory.dto.member.MemberResponseDto;
 import com.exmaple.flory.dto.team.TeamDto;
 import com.exmaple.flory.entity.Authority;
 import com.exmaple.flory.entity.Member;
+import com.exmaple.flory.exception.CustomException;
+import com.exmaple.flory.exception.error.ErrorCode;
 import com.exmaple.flory.response.SuccessResponse;
 import com.exmaple.flory.service.MemberService;
 import com.exmaple.flory.util.SecurityUtil;
@@ -40,6 +43,7 @@ import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -127,10 +131,23 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+    
+    @DisplayName("소셜로그인 회원가입시 음악 기록")
+    @Test
+    void updateMemberMusicInfo() throws Exception{
+        MemberMusicUpdateDto memberMusicUpdateDto = MemberMusicUpdateDto.builder()
+                .userId(1L).classic(true).jazz(true).pop(true).reggae(true).rnb(true).electronic(true).build();
+
+        mockMvc.perform(put("/api/user/social").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(memberMusicUpdateDto)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
     @DisplayName("비밀번호 변경")
     @Test
-    void updatePassword() throws Exception{
+    void updatePasswordException() throws Exception{
         LoginDto loginDto = LoginDto.builder()
                 .email("email").password("password").build();
 
@@ -149,10 +166,14 @@ class MemberControllerTest {
         @Test
         void findMemberInfoByIdException() throws Exception{
             //given
-            when(memberService.findMemberInfoByUserId(any())).thenThrow(new RuntimeException());
-
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).findMemberInfoByUserId(any());
             mockMvc.perform(get("/api/user/me"))
                     .andExpect(status().isNotFound())
+                    .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).findMemberInfoByUserId(any());
+            mockMvc.perform(get("/api/user/me"))
+                    .andExpect(status().isInternalServerError())
                     .andReturn();
         }
 
@@ -160,10 +181,46 @@ class MemberControllerTest {
         @Test
         void findMemberInfoByEmailException() throws Exception{
             //given
-            when(memberService.findMemberInfoByEmail(any())).thenThrow(new RuntimeException());
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).findMemberInfoByEmail(any());
 
             mockMvc.perform(get("/api/user/{email}","email"))
                     .andExpect(status().isNotFound())
+                    .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).findMemberInfoByEmail(any());
+
+            mockMvc.perform(get("/api/user/{email}","email"))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        }
+
+        @DisplayName("회원 탈퇴 오류")
+        @Test
+        void deleteMemberException() throws Exception{
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).deleteMember(any());
+
+            mockMvc.perform(delete("/api/user/{email}","email").with(csrf()))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).deleteMember(any());
+
+            mockMvc.perform(delete("/api/user/{email}","email").with(csrf()))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        }
+
+        @DisplayName("로그아웃 오류")
+        @Test
+        void logout() throws Exception{
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).logout(any());
+            mockMvc.perform(get("/api/user/logout"))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).logout(any());
+            mockMvc.perform(get("/api/user/logout"))
+                    .andExpect(status().isInternalServerError())
                     .andReturn();
         }
 
@@ -173,7 +230,7 @@ class MemberControllerTest {
             MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                     .nickname("name").email("email").build();
 
-            when(memberService.updateMember(any(),any())).thenThrow(new RuntimeException());
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).updateMember(any(),any());
             String json = new ObjectMapper().writeValueAsString(memberRequestDto);
             MockMultipartFile dto = new MockMultipartFile("memberRequestDto", "memberRequestDto", "application/json", json.getBytes(StandardCharsets.UTF_8));
 
@@ -181,6 +238,56 @@ class MemberControllerTest {
                             .file(dto).with(csrf()))
                     .andExpect(status().isNotFound())
                     .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).updateMember(any(),any());
+            mockMvc.perform(multipart(HttpMethod.PUT,"/api/user")
+                            .file(dto).with(csrf()))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        }
+
+        @DisplayName("소셜로그인 회원가입시 음악 기록 오류")
+        @Test
+        void updateMemberMusicInfoException() throws Exception{
+            MemberMusicUpdateDto memberMusicUpdateDto = MemberMusicUpdateDto.builder()
+                    .userId(1L).classic(true).jazz(true).pop(true).reggae(true).rnb(true).electronic(true).build();
+
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).updateMusic(any());
+
+            mockMvc.perform(put("/api/user/social").with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(memberMusicUpdateDto)))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+
+            doThrow(new RuntimeException()).when(memberService).updateMusic(any());
+
+            mockMvc.perform(put("/api/user/social").with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(memberMusicUpdateDto)))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        }
+
+        @DisplayName("비밀번호 변경 오류")
+        @Test
+        void updatePasswordException() throws Exception{
+            LoginDto loginDto = LoginDto.builder()
+                    .email("email").password("password").build();
+
+            doThrow(new CustomException(ErrorCode.NO_USER)).when(memberService).updatePassword(any());
+
+            mockMvc.perform(put("/api/user/pwd").with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(loginDto)))
+                    .andExpect(status().isNotFound());
+
+            doThrow(new RuntimeException()).when(memberService).updatePassword(any());
+
+            mockMvc.perform(put("/api/user/pwd").with(csrf())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(loginDto)))
+                    .andExpect(status().isInternalServerError());
         }
     }
 }

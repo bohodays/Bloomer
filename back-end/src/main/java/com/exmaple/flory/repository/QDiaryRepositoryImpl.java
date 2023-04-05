@@ -42,6 +42,7 @@ public class QDiaryRepositoryImpl implements QDiaryRepository{
                                 .from(garden)
                                 .where(garden.member.userId.eq(memberId))
                 ))
+                .orderBy(diary.createdTime.desc())
                 .fetch();
     }
 
