@@ -116,3 +116,7 @@
     transform: translateX(-1.5rem) !important;
   }
 }
+
+#leva__root {
+  display: none;
+}
