@@ -63,7 +63,7 @@ const Diary = () => {
   }, [diary]);
 
   useEffect(() => {
-    dispatch(getDiaryWithDate(diaryData)).then(() => {});
+    dispatch(getDiaryWithDate(diaryData));
   }, [userId]);
 
   useEffect(() => {
