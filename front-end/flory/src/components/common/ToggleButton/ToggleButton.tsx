@@ -59,6 +59,7 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
 
   // Call the triggerClick function to simulate a click event on the screenshot button
   const handleScreenShot = () => {
+    alert("이미지 캡처완료");
     triggerClick();
   };
 

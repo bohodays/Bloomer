@@ -142,8 +142,9 @@ const GardenOther = () => {
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: "10",
-              color: "white",
+              color: "black",
               fontSize: "0.9rem",
+              fontWeight: "bold",
             }}
           >
             {otherGardenData.nickname}님의 감정 정원입니다
