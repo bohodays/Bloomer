@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Sky,
   Cloud,
@@ -11,6 +11,8 @@ import {
   Sparkles,
   Stars,
 } from "@react-three/drei";
+import { useControls, button } from "leva";
+
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
 
@@ -43,6 +45,23 @@ const gardenTypeMap = (type: number | null) => {
 
 const Scene = (props: any) => {
   const otherGardenType = props.otherGardenType;
+  const gl = useThree((state) => state.gl);
+  const link = document.createElement("a");
+  useControls({
+    screenshot: button(() => {
+      const link = document.createElement("a");
+      link.setAttribute("download", "canvas.png");
+      link.setAttribute(
+        "href",
+        gl.domElement
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream")
+      );
+      // console.log("ㅓㅓㅓㅓㅓㅓ", canvas);
+
+      link.click();
+    }),
+  });
 
   return (
     <>
@@ -125,14 +144,15 @@ const GardenOther = () => {
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: "10",
-              color: "white",
+              color: "black",
               fontSize: "0.9rem",
+              fontWeight: "bold",
             }}
           >
             {otherGardenData.nickname}님의 감정 정원입니다
           </div>
           <ToggleButton state="other" gardenType={otherGardenType} />
-          <Canvas shadows={true}>
+          <Canvas shadows={true} gl={{ preserveDrawingBuffer: true }}>
             {/* REMOVE ORBIT CONTROLS TO FORCE THE CAMERA VIEW */}
             <OrbitControls
               maxPolarAngle={Math.PI / 2.8}
@@ -147,8 +167,7 @@ const GardenOther = () => {
           <Navbar />
         </>
       )}
-      {/* </> */}
-    </SMain>
+    </>
   );
 };
 

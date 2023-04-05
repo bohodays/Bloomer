@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Sky,
   Cloud,
@@ -11,6 +11,8 @@ import {
   Sparkles,
   Stars,
 } from "@react-three/drei";
+import { useControls, button } from "leva";
+
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { SMain } from "./styles";
@@ -43,6 +45,23 @@ const gardenTypeMap = (type: number | null) => {
 };
 
 const Scene = (gardenType: any) => {
+  const gl = useThree((state) => state.gl);
+  // const link = document.createElement("a");
+  useControls({
+    screenshot: button(() => {
+      const link = document.createElement("a");
+      link.setAttribute("download", "canvas.png");
+      link.setAttribute(
+        "href",
+        gl.domElement
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream")
+      );
+
+      link.click();
+    }),
+  });
+
   return (
     <>
       {/* <Loader /> */}
@@ -62,7 +81,6 @@ const Garden = () => {
   const gardenData = useAppSelector((state) => state.garden.gardenData);
   const garden = useAppSelector((store) => store.garden);
   const locationData = location.state !== null ? location.state : null;
-
   const gardenType = useAppSelector((state) =>
     locationData !== null ? locationData.type : state.garden.gardenData.type
   );
@@ -83,6 +101,8 @@ const Garden = () => {
       },
     });
   };
+
+  // Function to capture the canvas contents
 
   useEffect(() => {
     const inputData = {
@@ -135,7 +155,12 @@ const Garden = () => {
         </div>
       )}
       <ToggleButton gardenType={gardenType} />
-      <Canvas shadows={true}>
+
+      <Canvas
+        shadows={true}
+        // ref={canvasRef}
+        gl={{ preserveDrawingBuffer: true }}
+      >
         {/* <Sparkles
           count={15}
           size={40}
