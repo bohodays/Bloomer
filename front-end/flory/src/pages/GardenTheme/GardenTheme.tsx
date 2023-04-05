@@ -96,7 +96,7 @@ const GardenTheme = () => {
       <div className="info__wrapper">
         <p className="info__title">정원의 테마를 선택해주세요.</p>
         <p className="info__title red">
-          정원의 테마는 현재 월의 말까지 유지되며 변경 불가능합니다.
+          정원의 테마는 한 달 동안 유지되며 유지되며 변경 불가능합니다.
         </p>
       </div>
       {/* 선택된 감정 */}

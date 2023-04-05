@@ -33,6 +33,7 @@ import {
   checkDetail,
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
+import { SMain } from "./styles";
 
 let isInitial = true;
 
@@ -130,7 +131,8 @@ const GardenOther = () => {
   dispatch(updateShowMusic(true));
   dispatch(checkDetail(false));
   return (
-    <>
+    <SMain gardenType={otherGardenType}>
+      {/* <> */}
       {isExist && (
         <>
           <BackButton color="white" />
