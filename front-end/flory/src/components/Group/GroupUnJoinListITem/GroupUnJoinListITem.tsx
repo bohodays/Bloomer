@@ -11,7 +11,7 @@ import { requestJoinGroup } from "../../../redux/modules/group";
 import { convertDateFormat } from "../../../utils/utils";
 import AlertModal from "../../common/Modal/AlertModal/AlertModal";
 
-const GroupUnJoinListITem = ({ group }: any) => {
+const GroupUnJoinListITem = ({ group, top }: any) => {
   const userInfo = useAppSelector((state) => state.user.userData);
   const [isDetail, setIsDetail] = useState(false);
   const contentInput = useRef<HTMLInputElement>(null);
@@ -58,7 +58,7 @@ const GroupUnJoinListITem = ({ group }: any) => {
 
   return (
     <>
-      <SMain onClick={handleClickDetail}>
+      <SMain onClick={handleClickDetail} ref={top}>
         <div className="title__wrapper">
           <div className="group-name">{group.name}</div>
           <div className="private__section">

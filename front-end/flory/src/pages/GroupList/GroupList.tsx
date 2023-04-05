@@ -28,6 +28,8 @@ const GroupList = () => {
     }
   }, [dispatch]);
 
+  const scrollItem = useRef<any>();
+
   return (
     <SMain>
       <BackButton color="black" />
@@ -37,17 +39,16 @@ const GroupList = () => {
       <div
         className="grouplist__wrapper"
         onScroll={() => {
-          console.log(top.current?.getBoundingClientRect().top);
-
-          if (top.current?.getBoundingClientRect().top < -200) {
+          if (scrollItem.current?.getBoundingClientRect().top <= -150) {
             setIsActive(true);
           } else {
             setIsActive(false);
           }
         }}
+        ref={top}
       >
         {unJoinGroups.length ? (
-          <GroupUnJoinList top={top} groupData={unJoinGroups} />
+          <GroupUnJoinList scrollItem={scrollItem} groupData={unJoinGroups} />
         ) : (
           <div>조건에 맞는 그룹이 존재하지 않습니다😥</div>
         )}
