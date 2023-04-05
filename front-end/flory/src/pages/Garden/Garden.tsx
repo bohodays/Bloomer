@@ -1,5 +1,5 @@
-import React, { Suspense, useRef, useEffect, useState } from "react"
-import { Canvas, useFrame, useThree, extend } from "@react-three/fiber"
+import React, { Suspense, useRef, useEffect, useState } from "react";
+import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
 import {
   Sky,
   Cloud,
@@ -10,60 +10,60 @@ import {
   Float,
   Sparkles,
   Stars,
-} from "@react-three/drei"
-import { useControls, button } from "leva"
+} from "@react-three/drei";
+import { useControls, button } from "leva";
 
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
-import Navbar from "../../components/common/Navbar/Navbar"
-import { SMain } from "./styles"
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
+import Navbar from "../../components/common/Navbar/Navbar";
+import { SMain } from "./styles";
 
 // import Base_map_new from "../../components/Garden/Park/Park_map";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons"
-import { useLocation, useNavigate } from "react-router-dom"
-import Loading from "../Loading/Loading"
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
-import { getDiaryListAction } from "../../redux/modules/diary"
-import Beach_map from "../../components/Garden/Beach/Beach_map"
-import Camp_map from "../../components/Garden/Camp/Camp_map"
-import Park_map from "../../components/Garden/Park/Park_map"
-import { getMusicAction } from "../../redux/modules/music"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaintRoller, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryListAction } from "../../redux/modules/diary";
+import Beach_map from "../../components/Garden/Beach/Beach_map";
+import Camp_map from "../../components/Garden/Camp/Camp_map";
+import Park_map from "../../components/Garden/Park/Park_map";
+import { getMusicAction } from "../../redux/modules/music";
 import {
   checkDetail,
   updateMusicTitle,
   updateMusicUrl,
   updateShowMusic,
-} from "../../redux/modules/music/music-slice"
-import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton"
-import { Modal } from "semantic-ui-react"
-import AlertModal from "../../components/common/Modal/AlertModal/AlertModal"
-import Swal from "sweetalert2"
+} from "../../redux/modules/music/music-slice";
+import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
+import { Modal } from "semantic-ui-react";
+import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
+import Swal from "sweetalert2";
 
-let isInitial = true
-let screenshotData
+let isInitial = true;
+let screenshotData;
 
 const gardenTypeMap = (type: number | null) => {
-  if (type === 0) return <Park_map page="self" />
-  else if (type === 1) return <Camp_map page="self" />
-  else if (type === 2) return <Beach_map page="self" />
-}
+  if (type === 0) return <Park_map page="self" />;
+  else if (type === 1) return <Camp_map page="self" />;
+  else if (type === 2) return <Beach_map page="self" />;
+};
 
 const Scene = (gardenType: any) => {
-  const gl = useThree((state) => state.gl)
-  const nickname = useAppSelector((state) => state.user.userData.nickname)
+  const gl = useThree((state) => state.gl);
+  const nickname = useAppSelector((state) => state.user.userData.nickname);
 
   useControls({
     screenshot: button(() => {
-      screenshotData = gl.domElement.toDataURL()
+      screenshotData = gl.domElement.toDataURL();
 
-      const link = document.createElement("a")
-      link.setAttribute("download", `${nickname}님의 감정 정원.png`)
+      const link = document.createElement("a");
+      link.setAttribute("download", `test.png`);
       link.setAttribute(
         "href",
         gl.domElement
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream")
-      )
+      );
       Swal.fire({
         text: `이미지를 저장하시겠습니까?`,
         imageUrl: screenshotData,
@@ -73,11 +73,11 @@ const Scene = (gardenType: any) => {
         showCloseButton: true,
       }).then((res) => {
         if (res.isConfirmed) {
-          link.click()
+          link.click();
         }
-      })
+      });
     }),
-  })
+  });
 
   return (
     <>
@@ -88,37 +88,37 @@ const Scene = (gardenType: any) => {
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
-  )
-}
+  );
+};
 
 const Garden = () => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const location = useLocation()
-  const gardenData = useAppSelector((state) => state.garden.gardenData)
-  const garden = useAppSelector((store) => store.garden)
-  const locationData = location.state !== null ? location.state : null
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const gardenData = useAppSelector((state) => state.garden.gardenData);
+  const garden = useAppSelector((store) => store.garden);
+  const locationData = location.state !== null ? location.state : null;
   const gardenType = useAppSelector((state) =>
     locationData !== null ? locationData.type : state.garden.gardenData.type
-  )
-  const nickname = useAppSelector((state) => state.user.userData.nickname)
+  );
+  const nickname = useAppSelector((state) => state.user.userData.nickname);
 
   // 보고 싶은 정원 ID
   const gardenId =
     locationData !== null && locationData.gid !== null
       ? locationData.gid
-      : garden.gardenData.gardenId
+      : garden.gardenData.gardenId;
   // 본인 ID
-  const requestId = useAppSelector((state) => state.user.userData.userId)
-  const user = useAppSelector((state) => state.user)
+  const requestId = useAppSelector((state) => state.user.userData.userId);
+  const user = useAppSelector((state) => state.user);
 
   const handleMoveToGuestBook = () => {
     navigate("/guestbook", {
       state: {
         gardenData,
       },
-    })
-  }
+    });
+  };
 
   // Function to capture the canvas contents
 
@@ -129,33 +129,33 @@ const Garden = () => {
           ? locationData.gid
           : garden.gardenData.gardenId,
       requestId,
-    }
-    console.log("정원아이디", { gardenId, requestId })
+    };
+    console.log("정원아이디", { gardenId, requestId });
 
     if (gardenId) {
-      dispatch(getDiaryListAction(inputData))
+      dispatch(getDiaryListAction(inputData));
     }
-  }, [gardenId, dispatch, user, garden])
+  }, [gardenId, dispatch, user, garden]);
 
-  const music = useAppSelector((state) => state.music)
+  const music = useAppSelector((state) => state.music);
 
   useEffect(() => {
     if (gardenData.musicTitle !== music.musicTitle || !music.musicUrl) {
-      dispatch(updateMusicTitle(gardenData.musicTitle))
+      dispatch(updateMusicTitle(gardenData.musicTitle));
       if (gardenData.musicTitle) {
         getMusicAction(gardenData.musicTitle).then((url) => {
           // console.log(typeof url, "여기요");
           if (typeof url !== "object") {
-            dispatch(updateMusicUrl(url))
+            dispatch(updateMusicUrl(url));
           }
           // setMusicUrl(url);
-        })
+        });
       }
     }
-  }, [garden, music])
+  }, [garden, music]);
 
-  dispatch(updateShowMusic(true))
-  dispatch(checkDetail(false))
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <SMain gardenType={gardenType}>
       {locationData !== null && (
@@ -219,7 +219,7 @@ const Garden = () => {
       {/* 네브바 */}
       <Navbar absolute={true} />
     </SMain>
-  )
-}
+  );
+};
 
-export default Garden
+export default Garden;
