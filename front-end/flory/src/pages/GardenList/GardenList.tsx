@@ -74,13 +74,16 @@ const GardenList = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const backpage = location.state ? location.state.gid : null;
-  const gardenList = useAppSelector((state) => state.garden.gardenList);
-  const userId = useAppSelector((state) => state.user.userData.userId);
-  const CARDS_LENGTH = gardenList.length - 1;
-  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH);
+  const garden: any = useAppSelector((state) => state.garden);
+  const [currentGardenList, setCurrentGardenList] = useState<any>([]);
 
-  const target =
-    gardenList.length >= 1 ? new Date(gardenList[activeIdx].deadline) : null;
+  const userId = useAppSelector((state) => state.user.userData.userId);
+  const CARDS_LENGTH = currentGardenList.length;
+  const [activeIdx, setActiveIdx] = useState(0);
+  const target = currentGardenList.length
+    ? new Date(currentGardenList[activeIdx].deadline)
+    : null;
+
   const year = target ? target.getFullYear() : null;
   const month = target ? target.getMonth() + 1 : null;
   const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
@@ -103,14 +106,14 @@ const GardenList = () => {
   };
 
   useEffect(() => {
-    setActiveIdx(CARDS_LENGTH);
-  }, [CARDS_LENGTH]);
+    setCurrentGardenList(garden?.gardenList);
+  }, [garden]);
 
   useEffect(() => {
     if (year !== null && month !== null) {
       dispatch(getDiaryWithDate(dateData));
     }
-  }, [activeIdx]);
+  }, [activeIdx, currentGardenList]);
 
   return (
     <SMain>
@@ -134,31 +137,32 @@ const GardenList = () => {
           {/* 기간별 정원 */}
           <div className="garden__wrapper">
             <Carousel setActiveIdx={setActiveIdx} activeIdx={activeIdx}>
-              {gardenList.map((item, i) => (
-                <Tooltip
-                  title={`${year
-                    .toString()
-                    .slice(2)}년 ${month}월 감정 정원 보러가기`}
-                  placement="bottom"
-                  arrow
-                  style={{ backgroundColor: "red" }}
-                >
-                  {/* 이미지 바껴야 함 */}
-                  <img
-                    src={convertGardenTheme(item.type)}
-                    alt=""
-                    key={i}
-                    onClick={() =>
-                      handleMoveToGarden(
-                        year,
-                        month,
-                        gardenList[i].gardenId,
-                        item.type
-                      )
-                    }
-                  />
-                </Tooltip>
-              ))}
+              {currentGardenList &&
+                currentGardenList.map((item: any, i: number) => (
+                  <Tooltip
+                    title={`${year
+                      .toString()
+                      .slice(2)}년 ${month}월 감정 정원 보러가기`}
+                    placement="bottom"
+                    arrow
+                    style={{ backgroundColor: "red" }}
+                  >
+                    {/* 이미지 바껴야 함 */}
+                    <img
+                      src={convertGardenTheme(item.type)}
+                      alt=""
+                      key={i}
+                      onClick={() =>
+                        handleMoveToGarden(
+                          year,
+                          month,
+                          currentGardenList[i].gardenId,
+                          item.type
+                        )
+                      }
+                    />
+                  </Tooltip>
+                ))}
             </Carousel>
           </div>
           <Tooltip
