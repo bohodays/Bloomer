@@ -59,9 +59,11 @@ public class Member extends BaseTime {
 
     //외래키 참조
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Garden> gardenList = new ArrayList<>();
 
     @OneToMany(mappedBy = "uid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<UserTeam> userTeamList = new ArrayList<>();
 
     public Member updateToken(String refreshToken) {

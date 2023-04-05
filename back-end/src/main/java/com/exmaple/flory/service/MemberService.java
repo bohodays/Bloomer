@@ -29,20 +29,20 @@ public class MemberService {
     public MemberResponseDto findMemberInfoByUserId(Long userId) {
         return memberRepository.findById(userId)
                 .map(MemberResponseDto::of)
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
     }
 
     @Transactional(readOnly = true)
     public MemberResponseDto findMemberInfoByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .map(MemberResponseDto::of)
-                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
     }
 
     @Transactional
     public void logout(Long userId){
         Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
         member.updateToken(null);
         memberRepository.save(member); //토큰 제거
     }
@@ -50,7 +50,7 @@ public class MemberService {
     @Transactional
     public MemberResponseDto updateMember(MemberRequestDto memberRequestDto, MultipartFile multipartFile) throws IOException {
         Member member = memberRepository.findByEmail(memberRequestDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_USER));
 
         if(multipartFile !=null) {
             String storedFileName = s3Uploader.upload(multipartFile);
@@ -66,7 +66,7 @@ public class MemberService {
     @Transactional
     public void deleteMember(String email){
         memberRepository.delete(
-                memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."))
+                memberRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NO_USER))
         );
     }
 

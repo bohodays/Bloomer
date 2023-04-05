@@ -103,7 +103,7 @@ public class DiaryServiceTest {
             .teamId(1L).name("name").info("info").open(true).build();
 
     private final UserTeam userTeam = UserTeam.builder()
-            .userTeamId(1L).tid(team).uid(member).status(1).build();
+            .userTeamId(1L).tid(team).uid(member).status(1).manager(0).build();
     @DisplayName("일기 등록하기 테스트")
     @Test
     public void insertDiaryTest() throws Exception{
@@ -649,5 +649,23 @@ public class DiaryServiceTest {
         Map<String,Integer> result = diaryService.getEmotionsInMonth(1L);
 
         assertEquals(result.get("기쁨"),1);
+    }
+
+    @DisplayName("wordCloud")
+    @Test
+    public void getWordCloud(){
+        Member member = Member.builder()
+                .userId(1L) .nickname("nickname").password("password") .img("img").email("email") .refreshToken("token").build();
+        List<Diary> diaryList = new ArrayList<>();
+
+        Diary diary = diaryDto.toEntity();
+        diaryList.add(diary);
+
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(member));
+        when(diaryRepository.findByMemberId(any())).thenReturn(diaryList);
+
+        Map<String,Integer> result = diaryService.getWordCloud(1L);
+
+        assertEquals(result.get("content"),1);
     }
 }
