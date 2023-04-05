@@ -2,14 +2,14 @@
   "expo": {
     "name": "Bloomer",
     "slug": "flory-app",
-    "version": "5.0.0",
+    "version": "8.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#4e126b"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.erscindy.floryapp",
-      "versionCode": 5
+      "versionCode": 8
     },
     "web": {
       "favicon": "./assets/favicon.png"
