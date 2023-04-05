@@ -151,7 +151,7 @@ const GardenEdit = () => {
         style={{
           position: "absolute",
           color: "black",
-          fontSize: "1.7vw",
+          fontSize: "0.7rem",
           top: "2rem",
           zIndex: "100",
           width: "100%",
