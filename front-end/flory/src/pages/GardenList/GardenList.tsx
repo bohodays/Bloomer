@@ -78,11 +78,7 @@ const GardenList = () => {
   const [currentGardenList, setCurrentGardenList] = useState<any>([]);
 
   const userId = useAppSelector((state) => state.user.userData.userId);
-  const LENGTH = currentGardenList.length ? currentGardenList.length - 1 : 0;
   const [activeIdx, setActiveIdx] = useState(0);
-
-  console.log("확인해야할 가든", currentGardenList);
-  console.log("들어오는 값", activeIdx);
 
   const target = currentGardenList.length
     ? new Date(currentGardenList[activeIdx].deadline)
@@ -154,6 +150,7 @@ const GardenList = () => {
                 >
                   {/* 이미지 바껴야 함 */}
                   <img
+                    style={{ userSelect: "none" }}
                     src={convertGardenTheme(item.type)}
                     alt=""
                     key={i}
