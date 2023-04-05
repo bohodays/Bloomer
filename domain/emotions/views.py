@@ -45,7 +45,7 @@ bertmodel, vocab = get_pytorch_kobert_model()
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device) 
 #checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/model.pt', map_location=device)
 checkpoint=torch.load('/usr/src/app/domain/emotions/pickle/0402_model3.pt', map_location=device)
-# checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/model.pt', map_location=device)
+#checkpoint=torch.load('C:/Users/SSAFY/git/S08P22A205/domain/emotions/0402_model3.pt', map_location=device)
 # checkpoint=torch.load('C:/Users/SSAFY/ssafy08/S08P22A205/domain/emotions/pickle/model.pt', map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -114,7 +114,7 @@ tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
 
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 title_to_index = dict(zip(music_title, music_data.index))
-
+index_to_title = dict(zip(music_data.index, music_title))
 #===============================
 
 def nearestUser(request, emotion,user_id):
@@ -147,51 +147,55 @@ def nearestUser(request, emotion,user_id):
             print("유저가 과거의 들은 노래목록")
             print(user_music)
             #유저정보 기반으로 유저-태그 매트릭스 구성
-            len = 47
+            leng = 47
 
             #유저-태그 매트릭스
-            user_tag_matrix = [0] * len
+            user_tag = [[0] * leng] * 10
 
             #유저가 과거에 들었던 모든음악의 태그를 더해서 유저-태그 매트릭스 구성
-            for title in user_music:
+            for i in range(10):
+                for title in user_music:
 
-                m_vec = vector_dic[title]
+                    m_vec = vector_dic[title]
 
-                for pos in range(len):
-                    user_tag_matrix[pos] += m_vec[pos]
+                    for pos in range(leng):
+                        user_tag[i][pos] += m_vec[pos]
 
-            print("유저의 과거 데이터")
-            print(user_tag_matrix)
+            # print("유저의 과거 데이터")
+            # print(user_tag)
 
-            user_tag_matrix = np.array(user_tag_matrix).reshape(1, -1)
+            #user_tag_matrix = np.array(user_tag).reshape(1, len(user_tag))
+            #print(user_tag_matrix)
+            user_latent_matrix, _, _ = np.linalg.svd(user_tag)
+            user_latent_matrix = user_latent_matrix[:, :10]
+            print(user_latent_matrix)
 
-            model = NMF(n_components=10, init='random', random_state=0)
-            user_latent_matrix = model.fit_transform(user_tag_matrix) # 유저-잠재요인 매트릭스
-            
             #음악마다 음악-태그 매트릭스 구성해야함
             musics_tag_matrix = [] 
 
             for k,v in vector_dic.items():    
-                m_tag_matrix = np.array(v).reshape(1, -1)
-                W = model.fit_transform(m_tag_matrix) # 음악-잠재요인 매트릭스
-                musics_tag_matrix.append((k,W)) #(타이틀, 음악-잠재요인 매트릭스)
+                musics_tag_matrix.append(v)
 
-            #결과 정리
-            total = []
+            musics_tag_matrix = np.array(musics_tag_matrix)
 
-            for tup in musics_tag_matrix:
-                result = dot(user_latent_matrix,tup[1].T) # 유저-음악 매트릭스 만들기
-                total.append((tup[0],result))
+            music_latent_matrix, _, _ = np.linalg.svd(musics_tag_matrix)
+            music_latent_matrix = music_latent_matrix[:,:10]
 
-            sorted_data = sorted(total, key=lambda x: x[1], reverse=True)
-
+            total = np.dot(user_latent_matrix,music_latent_matrix.T)
+            
+            tmp = []
+            for idx,val in enumerate(total[0]):
+                tmp.append((idx,val))
+            
+            sorted_data = sorted(tmp, key=lambda x: x[1], reverse=True)
+            
             #가장 유망한 5개 추출
             recommended_list = sorted_data[:5]
             
             recommend_music_title = []
 
             for tup in recommended_list:
-                recommend_music_title.append(tup[0])
+                recommend_music_title.append(index_to_title[tup[0]])
             
             serialized_list = json.dumps(recommend_music_title)
             return JsonResponse({"result" : serialized_list})
@@ -213,8 +217,8 @@ def nearestUser(request, emotion,user_id):
             jenre_vector.append((cur,member.user_id))
 
         #각 유저별로 코사인 유사도계산
-        print("장르벡터")
-        print(jenre_vector)
+        # print("장르벡터")
+        # print(jenre_vector)
         curUserVector = convertVector(idToUser[user_id]) # 현재 유저의 음악 벡터
 
         result = [] #결과 계산값
