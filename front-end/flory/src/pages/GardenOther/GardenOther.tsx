@@ -169,7 +169,7 @@ const GardenOther = () => {
           <Navbar />
         </>
       )}
-    </>
+    </SMain>
   );
 };
 
