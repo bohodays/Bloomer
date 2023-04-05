@@ -97,12 +97,8 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
           <FontAwesomeIcon className="volumeMute__icon" icon={faVolumeXmark} />
         )}
       </button>
-      <button className="menu-item camera">
-        <FontAwesomeIcon
-          className="camera__icon"
-          icon={faCamera}
-          onClick={handleScreenShot}
-        />
+      <button className="menu-item camera" onClick={handleScreenShot}>
+        <FontAwesomeIcon className="camera__icon" icon={faCamera} />
       </button>
     </SNav>
   );
