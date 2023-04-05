@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { SDistPanel } from "./styles";
+import { SDistPanel, StyledWordCloud } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Pie from "../../../components/common/Graph/Pie/Pie";
 import Bar from "../../../components/common/Graph/Bar/Bar";
@@ -8,6 +8,8 @@ import FlowerImg from "../../../assets/imgs/flower_icon/Red Flower.png";
 import Post from "../../../components/common/Post/Post";
 import { getStatisticsMonth, getStatisticsLastWeek, getWordCloud } from "../../../redux/modules/diary/diary-action";
 import ReactWordcloud from 'react-wordcloud';
+
+type MinMaxPair = [number, number];
 
 function DistPanel({}): JSX.Element {
   const dispatch = useAppDispatch();
@@ -86,7 +88,11 @@ function DistPanel({}): JSX.Element {
     text: key,
     value: Number(value)
   }));
-      
+  
+  const options = {
+    fontSizes: [12, 50] as MinMaxPair
+  };
+
     return (
       <SDistPanel>
         <div className="totalFlower">
@@ -113,8 +119,8 @@ function DistPanel({}): JSX.Element {
           title="일기 키워드" 
           content={
             Worddata ? (
-              <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <ReactWordcloud words={Worddata} />
+              <div className="keywordBox">
+                <StyledWordCloud words={Worddata} options={options} />
               </div>
             ) : (
               <div className="default">감정을 기록해보세요</div>

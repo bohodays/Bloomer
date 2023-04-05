@@ -96,7 +96,7 @@ export const SMain = styled.main<any>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: ${(props) => props.userHeight - 200 + "px"};
+    height: ${(props) => props.userHeight + "px"};
     text-align: center;
     & > p {
       color: #dfdede;
