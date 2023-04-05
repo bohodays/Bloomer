@@ -37,14 +37,9 @@ const Diary = () => {
   const lat = geoLocation.latitude;
   const lon = geoLocation.longitude;
   const weatherData = useSelector((state: any) => state.weather.weatherData);
-  const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
+  const diary = useAppSelector((state) => state.diary);
+  const [currentMonthDiaryList, setCurrentMonthDiaryList] = useState<any>([]);
   const userId = useAppSelector((state) => state.user.userData.userId);
-
-  const [showButton, setShowButton] = useState(false);
-
-  window.addEventListener("scroll", () => {
-    console.log(window.scrollY);
-  });
 
   const today = new Date();
   const currentTime = today.toTimeString();
@@ -64,8 +59,12 @@ const Diary = () => {
     : initialDiaryData;
 
   useEffect(() => {
-    dispatch(getDiaryWithDate(diaryData));
-  }, [dispatch]);
+    setCurrentMonthDiaryList(diary.monthDiaryList);
+  }, [diary]);
+
+  useEffect(() => {
+    dispatch(getDiaryWithDate(diaryData)).then(() => {});
+  }, [userId]);
 
   useEffect(() => {
     if (isInitial) {
@@ -117,7 +116,10 @@ const Diary = () => {
       >
         <div className="line"></div>
         <div className="diary-section" ref={top}>
-          <DiaryTotalList DIARY_LIST={monthDiaryList} month={diaryData.month} />
+          <DiaryTotalList
+            DIARY_LIST={currentMonthDiaryList}
+            month={diaryData.month}
+          />
           <div className="empty-space"></div>
         </div>
       </div>
