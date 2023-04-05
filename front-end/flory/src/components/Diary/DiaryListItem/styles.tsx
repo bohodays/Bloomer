@@ -18,11 +18,9 @@ export const SItem = styled.div<any>`
   flex: auto;
   display: flex;
   gap: 1rem;
-  /* align-items: center; */
   z-index: -2;
 
   background-color: #f6f2ff;
-  margin-bottom: 1.2rem;
   border-radius: 18px;
   padding: 0.9rem;
 
@@ -30,7 +28,6 @@ export const SItem = styled.div<any>`
     background-color: #ffe897;
     border-radius: 50%;
     height: 3rem;
-    /* padding: 7px; */
   }
 
   .diary__wrapper {
@@ -53,7 +50,6 @@ export const SItem = styled.div<any>`
     .content-container {
       margin: 0 !important;
       width: 100% !important;
-      /* margin-bottom: 0.4rem; */
 
       font-size: 0.5rem;
       line-height: 1.25rem;

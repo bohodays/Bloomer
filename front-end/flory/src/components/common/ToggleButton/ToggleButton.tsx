@@ -8,10 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, RefObject, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { SNav } from "./styles";
@@ -23,23 +20,7 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
   const dispatch = useAppDispatch();
   const music = useAppSelector((store) => store.music);
   const [volumeMute, setVolumeMute] = useState(false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const screenshotBtn = document.getElementsByClassName("leva-c-ihqPFh")[0];
 
   // 토글 핸들러 함수
   const handleToggleOnOff = () => {
@@ -48,10 +29,6 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
 
   // 소리 음소거 핸들러 함수
   const handleVolumeOnOff = () => {
-
-
-
-
     console.log("볼륨 조정", volumeMute);
     if (music.isPlaying) {
       dispatch(updateIsPlaying(false));
@@ -70,13 +47,19 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
     }
   }, [music]);
 
-
-
-
-
-
   const handleMoveToGardenList = () => {
     navigate("/garden/list");
+  };
+
+  // Trigger a click event on the screenshot button
+  const triggerClick = () => {
+    const clickEvent = new Event("click", { bubbles: true });
+    screenshotBtn.dispatchEvent(clickEvent);
+  };
+
+  // Call the triggerClick function to simulate a click event on the screenshot button
+  const handleScreenShot = () => {
+    triggerClick();
   };
 
   return (
@@ -114,7 +97,7 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
           <FontAwesomeIcon className="volumeMute__icon" icon={faVolumeXmark} />
         )}
       </button>
-      <button className="menu-item camera" onClick={capture}>
+      <button className="menu-item camera" onClick={handleScreenShot}>
         <FontAwesomeIcon className="camera__icon" icon={faCamera} />
       </button>
     </SNav>

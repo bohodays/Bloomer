@@ -15,6 +15,8 @@ import CameraAndLight from "./CameraAndLight";
 import BaseGrassAndFlowers from "./BaseGrassAndFlowers";
 import BassGrassAndFlowersEdit from "./BaseGrassAndFlowersEdit";
 import GuestBookModel from "../../GuestBook/GuestBookModel/GuestBook";
+import { Siba } from "../Siba/Siba";
+import { useAppSelector } from "../../../redux/store.hooks";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -706,6 +708,8 @@ export function Model_edit(props: JSX.IntrinsicElements["group"]) {
 }
 
 function Camp_map_edit() {
+  const userId = useAppSelector((state) => state.user.userData.userId);
+
   return (
     <>
       {/* 카메라, 빛 */}
@@ -716,6 +720,8 @@ function Camp_map_edit() {
       <Model_edit />
       {/* 방명록 */}
       <GuestBookModel />
+      {/* 시바 */}
+      {userId <= 200 && <Siba />}
     </>
   );
 }
