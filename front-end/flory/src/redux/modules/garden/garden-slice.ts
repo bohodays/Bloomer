@@ -80,7 +80,7 @@ const gardenSlice = createSlice({
         };
       })
       .addCase(getGardenListAction.fulfilled, (state, { payload }) => {
-        console.log("정원 리스트 확인 성공");
+        console.log("정원 리스트 확인 성공!!!!!!!!!!!!!!!!!!!!");
         state.gardenList = payload.response;
       })
       .addCase(getGardenListAction.rejected, (state, { payload }) => {

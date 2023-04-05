@@ -46,11 +46,11 @@ const gardenTypeMap = (type: number | null) => {
 
 const Scene = (gardenType: any) => {
   const gl = useThree((state) => state.gl);
-  // const link = document.createElement("a");
+  const nickname = useAppSelector((state) => state.user.userData.nickname);
   useControls({
     screenshot: button(() => {
       const link = document.createElement("a");
-      link.setAttribute("download", "canvas.png");
+      link.setAttribute("download", `${nickname}님의 감정 정원.png`);
       link.setAttribute(
         "href",
         gl.domElement
@@ -84,6 +84,7 @@ const Garden = () => {
   const gardenType = useAppSelector((state) =>
     locationData !== null ? locationData.type : state.garden.gardenData.type
   );
+  const nickname = useAppSelector((state) => state.user.userData.nickname);
 
   // 보고 싶은 정원 ID
   const gardenId =

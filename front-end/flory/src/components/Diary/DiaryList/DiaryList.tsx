@@ -6,7 +6,9 @@ const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
     <div>
       {DIARY_LIST.length !== 0 ? (
         DIARY_LIST.map((diary: DiaryType, idx: number) => (
-          <DiaryListItem diary={diary} key={idx} page={page} />
+          <div style={{ marginBottom: "1.2rem" }}>
+            <DiaryListItem diary={diary} key={idx} page={page} />
+          </div>
         ))
       ) : (
         <div>일기가 아직 없습니다 🌻</div>
