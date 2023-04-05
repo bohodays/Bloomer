@@ -34,7 +34,7 @@ export const SMain = styled.main<any>`
 
     p {
       font-size: 1rem;
-      color: var(--color-white);
+      color: ${(props) => (props.gardenType === 1 ? "#ffc089" : "#ffffff")};
       z-index: 10;
       transition: all linear 300ms;
       user-select: none;
