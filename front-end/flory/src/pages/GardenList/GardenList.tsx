@@ -76,11 +76,11 @@ const GardenList = () => {
   const backpage = location.state ? location.state.gid : null;
   const gardenList = useAppSelector((state) => state.garden.gardenList);
   const userId = useAppSelector((state) => state.user.userData.userId);
-  const CARDS_LENGTH = gardenList.length;
-  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH - 1);
-  const target = gardenList.length
-    ? new Date(gardenList[activeIdx].deadline)
-    : null;
+  const CARDS_LENGTH = gardenList.length - 1;
+  const [activeIdx, setActiveIdx] = useState(CARDS_LENGTH);
+
+  const target =
+    gardenList.length >= 1 ? new Date(gardenList[activeIdx].deadline) : null;
   const year = target ? target.getFullYear() : null;
   const month = target ? target.getMonth() + 1 : null;
   const monthDiaryList = useAppSelector((state) => state.diary.monthDiaryList);
@@ -103,7 +103,13 @@ const GardenList = () => {
   };
 
   useEffect(() => {
-    dispatch(getDiaryWithDate(dateData));
+    setActiveIdx(CARDS_LENGTH);
+  }, [CARDS_LENGTH]);
+
+  useEffect(() => {
+    if (year !== null && month !== null) {
+      dispatch(getDiaryWithDate(dateData));
+    }
   }, [activeIdx]);
 
   return (
