@@ -49,6 +49,9 @@
   .MuiPopover-root {
     transform: translateX(-1.5rem) !important;
   }
+  .swal2-container {
+    transform: translateX(10vw);
+  }
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1079px) {
@@ -70,6 +73,9 @@
   .MuiPopover-root {
     transform: translateX(-1.5rem) !important;
   }
+  .swal2-container {
+    transform: translateX(12vw);
+  }
 }
 
 @media screen and (min-width: 1080px) and (max-width: 1180px) {
@@ -90,6 +96,9 @@
   }
   .MuiPopover-root {
     transform: translateX(-1.5rem) !important;
+  }
+  .swal2-container {
+    transform: translateX(14vw);
   }
 }
 
@@ -114,6 +123,10 @@
   }
   .MuiPopover-root {
     transform: translateX(-1.5rem) !important;
+  }
+  /* swal2-container에 대한 기본 css 설정은 index.css에 있습니다. */
+  .swal2-container {
+    transform: translateX(17vw);
   }
 }
 

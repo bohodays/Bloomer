@@ -423,3 +423,8 @@ p {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.swal2-container {
+  max-width: 480px !important;
+  margin: 0 auto !important;
+}
