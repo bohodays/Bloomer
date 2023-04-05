@@ -46,11 +46,10 @@ const gardenTypeMap = (type: number | null) => {
 const Scene = (props: any) => {
   const otherGardenType = props.otherGardenType;
   const gl = useThree((state) => state.gl);
-  const link = document.createElement("a");
   useControls({
     screenshot: button(() => {
       const link = document.createElement("a");
-      link.setAttribute("download", "canvas.png");
+      link.setAttribute("download", `${props.nickname}님의 감정 정원.png`);
       link.setAttribute(
         "href",
         gl.domElement
@@ -140,7 +139,7 @@ const GardenOther = () => {
           <div
             style={{
               position: "absolute",
-              top: "1.5rem",
+              top: "2rem",
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: "10",
@@ -161,7 +160,10 @@ const GardenOther = () => {
               // 쉬프트 마우스 왼쪽 이동 막는 기능
               enablePan={false}
             />
-            <Scene otherGardenType={otherGardenType}></Scene>
+            <Scene
+              otherGardenType={otherGardenType}
+              nickname={otherGardenData.nickname}
+            ></Scene>
           </Canvas>
           {/* 네브바 */}
           <Navbar />

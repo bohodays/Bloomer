@@ -150,15 +150,16 @@ const GardenEdit = () => {
       <div
         style={{
           position: "absolute",
-          color: "white",
-          fontSize: "0.7rem",
-          top: "15px",
+          color: "black",
+          fontSize: "1.7vw",
+          top: "2rem",
           zIndex: "100",
           width: "100%",
           textAlign: "center",
+          fontWeight: "bold",
         }}
       >
-        위치 변경 Tip. 꽃을 누르고 옮기고 싶은 위치를 클릭해 보세요
+        💡 위치 변경 Tip. 꽃을 누르고 옮기고 싶은 위치를 클릭해 보세요
       </div>
       {!fromGarden && <DiaryMusicButton musicUrl={musicUrl} />}
       <Canvas shadows={true} ref={canvasRef}>
