@@ -28,7 +28,6 @@ import {
   updateMusicUrl,
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
-import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map_edit />;
