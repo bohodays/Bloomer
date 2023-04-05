@@ -95,10 +95,6 @@ const GardenOther = () => {
   const otherGardenData = useAppSelector(
     (state) => state.garden.otherGardenData
   );
-  const leva = document.getElementById("leva__root")!;
-  if (leva) {
-    leva.style.display = "none";
-  }
 
   // 보고싶은 정원의 테마 type
   const otherGardenType = otherGardenData.type;
@@ -146,8 +142,9 @@ const GardenOther = () => {
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: "10",
-              color: "white",
+              color: "black",
               fontSize: "0.9rem",
+              fontWeight: "bold",
             }}
           >
             {otherGardenData.nickname}님의 감정 정원입니다
