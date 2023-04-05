@@ -81,11 +81,6 @@ const Garden = () => {
   const gardenData = useAppSelector((state) => state.garden.gardenData);
   const garden = useAppSelector((store) => store.garden);
   const locationData = location.state !== null ? location.state : null;
-  const leva = document.getElementById("leva__root");
-  if (leva) {
-    leva.style.display = "none";
-  }
-
   const gardenType = useAppSelector((state) =>
     locationData !== null ? locationData.type : state.garden.gardenData.type
   );
