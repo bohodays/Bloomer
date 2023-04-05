@@ -35,6 +35,7 @@ import {
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
+import { Modal } from "semantic-ui-react";
 
 let isInitial = true;
 
@@ -47,8 +48,19 @@ const gardenTypeMap = (type: number | null) => {
 const Scene = (gardenType: any) => {
   const gl = useThree((state) => state.gl);
   const nickname = useAppSelector((state) => state.user.userData.nickname);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  let data;
   useControls({
     screenshot: button(() => {
+      data = gl.domElement.toDataURL();
+
       const link = document.createElement("a");
       link.setAttribute("download", `${nickname}님의 감정 정원.png`);
       link.setAttribute(
@@ -58,7 +70,8 @@ const Scene = (gardenType: any) => {
           .replace("image/png", "image/octet-stream")
       );
 
-      link.click();
+      console.log("ddddd", data);
+      // link.click();
     }),
   });
 
@@ -70,6 +83,12 @@ const Scene = (gardenType: any) => {
         {gardenTypeMap(gardenType.gardenType)}
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      ></Modal>
     </>
   );
 };
