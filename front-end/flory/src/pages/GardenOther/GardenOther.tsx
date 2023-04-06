@@ -34,8 +34,19 @@ import {
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
 import { SMain } from "./styles";
+import Swal from "sweetalert2";
+
+type RN = {
+  postMessage(msg: string): void;
+};
+declare global {
+  interface Window {
+    ReactNativeWebView: RN;
+  }
+}
 
 let isInitial = true;
+let screenshotData: any;
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map page="other" />;
@@ -46,19 +57,40 @@ const gardenTypeMap = (type: number | null) => {
 const Scene = (props: any) => {
   const otherGardenType = props.otherGardenType;
   const gl = useThree((state) => state.gl);
+
   useControls({
     screenshot: button(() => {
+      screenshotData = gl.domElement.toDataURL();
+
       const link = document.createElement("a");
-      link.setAttribute("download", `${props.nickname}님의 감정 정원.png`);
+      link.setAttribute("download", `${props.nickname}'s bloomer.png`);
       link.setAttribute(
         "href",
         gl.domElement
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream")
       );
-      // console.log("ㅓㅓㅓㅓㅓㅓ", canvas);
+      Swal.fire({
+        text: `이미지를 저장하시겠습니까?`,
+        imageUrl: screenshotData,
+        imageWidth: "80%",
+        width: 350,
+        confirmButtonText: "저장",
+        showCloseButton: true,
+      }).then((res) => {
+        if (res.isConfirmed) {
+          link.click();
 
-      link.click();
+          if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({
+                type: "download",
+                data: screenshotData,
+              })
+            );
+          }
+        }
+      });
     }),
   });
 
@@ -158,7 +190,7 @@ const GardenOther = () => {
               minZoom={30}
               maxZoom={200}
               // 쉬프트 마우스 왼쪽 이동 막는 기능
-              enablePan={false}
+              // enablePan={false}
             />
             <Scene
               otherGardenType={otherGardenType}

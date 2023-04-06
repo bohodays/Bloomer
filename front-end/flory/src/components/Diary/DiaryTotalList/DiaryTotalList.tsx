@@ -1,10 +1,10 @@
-import React from "react"
-import { DiaryType } from "../../../models/diary/diaryType"
-import { useAppSelector } from "../../../redux/store.hooks"
-import DiaryList from "../DiaryList/DiaryList"
-import { SMain } from "./styles"
+import React from "react";
+import { DiaryType } from "../../../models/diary/diaryType";
+import { useAppSelector } from "../../../redux/store.hooks";
+import DiaryList from "../DiaryList/DiaryList";
+import { SMain } from "./styles";
 
-const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
+const DiaryTotalList = ({ DIARY_LIST }: any): JSX.Element => {
   return (
     <>
       {DIARY_LIST.length !== 0 ? (
@@ -12,7 +12,8 @@ const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
           return (
             <SMain key={idx}>
               <div className="date">
-                {month}월 {diaries.day}일
+                {new Date(diaries.diaryList[0].createdTime).getMonth() + 1}월{" "}
+                {diaries.day}일
               </div>
               <div className="diary-content">
                 <DiaryList
@@ -22,7 +23,7 @@ const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
                 />
               </div>
             </SMain>
-          )
+          );
         })
       ) : (
         <span
@@ -38,7 +39,7 @@ const DiaryTotalList = ({ DIARY_LIST, month }: any): JSX.Element => {
         </span>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DiaryTotalList
+export default DiaryTotalList;
