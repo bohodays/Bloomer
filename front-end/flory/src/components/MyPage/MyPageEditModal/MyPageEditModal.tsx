@@ -32,6 +32,11 @@ const MyPageEditModal = () => {
     }
   }, [userInfo.img]);
 
+  useEffect(()=>{
+    setNickname(userInfo.nickname);
+    setPickedIdx(userInfo.img);
+  },[userInfo])
+
   const selectFile = useRef<HTMLInputElement | null>(null); // Icon onClick에 input File을 달기 위한 ref
 
   const [previewImg, setpreviewImg] = useState(""); // 미리보기 파일(출력을 위한)
@@ -43,7 +48,7 @@ const MyPageEditModal = () => {
 
   const handleUpdateInfo = async () => {
     const userData = {
-      nickname,
+      nickname: nickname,
       img: pickedIdx,
       email: userInfo.email,
     };
