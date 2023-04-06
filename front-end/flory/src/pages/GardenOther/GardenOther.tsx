@@ -63,7 +63,7 @@ const Scene = (props: any) => {
       screenshotData = gl.domElement.toDataURL();
 
       const link = document.createElement("a");
-      link.setAttribute("download", `${nickname}'s bloomer.png`);
+      link.setAttribute("download", `${props.nickname}'s bloomer.png`);
       link.setAttribute(
         "href",
         gl.domElement
