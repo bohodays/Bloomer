@@ -36,9 +36,7 @@ const groupSlice = createSlice({
         state.group.error = null;
         state.userGroupList = payload.response;
       })
-      .addCase(getGroupInfoAction.rejected, (state, { payload }) => {
-        console.log("그룹 불러오기 실패");
-      });
+      .addCase(getGroupInfoAction.rejected, (state, { payload }) => {});
   },
 });
 

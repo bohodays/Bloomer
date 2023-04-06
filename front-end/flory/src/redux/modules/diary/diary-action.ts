@@ -20,17 +20,12 @@ export const createDiaryAction = createAsyncThunk(
       formData.append("diary", blob);
       formData.append("imgSrc", imgFile);
 
-      console.log(formData.get("imgSrc"));
-      console.log(diaryData, imgFile);
-
       const { data } = await axios.post(`/api/diary`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log(data, "일기 생성 요청 후 반환 값");
 
       return data;
     } catch (e) {
@@ -52,8 +47,6 @@ export const deleteDiaryAction = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("일기 삭제 완료", data);
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -73,8 +66,6 @@ export const modifyDiaryAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      console.log(data, "일기 수정 요청 후 반환 값");
 
       return data;
     } catch (e) {
@@ -122,7 +113,6 @@ export const getEmotionAction = createAsyncThunk(
           },
         }
       );
-      console.log(data, "감정분석");
 
       return data;
     } catch (e) {
@@ -146,7 +136,6 @@ export const getDiaryListAction = createAsyncThunk(
           },
         }
       );
-      console.log("현재 일기 목록", data);
       const latestMusicTitle =
         data.response[data.response.length - 1].musicTitle;
 
@@ -171,7 +160,6 @@ export const getAllDiary = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -183,8 +171,6 @@ export const getAllDiary = createAsyncThunk(
 export const getDiaryWithDate = createAsyncThunk(
   "GET_DIARY_WITH_DATE",
   async (dateData: any, { rejectWithValue }) => {
-    console.log("받은 데이터", dateData);
-
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
@@ -196,7 +182,6 @@ export const getDiaryWithDate = createAsyncThunk(
           },
         }
       );
-      console.log("api성공", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -216,7 +201,6 @@ export const getDiaryWithMap = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("현재 위치 일기 목록", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -255,9 +239,6 @@ export const createCommentAction = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("댓글 요청 보낸 데이터", commentData);
-
-      console.log("댓글 생성 요청 후 받는 데이터", data);
 
       return data;
     } catch (e) {
@@ -278,7 +259,6 @@ export const deleteCommentAction = createAsyncThunk(
         },
       });
 
-      console.log("댓글 삭제 요청 후 받는 데이터", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -298,7 +278,6 @@ export const getDetailDiary = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("디테일 데이터 가져오기", data);
       return data;
     } catch (e) {
       return rejectWithValue(e);
@@ -354,11 +333,14 @@ export const getWordCloud = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
-      const { data } = await axios.get(`/api/diary/statistics/wordcloud/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const { data } = await axios.get(
+        `/api/diary/statistics/wordcloud/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return data;
     } catch (e) {
       return rejectWithValue(e);

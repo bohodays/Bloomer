@@ -29,7 +29,6 @@ const ToggleButton = ({ state, gardenType, capture }: any) => {
 
   // 소리 음소거 핸들러 함수
   const handleVolumeOnOff = () => {
-    console.log("볼륨 조정", volumeMute);
     if (music.isPlaying) {
       dispatch(updateIsPlaying(false));
       setVolumeMute(true);

@@ -58,7 +58,6 @@ const DiaryMusicSelect = () => {
   );
   // 유저 id
   const userId = useAppSelector((state) => state.user.userData.userId);
-  console.log(emotion, "지배 감정");
 
   // 텍스트 형태의 감정을 백엔드에 매칭된 인덱스로 바꿔주는 함수
   const changeTextToIndex = (string: string) => {
@@ -75,26 +74,20 @@ const DiaryMusicSelect = () => {
   const getMusicUrls = (musicArray: any) => {
     let test: any = [];
 
-    console.log("s3에 넘길 음악 데이터", musicArray);
-
     musicArray.map((item: any) => {
       const params = {
         Bucket: "bloomer205",
         Key: `music/${item.title}.mp3`,
       };
-      console.log("s3에 넘기는 음악 제목", item.title);
 
       s3.getSignedUrlPromise("getObject", params)
         .then((url) => {
           test.push(url);
-          console.log(url, 232323);
 
           // dispatch(musicUrlsDataSave(url));
         })
         .catch((err) => console.error(err))
         .finally(() => {
-          console.log("최종 데이터", test);
-
           dispatch(musicUrlsDataSave(test));
           setMusicUrls(test);
         });
@@ -118,10 +111,6 @@ const DiaryMusicSelect = () => {
       const emotionIndex = changeTextToIndex(emotion);
       const emotionData = { emotionIndex, userId };
       dispatch(getMusicInfoAction(emotionData)).then((res) => {
-        console.log(res, "dispatch로 받은 음악데이터");
-        console.log("여기에 들어가야 됨");
-        console.log(storeMusicData);
-
         // setMusicData(res.payload.response);
       });
     }
@@ -129,7 +118,6 @@ const DiaryMusicSelect = () => {
     // 음악 제목들이 리덕스에 저장되어있으면
     // 리덕스에 저장되어있는 음악 데이터를 통해 s3에 접근해서
     // url을 받은 후 url들을 리덕스에 저장하기
-    console.log(storeMusicData, "스토어에 저장된 뮤직 데이터");
     if (storeMusicData.length) {
       getMusicUrls(storeMusicData);
     }
@@ -138,7 +126,6 @@ const DiaryMusicSelect = () => {
     // if (musicData !== null && !totalData.length) {
     //   getMusicUrls(musicData);
     //   if (musicData.length === 5 && musicUrls.length === 5) {
-    //     console.log(musicData, musicUrls);
 
     //     const newItem = [];
     //     for (let i = 0; i < 5; i++) {
@@ -149,14 +136,11 @@ const DiaryMusicSelect = () => {
 
     //       newItem.push([newTitle, musicUrls[i]]);
     //     }
-    //     console.log(newItem, "새로운 데이터");
 
     //     setTotalData(newItem);
     //   }
     // }
   }, [dispatch, storeMusicData]);
-
-  console.log("전체 음악", totalData);
 
   const handleItemClick = (key: string) => {
     setSelectedItems({ ...initItem, [key]: !selectedItems[key] });
@@ -214,8 +198,6 @@ const DiaryMusicSelect = () => {
         {storeMusicData.length > 0 &&
           storeMusicUrls.length > 0 &&
           storeMusicData.map((item: any, i: number) => {
-            console.log("돌리는 값", item);
-
             return (
               <DiaryMusicItem
                 isSelected={selectedItems[i + 1]}

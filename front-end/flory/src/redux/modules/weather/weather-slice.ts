@@ -45,7 +45,6 @@ const weatherSlice = createSlice({
         state.weather.loading = false;
         state.weather.data = null;
         state.weather.error = payload;
-        console.log(payload, "받아오기 실패!");
       });
   },
 });

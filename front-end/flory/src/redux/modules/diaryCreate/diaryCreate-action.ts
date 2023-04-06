@@ -1,20 +1,20 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"
-import { axiosInitializer } from "../../utils/axiosInitializer"
-import { localData } from "../user/token"
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosInitializer } from "../../utils/axiosInitializer";
+import { localData } from "../user/token";
 
 export const createInfoSaveAction = createAsyncThunk(
   "SAVE",
   async (diaryCreateData: any, { rejectWithValue }) => {
-    return diaryCreateData
+    return diaryCreateData;
   }
-)
+);
 
 export const getMusicInfoAction = createAsyncThunk(
   "GET_MUSIC",
   async (emotionData: any, { rejectWithValue }) => {
     try {
-      const accessToken = localData.getAccessToken()
-      const axios = axiosInitializer()
+      const accessToken = localData.getAccessToken();
+      const axios = axiosInitializer();
       const { data } = await axios.get(
         `/api/music/recommend/${emotionData.emotionIndex}/user/${emotionData.userId}`,
         {
@@ -22,13 +22,11 @@ export const getMusicInfoAction = createAsyncThunk(
             Authorization: `Bearer ${accessToken}`,
           },
         }
-      )
+      );
 
-      return data
+      return data;
     } catch (e) {
-      console.log("실패", e)
-
-      // return rejectWithValue(e);
+      return rejectWithValue(e);
     }
   }
-)
+);
