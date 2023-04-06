@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import Typography from "@mui/material/Typography"
-import Modal from "@mui/material/Modal"
-import Button from "../../Button/Button"
-import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri"
-import { IoIosWarning } from "react-icons/io"
-import "./styles.css"
-import { SModal } from "./styles"
+import React, { useState } from "react";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import Button from "../../Button/Button";
+import { RiErrorWarningFill, RiErrorWarningLine } from "react-icons/ri";
+import { IoIosWarning } from "react-icons/io";
+import "./styles.css";
+import { SModal } from "./styles";
 
 const style: any = {
   // position: "absolute" as "absolute",
@@ -15,14 +15,14 @@ const style: any = {
   // width: 370,
   // bgcolor: "#ffffff",
   boxShadow: 24,
-}
+};
 
 interface AlertModalProps {
-  open: boolean
-  handleClose: () => void
-  content: string
-  action?: () => void
-  additionBtn?: boolean
+  open: boolean;
+  handleClose: () => void;
+  content: string;
+  action?: () => void;
+  additionBtn?: boolean;
 }
 
 const AlertModal = ({
@@ -32,20 +32,18 @@ const AlertModal = ({
   action,
   additionBtn,
 }: AlertModalProps) => {
-  console.log("잘불려야함", open)
-
   const handleCloseModal = () => {
     if (action) {
-      action()
-      handleClose()
+      action();
+      handleClose();
     } else {
-      handleClose()
+      handleClose();
     }
-  }
+  };
 
   const handleCancleModal = () => {
-    handleClose()
-  }
+    handleClose();
+  };
 
   // \n 인식시키기
   const convertNewLineToBreak = (str: string) => {
@@ -54,8 +52,8 @@ const AlertModal = ({
         {line}
         <br />
       </React.Fragment>
-    ))
-  }
+    ));
+  };
 
   return (
     // <div>
@@ -120,7 +118,7 @@ const AlertModal = ({
       </div>
     </SModal>
     // </div>
-  )
-}
+  );
+};
 
-export default AlertModal
+export default AlertModal;

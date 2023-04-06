@@ -1,16 +1,6 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
-import {
-  Sky,
-  Cloud,
-  Bvh,
-  OrbitControls,
-  Environment,
-  Lightformer,
-  Float,
-  Sparkles,
-  Stars,
-} from "@react-three/drei";
+import React, { Suspense, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import { useControls, button } from "leva";
 
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
@@ -34,9 +24,6 @@ import {
   updateMusicUrl,
   updateShowMusic,
 } from "../../redux/modules/music/music-slice";
-import DiaryMusicButton from "../../components/Diary/DiaryMusicButton.tsx/DiaryMusicButton";
-import { Modal } from "semantic-ui-react";
-import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 import Swal from "sweetalert2";
 
 type RN = {
@@ -118,7 +105,6 @@ const Garden = () => {
   const gardenType = useAppSelector((state) =>
     locationData !== null ? locationData.type : state.garden.gardenData.type
   );
-  const nickname = useAppSelector((state) => state.user.userData.nickname);
 
   // 보고 싶은 정원 ID
   const gardenId =
@@ -147,7 +133,6 @@ const Garden = () => {
           : garden.gardenData.gardenId,
       requestId,
     };
-    console.log("정원아이디", { gardenId, requestId });
 
     if (gardenId) {
       dispatch(getDiaryListAction(inputData));
@@ -161,7 +146,6 @@ const Garden = () => {
       dispatch(updateMusicTitle(gardenData.musicTitle));
       if (gardenData.musicTitle) {
         getMusicAction(gardenData.musicTitle).then((url) => {
-          // console.log(typeof url, "여기요");
           if (typeof url !== "object") {
             dispatch(updateMusicUrl(url));
           }

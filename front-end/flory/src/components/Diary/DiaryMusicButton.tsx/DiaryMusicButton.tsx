@@ -26,24 +26,19 @@ const DiaryMusicButton = ({ musicUrl }: Props) => {
   const dispatch = useAppDispatch();
 
   const handlePlay = () => {
-    console.log("야호");
     if (audioControl.current) {
       if (music.isPlaying) {
-        console.log("야호1");
         dispatch(updateIsPlaying(false));
       } else {
-        console.log("야호2");
         dispatch(updateIsPlaying(true));
       }
     }
   };
   useEffect(() => {
     if (music.isPlaying && audioControl.current?.src) {
-      console.log("재생");
       audioControl.current.play();
       setIsPlaying(true);
     } else {
-      console.log("정지");
       audioControl.current?.pause();
       setIsPlaying(false);
     }
@@ -55,7 +50,6 @@ const DiaryMusicButton = ({ musicUrl }: Props) => {
     }
   }, [music, musicUrl]);
 
-  console.log(music.isPlaying, "와아아아아ㅏㅇ아");
   return (
     <SMusicWrapper onClick={handlePlay}>
       {musicUrl && (

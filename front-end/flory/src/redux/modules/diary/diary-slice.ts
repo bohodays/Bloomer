@@ -79,7 +79,6 @@ const diarySlice = createSlice({
         state.create.loading = false;
         state.create.data = payload;
         state.create.error = null;
-        console.log("일기작성 성공!");
       })
       .addCase(createDiaryAction.rejected, (state, { payload }) => {
         state.create.loading = false;

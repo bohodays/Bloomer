@@ -19,8 +19,6 @@ export const getMusicAction = async (musicTitle: any) => {
 
     const url = await s3.getSignedUrlPromise("getObject", params);
 
-    console.log(url, "[redux] s3에서 준 url ");
-
     return url;
   } catch (e) {
     return e;

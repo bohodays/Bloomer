@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import { GroupJoinRequestType } from "../../../models/Group/groupJoinRequestType";
 import { GroupUpdateType } from "../../../models/Group/groupUpdateType";
-import { GroupJoinType } from "../../../models/Group/groupJoinType"
+import { GroupJoinType } from "../../../models/Group/groupJoinType";
 import { axiosInitializer } from "../../utils/axiosInitializer";
 import { localData } from "../user/token";
 import { groupActions } from "./group-slice";
@@ -36,8 +36,6 @@ export const getGroupInfoAction = createAsyncThunk(
 export const createGroupAction = createAsyncThunk(
   "CREATE_GROUP",
   async (groupCreateData: GroupCreateType, { rejectWithValue }) => {
-    console.log("받은 데이터", groupCreateData);
-
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
@@ -106,7 +104,6 @@ export const requestJoinGroup = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(data);
       return data.response;
     } catch (e) {
       return rejectWithValue(e);
@@ -174,16 +171,18 @@ export const getSignUpMemberListAction = createAsyncThunk(
 // 그룹 멤버 삭제
 export const deleteGroupMemberAction = createAsyncThunk(
   "DELETE",
-  async ({ teamId, userId } : GroupJoinType, { rejectWithValue }) => {
+  async ({ teamId, userId }: GroupJoinType, { rejectWithValue }) => {
     try {
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
-      const { data } = await axios.delete(`/api/team/member?teamId=${teamId}&userId=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        },
-      });
-      
+      const { data } = await axios.delete(
+        `/api/team/member?teamId=${teamId}&userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -218,10 +217,9 @@ export const deleteGroupAction = createAsyncThunk(
       const axios = axiosInitializer();
       const { data } = await axios.delete(`/api/team/${groupId}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
       });
-      
     } catch (e) {
       return rejectWithValue(e);
     }
