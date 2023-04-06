@@ -33,8 +33,6 @@ const OauthRedirect = () => {
       // 기존 유저이면
     } else {
       localStorage.setItem("newGarden", "No");
-      console.log("토큰 한 번 더 저장 시켜라.... 좋은 말 할 때...");
-
       localStorage.setItem("refreshToken", splitedSearch[0].slice(14));
       localStorage.setItem("accessToken", splitedSearch[1].slice(12));
       dispatch(getUserDataToTokenAction()).then(() => {
@@ -45,7 +43,6 @@ const OauthRedirect = () => {
         }
       });
     }
-    console.log({ userId, isNewUser });
   }, []);
 
   return <></>;

@@ -85,7 +85,6 @@ const GardenTheme = () => {
     };
     if (localStorage.getItem("newGarden") === "Yes") {
       dispatch(createGardenAction(gardenCreateData)).then(() => {
-        console.log(localStorage.getItem("newGarden"));
         navigate("/garden");
       });
     }

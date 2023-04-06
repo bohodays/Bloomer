@@ -64,8 +64,6 @@ const diaryCreateSlice = createSlice({
       state.diaryCreateData.z = action.payload.z;
     },
     musicUrlsDataSave: (state, action) => {
-      console.log(action.payload, 121212);
-
       // const musicUrls = action.payload.payload.response;
       state.currentMusicUrls = [...action.payload];
     },

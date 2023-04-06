@@ -1,46 +1,46 @@
-import BasicModal from "../../common/Modal/BasicModal/BasicModal"
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import CreateInput from "../../common/CreateInput/CreateInput"
-import { useRef, useState } from "react"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Switch from "@mui/material/Switch"
-import CreateInputLine from "../../common/CreateInputLine/CreateInputLine"
-import { faUserGroup } from "@fortawesome/free-solid-svg-icons"
-import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks"
-import { GroupCreateType } from "../../../models/Group/groupCreateType"
+import BasicModal from "../../common/Modal/BasicModal/BasicModal";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CreateInput from "../../common/CreateInput/CreateInput";
+import { useRef, useState } from "react";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import CreateInputLine from "../../common/CreateInputLine/CreateInputLine";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
+import { GroupCreateType } from "../../../models/Group/groupCreateType";
 import {
   createGroupAction,
   getGroupInfoAction,
-} from "../../../redux/modules/group"
-import AlertModal from "../../common/Modal/AlertModal/AlertModal"
+} from "../../../redux/modules/group";
+import AlertModal from "../../common/Modal/AlertModal/AlertModal";
 
 function GroupCreateModal(): JSX.Element {
-  const [groupName, setGroupName] = useState("")
-  const groupNameInput = useRef<HTMLInputElement>(null)
-  const contentInput = useRef<HTMLInputElement>(null)
-  const [isOpenData, setIsOpenData] = useState(true)
-  const userInfo = useAppSelector((state: any) => state.user.userData)
-  const dispatch = useAppDispatch()
-  const [open, setOpen] = useState(false)
-  const [errorInfo, setErrorInfo] = useState("")
+  const [groupName, setGroupName] = useState("");
+  const groupNameInput = useRef<HTMLInputElement>(null);
+  const contentInput = useRef<HTMLInputElement>(null);
+  const [isOpenData, setIsOpenData] = useState(true);
+  const userInfo = useAppSelector((state: any) => state.user.userData);
+  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const [errorInfo, setErrorInfo] = useState("");
 
   const handleChangeSwitch = (e: any) => {
-    setIsOpenData(e.target.checked)
-  }
+    setIsOpenData(e.target.checked);
+  };
   const initializeInput = () => {
-    setGroupName("")
+    setGroupName("");
     if (contentInput.current) {
-      contentInput.current.value = ""
+      contentInput.current.value = "";
     }
-    setIsOpenData(true)
-  }
+    setIsOpenData(true);
+  };
   const handleOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <>
@@ -52,33 +52,32 @@ function GroupCreateModal(): JSX.Element {
           />
         }
         dispatchAction={async () => {
-          const contentInputVal = contentInput.current?.value
+          const contentInputVal = contentInput.current?.value;
 
           if (groupName.length === 0) {
-            setErrorInfo("그룹 이름을 입력해주세요.")
-            handleOpen()
-            groupNameInput.current?.focus()
-            console.log(groupNameInput)
-            return false
+            setErrorInfo("그룹 이름을 입력해주세요.");
+            handleOpen();
+            groupNameInput.current?.focus();
+            return false;
           } else if (!contentInputVal || contentInputVal.trim().length === 0) {
-            setErrorInfo("그룹 소개말을 입력해주세요.")
-            handleOpen()
-            contentInput.current?.focus()
-            return false
+            setErrorInfo("그룹 소개말을 입력해주세요.");
+            handleOpen();
+            contentInput.current?.focus();
+            return false;
           } else {
             const groupCreateData: GroupCreateType = {
               name: groupName,
               info: contentInput.current!.value,
               open: isOpenData,
               hostId: userInfo.userId,
-            }
+            };
             await dispatch(createGroupAction(groupCreateData)).then(() => {
               // 가입 생성 완료 후 본인 가입 그룹 목록 다시 불러와야 함
-              dispatch(getGroupInfoAction())
-            })
+              dispatch(getGroupInfoAction());
+            });
             // input값 초기화
-            initializeInput()
-            return true
+            initializeInput();
+            return true;
           }
         }}
       >
@@ -121,7 +120,7 @@ function GroupCreateModal(): JSX.Element {
         <AlertModal open={open} handleClose={handleClose} content={errorInfo} />
       </div>
     </>
-  )
+  );
 }
 
-export default GroupCreateModal
+export default GroupCreateModal;
