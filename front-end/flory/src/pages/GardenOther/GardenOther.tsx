@@ -190,7 +190,7 @@ const GardenOther = () => {
               minZoom={30}
               maxZoom={200}
               // 쉬프트 마우스 왼쪽 이동 막는 기능
-              enablePan={false}
+              // enablePan={false}
             />
             <Scene
               otherGardenType={otherGardenType}
