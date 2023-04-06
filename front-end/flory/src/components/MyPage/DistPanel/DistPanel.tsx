@@ -23,18 +23,20 @@ function DistPanel({}): JSX.Element {
   const [words, setWords] = useState({});
 
   useEffect(() => {
-    dispatch(getStatisticsMonth(userId));
-    dispatch(getStatisticsLastWeek(userId));
-    dispatch(getWordCloud(userId)).then((res) => {
-      const response = res.payload.response;
-      if (
-        response &&
-        (typeof response === "object" || Array.isArray(response))
-      ) {
-        setWords(response);
-      }
-    });
-  }, []);
+    if(userId != 0 && userId){
+      dispatch(getStatisticsMonth(userId));
+      dispatch(getStatisticsLastWeek(userId));
+      dispatch(getWordCloud(userId)).then((res) => {
+        const response = res.payload.response;
+        if (
+          response &&
+          (typeof response === "object" || Array.isArray(response))
+        ) {
+          setWords(response);
+        }
+      });
+    }
+  }, [userId]);
 
   //한달 통계 데이터
   const monthStat = useAppSelector((state) => state.diary.monthStat);
