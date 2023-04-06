@@ -378,6 +378,12 @@ def convertVector(member):
     else:
         cur.append(0)
 
+    #hiphop
+    if member.hiphop is not None:
+        cur.append(member.hiphop)
+    else:
+        cur.append(0)
+
     return cur
     
 def serialize_object(obj):
