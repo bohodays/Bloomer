@@ -43,6 +43,9 @@ public class SignUpRequestDto {
     private boolean rnb;
 
     @NotNull
+    private boolean hiphop;
+
+    @NotNull
     private boolean electronic;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
@@ -53,6 +56,7 @@ public class SignUpRequestDto {
                 .classic(classic)
                 .jazz(jazz)
                 .pop(pop)
+                .hiphop(hiphop)
                 .reggae(reggae)
                 .rnb(rnb)
                 .electronic(electronic)
