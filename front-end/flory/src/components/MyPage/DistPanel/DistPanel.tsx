@@ -34,7 +34,7 @@ function DistPanel({}): JSX.Element {
         setWords(response);
       }
     });
-  }, []);
+  }, [userId]);
 
   //한달 통계 데이터
   const monthStat = useAppSelector((state) => state.diary.monthStat);
