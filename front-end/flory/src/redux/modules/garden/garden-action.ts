@@ -56,7 +56,6 @@ export const getGardenListAction = createAsyncThunk(
         }
 
         if (latestDate !== String(year) + "-" + String(month)) {
-          console.log("최신 아닙니다");
           localStorage.setItem("newGarden", "Yes");
           // dispatch(createGardenAction(userId));
         } else {
@@ -69,7 +68,6 @@ export const getGardenListAction = createAsyncThunk(
           );
         }
       } else {
-        console.log("정원 신규 생성");
         localStorage.setItem("newGarden", "Yes");
         // dispatch(createGardenAction(userId));
       }
@@ -89,9 +87,6 @@ export const createGardenAction = createAsyncThunk(
     { dispatch, rejectWithValue }
   ) => {
     try {
-      console.log("정원 생성 시도합니다");
-      console.log(gardenCreateData, "생성 요청 데이터");
-
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
       // console.log(userId);

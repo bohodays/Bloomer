@@ -71,7 +71,6 @@ function App() {
       if (localData.getAccessToken()) {
         if (userId === 0) {
           dispatch(getUserDataToTokenAction()).then((data: any) => {
-            console.log("data", data);
             // dispatch(getGardenListAction(data.payload.response.userId));
           });
         }
@@ -86,7 +85,6 @@ function App() {
     // "https://bloomer205.s3.ap-northeast-2.amazonaws.com/music/happy-birthday-to-you-dance-20919.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWVYCUPFGXVK6I7XY%2F20230403%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230403T035741Z&X-Amz-Expires=900&X-Amz-Signature=54f5fad0b3663daa2e26d360ed05c878e543ef54a5a118b2dbe58746f2e0c0d2&X-Amz-SignedHeaders=host"
   );
   const [showMusic, setShowMusic] = useState(false);
-  console.log(musicUrl, "호잇?");
   useEffect(() => {
     if (reduxMusic.musicUrl !== musicUrl && reduxMusic.musicUrl) {
       setMusicUrl(reduxMusic.musicUrl);

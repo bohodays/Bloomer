@@ -189,7 +189,6 @@ const DiaryDetail = () => {
 
   useEffect(() => {
     if (diary.imgSrc) {
-      console.log("s3에서 이미지 가져오기");
       const params = {
         Bucket: "bloomer205",
         Key: `${diary.imgSrc}`,

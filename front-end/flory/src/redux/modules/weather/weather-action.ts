@@ -16,11 +16,9 @@ export const getWeatherAction = createAsyncThunk(
       const { data } = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_WEATHER_API_KEY}&units=metric`
       );
-      console.log("날씨 데이터 받아오기 성공");
 
       return data;
     } catch (e: any) {
-      alert(e.response.requireData.message);
       return rejectWithValue(e);
     }
   }

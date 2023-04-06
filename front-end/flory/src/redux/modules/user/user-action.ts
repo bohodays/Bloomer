@@ -30,18 +30,11 @@ export const getUserDataToTokenAction = createAsyncThunk(
       const accessToken = localData.getAccessToken();
       const axios = axiosInitializer();
 
-      console.log(
-        accessToken,
-        "토큰으로 내 정보 가져오기 요청에서 보내는 토큰"
-      );
-
       const { data } = await axios.get(`/api/user/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      console.log(data, "토큰으로 내 정보 가져오기 요청 후 응답");
 
       // dispatch(getCurrentGardenAction(data.response.userId));
       dispatch(updateAccessToken());
@@ -67,12 +60,10 @@ export const logoutAction = createAsyncThunk(
         },
       });
       localData.clear();
-      console.log("로그아웃");
       dispatch(resetUser());
 
       // return data;
     } catch (e: any) {
-      alert(e.response.data.message);
       return rejectWithValue(e);
     }
   }
@@ -82,14 +73,11 @@ export const logoutAction = createAsyncThunk(
 export const signupAction = createAsyncThunk(
   "SIGNUP",
   async (userData: SignupType, { rejectWithValue }) => {
-    console.log("회원가입 요청시 보내는 데이터", userData);
-
     try {
       const axios = axiosInitializer();
       const { data } = await axios.post(`/api/user`, userData);
       return data;
     } catch (e: any) {
-      alert("회원가입 실패");
       return rejectWithValue(e);
     }
   }
@@ -120,7 +108,6 @@ export const updateAccessToken = createAsyncThunk(
       await axios
         .post(`/api/user/access`, { refreshToken, accessToken })
         .then((data: any) => {
-          console.log("업데이트 요청", data);
           localData.setAccessToken(data.data.response.accessToken);
           localData.setRefreshToken(data.data.response.refreshToken);
         })
@@ -159,11 +146,9 @@ export const updateUserInfoAction = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("변경값", data);
 
       return data;
     } catch (e: any) {
-      alert("회원정보 업데이트 실패");
       return rejectWithValue(e);
     }
   }
@@ -176,7 +161,6 @@ export const socialLoginUpdateAction = createAsyncThunk(
     try {
       const axios = axiosInitializer();
       const { data } = await axios.put(`/api/user/social`, userData);
-      console.log(data, "소셜 로그인");
 
       return data;
     } catch (e: any) {
@@ -207,17 +191,15 @@ export const userDeleteAction = createAsyncThunk(
 export const changePwdAction = createAsyncThunk(
   "CHANGE_PASSWORD_ACTION",
   async (userData: LoginType, { rejectWithValue }) => {
-
     try {
       const axios = axiosInitializer();
       const accessToken = localData.getAccessToken();
       await axios.put(`/api/user/pwd`, userData, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
       });
     } catch (e: any) {
-      alert("비밀번호 변경 오류");
       return rejectWithValue(e);
     }
   }

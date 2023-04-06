@@ -220,7 +220,8 @@ def nearestUser(request, emotion,user_id):
         # print("장르벡터")
         # print(jenre_vector)
         curUserVector = convertVector(idToUser[user_id]) # 현재 유저의 음악 벡터
-
+        print('현재 유저 벡터')
+        print(curUserVector)
         result = [] #결과 계산값
 
         for vector in jenre_vector:
@@ -344,43 +345,43 @@ def convertVector(member):
     cur = []
     #클래식
     if member.classic is not None:
-        cur.append(member.classic)
+        cur.append(int.from_bytes(member.classic, byteorder='little', signed=False))
     else:
         cur.append(0)
 
     #재즈
     if member.jazz is not None:
-        cur.append(member.jazz)
+        cur.append(int.from_bytes(member.jazz, byteorder='little', signed=False))
     else:
         cur.append(0)
 
     #pop
     if member.pop is not None:
-        cur.append(member.pop)
+        cur.append(int.from_bytes(member.pop, byteorder='little', signed=False))
     else:
         cur.append(0)
 
     #reggae
     if member.reggae is not None:
-        cur.append(member.reggae)
+        cur.append(int.from_bytes(member.reggae, byteorder='little', signed=False))
     else:
         cur.append(0)
     
     #RnB
     if member.RnB is not None:
-        cur.append(member.RnB)
+        cur.append(int.from_bytes(member.RnB, byteorder='little', signed=False))
     else:
         cur.append(0)
 
     #electronic
     if member.electronic is not None:
-        cur.append(member.electronic)
+        cur.append(int.from_bytes(member.electronic, byteorder='little', signed=False))
     else:
         cur.append(0)
 
     #hiphop
     if member.hiphop is not None:
-        cur.append(member.hiphop)
+        cur.append(int.from_bytes(member.hiphop, byteorder='little', signed=False))
     else:
         cur.append(0)
 
