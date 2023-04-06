@@ -70,8 +70,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/user","/api/user/social","/api/user/login","/api/user/access","/api/user/check-email/{email}","/oauth2-redirect","/signup/music").permitAll()
-             //   .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
                 // JwtFilter를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
