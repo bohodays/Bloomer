@@ -2,10 +2,11 @@ import styled from "styled-components"
 
 export const SMain = styled.main`
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 
   h1 {
     margin: 0;
@@ -41,5 +42,9 @@ export const SMain = styled.main`
 
   .contents {
     padding: 10px;
+    margin: 1px;
+  }
+  .contents:hover {
+    background-color: #e0e0e0;
   }
 `
