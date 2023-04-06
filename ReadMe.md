@@ -23,12 +23,12 @@
             <img src="https://avatars.githubusercontent.com/u/109454527?v=4" width="140px" /> <br><br> 박중원 <br>(Front-End) </a> <br></td>
     </tr>
     <tr>
-        <td align="center">REST API<br/>Domain<br/>DataBase<br/>Infra<br/>Garden<br/>Social Login</td>
-        <td align="center">REST API<br/>DataBase<br/>Emotion<br/>Diary<br/>Comment<br/>Flower</td>
-        <td align="center">REST API<br/>DataBase<br/>MyPage<br/>EC2 S3<br/>JWT Login<br/>Member</td>
-        <td align="center">UI/UX<br/>React<br/>Domain<br/>Map<br/>Test<br/>Member</td>
-        <td align="center">UI/UX<br/>React<br/>Design<br/>Message<br/>Profile<br/>MyPage</td>
-        <td align="center">UI/UX<br/>React<br/>Diary<br/>Flower<br/>User<br/>JWT Login</td>
+        <td align="center">REST API<br/>Spring Boot<br/>Domain<br/>DataBase<br/>Infra<br/>Garden<br/>GuestBook<br/>Social Login</td>
+        <td align="center">REST API<br/>Spring Boot<br/>DataBase<br/>Emotion<br/>Diary<br/>Comment<br/>Flower</td>
+        <td align="center">REST API<br/>Spring Boot<br/>UI/UX<br/>DataBase<br/>MyPage<br/>EC2 S3<br/>Member<br/>Team</td>
+        <td align="center">UI/UX<br/>React<br/>Django<br/>Domain<br/>Map<br/>Music<br/>Member</td>
+        <td align="center">UI/UX<br/>React<br/>Design<br/>3D Modeling<br/>Profile<br/>MyPage<br/>Diary</td>
+        <td align="center">UI/UX<br/>React<br/>Diary<br/>Flower<br/>Garden<br/>3D Modeling<br/>GuestBook</td>
     </tr>
 </table>
 
@@ -110,7 +110,8 @@
 
 ## **🎨 Design**
 
-<details> <summary>3D Modeling</summary> <div markdown="1">modeling image</div> </details>
+<details> <summary>3D Modeling</summary> <div markdown="1"><img src="https://user-images.githubusercontent.com/64126100/230253426-64cc88da-af86-4535-a3d0-b8da67048779.png"><img src="https://user-images.githubusercontent.com/64126100/230253431-a987281b-1b3f-459e-8032-c4f577a27ecf.png"><img src="https://user-images.githubusercontent.com/64126100/230253450-e6f89e09-4019-45c5-8936-f3a5b5bea5b3.png">
+</div> </details>
 
 <div><a href="https://www.figma.com/file/0EYeah40AUaCqrz3LBbDVV/A205?node-id=65-272997&t=axOg9kUYmLQ8QU2F-0">Figma</a></div>
 
