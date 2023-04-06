@@ -47,8 +47,6 @@ const GuestBookComment = (props: any) => {
     ));
   };
 
-  console.log(writerId, "쓴사람");
-
   return (
     <SSection deg={props.deg} ref={commentRef} color={commentData.color}>
       <div className={`post-it ${checkDeg(props.deg)}`}>

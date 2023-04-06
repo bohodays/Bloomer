@@ -41,7 +41,6 @@ export function GuestBookModel(props: JSX.IntrinsicElements["group"]) {
   } else {
     checkMine = true;
   }
-  console.log(checkMine);
 
   const gardenType = useAppSelector((state) =>
     checkMine ? state.garden.gardenData.type : state.garden.otherGardenData.type

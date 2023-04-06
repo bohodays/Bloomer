@@ -49,7 +49,6 @@ const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
     kakao.maps.event.addListener(map, "zoom_changed", function () {
       // 지도 범위 가져오기
       bounds = map.getBounds();
-      console.log(bounds);
       setBound({
         lng1: String(bounds.ha),
         lat2: String(bounds.qa),
@@ -92,8 +91,6 @@ const BasicMap = ({ setBound, diaries }: any): JSX.Element => {
   }, [bounds, isGeolocation]);
 
   useEffect(() => {
-    console.log("다이어리", diaries);
-    console.log("다이어리", map);
     // 마커를 표시할 위치와 title 객체 배열입니다
     let positions = diaries.map((diary: DiaryType) => {
       return {

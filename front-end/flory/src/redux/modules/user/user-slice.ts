@@ -26,7 +26,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      console.log("reset 시도");
       state.userData.userId = 0;
     },
   },

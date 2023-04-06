@@ -102,7 +102,6 @@ const DiaryCreate = () => {
             ? result[0].road_address.address_name
             : result[0].address.address_name;
 
-          console.log(detailAddr);
           setPlace({
             placeName: "",
             address: detailAddr,
@@ -231,11 +230,6 @@ const DiaryCreate = () => {
           // 이미지 데이터 저장
           // dispatch(imgDataSave(selectedImg.image_file));
           localStorage.setItem("imgFile", selectedImg.preview_URL);
-          // console.log(
-          //   selectedImg.image_file,
-          //   selectedImg.preview_URL,
-          //   "이미지 정보"
-          // );
         })
         .then(() => {
           navigate("/diary/select");
