@@ -39,15 +39,23 @@ import { Modal } from "semantic-ui-react";
 import AlertModal from "../../components/common/Modal/AlertModal/AlertModal";
 import Swal from "sweetalert2";
 
+type RN = {
+  postMessage(msg: string): void;
+};
+declare global {
+  interface Window {
+    ReactNativeWebView: RN;
+  }
+}
+
 let isInitial = true;
-let screenshotData;
+let screenshotData: any;
 
 const gardenTypeMap = (type: number | null) => {
   if (type === 0) return <Park_map page="self" />;
   else if (type === 1) return <Camp_map page="self" />;
   else if (type === 2) return <Beach_map page="self" />;
 };
-
 const Scene = (gardenType: any) => {
   const gl = useThree((state) => state.gl);
   const nickname = useAppSelector((state) => state.user.userData.nickname);
@@ -63,7 +71,6 @@ const Scene = (gardenType: any) => {
         gl.domElement.toDataURL("image/png")
         // .replace("image/png", "image/octet-stream")
       );
-      console.log(link.href);
 
       Swal.fire({
         text: `이미지를 저장하시겠습니까?`,
@@ -75,6 +82,15 @@ const Scene = (gardenType: any) => {
       }).then((res) => {
         if (res.isConfirmed) {
           link.click();
+
+          if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({
+                type: "download",
+                data: screenshotData,
+              })
+            );
+          }
         }
       });
     }),
