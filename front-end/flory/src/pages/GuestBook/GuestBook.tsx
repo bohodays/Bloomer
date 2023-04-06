@@ -1,48 +1,55 @@
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import BackButton from "../../components/common/BackButton/BackButton";
-import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestBookComment";
-import { getAllGuestBookList } from "../../redux/modules/guestBook";
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
-import { SMain } from "./styles";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import BackButton from "../../components/common/BackButton/BackButton"
+import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestBookComment"
+import { getAllGuestBookList } from "../../redux/modules/guestBook"
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
+import { SMain } from "./styles"
 import {
   checkDetail,
   updateShowMusic,
-} from "../../redux/modules/music/music-slice";
+} from "../../redux/modules/music/music-slice"
 
 const GuestBook = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const location = useLocation();
-  const gardenData = location.state !== null ? location.state.gardenData : null;
-  const gardenId = gardenData !== null ? gardenData.gardenId : null;
-  const guestBookList = useAppSelector(
-    (state) => state.guestBook.guestBookList
-  );
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const location = useLocation()
+  const gardenData = location.state !== null ? location.state.gardenData : null
+  const gardenId = gardenData !== null ? gardenData.gardenId : null
+  const guestBookList = useAppSelector((state) => state.guestBook.guestBookList)
 
   const userGardenId = useAppSelector(
     (state) => state.garden.gardenData.gardenId
-  );
+  )
 
   useEffect(() => {
     if (gardenId !== null) {
-      dispatch(getAllGuestBookList(gardenId));
+      dispatch(getAllGuestBookList(gardenId))
     }
-  }, []);
+  }, [])
 
-  const degArray = [2, -2, 0, 2, 2, -2];
+  const degArray = [2, -2, 0, 2, 2, -2]
 
   // dispatch(updateShowMusic(false));
-  dispatch(checkDetail(false));
+  dispatch(checkDetail(false))
+
+  const goBackToGarden = () => {
+    if (gardenId == userGardenId) {
+      navigate("/garden")
+    } else {
+      navigate(`/garden/${gardenData.userId}`)
+    }
+  }
+
   return (
     <>
       {gardenId === null ? (
         <div>잘못된 접근입니다</div>
       ) : (
         <SMain>
-          <BackButton color="black" />
+          <BackButton color="black" onClickAction={goBackToGarden} />
           <div className="title">{gardenData.nickname}님의 방명록</div>
           {/* 내 정원의 방명록에서는 내가 글을 작성하지 못하도록 글작성 버튼 숨기기 */}
           {gardenId !== userGardenId && (
@@ -63,7 +70,7 @@ const GuestBook = () => {
                   deg={degArray[index % 6]}
                   key={index}
                 />
-              );
+              )
             })
           ) : (
             <div className="empty__guestbook">
@@ -73,7 +80,7 @@ const GuestBook = () => {
         </SMain>
       )}
     </>
-  );
-};
+  )
+}
 
-export default GuestBook;
+export default GuestBook
