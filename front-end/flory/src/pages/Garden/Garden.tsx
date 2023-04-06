@@ -65,7 +65,7 @@ const Scene = (gardenType: any) => {
       screenshotData = gl.domElement.toDataURL();
 
       const link = document.createElement("a");
-      link.setAttribute("download", `test.png`);
+      link.setAttribute("download", `${nickname}'s bloomer.png`);
       link.setAttribute(
         "href",
         gl.domElement.toDataURL("image/png")

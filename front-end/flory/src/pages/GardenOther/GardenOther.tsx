@@ -1,5 +1,5 @@
-import React, { Suspense, useRef, useEffect, useState } from "react"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import React, { Suspense, useRef, useEffect, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Sky,
   Cloud,
@@ -10,57 +10,66 @@ import {
   Float,
   Sparkles,
   Stars,
-} from "@react-three/drei"
-import { useControls, button } from "leva"
+} from "@react-three/drei";
+import { useControls, button } from "leva";
 
-import ToggleButton from "../../components/common/ToggleButton/ToggleButton"
-import Navbar from "../../components/common/Navbar/Navbar"
+import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
+import Navbar from "../../components/common/Navbar/Navbar";
 
 // import Base_map_new from "../../components/Garden/Park/Park_map";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons"
-import { useLocation, useNavigate } from "react-router-dom"
-import Loading from "../Loading/Loading"
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
-import { getDiaryListAction } from "../../redux/modules/diary"
-import Beach_map from "../../components/Garden/Beach/Beach_map"
-import Camp_map from "../../components/Garden/Camp/Camp_map"
-import Park_map from "../../components/Garden/Park/Park_map"
-import { getCurrentGardenAction } from "../../redux/modules/garden"
-import BackButton from "../../components/common/BackButton/BackButton"
-import { Translate } from "aws-sdk"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { getDiaryListAction } from "../../redux/modules/diary";
+import Beach_map from "../../components/Garden/Beach/Beach_map";
+import Camp_map from "../../components/Garden/Camp/Camp_map";
+import Park_map from "../../components/Garden/Park/Park_map";
+import { getCurrentGardenAction } from "../../redux/modules/garden";
+import BackButton from "../../components/common/BackButton/BackButton";
+import { Translate } from "aws-sdk";
 import {
   checkDetail,
   updateShowMusic,
-} from "../../redux/modules/music/music-slice"
-import { SMain } from "./styles"
-import Swal from "sweetalert2"
+} from "../../redux/modules/music/music-slice";
+import { SMain } from "./styles";
+import Swal from "sweetalert2";
 
-let isInitial = true
-let screenshotData
-
-const gardenTypeMap = (type: number | null) => {
-  if (type === 0) return <Park_map page="other" />
-  else if (type === 1) return <Camp_map page="other" />
-  else if (type === 2) return <Beach_map page="other" />
+type RN = {
+  postMessage(msg: string): void;
+};
+declare global {
+  interface Window {
+    ReactNativeWebView: RN;
+  }
 }
 
+let isInitial = true;
+let screenshotData: any;
+
+const gardenTypeMap = (type: number | null) => {
+  if (type === 0) return <Park_map page="other" />;
+  else if (type === 1) return <Camp_map page="other" />;
+  else if (type === 2) return <Beach_map page="other" />;
+};
+
 const Scene = (props: any) => {
-  const otherGardenType = props.otherGardenType
-  const gl = useThree((state) => state.gl)
+  const otherGardenType = props.otherGardenType;
+  const gl = useThree((state) => state.gl);
 
   useControls({
     screenshot: button(() => {
-      screenshotData = gl.domElement.toDataURL()
+      screenshotData = gl.domElement.toDataURL();
 
-      const link = document.createElement("a")
-      link.setAttribute("download", `${props.nickname}님의 감정 정원.png`)
+      const link = document.createElement("a");
+      link.setAttribute("download", `${nickname}'s bloomer.png`);
       link.setAttribute(
         "href",
         gl.domElement
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream")
-      )
+      );
       Swal.fire({
         text: `이미지를 저장하시겠습니까?`,
         imageUrl: screenshotData,
@@ -70,11 +79,20 @@ const Scene = (props: any) => {
         showCloseButton: true,
       }).then((res) => {
         if (res.isConfirmed) {
-          link.click()
+          link.click();
+
+          if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({
+                type: "download",
+                data: screenshotData,
+              })
+            );
+          }
         }
-      })
+      });
     }),
-  })
+  });
 
   return (
     <>
@@ -98,51 +116,51 @@ const Scene = (props: any) => {
       </Suspense>
       {/* REPLACE THIS LIGHT AS NEEDED IT'S A GOOD START */}
     </>
-  )
-}
+  );
+};
 
 const GardenOther = () => {
-  const location = useLocation()
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [isExist, setIsExist] = useState(false)
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [isExist, setIsExist] = useState(false);
   const otherGardenData = useAppSelector(
     (state) => state.garden.otherGardenData
-  )
+  );
 
   // 보고싶은 정원의 테마 type
-  const otherGardenType = otherGardenData.type
+  const otherGardenType = otherGardenData.type;
 
   // 보고싶은 정원 ID
-  const gardenId = otherGardenData.gardenId
+  const gardenId = otherGardenData.gardenId;
   // 보고싶은 user ID
-  const requestId = parseInt(location.pathname.slice(8))
+  const requestId = parseInt(location.pathname.slice(8));
 
   const handleMoveToGuestBook = () => {
     navigate("/guestbook", {
       state: {
         gardenData: otherGardenData,
       },
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    dispatch(getCurrentGardenAction(requestId))
-  }, [])
+    dispatch(getCurrentGardenAction(requestId));
+  }, []);
 
   useEffect(() => {
     const inputData = {
       gardenId,
       requestId,
-    }
+    };
     if (gardenId) {
-      dispatch(getDiaryListAction(inputData))
-      setIsExist(true)
+      dispatch(getDiaryListAction(inputData));
+      setIsExist(true);
     }
-  }, [gardenId, dispatch])
+  }, [gardenId, dispatch]);
 
-  dispatch(updateShowMusic(true))
-  dispatch(checkDetail(false))
+  dispatch(updateShowMusic(true));
+  dispatch(checkDetail(false));
   return (
     <SMain gardenType={otherGardenType}>
       {/* <> */}
@@ -184,7 +202,7 @@ const GardenOther = () => {
         </>
       )}
     </SMain>
-  )
-}
+  );
+};
 
-export default GardenOther
+export default GardenOther;
