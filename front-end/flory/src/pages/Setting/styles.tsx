@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const SMain = styled.main`
   width: 100%;
@@ -6,7 +6,7 @@ export const SMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   h1 {
     margin: 0;
     font-size: 2.5rem;
@@ -19,7 +19,7 @@ export const SMain = styled.main`
     text-align: center;
     color: black;
     padding: 3vh;
--  }
+  }
 
   .inner-header {
     width: 100%;
@@ -35,11 +35,11 @@ export const SMain = styled.main`
     text-align: center;
   }
 
-  .box-Accordion{
-    width:100%
+  .box-Accordion {
+    width: 90%;
   }
 
-  .contents{
+  .contents {
     padding: 10px;
   }
-`;
+`
