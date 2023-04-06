@@ -10,6 +10,7 @@ import lombok.*;
 public class MemberMusicUpdateDto {
 
     private Long userId;
+    private Boolean hiphop;
     private Boolean classic;
     private Boolean jazz;
     private Boolean pop;

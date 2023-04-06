@@ -10,6 +10,7 @@ class Member(models.Model):
     classic = models.SmallIntegerField(default=False)
     jazz = models.SmallIntegerField(default=False)
     pop = models.SmallIntegerField(default=False)
+    hiphop = models.SmallIntegerField(default=False)
     reggae = models.SmallIntegerField(default=False)
     RnB = models.SmallIntegerField(default=False)
     electronic = models.SmallIntegerField(default=False)
