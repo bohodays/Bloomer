@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const SContainer = styled.div`
   position: absolute;
@@ -11,9 +11,9 @@ export const SContainer = styled.div`
     cursor: pointer;
   }
   .icon {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
-`
+`;
 
 export const SMain = styled.div`
   display: flex;
@@ -28,4 +28,4 @@ export const SMain = styled.div`
   width: 2.3rem;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-`
+`;

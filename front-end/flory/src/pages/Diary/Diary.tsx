@@ -116,10 +116,7 @@ const Diary = () => {
       >
         <div className="line"></div>
         <div className="diary-section" ref={top}>
-          <DiaryTotalList
-            DIARY_LIST={currentMonthDiaryList}
-            month={diaryData.month}
-          />
+          <DiaryTotalList DIARY_LIST={currentMonthDiaryList} />
           <div className="empty-space"></div>
         </div>
       </div>
