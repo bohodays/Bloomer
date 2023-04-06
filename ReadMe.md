@@ -13,10 +13,10 @@
             <img src="https://avatars.githubusercontent.com/u/60818059?v=4" width="140px" /> <br><br> 👑 김찬휘 <br>(Back-End) </a> <br></td>
             <td height="140px" align="center"> <a href="https://github.com/YoonDongGyun">
             <img src="https://avatars.githubusercontent.com/u/64126100?v=4" width="140px" /> <br><br> 윤동균 <br>(Back-End) </a> <br></td>
-        <td height="140px" align="center"> <a href="https://github.com/angly97">
-            <img src="https://avatars.githubusercontent.com/u/70613905?v=4" width="140px" /> <br><br> 이지수 <br>(Back-End) </a> <br></td>
-        <td height="140px" align="center"> <a href="https://github.com/moxnox63">
-            <img src="https://avatars.githubusercontent.com/u/82074636?v=4" width="140px" /> <br><br> 서다경 <br>(Front-End) </a> <br></td>
+        <td height="140px" align="center"> <a href="https://github.com/dlwltn0350">
+            <img src="https://avatars.githubusercontent.com/u/56522878?v=4" width="140px" /> <br><br> 이지수 <br>(Back-End) </a> <br></td>
+        <td height="140px" align="center"> <a href="https://github.com/seoda0000">
+            <img src="https://avatars.githubusercontent.com/u/93422277?v=4" width="140px" /> <br><br> 서다경 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/Going777">
             <img src="https://avatars.githubusercontent.com/u/109488657?v=4" width="140px" /> <br><br> 김정원 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/bohodays">
@@ -24,11 +24,11 @@
     </tr>
     <tr>
         <td align="center">REST API<br/>Domain<br/>DataBase<br/>Infra<br/>Garden<br/>Social Login</td>
-        <td align="center">REST API<br/>DataBase<br/>Emotion<br/>Diary<br/>Comment<br/></td>
+        <td align="center">REST API<br/>DataBase<br/>Emotion<br/>Diary<br/>Comment<br/>Flower</td>
         <td align="center">REST API<br/>DataBase<br/>MyPage<br/>EC2 S3<br/>JWT Login<br/>Member</td>
-        <td align="center">UI/UX<br/>React<br/>Domain<br/>Map<br/>Test<br/>Lecture</td>
+        <td align="center">UI/UX<br/>React<br/>Domain<br/>Map<br/>Test<br/>Member</td>
         <td align="center">UI/UX<br/>React<br/>Design<br/>Message<br/>Profile<br/>MyPage</td>
-        <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket<br/>User<br/>JWT Login</td>
+        <td align="center">UI/UX<br/>React<br/>Diary<br/>Flower<br/>User<br/>JWT Login</td>
     </tr>
 </table>
 
@@ -120,9 +120,13 @@
 
 <details> <summary>ERD</summary> <div markdown="1"><img src="https://user-images.githubusercontent.com/64126100/230020956-9f6c6a2e-6a08-46f7-b794-6b679cbea847.JPG"></div> </details>
 
-<details> <summary>MySQL Detail</summary> <div markdown="1"><img src="https://user-images.githubusercontent.com/109454527/219342361-b6832acf-317c-42c6-99ec-396ebc890278.png">
-    <img src="https://user-images.githubusercontent.com/109454527/219342732-1f3659a1-0030-4c75-842e-c206da5e9b61.png">
-    <img src="https://user-images.githubusercontent.com/109454527/219342743-989f672e-a324-4663-8331-855c1ff0a610.png"></div> </details>
+<details> <summary>MySQL Detail</summary> <div markdown="1"><img src="https://user-images.githubusercontent.com/64126100/230243088-df17aac9-e15f-4c75-bf5f-d445b4eef335.JPG">
+    <img src="https://user-images.githubusercontent.com/64126100/230243099-ef319822-c126-420f-8b9b-c9fb3b5c8974.JPG">
+    <img src="https://user-images.githubusercontent.com/64126100/230243117-e9f81ddf-903d-42cd-bd22-a232fec70878.JPG">
+    <img src ="https://user-images.githubusercontent.com/64126100/230243126-09c5a54c-7b9b-4f8f-9468-d93e4a8485d0.JPG">
+    <img src ="https://user-images.githubusercontent.com/64126100/230243133-5cbb9f10-d9c2-4c52-bec5-63868603bc4d.JPG">
+    <img src ="https://user-images.githubusercontent.com/64126100/230243065-d8b65b54-1d52-4626-9115-24b949a2a982.JPG">
+    <img src ="https://user-images.githubusercontent.com/64126100/230244596-b10aeaa5-2ba0-4834-9e5b-c12c54b4c30b.JPG"></div> </details>
 
 
 <br />
