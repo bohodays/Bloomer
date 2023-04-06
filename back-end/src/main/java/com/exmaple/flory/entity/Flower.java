@@ -16,7 +16,8 @@ import java.util.List;
 @Slf4j
 public class Flower {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
