@@ -116,12 +116,13 @@ public class TeamService {
                 .manager(0) //관리자
                 .build();
 
+        userTeamRepository.save(userTeam);
         List<Diary> diaryList = diaryRepository.findByMemberId(userTeam.getUid().getUserId());
         if(diaryList.size()!=0){
-            Diary diary = diaryList.get(diaryList.size()-1);
-            memberList.add(TeamMemberInfoDto.of(userTeam.getUid(), diary));
+            Diary diary = diaryList.get(0);
+            memberList.add(TeamMemberInfoDto.of(userTeamRepository.save(userTeam).getUid(), diary));
         }else{
-            memberList.add(TeamMemberInfoDto.of(userTeam.getUid()));
+            memberList.add(TeamMemberInfoDto.of(userTeamRepository.save(userTeam).getUid()));
         }
 
 //        return teamRepository.findById(team.getTeamId())
