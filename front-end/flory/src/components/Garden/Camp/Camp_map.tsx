@@ -116,7 +116,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     `${process.env.PUBLIC_URL}/models/camp_map.glb`
   ) as GLTFResult;
-  console.log(nodes.Plane012);
 
   return (
     <group {...props} dispose={null}>

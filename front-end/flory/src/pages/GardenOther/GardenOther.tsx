@@ -1,24 +1,10 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {
-  Sky,
-  Cloud,
-  Bvh,
-  OrbitControls,
-  Environment,
-  Lightformer,
-  Float,
-  Sparkles,
-  Stars,
-} from "@react-three/drei";
+import React, { Suspense, useEffect, useState } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import { useControls, button } from "leva";
 
 import ToggleButton from "../../components/common/ToggleButton/ToggleButton";
 import Navbar from "../../components/common/Navbar/Navbar";
-
-// import Base_map_new from "../../components/Garden/Park/Park_map";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaintRoller } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
@@ -28,7 +14,6 @@ import Camp_map from "../../components/Garden/Camp/Camp_map";
 import Park_map from "../../components/Garden/Park/Park_map";
 import { getCurrentGardenAction } from "../../redux/modules/garden";
 import BackButton from "../../components/common/BackButton/BackButton";
-import { Translate } from "aws-sdk";
 import {
   checkDetail,
   updateShowMusic,

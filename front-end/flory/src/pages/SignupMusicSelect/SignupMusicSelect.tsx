@@ -25,7 +25,6 @@ const SignupMusicSelect = () => {
   // update가 true이면 소셜 로그인, false이면 회원가입
   const update = location.state.update;
   const userId = location.state.userId;
-  console.log(update, userId, "어디서 온거지?");
 
   const [selectedItems, setSelectedItems] = useState<any>({
     classic: false,
@@ -50,21 +49,8 @@ const SignupMusicSelect = () => {
         rnb: selectedItems.rnb,
         electronic: selectedItems.electronic,
       };
-      console.log(
-        "dispatch 요청 전",
-        { local: localData.getAccessToken() },
-        { refresh: localData.getRefreshToken() }
-      );
 
       await dispatch(socialLoginUpdateAction(userData)).then(() => {
-        console.log(
-          "dispatch 요청 후 가든으로 가기 전",
-          { local: localData.getAccessToken() },
-          { refresh: localData.getRefreshToken() }
-        );
-
-        console.log("토큰으로 내 정보 가져오기 요청");
-
         dispatch(getUserDataToTokenAction()).then(() => {
           if (localStorage.getItem("newGarden") === "No") {
             navigate("/garden");
@@ -85,7 +71,6 @@ const SignupMusicSelect = () => {
         ...selectedItems,
       };
       dispatch(signupAction(userData)).then(() => {
-        console.log("로그인으로 가");
         navigate("/info", {
           state: {
             from: "signup",

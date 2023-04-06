@@ -14,8 +14,6 @@ const CommunityMap = ({ setBound, diaries }: any): JSX.Element => {
   const geolocation = useGeolocation();
   let isGeolocation = geolocation.latitude != null;
   let bounds;
-  console.log(geolocation.latitude);
-  console.log(geolocation.longitude);
   const map = useRef<any>();
 
   useEffect(() => {
@@ -48,7 +46,6 @@ const CommunityMap = ({ setBound, diaries }: any): JSX.Element => {
     kakao.maps.event.addListener(map.current, "zoom_changed", function () {
       // 지도 범위 가져오기
       bounds = map.current.getBounds();
-      console.log(bounds);
       setBound({
         lng1: String(bounds.ha),
         lat2: String(bounds.qa),

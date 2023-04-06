@@ -32,10 +32,10 @@ const MyPageEditModal = () => {
     }
   }, [userInfo.img]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setNickname(userInfo.nickname);
     setPickedIdx(userInfo.img);
-  },[userInfo])
+  }, [userInfo]);
 
   const selectFile = useRef<HTMLInputElement | null>(null); // Icon onClick에 input File을 달기 위한 ref
 
@@ -63,7 +63,6 @@ const MyPageEditModal = () => {
 
   // 선택이미지 미리보기
   const handleChangePreview = (e: any) => {
-    console.log(e.target.files);
     if (e.target.files) {
       let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
@@ -76,8 +75,6 @@ const MyPageEditModal = () => {
           var base64Sub = base64.toString();
           setpreviewImg(base64Sub); // 파일 base64 상태 업데이트
           setImgFile(e.target.files[0]); //저장을 위한 파일
-          // console.log(previewImg);
-          console.log(typeof imgFile);
         }
       };
     }

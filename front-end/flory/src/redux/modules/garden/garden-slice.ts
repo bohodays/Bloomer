@@ -42,7 +42,6 @@ const gardenSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createGardenAction.fulfilled, (state, { payload }) => {
-        console.log("정원 생성 완료", payload.response.id);
         // state.gardenData.id = payload.response.id;
         // state.gardenData.gardenPath = payload.response.gardenPath;
         // state.gardenData.nickname = payload.response.nickname;
@@ -50,12 +49,8 @@ const gardenSlice = createSlice({
         // state.gardenData.title = payload.response.title;
         // state.gardenData.deadline = payload.response.deadline;
       })
-      .addCase(createGardenAction.rejected, (state, { payload }) => {
-        console.log("정원 생성 실패");
-      })
+      .addCase(createGardenAction.rejected, (state, { payload }) => {})
       .addCase(getCurrentGardenAction.fulfilled, (state, { payload }) => {
-        console.log("정원 확인 성공", payload);
-
         state.otherGardenData = {
           deadline: payload.response.deadline,
           gardenId: payload.response.gardenId,
@@ -67,8 +62,6 @@ const gardenSlice = createSlice({
         };
       })
       .addCase(getCurrentGardenAction.rejected, (state) => {
-        console.log("정원 확인 실패");
-
         state.otherGardenData = {
           deadline: "",
           gardenId: null,
@@ -80,12 +73,9 @@ const gardenSlice = createSlice({
         };
       })
       .addCase(getGardenListAction.fulfilled, (state, { payload }) => {
-        console.log("정원 리스트 확인 성공!!!!!!!!!!!!!!!!!!!!");
         state.gardenList = payload.response;
       })
-      .addCase(getGardenListAction.rejected, (state, { payload }) => {
-        console.log("정원 리스트 확인 실패");
-      });
+      .addCase(getGardenListAction.rejected, (state, { payload }) => {});
   },
 });
 
