@@ -48,6 +48,9 @@ public class Member extends BaseTime {
     @Column(name="reggae")
     private Boolean reggae;
 
+    @Column(name="hiphop")
+    private Boolean hiphop;
+
     @Column(name="rnb")
     private Boolean rnb;
 
@@ -95,6 +98,7 @@ public class Member extends BaseTime {
         this.reggae = memberMusicUpdateDto.getReggae();
         this.rnb = memberMusicUpdateDto.getRnb();
         this.electronic = memberMusicUpdateDto.getElectronic();
+        this.hiphop = memberMusicUpdateDto.getHiphop();
     }
 
     public void updateRefreshToken(String refreshToken) {
