@@ -60,10 +60,11 @@ const Scene = (gardenType: any) => {
       link.setAttribute("download", `test.png`);
       link.setAttribute(
         "href",
-        gl.domElement
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream")
+        gl.domElement.toDataURL("image/png")
+        // .replace("image/png", "image/octet-stream")
       );
+      console.log(link.href);
+
       Swal.fire({
         text: `이미지를 저장하시겠습니까?`,
         imageUrl: screenshotData,
