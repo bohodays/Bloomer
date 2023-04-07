@@ -726,8 +726,8 @@ function Camp_map({ page }: { page?: string }) {
       <GuestBookModel />
       {/* 시바 */}
       {page === "other"
-        ? otherUserId <= 200 && <Siba other={true} />
-        : userId <= 200 && <Siba other={false} />}
+        ? otherUserId <= 100 && <Siba other={true} />
+        : userId <= 100 && <Siba other={false} />}
     </>
   );
 }

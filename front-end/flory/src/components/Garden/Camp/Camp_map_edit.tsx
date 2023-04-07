@@ -721,7 +721,7 @@ function Camp_map_edit() {
       {/* 방명록 */}
       <GuestBookModel />
       {/* 시바 */}
-      {userId <= 200 && <Siba />}
+      {userId <= 100 && <Siba />}
     </>
   );
 }
