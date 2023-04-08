@@ -1,47 +1,49 @@
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useEffect } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import BackButton from "../../components/common/BackButton/BackButton"
-import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestBookComment"
-import { getAllGuestBookList } from "../../redux/modules/guestBook"
-import { useAppDispatch, useAppSelector } from "../../redux/store.hooks"
-import { SMain } from "./styles"
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import BackButton from "../../components/common/BackButton/BackButton";
+import GuestBookComment from "../../components/GuestBook/GuestBookComment/GuestBookComment";
+import { getAllGuestBookList } from "../../redux/modules/guestBook";
+import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
+import { SMain } from "./styles";
 import {
   checkDetail,
   updateShowMusic,
-} from "../../redux/modules/music/music-slice"
+} from "../../redux/modules/music/music-slice";
 
 const GuestBook = () => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const location = useLocation()
-  const gardenData = location.state !== null ? location.state.gardenData : null
-  const gardenId = gardenData !== null ? gardenData.gardenId : null
-  const guestBookList = useAppSelector((state) => state.guestBook.guestBookList)
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const gardenData = location.state !== null ? location.state.gardenData : null;
+  const gardenId = gardenData !== null ? gardenData.gardenId : null;
+  const guestBookList = useAppSelector(
+    (state) => state.guestBook.guestBookList
+  );
 
   const userGardenId = useAppSelector(
     (state) => state.garden.gardenData.gardenId
-  )
+  );
 
   useEffect(() => {
     if (gardenId !== null) {
-      dispatch(getAllGuestBookList(gardenId))
+      dispatch(getAllGuestBookList(gardenId));
     }
-  }, [])
+  }, []);
 
-  const degArray = [2, -2, 0, 2, 2, -2]
+  const degArray = [2, -2, 0, 2, 2, -2];
 
   // dispatch(updateShowMusic(false));
-  dispatch(checkDetail(false))
+  dispatch(checkDetail(false));
 
   const goBackToGarden = () => {
     if (gardenId == userGardenId) {
-      navigate("/garden")
+      navigate("/garden");
     } else {
-      navigate(`/garden/${gardenData.userId}`)
+      navigate(`/garden/${gardenData.userId}`);
     }
-  }
+  };
 
   return (
     <>
@@ -70,7 +72,7 @@ const GuestBook = () => {
                   deg={degArray[index % 6]}
                   key={index}
                 />
-              )
+              );
             })
           ) : (
             <div className="empty__guestbook">
@@ -80,7 +82,7 @@ const GuestBook = () => {
         </SMain>
       )}
     </>
-  )
-}
+  );
+};
 
-export default GuestBook
+export default GuestBook;
