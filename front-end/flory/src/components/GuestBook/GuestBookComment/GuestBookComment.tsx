@@ -55,7 +55,12 @@ const GuestBookComment = (props: any) => {
             {/* 작성자 프로필 이미지 */}
             <Avatar
               size={"small"}
-              imgIdx={0}
+              src={props.info.img}
+              imgIdx={
+                props.info.img && props.info.img.length > 2
+                  ? "11"
+                  : props.info.img
+              }
               pointer={"pointer"}
               onClick={() => {
                 navigate(`/garden/${writerId}`);
