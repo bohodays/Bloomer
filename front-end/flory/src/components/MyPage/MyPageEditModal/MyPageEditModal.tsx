@@ -112,6 +112,7 @@ const MyPageEditModal = () => {
             placeholder={userInfo.nickname}
             onChange={(e: any) => setNickname(e.target.value)}
             value={nickname}
+            maxLength={10}
           />
         </div>
         <p>프로필 사진 변경</p>
