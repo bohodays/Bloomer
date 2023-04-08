@@ -46,6 +46,7 @@ public class Guest extends BaseTime{
                 .gardenId(garden.getId())
                 .color(color)
                 .book_id(id)
+                .img(member.getImg())
                 .contents(content)
                 .created_time(getCreatedDate())
                 .build();
