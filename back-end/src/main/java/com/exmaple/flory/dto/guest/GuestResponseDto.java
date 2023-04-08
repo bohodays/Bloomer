@@ -16,6 +16,7 @@ public class GuestResponseDto {
     private String contents;
     private Long book_id;
 
+    private String img;
     private Long userId;
     private String color;
 
