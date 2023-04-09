@@ -15,7 +15,6 @@ import crownImg from "../../../assets/imgs/crown.png";
 function GroupPanel({}): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const bgIcons: JSX.Element[] = [];
 
   const userGroupList = useAppSelector((state) => state.group.userGroupList);
   const userId = useAppSelector((state) => state.user.userData.userId);
@@ -24,8 +23,8 @@ function GroupPanel({}): JSX.Element {
     dispatch(getGroupInfoAction());
   }, []);
 
-  const deleteAction = (groupId: any, userId: any) => {
-    dispatch(deleteGroupMemberAction({teamId: groupId, userId})).then(() => {
+  const deleteAction = (teamId: any, userId: any) => {
+    dispatch(deleteGroupMemberAction({teamId: teamId, userId})).then(() => {
       dispatch(getGroupInfoAction());
     });
   };
