@@ -165,7 +165,7 @@ function DistPanel({}): JSX.Element {
               <div style={{ display: "flex" }}>{bgIcons}</div>
             </div>
           ) : (
-            <div className="default">감정을 기록해보세요</div>
+              <div className="default">지난주 대비 감정을 {weekCnt*-1}개 적게 피웠어요 😢</div>
           )
         }
       />
