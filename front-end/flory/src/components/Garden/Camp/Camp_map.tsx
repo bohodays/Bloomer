@@ -708,7 +708,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-function Camp_map({ page }: { page?: string }) {
+function Camp_map({ page, gardenId }: { page?: string; gardenId?: number }) {
   const userId = useAppSelector((state) => state.user.userData.userId);
   const otherUserId: any = useAppSelector(
     (state) => state.garden.otherGardenData.userId
@@ -719,7 +719,7 @@ function Camp_map({ page }: { page?: string }) {
       {/* 카메라, 빛 */}
       <CameraAndLight />
       {/* Base Grass와 Flowers */}
-      <BaseGrassAndFlowers page={page} />
+      <BaseGrassAndFlowers page={page} otherUserId={otherUserId} />
       {/* Base Grass와 Flowers를 제외한 나머지 objects */}
       <Model />
       {/* 방명록 */}
