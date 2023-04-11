@@ -30,6 +30,7 @@ import F23 from "./F23"; // 노란 카네이션
 import F24 from "./F24"; // 층꽃나무
 import F25 from "./F25"; // 제라늄
 import { getGroupInfoAction } from "../../redux/modules/group";
+import { getDiaryListAction } from "../../redux/modules/diary";
 
 const FlowersWrapper = ({
   page,
@@ -85,9 +86,26 @@ const FlowersWrapper = ({
     dispatch(getGroupInfoAction());
   }, []);
 
+  const otherGardenData = useAppSelector((state) => state.garden);
+  // 보고싶은 정원 ID
+  const gardenId = otherGardenData.otherGardenData.gardenId;
+  // 보고싶은 user ID
+  const requestId = parseInt(location.pathname.slice(8));
+  useEffect(() => {
+    const inputData = {
+      gardenId,
+      requestId,
+    };
+    console.log(inputData, "정원 요청보내는 정보");
+
+    if (gardenId) {
+      dispatch(getDiaryListAction(inputData));
+    }
+  }, [gardenId, dispatch, otherGardenData]);
+
   useEffect(() => {
     setCurrentDiary(diary.diaryData);
-  }, [diary]);
+  }, [diary, otherGardenData]);
 
   useEffect(() => {
     setCurrentGroupList(group.userGroupList);
