@@ -1,5 +1,5 @@
-import React from "react"
-import { STextarea } from "./styles"
+import React from "react";
+import { STextarea } from "./styles";
 
 function CreateInput({
   contentInput,
@@ -14,7 +14,7 @@ function CreateInput({
       ref={contentInput}
       isTotal={isTotal}
     />
-  )
+  );
 }
 
-export default CreateInput
+export default CreateInput;

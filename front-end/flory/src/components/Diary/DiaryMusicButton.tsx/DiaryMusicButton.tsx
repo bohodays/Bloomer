@@ -1,12 +1,4 @@
-import {
-  faMusic,
-  faPlay,
-  faStop,
-  faCirclePlay,
-  faCirclePause,
-  faVolumeHigh,
-  faVolumeMute,
-} from "@fortawesome/free-solid-svg-icons";
+import { faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { convertMusicFormat } from "../../../utils/utils";
@@ -14,11 +6,11 @@ import { SMusicWrapper } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import { updateIsPlaying } from "../../../redux/modules/music/music-slice";
 
-interface Props {
+interface DiaryMusicButtonProps {
   musicUrl: string;
 }
 
-const DiaryMusicButton = ({ musicUrl }: Props) => {
+const DiaryMusicButton = ({ musicUrl }: DiaryMusicButtonProps) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isDetail, setIsDetail] = useState(false);
   const audioControl = useRef<HTMLAudioElement>(null);
