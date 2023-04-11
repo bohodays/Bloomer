@@ -31,7 +31,13 @@ import F24 from "./F24"; // 층꽃나무
 import F25 from "./F25"; // 제라늄
 import { getGroupInfoAction } from "../../redux/modules/group";
 
-const FlowersWrapper = ({ page }: { page?: string }) => {
+const FlowersWrapper = ({
+  page,
+  otherUserId,
+}: {
+  page?: string;
+  otherUserId?: number;
+}) => {
   const diary = useAppSelector((state) => state.diary);
   const group = useAppSelector((state) => state.group);
   const [currentDiary, setCurrentDiary] = useState<any>([]);
@@ -68,7 +74,7 @@ const FlowersWrapper = ({ page }: { page?: string }) => {
     if (canView) {
       navigate(`/diary/${diaryId}`, {
         state: {
-          page: "/garden",
+          page: page === "self" ? "/garden" : `/garden/${otherUserId}`,
         },
       });
     }

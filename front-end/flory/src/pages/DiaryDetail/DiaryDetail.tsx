@@ -54,9 +54,9 @@ const DiaryDetail = () => {
   // useNavigate로 일기의 id를 전달한다.
   // 이 페이지에서는 useLocation을 통해 전달된 데이터를 받는다.
   const location = useLocation();
-
   const diaryId = Number(location.pathname.slice(7));
   const backpage = location.state ? location.state.page : null;
+
   const initialDiary: DiaryType = {
     id: 0,
     content: "",
@@ -115,12 +115,12 @@ const DiaryDetail = () => {
 
   const handleGoBack = () => {
     // 뒤로가기
-    navigate(-1);
-    // if (backpage) {
-    //   navigate(backpage);
-    // } else {
-    //   navigate(-1);
-    // }
+    // navigate(-1);
+    if (backpage) {
+      navigate(backpage);
+    } else {
+      navigate(-1);
+    }
   };
 
   const defaultOptions = {

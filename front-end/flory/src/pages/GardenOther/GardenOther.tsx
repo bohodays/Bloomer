@@ -41,6 +41,7 @@ const gardenTypeMap = (type: number | null) => {
 
 const Scene = (props: any) => {
   const otherGardenType = props.otherGardenType;
+  const otherUserId = props.otherUserId;
   const gl = useThree((state) => state.gl);
 
   useControls({
@@ -151,7 +152,7 @@ const GardenOther = () => {
       {/* <> */}
       {isExist && (
         <>
-          {/* <BackButton color="white" /> */}
+          <BackButton color="white" />
 
           <div
             style={{
@@ -166,7 +167,7 @@ const GardenOther = () => {
               whiteSpace: "nowrap",
             }}
           >
-            {otherGardenData.nickname} 님의 감정 정원
+            {otherGardenData.nickname}님의 감정 정원
           </div>
           <ToggleButton state="other" gardenType={otherGardenType} />
           <Canvas shadows={true} gl={{ preserveDrawingBuffer: true }}>
@@ -181,6 +182,7 @@ const GardenOther = () => {
             <Scene
               otherGardenType={otherGardenType}
               nickname={otherGardenData.nickname}
+              otherUserId={otherGardenData.userId}
             ></Scene>
           </Canvas>
           {/* 네브바 */}
