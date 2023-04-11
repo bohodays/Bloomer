@@ -152,7 +152,7 @@ const GardenOther = () => {
       {/* <> */}
       {isExist && (
         <>
-          <BackButton color="white" />
+          {/* <BackButton color="white" /> */}
 
           <div
             style={{

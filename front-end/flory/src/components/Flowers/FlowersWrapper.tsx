@@ -47,6 +47,7 @@ const FlowersWrapper = ({
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
+  console.log(currentDiary, "보여야하는 일기");
 
   const checkCanView = (status: string) => {
     if (page === "self") {
