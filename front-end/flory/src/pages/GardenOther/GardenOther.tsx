@@ -139,6 +139,8 @@ const GardenOther = () => {
       gardenId,
       requestId,
     };
+    console.log(inputData, "정원 요청보내는 정보");
+
     if (gardenId) {
       dispatch(getDiaryListAction(inputData));
       setIsExist(true);
