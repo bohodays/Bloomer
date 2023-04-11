@@ -139,8 +139,6 @@ export const getDiaryListAction = createAsyncThunk(
       const latestMusicTitle =
         data.response[data.response.length - 1].musicTitle;
 
-      console.log(data, "응답 정원 정보");
-
       // dispatch(setFirstMusic(latestMusicTitle));
       dispatch(gardenActions.setGardenMusic(latestMusicTitle));
       return data;
