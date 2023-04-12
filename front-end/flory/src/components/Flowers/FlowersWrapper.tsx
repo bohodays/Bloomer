@@ -87,9 +87,13 @@ const FlowersWrapper = ({
 
   const otherGardenData = useAppSelector((state) => state.garden);
   // 보고싶은 정원 ID
-  const gardenId = otherGardenData.otherGardenData.gardenId;
+  const gardenId =
+    page === "other"
+      ? otherGardenData.otherGardenData.gardenId
+      : otherGardenData.gardenData.gardenId;
   // 보고싶은 user ID
-  const requestId = parseInt(location.pathname.slice(8));
+  const requestId =
+    page === "other" ? parseInt(location.pathname.slice(8)) : userId;
   useEffect(() => {
     const inputData = {
       gardenId,
