@@ -7,12 +7,18 @@ import { StyledSendIcon } from "../StyledIcons/styledIcons";
 import { IconButton } from "@mui/material";
 import { useAppSelector } from "../../../redux/store.hooks";
 
+interface CommentInputProps {
+  contentInput: any;
+  placeholder: string;
+  createCommentHandler: any;
+  page?: string;
+}
 function CommentInput({
   contentInput,
   placeholder,
   createCommentHandler,
   page,
-}: any): JSX.Element {
+}: CommentInputProps): JSX.Element {
   const userInfo = useAppSelector((state) => state.user.userData);
 
   return (

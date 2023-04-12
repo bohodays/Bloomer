@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { JsxElement } from "typescript";
 import { deleteCommentAction } from "../../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../../redux/store.hooks";
 import Avatar from "../../common/Avatar/Avatar";
 import SettingPopover from "../../common/SettingPopover/SettingPopover";
-
 import { SMain } from "./styles";
 import { convertDateTimeFormat } from "../../../utils/utils";
+
 function DiaryComment({ comment, updateDiary }: any): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
