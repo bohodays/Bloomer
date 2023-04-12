@@ -10,13 +10,11 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SNavbar, SNavWrapper } from "./styles";
 
-const Navbar = ({
-  absolute,
-  bottomZero,
-}: {
+interface NavBarProps {
   absolute?: boolean;
   bottomZero?: boolean;
-}) => {
+}
+const Navbar = ({ absolute, bottomZero }: NavBarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
