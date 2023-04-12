@@ -135,13 +135,13 @@ const GardenOther = () => {
   }, []);
 
   useEffect(() => {
-    const inputData = {
-      gardenId,
-      requestId,
-    };
+    // const inputData = {
+    //   gardenId,
+    //   requestId,
+    // };
 
     if (gardenId) {
-      dispatch(getDiaryListAction(inputData));
+      // dispatch(getDiaryListAction(inputData));
       setIsExist(true);
     }
   }, [gardenId, dispatch]);
