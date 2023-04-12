@@ -16,7 +16,7 @@ import {
   updateGroupInfoAction,
   getSpeGroupInfoAction,
   getGroupInfoAction,
-  deleteGroupAction
+  deleteGroupAction,
 } from "../../../redux/modules/group";
 
 type Props = {
@@ -47,7 +47,8 @@ function GroupEditModal(props: Props): JSX.Element {
     // 그룹 정보를 가져옴
     dispatch(getSpeGroupInfoAction(props.groupId)).then((res) => {
       const response = res.payload.response;
-      if (response) { // groupInfo가 null이 아닌 경우에만 값을 설정
+      if (response) {
+        // groupInfo가 null이 아닌 경우에만 값을 설정
         setGroupInfo(response);
         setGroupName(response.name);
         setIsOpenData(response.open);
@@ -55,13 +56,10 @@ function GroupEditModal(props: Props): JSX.Element {
       }
     });
   }, []);
-  
 
   return (
     <BasicModal
-      modalButton={
-        <div className="BrowseGroup">그룹 설정 변경</div>
-      }
+      modalButton={<div className="BrowseGroup">그룹 설정 변경</div>}
       dispatchAction={async () => {
         const groupUpdateData: GroupUpdateType = {
           teamId: props.groupId,
@@ -75,14 +73,14 @@ function GroupEditModal(props: Props): JSX.Element {
         });
         return true;
       }}
-
       deleteAction={deleteGroup}
     >
       <STitle>
         <h3>그룹 설정 변경</h3>
-        <h2 onClick={() => navigate(`/group/list/signup/${props.groupId}`)}><FontAwesomeIcon icon={faBell} /></h2>
+        <h2 onClick={() => navigate(`/group/list/signup/${props.groupId}`)}>
+          <FontAwesomeIcon icon={faBell} />
+        </h2>
       </STitle>
-
 
       <CreateInputLine
         icon={faUserGroup}
@@ -95,7 +93,7 @@ function GroupEditModal(props: Props): JSX.Element {
       <CreateInput
         placeholder={groupInfo?.info || ""}
         value={content}
-        onChange={(e:any) => setContent(e.target.value)}
+        onChange={(e: any) => setContent(e.target.value)}
         ref={contentInput}
       />
       <div

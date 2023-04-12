@@ -1,13 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { SMain } from "./styles";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BasicMap from "../../components/Map/BasicMap/BasicMap";
 import DiaryList from "../../components/Diary/DiaryList/DiaryList";
-import MapFilterModal from "../../components/Map/MapFilterModal/MapFilterModal";
 import BasicTabs from "../../components/common/Tabs/BasicTabs";
-import { useNavigate } from "react-router-dom";
-import BackButton from "../../components/common/BackButton/BackButton";
 import Navbar from "../../components/common/Navbar/Navbar";
 import { getAllDiary, getDiaryWithMap } from "../../redux/modules/diary";
 import { useAppDispatch, useAppSelector } from "../../redux/store.hooks";
@@ -19,7 +13,6 @@ import ScrollToTopButton from "../../components/common/ScrollToTopButton/ScrollT
 let isInitial = true;
 
 const Map = () => {
-  // const navigate = useNavigate();
   const top = useRef<any>();
   const [isActive, setIsActive] = useState(false);
 
@@ -36,8 +29,6 @@ const Map = () => {
   useEffect(() => {
     dispatch(getAllDiary());
   }, [dispatch]);
-
-  // let teamIdList: number[] = [];
 
   useEffect(() => {
     const mapData = { ...bound, requestId: userId };

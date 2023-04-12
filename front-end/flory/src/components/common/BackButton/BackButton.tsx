@@ -3,7 +3,12 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { SButton } from "./styles";
 import { useNavigate } from "react-router-dom";
 
-function BackButton({ color, onClickAction }: any): JSX.Element {
+interface BackButtonProps {
+  color?: string;
+  onClickAction?: any;
+}
+
+function BackButton({ color, onClickAction }: BackButtonProps): JSX.Element {
   const navigate = useNavigate();
 
   const handleGoBack = onClickAction
