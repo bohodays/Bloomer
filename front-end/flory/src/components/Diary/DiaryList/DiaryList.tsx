@@ -1,7 +1,11 @@
 import { DiaryType } from "../../../models/diary/diaryType";
 import DiaryListItem from "../DiaryListItem/DiaryListItem";
 
-const DiaryList = ({ DIARY_LIST, page }: any): JSX.Element => {
+interface DiaryListProps {
+  DIARY_LIST: DiaryType[];
+  page: string;
+}
+const DiaryList = ({ DIARY_LIST, page }: DiaryListProps): JSX.Element => {
   return (
     <div>
       {DIARY_LIST.length !== 0 ? (

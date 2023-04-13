@@ -1,6 +1,6 @@
 import BasicModal from "../../common/Modal/BasicModal/BasicModal";
 import SearchMap from "../../Map/SearchMap/SearchMap";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import LocaList from "../../common/List/LocaList";
 import MapSearchInput from "../../Map/MapSearchInput/MapSearchInput";
 
